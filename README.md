@@ -15,6 +15,8 @@
 - Pedido:
 - Compra:
 - Reseña con puntuación:
+  ![image](https://github.com/user-attachments/assets/ede7b575-3474-4d34-ad30-5c0fce0902f1)
+
 
 ### Permisos de los usuarios
 - Usuarios registrados: Pueden acceder a su historial de pedidos y pueden realizar reseñas 
