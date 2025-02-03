@@ -39,4 +39,4 @@ Mode Royale is an online clothing store where users can purchase products and le
 An email will be sent when a purchase is made
 
 ### 💡 Advanced algorithm
-The products most purchased by users will be shown first
+A set of suggested products is displayed based on the categories of products previously purchased by the user
