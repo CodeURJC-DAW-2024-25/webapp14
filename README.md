@@ -34,6 +34,8 @@ Mode Royale is an online clothing store where users can purchase products and le
 ### 📊 Graphics
 - The administrator will be able to view a bar graph with the most purchased products
 - The administrator will be able to view a line graph that displays the sales of the last month
+- The administrator will be able to ban users
+
 
 ### 💻 Complementary Technology
 An email will be sent when a purchase is made
