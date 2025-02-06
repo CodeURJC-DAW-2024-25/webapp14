@@ -1,0 +1,61 @@
+
+
+.topbar {
+    background-color: #000001 !important;
+    color: #ffffff !important;
+  }
+  
+  .topbar .nav-link {
+    color: #000000 !important;
+  }
+
+#accordionSidebar {
+    /* background: linear-gradient(to right, #ff5733, #ffb733); */
+    background-color: #000001;
+}
+
+.text-custom-primary {
+  color: #4e73df !important;
+}
+
+.text-custom-success {
+  color: #1cc88a !important;
+}
+
+.text-admin-title{
+  color: #424249 !important;
+}
+
+.img-admin-products{
+  width: 150px;
+  height: 200px; 
+  object-fit: cover; 
+  flex-shrink: 0; border: 
+  1px solid #ddd;
+}
+
+.user-info-div{
+  flex: 1;
+}
+
+.img-user-admin{
+  width: 100px; 
+  height: 100px; 
+  object-fit: cover;
+}
+
+.reviews-list{
+  display: flex; 
+  align-items: center;
+}
+
+.span-review{
+  flex: 1; 
+  min-width: 0;
+}
+
+.report-btn{
+  display: flex; 
+  gap: 10px; 
+  flex-shrink: 0;
+}
