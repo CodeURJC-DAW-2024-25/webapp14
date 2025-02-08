@@ -13,20 +13,22 @@
     });
   }
 
-  // background color when scroll 
-  var initScrollNav = function () {
-    var scroll = $(window).scrollTop();
 
-    if (scroll >= 200) {
-      $('.navbar.fixed-top').addClass("bg-black");
-    } else {
-      $('.navbar.fixed-top').removeClass("bg-black");
-    }
+// Cambiar estilos al hacer scroll
+var initScrollNav = function () {
+  var scroll = $(window).scrollTop();
+
+  if (scroll >= 200) {
+    $('.navbar.fixed-top').addClass("scrolled");
+  } else {
+    $('.navbar.fixed-top').removeClass("scrolled");
   }
+}
 
-  $(window).scroll(function () {
-    initScrollNav();
-  });
+$(window).scroll(function () {
+  initScrollNav();
+});
+
 
 
   // init Chocolat light box
