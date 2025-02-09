@@ -25,42 +25,6 @@
 
 <body id="page-top">
 
-   
-    <div class="container-fluid px-md-5 d-lg-none">
-
-      <ul class="d-flex justify-content-end list-unstyled m-0 mt-4">
-        <li class="lh-1">
-          <a href="account.html" class="me-4">
-            <iconify-icon icon="healthicons:person" class="fs-4 text-light"></iconify-icon>
-          </a>
-        </li>
-        <li class="lh-1">
-          <a href="wishlist.html" class="me-4">
-            <iconify-icon icon="mdi:heart" class="fs-4 text-light"></iconify-icon>
-          </a>
-        </li>
-
-        <li class="lh-1">
-          <a href="#" class="me-4" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
-            aria-controls="offcanvasCart">
-            <iconify-icon icon="mdi:cart" class="fs-4 text-light position-relative"></iconify-icon>
-            <span class="position-absolute translate-middle badge rounded-circle text-black bg-light p-1">
-              03
-            </span>
-          </a>
-        </li>
-
-        <li class="lh-1">
-          <a href="#" class="me-4" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSearch"
-            aria-controls="offcanvasSearch">
-            <iconify-icon icon="tabler:search" class="fs-4 text-light"></iconify-icon>
-          </a>
-        </li>
-
-      </ul>
-
-    </div>
-  </nav>
     <!-- Page Wrapper -->
     <div id="wrapper">
 
@@ -69,15 +33,15 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-text mx-3"><sup>MODE ROYALE</sup></div>
+                <div class="sidebar-brand-text mx-3"><sup>NOIR & BLANC</sup></div>
             </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+            <li class="nav-item">
+                <a class="nav-link" href="#">
                     <i class="fas fa-chart-line"></i>
                     <span>Estadísticas</span></a>
             </li>
@@ -90,14 +54,12 @@
                 Gestión
             </div>
 
-
             <li class="nav-item">
                 <a class="nav-link" href="admin_users.html">
                     <i class="fas fa-user"></i>
                     <span>Usuarios</span>
                 </a>
             </li>
-
 
             <li class="nav-item">
                 <a class="nav-link" href="#">
@@ -106,13 +68,12 @@
                 </a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="admin_products.html">
                     <i class="fas fa-tshirt"></i>
                     <span>Productos</span>
                 </a>
             </li>
-            
         </ul>
         <!-- End of Sidebar -->
 
@@ -121,53 +82,15 @@
 
             <!-- Main Content -->
             <div id="content">
-
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-custom topbar mb-4 static-top shadow">
-
-
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-
-                    
-
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                                aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small"
-                                            placeholder="Search for..." aria-label="Search"
-                                            aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
-
-                        
-
-
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin 1</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
                                 <img class="img-profile rounded-circle"
                                     src="images/undraw_profile.svg">
                             </a>
@@ -176,15 +99,7 @@
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
+                                    Perfil
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -193,97 +108,188 @@
                                 </a>
                             </div>
                         </li>
-
                     </ul>
-
                 </nav>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                    <div class="row">
 
-                        <div class="row">
-
-                            <!-- Earnings (Monthly) Card Example -->
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-primary shadow h-100 py-2">
-                                    <div class="card-body d-flex align-items-center">
-                                        <div class="col">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1 text-custom-primary">
-                                                Número de Productos
-                                            </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">50</div>
-                                        </div>
-                                        <div class="col-auto d-flex align-items-center">
-                                            <i class="fas fa-tshirt fa-2x text-gray-300"></i>
-                                        </div>
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body d-flex align-items-center">
+                                    <div class="col">
+                                        <div class="text-xs font-weight-bold text-uppercase mb-1 text-custom-primary">
+                                            Número de Productos                                            </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">50</div>
                                     </div>
-                                </div>
-                            </div>
-                            
-                            
-
-                            <!-- Earnings (Monthly) Card Example -->
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-success shadow h-100 py-2">
-                                    <div class="card-body d-flex align-items-center justify-content-between">
-                                        <div>
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1 text-custom-success">
-                                                Número de Categorias
-                                            </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">12</div>
-                                        </div>
-                                        <i class="fas fa-th-list fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            
-
-                            <!-- Pending Requests Card Example -->
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-warning shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                    Productos en Stock
-                                                </div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-boxes fa-2x text-gray-300"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-    
-                            <!-- Earnings (Monthly) Card Example -->
-                            <div class="col-xl-3 col-md-6 mb-4">
-                                <div class="card border-left-danger shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                                    Productos sin Stock
-                                                </div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800">1</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="fas fa-exclamation-circle fa-2x text-gray-300"></i>
-                                            </div>
-                                        </div>
+                                    <div class="col-auto d-flex align-items-center">
+                                        <i class="fas fa-tshirt fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-xl-12 col-lg-10">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header -->
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-admin-title">Productos</h6>
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="text-xs font-weight-bold text-uppercase mb-1 text-custom-success">
+                                            Número de Categorias
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">12</div>
+                                    </div>
+                                    <i class="fas fa-th-list fa-2x text-gray-300"></i>
                                 </div>
+                            </div>
+                        </div>
+                            
+                        <!-- Pending Requests Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                Productos en Stock
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-boxes fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-danger shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                Productos sin Stock
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">1</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-exclamation-circle fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="d-flex mt-3 mb-3">
+
+                        <!-- Botón para abrir el modal con icono -->
+                        <button type="button" class="btn btn-primary mt-3 mb-3 d-flex align-items-center" data-toggle="modal" data-target="#createModal">
+                            <i class="fas fa-plus-circle mr-2"></i> Crear Producto
+                        </button>
+                        <!-- Modal para Crear Producto -->
+                        <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="createModalLabel">Crear Nuevo Producto</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="newProductImage">Imagen del Producto</label>
+                                                <div class="custom-file">
+                                                    <input type="file" class="form-control" id="newProductImage" accept="image/*">
+                                                    <label class="custom-file-label" for="newProductImage">Elegir archivo</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="newProductName">Nombre del Producto</label>
+                                                <input type="text" class="form-control" id="newProductName" placeholder="Ingrese el nombre">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="newProductPrice">Precio</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">€</span>
+                                                    </div>
+                                                    <input type="number" class="form-control" id="newProductPrice" placeholder="Ingrese el precio" min="0" step="0.01">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="newProductCategory">Categoría</label>
+                                                <select class="form-control" id="newProductCategory">
+                                                    <option value="" selected disabled>Seleccione la categoría</option>
+                                                    <option value="ropa-invierno">Ropa de Invierno</option>
+                                                    <option value="ropa-verano">Ropa de Verano</option>
+                                                    <option value="accesorios">Accesorios</option>
+                                                    <option value="zapatos">Zapatos</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="newProductStock">Stock Disponible</label>
+                                                <input type="number" class="form-control" id="newProductStock" placeholder="Ingrese el stock" min="0">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-primary">Crear Producto</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Botón para abrir el modal de nueva categoría -->
+                        <button type="button" class="btn btn-success mt-3 mb-3 d-flex align-items-center botton-margin" data-toggle="modal" data-target="#categoryModal">
+                            <i class="fas fa-folder-plus mr-2"></i> Añadir Categoría
+                        </button>
+                        <!-- Modal para Añadir Nueva Categoría -->
+                        <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="categoryModalLabel">Añadir Nueva Categoría</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="newCategoryName">Nombre de la Categoría</label>
+                                                <input type="text" class="form-control" id="newCategoryName" placeholder="Ingrese el nombre de la categoría">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-success">Guardar Categoría</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12 col-lg-10">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-admin-title">Productos</h6>
+                                <!-- Botón para filtrar productos sin stock -->
+                                <button class="btn btn-warning btn-sm" id="filter-out-of-stock">
+                                    <i class="fas fa-filter"></i> Filtrar sin Stock
+                                </button>
+                            </div>
 
                         <div class="card-body">
                             <ul class="list-group">
@@ -307,8 +313,8 @@
                                         <img src="images/abrigos.webp" alt="Producto" class="rounded img-admin-products">
                                         <div class="flex-grow-1 ml-3">
                                             <h5><strong>Abrigo</strong></h5>
-                                            <p class="mb-1">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                            <p><strong>Precio:</strong> $50.00</p>
+                                            <p class="mb-1">Elegancia y calidez que te acompañan en los días más fríos</p>
+                                            <p><strong>Precio:</strong> 50.00€</p>
                                             <p><strong>Categoría:</strong> Ropa de Invierno</p>
                                             <p><strong>Stock Disponible:</strong> 20 unidades</p>
                                         </div>
@@ -326,7 +332,7 @@
                                 <!-- Producto 2 -->
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div class="d-flex align-items-center">
-                                        <span>ID: 6758492</span>
+                                        <span class="mr-2">ID: 6758492</span>
                                         <!-- Icono de alerta si no hay stock -->
                                         <button class="btn btn-warning btn-sm ml-2" disabled>
                                             <i class="fas fa-exclamation-triangle"></i> Sin Stock
@@ -351,8 +357,8 @@
                                         <img src="images/sudaderas.webp" alt="Producto" class="rounded img-admin-products">
                                         <div class="flex-grow-1 ml-3">
                                             <h5><strong>Sudadera</strong></h5>
-                                            <p class="mb-1">Diseño elegante y cómodo para cualquier ocasión.</p>
-                                            <p><strong>Precio:</strong> $35.00</p>
+                                            <p class="mb-1">Comodidad y estilo en una sola prenda, ideal para cualquier momento del día.</p>
+                                            <p><strong>Precio:</strong> 35.00€</p>
                                             <p><strong>Categoría:</strong> Sudadera</p>
                                             <p><strong>Stock Disponible:</strong> 0 unidades</p>
                                         </div>
@@ -384,12 +390,12 @@
                                 </li>
                                 <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="producto3">
                                     <div class="d-flex align-items-center">
-                                        <img src="images/camisetas.webp" alt="Producto" class="rounded img-admin-products">
+                                        <img src="images/chaquetas.webp" alt="Producto" class="rounded img-admin-products">
                                         <div class="flex-grow-1 ml-3">
-                                            <h5><strong>Camiseta</strong></h5>
-                                            <p class="mb-1">Espaciosa y resistente, ideal para viajes y deportes.</p>
-                                            <p><strong>Precio:</strong> $15.00</p>
-                                            <p><strong>Categoría:</strong> Camisetas</p>
+                                            <h5><strong>Chaqueta</strong></h5>
+                                            <p class="mb-1">Diseño elegante y cómodo para cualquier ocasión.</p>
+                                            <p><strong>Precio:</strong> 15.00€</p>
+                                            <p><strong>Categoría:</strong> Chaquetas</p>
                                             <p><strong>Stock Disponible:</strong> 30 unidades</p>
                                         </div>
                                     </div>
@@ -403,66 +409,74 @@
                                     </div>
                                 </div>
                             </ul>
-                            
                         </div>
 
-<!-- Modal para Editar Producto -->
+                        <!-- Modal para Editar Producto -->
                         <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Editar Producto</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="productImage">Imagen del Producto</label>
-                        <div class="custom-file">
-                            <input type="file" class="form-control" id="productImage" accept="image/*">
-                            <label class="custom-file-label" for="productImage">Elegir archivo</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="productName">Nombre del Producto</label>
-                        <input type="text" class="form-control" id="productName" value="Abrigo">
-                    </div>
-                    <div class="form-group">
-                        <label for="productPrice">Precio</label>
-                        <input type="number" class="form-control" id="productPrice" value="50.00">
-                    </div>
-                    <div class="form-group">
-                        <label for="productCategory">Categoría</label>
-                        <input type="text" class="form-control" id="productCategory" value="Ropa de Invierno">
-                    </div>
-                    <div class="form-group">
-                        <label for="productStock">Stock Disponible</label>
-                        <input type="number" class="form-control" id="productStock" value="20">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Guardar Cambios</button>
-            </div>
-        </div>
-    </div>
-                        </div>
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editModalLabel">Editar Producto</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form>
+                                            <div class="form-group">
+                                                <label for="productImage">Imagen del Producto</label>
+                                                <div class="custom-file">
+                                                    <input type="file" class="form-control" id="productImage" accept="image/*">
+                                                    <label class="custom-file-label" for="productImage">Elegir archivo</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="productName">Nombre del Producto</label>
+                                                <input type="text" class="form-control" id="productName" value="Abrigo">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="productPrice">Precio</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">€</span>
+                                                    </div>
+                                                    <input type="number" class="form-control" id="productPrice" value="50.00" min="0" step="0.01">
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="productCategory">Categoría</label>
+                                                <select class="form-control" id="productCategory">
+                                                    <option value="ropa-invierno" selected>Ropa de Invierno</option>
+                                                    <option value="ropa-verano">Ropa de Verano</option>
+                                                    <option value="accesorios">Accesorios</option>
+                                                    <option value="zapatos">Zapatos</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="productStock">Stock Disponible</label>
+                                                <input type="number" class="form-control" id="productStock" value="20" min="0">
+                                            </div>                                            
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                </div>
             </div>
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>khkjl</span>
-                    </div>
-                </div>
+            <footer class="footer">
+                <p>&copy; 2025 Noir & Blanc. Todos los derechos reservados.</p>
+                <p>Panel de Administración | Desarrollado por <a class="footer-text">...</a></p>
             </footer>
+            
             <!-- End of Footer -->
 
         </div>
@@ -482,14 +496,14 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Cerrar sesión</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Selecciona "Logout" si estás preparado para cerrar la sesión activa.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
                     <a class="btn btn-primary" href="login.html">Logout</a>
                 </div>
             </div>
