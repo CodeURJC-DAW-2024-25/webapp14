@@ -1,6 +1,6 @@
 # webapp14
 
-## Mode Royale
+## Noir & Blanc
 
 Mode Royale is an online clothing store where users can purchase products and leave reviews. Additionally, administrators can manage the catalog and analyze sales
 
@@ -16,16 +16,16 @@ Mode Royale is an online clothing store where users can purchase products and le
 1. **User**: There are three types of users: Registered users, unregistered users and administrators
 2. **Product**: Represents the items available in the store
 3. **Order**: An order purchased by the user
-4. **Purchase**: Represents the user's cart
-5. **Review with score**: Allows registered users to leave a review about a product
+4. **Review with score**: Allows registered users to leave a review about a product
+![Image](https://github.com/user-attachments/assets/93a4bfab-4edd-4bb8-b684-b3a9bd4d0027)
 
 ### 🧩 Class diagram
-![image](https://github.com/user-attachments/assets/ede7b575-3474-4d34-ad30-5c0fce0902f1)
+![Image](https://github.com/user-attachments/assets/fe62c4fa-7021-4bc3-8a2b-a99d9fca3aea)
 
 ### 👨‍👩‍👦 User permissions
-- **Registered users**: They an place orders, access their order history and leave reviews
+- **Registered users**: They can place orders, access their order history and leave reviews
 - **Unregistered users**: They can view products but they can't place orders
-- **Administrators**: They can add, edit, and delete products, as well as remove reviews
+- **Administrators**: They can add, edit, and delete products, as well as remove reviews and ban users
 
 ### 🖼️ Images
 - **Products**: Each product will have an image
@@ -34,11 +34,9 @@ Mode Royale is an online clothing store where users can purchase products and le
 ### 📊 Graphics
 - The administrator will be able to view a bar graph with the most purchased products
 - The administrator will be able to view a line graph that displays the sales of the last month
-- The administrator will be able to ban users
-
 
 ### 💻 Complementary Technology
-An email will be sent when a purchase is made
+An email will be sent when a purchase is made and a pdf will be generated with the order details
 
 ### 💡 Advanced algorithm
 A set of suggested products is displayed based on the categories of products previously purchased by the user
