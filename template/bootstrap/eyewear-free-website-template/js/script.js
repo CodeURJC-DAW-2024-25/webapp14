@@ -14,21 +14,25 @@
   }
 
 
-// Cambiar estilos al hacer scroll
+// Función para cambiar estilos al hacer scroll o si no es la página principal
 var initScrollNav = function () {
   var scroll = $(window).scrollTop();
+  var isIndex = window.location.pathname.endsWith("index.html") || window.location.pathname === "/";
 
-  if (scroll >= 200) {
+  if (!isIndex || scroll >= 200) {
     $('.navbar.fixed-top').addClass("scrolled");
   } else {
     $('.navbar.fixed-top').removeClass("scrolled");
   }
-}
+};
 
-$(window).scroll(function () {
+// Ejecutar la función al cargar la página y al hacer scroll
+$(document).ready(function () {
   initScrollNav();
+  $(window).scroll(function () {
+    initScrollNav();
+  });
 });
-
 
 
   // init Chocolat light box
@@ -73,22 +77,20 @@ $(window).scroll(function () {
       once: true,
     })
 
-    // swiper slider home 2
     var swiper = new Swiper(".slideshow", {
       slidesPerView: 1,
       spaceBetween: 0,
       speed: 1000,
       loop: true,
       pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
+          el: ".swiper-pagination",
+          clickable: true,
       },
       navigation: {
-        nextEl: '.icon-arrow-right',
-        prevEl: '.icon-arrow-left',
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
       }
-    });
-
+  });
     // product single page
     var thumb_slider = new Swiper(".product-thumbnail-slider", {
       loop: true,
