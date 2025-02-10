@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>Admin Profile</title>
+    <title>NOIR & BLANC ADMIN</title>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,15 +12,15 @@
     <meta name="author" content="">
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../../css/sb-admin-2.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="../../css/custom.css">
 
 </head>
 
@@ -30,7 +30,7 @@
 
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../user/index.html">
                 <div class="sidebar-brand-text mx-3"><sup>NOIR & BLANC</sup></div>
             </a>
             <hr class="sidebar-divider my-0">
@@ -106,7 +106,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-                                <img class="img-profile rounded-circle" src="images/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="../../images/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -134,7 +134,7 @@
                             <div class="p-5">
                                 <!-- Profile picture -->
                                 <div class="text-center">
-                                    <img src="images\undraw_profile.svg" class="img-profile rounded-circle mb-4"
+                                    <img src="../../images\undraw_profile.svg" class="img-profile rounded-circle mb-4"
                                         alt="Profile Picture" width="150" height="150">
                                     <h1 class="h4 text-gray-900 mb-4">Perfil</h1>
                                 </div>
@@ -200,29 +200,26 @@
         <div class="modal-body">Selecciona "Aceptar" si estás preparado para cerrar la sesión activa.</div>
         <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-            <a class="btn btn-primary" href="login.html">Aceptar</a>
+            <a class="btn btn-primary" href="../login_register/login.html">Aceptar</a>
         </div>
         </div>
     </div>
     </div>
 
     <!-- JavaScript Files -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="js/sb-admin-2.min.js"></script>
-    <script src="js/custom.js"></script>
+    <script src="../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../../js/sb-admin-2.min.js"></script>
+    <script src="../../js/custom.js"></script>
 
 </body>
 
 <script>
     $(document).ready(function() {
-    // Al hacer clic en el botón de toggle de la barra lateral
     $('#sidebarToggleTop').click(function(e) {
         e.preventDefault();
-        // Toggle la clase "toggled" a la barra lateral
         $('#accordionSidebar').toggleClass('toggled');
-        // Ajustar el contenido para no dejar hueco
         $('#content-wrapper').toggleClass('toggled');
     });
 });
