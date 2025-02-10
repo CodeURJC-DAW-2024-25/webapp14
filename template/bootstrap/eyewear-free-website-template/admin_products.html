@@ -84,6 +84,9 @@
             <div id="content">
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-custom topbar mb-4 static-top shadow">
+                    <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button> 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Nav Item - User Information -->
@@ -305,22 +308,23 @@
                             <div class="card-body">
                                 <ul class="list-group">
                                     <!-- Producto 1 -->
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <li class="list-group-item d-flex flex-column flex-sm-row justify-content-between align-items-start">
                                         <span>ID: 8754676</span>
-                                        <div>
-                                            <button class="btn btn-sm btn-outline-primary" data-toggle="collapse"
-                                                data-target="#producto1">
+                                        <div class="d-flex flex-column flex-sm-row mt-2">
+                                            <button class="btn btn-sm btn-outline-primary mb-2 mb-sm-0" data-toggle="collapse" data-target="#producto1">
                                                 Ver detalles
                                             </button>
-                                            <button class="btn btn-primary btn-rounded btn-sm ml-2" data-toggle="modal"
-                                                data-target="#editModal">
+                                            <button class="btn btn-primary btn-rounded btn-sm mb-2 mb-sm-0 ml-sm-2" data-toggle="modal" data-target="#editModal">
                                                 <i class="fas fa-edit"></i> Editar
                                             </button>
-                                            <button class="btn btn-danger btn-rounded btn-sm ml-2">
+                                            <button class="btn btn-danger btn-rounded btn-sm ml-sm-2" data-toggle="modal" data-target="#deleteModal">
                                                 <i class="fas fa-trash-alt"></i> Eliminar
                                             </button>
                                         </div>
                                     </li>
+                                    
+                                    
+                                    
                                     <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="producto1">
                                         <div class="d-flex align-items-center">
                                             <img src="images/abrigos.webp" alt="Producto"
@@ -348,30 +352,26 @@
                                     </div>
 
                                     <!-- Producto 2 -->
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <div class="d-flex align-items-center">
+                                    <li class="list-group-item d-flex flex-column flex-sm-row justify-content-between align-items-start">
+                                        <div class="d-flex flex-column flex-sm-row align-items-center">
                                             <span class="mr-2">ID: 6758492</span>
                                             <!-- Icono de alerta si no hay stock -->
-                                            <button class="btn btn-warning btn-sm ml-2" disabled>
+                                            <button class="btn btn-warning btn-sm ml-2 mb-2 mb-sm-0" disabled>
                                                 <i class="fas fa-exclamation-triangle"></i> Sin Stock
                                             </button>
                                         </div>
-                                        <div>
-                                            <button class="btn btn-sm btn-outline-primary" data-toggle="collapse"
-                                                data-target="#producto2">
+                                        <div class="d-flex flex-column flex-sm-row mt-2 mt-sm-0">
+                                            <button class="btn btn-sm btn-outline-primary mb-2 mb-sm-0" data-toggle="collapse" data-target="#producto2">
                                                 Ver detalles
                                             </button>
-                                            <button class="btn btn-primary btn-rounded btn-sm ml-2" data-toggle="modal"
-                                                data-target="#editModal">
+                                            <button class="btn btn-primary btn-rounded btn-sm mb-2 mb-sm-0 ml-sm-2" data-toggle="modal" data-target="#editModal">
                                                 <i class="fas fa-edit"></i> Editar
                                             </button>
-                                            <button class="btn btn-danger btn-rounded btn-sm ml-2">
+                                            <button class="btn btn-danger btn-rounded btn-sm ml-sm-2" data-toggle="modal" data-target="#deleteModal">
                                                 <i class="fas fa-trash-alt"></i> Eliminar
                                             </button>
                                         </div>
                                     </li>
-
-
                                     <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="producto2">
                                         <div class="d-flex align-items-center">
                                             <img src="images/sudaderas.webp" alt="Producto"
@@ -401,22 +401,21 @@
                                     </div>
 
                                     <!-- Producto 3 -->
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <li class="list-group-item d-flex flex-column flex-sm-row justify-content-between align-items-start">
                                         <span>ID: 9856321</span>
-                                        <div>
-                                            <button class="btn btn-sm btn-outline-primary" data-toggle="collapse"
-                                                data-target="#producto3">
+                                        <div class="d-flex flex-column flex-sm-row mt-2 mt-sm-0">
+                                            <button class="btn btn-sm btn-outline-primary mb-2 mb-sm-0" data-toggle="collapse" data-target="#producto3">
                                                 Ver detalles
                                             </button>
-                                            <button class="btn btn-primary btn-rounded btn-sm ml-2" data-toggle="modal"
-                                                data-target="#editModal">
+                                            <button class="btn btn-primary btn-rounded btn-sm mb-2 mb-sm-0 ml-sm-2" data-toggle="modal" data-target="#editModal">
                                                 <i class="fas fa-edit"></i> Editar
                                             </button>
-                                            <button class="btn btn-danger btn-rounded btn-sm ml-2">
+                                            <button class="btn btn-danger btn-rounded btn-sm ml-sm-2" data-toggle="modal" data-target="#deleteModal">
                                                 <i class="fas fa-trash-alt"></i> Eliminar
                                             </button>
                                         </div>
                                     </li>
+                                    
                                     <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="producto3">
                                         <div class="d-flex align-items-center">
                                             <img src="images/chaquetas.webp" alt="Producto"
@@ -543,10 +542,10 @@
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
-                    <div class="modal-body">Selecciona "Cerrar sesión" si estás preparado para cerrar la sesión activa.</div>
+                    <div class="modal-body">Selecciona "Aceptar" si estás preparado para cerrar la sesión activa.</div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                        <a class="btn btn-primary" href="login.html">Cerrar sesión</a>
+                        <a class="btn btn-primary" href="login.html">Aceptar</a>
                     </div>
                 </div>
             </div>
@@ -555,9 +554,23 @@
 
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="js/sb-admin-2.min.js"></script>
+    <script src="js/custom.js"></script>
 
 </body>
+
+<script>
+    $(document).ready(function() {
+    // Al hacer clic en el botón de toggle de la barra lateral
+    $('#sidebarToggleTop').click(function(e) {
+        e.preventDefault();
+        // Toggle la clase "toggled" a la barra lateral
+        $('#accordionSidebar').toggleClass('toggled');
+        // Ajustar el contenido para no dejar hueco
+        $('#content-wrapper').toggleClass('toggled');
+    });
+});
+</script>
 
 </html>

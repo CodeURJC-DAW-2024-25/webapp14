@@ -55,8 +55,8 @@
                 Gestión
             </div>
 
-            <li class="nav-item">
-                <a class="nav-link active" href="admin_users.html">
+            <li class="nav-item active">
+                <a class="nav-link" href="admin_users.html">
                     <i class="fas fa-user"></i>
                     <span>Usuarios</span>
                 </a>
@@ -85,6 +85,9 @@
             <div id="content">
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-custom topbar mb-4 static-top shadow">
+                    <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>  
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Nav Item - User Information -->
@@ -188,6 +191,9 @@
                         </div>
                     </div>
 
+
+                    
+
                     <div class="col-xl-12 col-lg-10">
                         <div class="card shadow mb-4">
                             <!-- Card Header -->
@@ -202,24 +208,21 @@
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <span>Usuario 1</span>
                                         <div>
-                                            <button class="btn btn-sm btn-outline-primary" data-toggle="collapse"
-                                                data-target="#infoUsuario1">
+                                            <button class="btn btn-sm btn-outline-primary" data-toggle="collapse" data-target="#infoUsuario1">
                                                 Ver información
                                             </button>
                                         </div>
-                                    </li>
+                                    </li>                                    
                                     <div class="collapse mt-2 mb-3" id="infoUsuario1">
-                                        <div class="card card-body d-flex flex-row align-items-center">
+                                        <div class="card card-body d-flex flex-row flex-column-reverse flex-sm-row align-items-center">
                                             <div class="user-info-div">
                                                 <strong>Nombre:</strong> Juan Pérez<br>
                                                 <strong>Correo:</strong> juanperez@email.com<br>
                                                 <strong>Dirección:</strong> Calle Falsa 123, Madrid<br>
-                                                <strong>Edad:</strong> 30 años<br>
                                                 <strong>Número de pedidos:</strong> 3
                                             </div>
-                                            <div>
-                                                <img src="images/undraw_profile.svg" alt="Perfil de Juan Pérez"
-                                                    class="rounded-circle ml-3 img-user-admin">
+                                            <div class="mb-3">
+                                                <img src="images/undraw_profile.svg" alt="Perfil de Juan Pérez" class="rounded-circle ml-3 img-user-admin">
                                             </div>
                                         </div>
                                     </div>
@@ -235,17 +238,15 @@
                                         </div>
                                     </li>
                                     <div class="collapse mt-2 mb-3" id="infoUsuario2">
-                                        <div class="card card-body d-flex flex-row align-items-center">
+                                        <div class="card card-body d-flex flex-row flex-column-reverse flex-sm-row align-items-center">
                                             <div class="user-info-div">
                                                 <strong>Nombre:</strong> María López<br>
                                                 <strong>Correo:</strong> marialopez@email.com<br>
                                                 <strong>Dirección:</strong> Av. Siempre Viva 742, Barcelona<br>
-                                                <strong>Edad:</strong> 25 años<br>
                                                 <strong>Número de pedidos:</strong> 5
                                             </div>
-                                            <div>
-                                                <img src="images/undraw_profile.svg" alt="Perfil de María López"
-                                                    class="rounded-circle ml-3 img-user-admin">
+                                            <div class="mb-3">
+                                                <img src="images/undraw_profile.svg" alt="Perfil de María López" class="rounded-circle ml-3 img-user-admin">
                                             </div>
                                         </div>
                                     </div>
@@ -261,17 +262,15 @@
                                         </div>
                                     </li>
                                     <div class="collapse mt-2 mb-3" id="infoUsuario3">
-                                        <div class="card card-body d-flex flex-row align-items-center">
+                                        <div class="card card-body d-flex flex-row flex-column-reverse flex-sm-row align-items-center">
                                             <div class="user-info-div">
                                                 <strong>Nombre:</strong> Carlos Ramírez<br>
                                                 <strong>Correo:</strong> carlosramirez@email.com<br>
                                                 <strong>Dirección:</strong> C/ Gran Vía 123, Valencia<br>
-                                                <strong>Edad:</strong> 40 años<br>
                                                 <strong>Número de pedidos:</strong> 8
                                             </div>
-                                            <div>
-                                                <img src="images/undraw_profile.svg" alt="Perfil de Carlos Ramírez"
-                                                    class="rounded-circle ml-3 img-user-admin">
+                                            <div class="mb-3">
+                                                <img src="images/undraw_profile.svg" alt="Perfil de Carlos Ramírez" class="rounded-circle ml-3 img-user-admin">
                                             </div>
                                         </div>
                                     </div>
@@ -287,17 +286,15 @@
                                         </div>
                                     </li>
                                     <div class="collapse mt-2 mb-3" id="infoUsuario4">
-                                        <div class="card card-body d-flex flex-row align-items-center">
+                                        <div class="card card-body d-flex flex-row flex-column-reverse flex-sm-row align-items-center">
                                             <div class="user-info-div">
                                                 <strong>Nombre:</strong> Laura Martínez<br>
                                                 <strong>Correo:</strong> lauramartinez@email.com<br>
                                                 <strong>Dirección:</strong> Paseo del Prado 56, Sevilla<br>
-                                                <strong>Edad:</strong> 28 años<br>
                                                 <strong>Número de pedidos:</strong> 4
                                             </div>
-                                            <div>
-                                                <img src="images/undraw_profile.svg" alt="Perfil de Laura Martínez"
-                                                    class="rounded-circle ml-3 img-user-admin">
+                                            <div class="mb-3">
+                                                <img src="images/undraw_profile.svg" alt="Perfil de Laura Martínez" class="rounded-circle ml-3 img-user-admin">
                                             </div>
                                         </div>
                                     </div>
@@ -313,17 +310,15 @@
                                         </div>
                                     </li>
                                     <div class="collapse mt-2 mb-3" id="infoUsuario5">
-                                        <div class="card card-body d-flex flex-row align-items-center">
+                                        <div class="card card-body d-flex flex-row flex-column-reverse flex-sm-row align-items-center">
                                             <div class="user-info-div">
                                                 <strong>Nombre:</strong> Pedro Gómez<br>
                                                 <strong>Correo:</strong> pedrogomez@email.com<br>
                                                 <strong>Dirección:</strong> Av. de la Constitución 101, Bilbao<br>
-                                                <strong>Edad:</strong> 35 años<br>
                                                 <strong>Número de pedidos:</strong> 6
                                             </div>
-                                            <div>
-                                                <img src="images/undraw_profile.svg" alt="Perfil de Pedro Gómez"
-                                                    class="rounded-circle ml-3 img-user-admin">
+                                            <div class="mb-3">
+                                                <img src="images/undraw_profile.svg" alt="Perfil de Pedro Gómez" class="rounded-circle ml-3 img-user-admin">
                                             </div>
                                         </div>
                                     </div>
@@ -350,51 +345,46 @@
                             <div class="card-body">
                                 <ul class="list-group">
                                     <!-- Usuario 1 -->
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>Usuario 1</span>
-                                        <div>
-                                            <span class="badge badge-danger badge-pill mr-2">3 Avisos</span>
-                                            <button class="btn btn-sm btn-outline-primary" data-toggle="collapse"
-                                                data-target="#reportesUsuario1">
-                                                Ver reportes
-                                            </button>
-                                            <button class="btn btn-warning btn-rounded btn-sm ml-2">
-                                                <i class="fas fa-exclamation-triangle"></i> Banear
-                                            </button>
+                                    <li class="list-group-item">
+                                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
+                                            <span>Usuario 1</span>
+                                            <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center mt-2 mt-sm-0 text-sm-right">
+                                                <span class="badge badge-danger badge-pill mb-2 mb-sm-0 mr-sm-2">3 Avisos</span>
+                                                <button class="btn btn-sm btn-outline-primary d-block d-sm-inline mb-2 mb-sm-0 mr-sm-2" 
+                                                    data-toggle="collapse" data-target="#reportesUsuario1">
+                                                    Ver reportes
+                                                </button>
+                                                <button class="btn btn-warning btn-rounded btn-sm d-block d-sm-inline">
+                                                    <i class="fas fa-exclamation-triangle"></i> Banear
+                                                </button>
+                                            </div>
                                         </div>
                                     </li>
                                     <div class="collapse mt-2 mb-3" id="reportesUsuario1">
                                         <ul class="list-group ml-3">
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center report-item reviews-list">
-                                                <span class="report-text span-review">
-                                                    <strong>ID del Producto: <span
-                                                            class="product-id">12345</span></strong><br>
-                                                    Review 1: Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                                                    Maiores mollitia ad temporibus hic totam debitis facilis, odit saepe
-                                                    magnam delectus. Nemo quisquam non doloribus rerum temporibus
-                                                    aperiam accusamus nostrum iusto.
+                                            <li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                                <span class="report-text span-review text-start w-100">
+                                                    <strong>ID del Producto: <span class="product-id">12345</span></strong><br>
+                                                    Review 1: Si te gusta esta tienda, deberías visitar la mía. Tengo mejores precios y ropa aún más moderna.
                                                 </span>
-                                                <div class="report-actions report-btn">
-                                                    <button class="btn btn-success btn-rounded btn-sm">
+                                                <div class="report-actions report-btn d-flex mt-2 mt-md-0">
+                                                    <button class="btn btn-success btn-sm me-2">
                                                         <i class="fas fa-check"></i> Aceptar
                                                     </button>
-                                                    <button class="btn btn-danger btn-rounded btn-sm">
+                                                    <button class="btn btn-danger btn-sm">
                                                         <i class="fas fa-trash"></i> Eliminar
                                                     </button>
                                                 </div>
                                             </li>
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center report-item reviews-list">
-                                                <span class="report-text span-review">
+                                            
+                                            
+                                            <li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                                <span class="report-text span-review text-start w-100">
                                                     <strong>ID del Producto: <span
                                                             class="product-id">38674</span></strong><br>
-                                                    Review 2: Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                                                    Maiores mollitia ad temporibus hic totam debitis facilis, odit saepe
-                                                    magnam delectus. Nemo quisquam non doloribus rerum temporibus
-                                                    aperiam accusamus nostrum iusto.
+                                                    Review 2: No sé cómo alguien puede dar 5 estrellas a esta tienda. Deben ser unos fanáticos de la moda barata.
                                                 </span>
-                                                <div class="report-actions report-btn">
+                                                <div class="report-actions report-btn d-flex mt-2 mt-md-0">
                                                     <button class="btn btn-success btn-rounded btn-sm">
                                                         <i class="fas fa-check"></i> Aceptar
                                                     </button>
@@ -403,17 +393,13 @@
                                                     </button>
                                                 </div>
                                             </li>
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center report-item reviews-list">
-                                                <span class="report-text span-review">
+                                            <li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                                <span class="report-text span-review text-start w-100">
                                                     <strong>ID del Producto: <span
                                                             class="product-id">34576</span></strong><br>
-                                                    Review 3: Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                                                    Maiores mollitia ad temporibus hic totam debitis facilis, odit saepe
-                                                    magnam delectus. Nemo quisquam non doloribus rerum temporibus
-                                                    aperiam accusamus nostrum iusto.
+                                                    Review 3: No entiendo cómo alguien puede usar ropa tan barata. Solo gente de poco gusto compraría aquí.
                                                 </span>
-                                                <div class="report-actions report-btn">
+                                                <div class="report-actions report-btn d-flex mt-2 mt-md-0">
                                                     <button class="btn btn-success btn-rounded btn-sm">
                                                         <i class="fas fa-check"></i> Aceptar
                                                     </button>
@@ -426,32 +412,30 @@
                                     </div>
 
                                     <!-- Usuario 2 -->
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>Usuario 2</span>
-                                        <div>
-                                            <span class="badge badge-danger badge-pill mr-2">2 Avisos</span>
-                                            <button class="btn btn-sm btn-outline-primary" data-toggle="collapse"
-                                                data-target="#reportesUsuario2">
-                                                Ver reportes
-                                            </button>
-                                            <button class="btn btn-warning btn-rounded btn-sm ml-2">
-                                                <i class="fas fa-exclamation-triangle"></i> Banear
-                                            </button>
+                                    <li class="list-group-item">
+                                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
+                                            <span>Usuario 2</span>
+                                            <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center mt-2 mt-sm-0 text-sm-right">
+                                                <span class="badge badge-danger badge-pill mb-2 mb-sm-0 mr-sm-2">2 Avisos</span>
+                                                <button class="btn btn-sm btn-outline-primary d-block d-sm-inline mb-2 mb-sm-0 mr-sm-2" 
+                                                    data-toggle="collapse" data-target="#reportesUsuario2">
+                                                    Ver reportes
+                                                </button>
+                                                <button class="btn btn-warning btn-rounded btn-sm d-block d-sm-inline">
+                                                    <i class="fas fa-exclamation-triangle"></i> Banear
+                                                </button>
+                                            </div>
                                         </div>
                                     </li>
                                     <div class="collapse mt-2 mb-3" id="reportesUsuario2">
                                         <ul class="list-group ml-3">
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center report-item reviews-list">
-                                                <span class="report-text span-review">
+                                            <li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                                <span class="report-text span-review text-start w-100">
                                                     <strong>ID del Producto: <span
                                                             class="product-id">00747</span></strong><br>
-                                                    Review 4: Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                                                    Maiores mollitia ad temporibus hic totam debitis facilis, odit saepe
-                                                    magnam delectus. Nemo quisquam non doloribus rerum temporibus
-                                                    aperiam accusamus nostrum iusto.
+                                                    Review 4: Si no mejoran la calidad de la ropa, me aseguraré de dejar malas reseñas en todos lados.
                                                 </span>
-                                                <div class="report-actions report-btn">
+                                                <div class="report-actions report-btn d-flex mt-2 mt-md-0">
                                                     <button class="btn btn-success btn-rounded btn-sm">
                                                         <i class="fas fa-check"></i> Aceptar
                                                     </button>
@@ -460,17 +444,13 @@
                                                     </button>
                                                 </div>
                                             </li>
-                                            <li
-                                                class="list-group-item d-flex justify-content-between align-items-center report-item reviews-list">
-                                                <span class="report-text span-review">
+                                            <li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                                <span class="report-text span-review text-start w-100">
                                                     <strong>ID del Producto: <span
                                                             class="product-id">97839</span></strong><br>
-                                                    Review 5: Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                                                    Maiores mollitia ad temporibus hic totam debitis facilis, odit saepe
-                                                    magnam delectus. Nemo quisquam non doloribus rerum temporibus
-                                                    aperiam accusamus nostrum iusto.
+                                                    Review 5: Esta tienda es una pérdida de tiempo, la ropa es un desastre. ¡Qué porquería!
                                                 </span>
-                                                <div class="report-actions report-btn">
+                                                <div class="report-actions report-btn d-flex mt-2 mt-md-0">
                                                     <button class="btn btn-success btn-rounded btn-sm">
                                                         <i class="fas fa-check"></i> Aceptar
                                                     </button>
@@ -556,10 +536,10 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Selecciona "Cerrar sesión" si estás preparado para cerrar la sesión activa.</div>
+                <div class="modal-body">Selecciona "Aceptar" si estás preparado para cerrar la sesión activa.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="login.html">Cerrar sesión</a>
+                    <a class="btn btn-primary" href="login.html">Aceptar</a>
                 </div>
             </div>
         </div>
@@ -567,8 +547,23 @@
 
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="js/sb-admin-2.min.js"></script>
+    <script src="js/custom.js"></script>
 
 </body>
+
+<script>
+    $(document).ready(function() {
+    // Al hacer clic en el botón de toggle de la barra lateral
+    $('#sidebarToggleTop').click(function(e) {
+        e.preventDefault();
+        // Toggle la clase "toggled" a la barra lateral
+        $('#accordionSidebar').toggleClass('toggled');
+        // Ajustar el contenido para no dejar hueco
+        $('#content-wrapper').toggleClass('toggled');
+    });
+});
+</script>
 
 </html>

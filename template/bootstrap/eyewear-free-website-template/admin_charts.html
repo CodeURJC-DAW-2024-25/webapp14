@@ -84,6 +84,9 @@
       <div id="content">
         <!-- Topbar -->
         <nav class="navbar navbar-expand navbar-light bg-custom topbar mb-4 static-top shadow">
+          <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button> 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
             <!-- Nav Item - User Information -->
@@ -297,10 +300,10 @@
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">Selecciona "Cerrar sesión" si estás preparado para cerrar la sesión activa.</div>
+        <div class="modal-body">Selecciona "Aceptar" si estás preparado para cerrar la sesión activa.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-primary" href="login.html">Cerrar sesioón</a>
+          <a class="btn btn-primary" href="login.html">Aceptar</a>
         </div>
       </div>
     </div>
@@ -308,9 +311,23 @@
 
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <script src="vendor/chart.js/Chart.min.js"></script>
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="js/sb-admin-2.min.js"></script>
+  <script src="js/custom.js"></script>
 
 </body>
+
+<script>
+  $(document).ready(function() {
+  // Al hacer clic en el botón de toggle de la barra lateral
+  $('#sidebarToggleTop').click(function(e) {
+      e.preventDefault();
+      // Toggle la clase "toggled" a la barra lateral
+      $('#accordionSidebar').toggleClass('toggled');
+      // Ajustar el contenido para no dejar hueco
+      $('#content-wrapper').toggleClass('toggled');
+  });
+});
+</script>
 
 </html>
