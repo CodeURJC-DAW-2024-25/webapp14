@@ -91,8 +91,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-                                <img class="img-profile rounded-circle"
-                                    src="images/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="images/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -122,7 +121,7 @@
                                 <div class="card-body d-flex align-items-center">
                                     <div class="col">
                                         <div class="text-xs font-weight-bold text-uppercase mb-1 text-custom-primary">
-                                            Número de Productos                                            </div>
+                                            Número de Productos </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800">50</div>
                                     </div>
                                     <div class="col-auto d-flex align-items-center">
@@ -146,7 +145,7 @@
                                 </div>
                             </div>
                         </div>
-                            
+
                         <!-- Pending Requests Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-warning shadow h-100 py-2">
@@ -165,7 +164,7 @@
                                 </div>
                             </div>
                         </div>
-    
+
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-danger shadow h-100 py-2">
@@ -190,11 +189,13 @@
                     <div class="d-flex mt-3 mb-3">
 
                         <!-- Botón para abrir el modal con icono -->
-                        <button type="button" class="btn btn-primary mt-3 mb-3 d-flex align-items-center" data-toggle="modal" data-target="#createModal">
+                        <button type="button" class="btn btn-primary mt-3 mb-3 d-flex align-items-center"
+                            data-toggle="modal" data-target="#createModal">
                             <i class="fas fa-plus-circle mr-2"></i> Crear Producto
                         </button>
                         <!-- Modal para Crear Producto -->
-                        <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="createModal" tabindex="-1" role="dialog"
+                            aria-labelledby="createModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -208,13 +209,16 @@
                                             <div class="form-group">
                                                 <label for="newProductImage">Imagen del Producto</label>
                                                 <div class="custom-file">
-                                                    <input type="file" class="form-control" id="newProductImage" accept="image/*">
-                                                    <label class="custom-file-label" for="newProductImage">Elegir archivo</label>
+                                                    <input type="file" class="form-control" id="newProductImage"
+                                                        accept="image/*">
+                                                    <label class="custom-file-label" for="newProductImage">Elegir
+                                                        archivo</label>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="newProductName">Nombre del Producto</label>
-                                                <input type="text" class="form-control" id="newProductName" placeholder="Ingrese el nombre">
+                                                <input type="text" class="form-control" id="newProductName"
+                                                    placeholder="Ingrese el nombre">
                                             </div>
                                             <div class="form-group">
                                                 <label for="newProductPrice">Precio</label>
@@ -222,7 +226,8 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">€</span>
                                                     </div>
-                                                    <input type="number" class="form-control" id="newProductPrice" placeholder="Ingrese el precio" min="0" step="0.01">
+                                                    <input type="number" class="form-control" id="newProductPrice"
+                                                        placeholder="Ingrese el precio" min="0" step="0.01">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -237,12 +242,14 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="newProductStock">Stock Disponible</label>
-                                                <input type="number" class="form-control" id="newProductStock" placeholder="Ingrese el stock" min="0">
+                                                <input type="number" class="form-control" id="newProductStock"
+                                                    placeholder="Ingrese el stock" min="0">
                                             </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Cancelar</button>
                                         <button type="button" class="btn btn-primary">Crear Producto</button>
                                     </div>
                                 </div>
@@ -251,11 +258,13 @@
 
 
                         <!-- Botón para abrir el modal de nueva categoría -->
-                        <button type="button" class="btn btn-success mt-3 mb-3 d-flex align-items-center botton-margin" data-toggle="modal" data-target="#categoryModal">
+                        <button type="button" class="btn btn-success mt-3 mb-3 d-flex align-items-center botton-margin"
+                            data-toggle="modal" data-target="#categoryModal">
                             <i class="fas fa-folder-plus mr-2"></i> Añadir Categoría
                         </button>
                         <!-- Modal para Añadir Nueva Categoría -->
-                        <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog"
+                            aria-labelledby="categoryModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -268,12 +277,14 @@
                                         <form>
                                             <div class="form-group">
                                                 <label for="newCategoryName">Nombre de la Categoría</label>
-                                                <input type="text" class="form-control" id="newCategoryName" placeholder="Ingrese el nombre de la categoría">
+                                                <input type="text" class="form-control" id="newCategoryName"
+                                                    placeholder="Ingrese el nombre de la categoría">
                                             </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Cancelar</button>
                                         <button type="button" class="btn btn-success">Guardar Categoría</button>
                                     </div>
                                 </div>
@@ -291,220 +302,252 @@
                                 </button>
                             </div>
 
-                        <div class="card-body">
-                            <ul class="list-group">
-                                <!-- Producto 1 -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>ID: 8754676</span>
-                                    <div>
-                                        <button class="btn btn-sm btn-outline-primary" data-toggle="collapse" data-target="#producto1">
-                                            Ver detalles
-                                        </button>
-                                        <button class="btn btn-primary btn-rounded btn-sm ml-2" data-toggle="modal" data-target="#editModal">
-                                            <i class="fas fa-edit"></i> Editar
-                                        </button>
-                                        <button class="btn btn-danger btn-rounded btn-sm ml-2">
-                                            <i class="fas fa-trash-alt"></i> Eliminar
-                                        </button>
-                                    </div>
-                                </li>
-                                <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="producto1">
-                                    <div class="d-flex align-items-center">
-                                        <img src="images/abrigos.webp" alt="Producto" class="rounded img-admin-products">
-                                        <div class="flex-grow-1 ml-3">
-                                            <h5><strong>Abrigo</strong></h5>
-                                            <p class="mb-1">Elegancia y calidez que te acompañan en los días más fríos</p>
-                                            <p><strong>Precio:</strong> 50.00€</p>
-                                            <p><strong>Categoría:</strong> Ropa de Invierno</p>
-                                            <p><strong>Stock Disponible:</strong> 20 unidades</p>
+                            <div class="card-body">
+                                <ul class="list-group">
+                                    <!-- Producto 1 -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>ID: 8754676</span>
+                                        <div>
+                                            <button class="btn btn-sm btn-outline-primary" data-toggle="collapse"
+                                                data-target="#producto1">
+                                                Ver detalles
+                                            </button>
+                                            <button class="btn btn-primary btn-rounded btn-sm ml-2" data-toggle="modal"
+                                                data-target="#editModal">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </button>
+                                            <button class="btn btn-danger btn-rounded btn-sm ml-2">
+                                                <i class="fas fa-trash-alt"></i> Eliminar
+                                            </button>
+                                        </div>
+                                    </li>
+                                    <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="producto1">
+                                        <div class="d-flex align-items-center">
+                                            <img src="images/abrigos.webp" alt="Producto"
+                                                class="rounded img-admin-products">
+                                            <div class="flex-grow-1 ml-3">
+                                                <h5><strong>Abrigo</strong></h5>
+                                                <p class="mb-1">Elegancia y calidez que te acompañan en los días más
+                                                    fríos</p>
+                                                <p><strong>Precio:</strong> 50.00€</p>
+                                                <p><strong>Categoría:</strong> Ropa de Invierno</p>
+                                                <p><strong>Stock Disponible:</strong> 20 unidades</p>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3">
+                                            <h6><strong>Reseñas de Clientes:</strong></h6>
+                                            <ul class="list-group">
+                                                <li class="list-group-item"><strong>Usuario 1:</strong> Muy buena
+                                                    relación calidad precio. ★★★★☆</li>
+                                                <li class="list-group-item"><strong>Usuario 2:</strong> La calidad es
+                                                    excelente, lo recomiendo. ★★★★★</li>
+                                                <li class="list-group-item"><strong>Usuario 3:</strong> Me llegó un poco
+                                                    tarde, pero está bien. ★★★☆☆</li>
+                                            </ul>
                                         </div>
                                     </div>
-                                    <div class="mt-3">
-                                        <h6><strong>Reseñas de Clientes:</strong></h6>
-                                        <ul class="list-group">
-                                            <li class="list-group-item"><strong>Usuario 1:</strong> Muy buena relación calidad precio. ★★★★☆</li>
-                                            <li class="list-group-item"><strong>Usuario 2:</strong> La calidad es excelente, lo recomiendo. ★★★★★</li>
-                                            <li class="list-group-item"><strong>Usuario 3:</strong> Me llegó un poco tarde, pero está bien. ★★★☆☆</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            
-                                <!-- Producto 2 -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <div class="d-flex align-items-center">
-                                        <span class="mr-2">ID: 6758492</span>
-                                        <!-- Icono de alerta si no hay stock -->
-                                        <button class="btn btn-warning btn-sm ml-2" disabled>
-                                            <i class="fas fa-exclamation-triangle"></i> Sin Stock
-                                        </button>
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-sm btn-outline-primary" data-toggle="collapse" data-target="#producto2">
-                                            Ver detalles
-                                        </button>
-                                        <button class="btn btn-primary btn-rounded btn-sm ml-2" data-toggle="modal" data-target="#editModal">
-                                            <i class="fas fa-edit"></i> Editar
-                                        </button>
-                                        <button class="btn btn-danger btn-rounded btn-sm ml-2">
-                                            <i class="fas fa-trash-alt"></i> Eliminar
-                                        </button>
-                                    </div>
-                                </li>
-                                
-                                
-                                <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="producto2">
-                                    <div class="d-flex align-items-center">
-                                        <img src="images/sudaderas.webp" alt="Producto" class="rounded img-admin-products">
-                                        <div class="flex-grow-1 ml-3">
-                                            <h5><strong>Sudadera</strong></h5>
-                                            <p class="mb-1">Comodidad y estilo en una sola prenda, ideal para cualquier momento del día.</p>
-                                            <p><strong>Precio:</strong> 35.00€</p>
-                                            <p><strong>Categoría:</strong> Sudadera</p>
-                                            <p><strong>Stock Disponible:</strong> 0 unidades</p>
-                                        </div>
-                                    </div>
-                                    <div class="mt-3">
-                                        <h6><strong>Reseñas de Clientes:</strong></h6>
-                                        <ul class="list-group">
-                                            <li class="list-group-item"><strong>Usuario 4:</strong> Excelente calidad y muy cómoda. ★★★★★</li>
-                                            <li class="list-group-item"><strong>Usuario 5:</strong> Es súper calentita y cómoda, perfecta para el invierno. La volvería a comprar. ★★★★★</li>
-                                            <li class="list-group-item"><strong>Usuario 1:</strong> Me gusta el diseño, pero la tela es un poco más delgada de lo que esperaba. ★★★★☆</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            
-                                <!-- Producto 3 -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>ID: 9856321</span>
-                                    <div>
-                                        <button class="btn btn-sm btn-outline-primary" data-toggle="collapse" data-target="#producto3">
-                                            Ver detalles
-                                        </button>
-                                        <button class="btn btn-primary btn-rounded btn-sm ml-2" data-toggle="modal" data-target="#editModal">
-                                            <i class="fas fa-edit"></i> Editar
-                                        </button>
-                                        <button class="btn btn-danger btn-rounded btn-sm ml-2">
-                                            <i class="fas fa-trash-alt"></i> Eliminar
-                                        </button>
-                                    </div>
-                                </li>
-                                <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="producto3">
-                                    <div class="d-flex align-items-center">
-                                        <img src="images/chaquetas.webp" alt="Producto" class="rounded img-admin-products">
-                                        <div class="flex-grow-1 ml-3">
-                                            <h5><strong>Chaqueta</strong></h5>
-                                            <p class="mb-1">Diseño elegante y cómodo para cualquier ocasión.</p>
-                                            <p><strong>Precio:</strong> 15.00€</p>
-                                            <p><strong>Categoría:</strong> Chaquetas</p>
-                                            <p><strong>Stock Disponible:</strong> 30 unidades</p>
-                                        </div>
-                                    </div>
-                                    <div class="mt-3">
-                                        <h6><strong>Reseñas de Clientes:</strong></h6>
-                                        <ul class="list-group">
-                                            <li class="list-group-item"><strong>Usuario 2:</strong> Me encantó el material, es muy suave y cómodo. Perfecta para el día a día. ★★★★★</li>
-                                            <li class="list-group-item"><strong>Usuario 4:</strong> El diseño es bonito, pero la talla me quedó un poco ajustada. Recomiendo pedir una talla más grande. ★★★★☆</li>
-                                            <li class="list-group-item"><strong>Usuario 5:</strong> Después de un par de lavadas, los colores siguen intactos. ¡Buena calidad! ★★★★★</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
 
-                        <!-- Modal para Editar Producto -->
-                        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="editModalLabel">Editar Producto</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
+                                    <!-- Producto 2 -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center">
+                                            <span class="mr-2">ID: 6758492</span>
+                                            <!-- Icono de alerta si no hay stock -->
+                                            <button class="btn btn-warning btn-sm ml-2" disabled>
+                                                <i class="fas fa-exclamation-triangle"></i> Sin Stock
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-sm btn-outline-primary" data-toggle="collapse"
+                                                data-target="#producto2">
+                                                Ver detalles
+                                            </button>
+                                            <button class="btn btn-primary btn-rounded btn-sm ml-2" data-toggle="modal"
+                                                data-target="#editModal">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </button>
+                                            <button class="btn btn-danger btn-rounded btn-sm ml-2">
+                                                <i class="fas fa-trash-alt"></i> Eliminar
+                                            </button>
+                                        </div>
+                                    </li>
+
+
+                                    <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="producto2">
+                                        <div class="d-flex align-items-center">
+                                            <img src="images/sudaderas.webp" alt="Producto"
+                                                class="rounded img-admin-products">
+                                            <div class="flex-grow-1 ml-3">
+                                                <h5><strong>Sudadera</strong></h5>
+                                                <p class="mb-1">Comodidad y estilo en una sola prenda, ideal para
+                                                    cualquier momento del día.</p>
+                                                <p><strong>Precio:</strong> 35.00€</p>
+                                                <p><strong>Categoría:</strong> Sudadera</p>
+                                                <p><strong>Stock Disponible:</strong> 0 unidades</p>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3">
+                                            <h6><strong>Reseñas de Clientes:</strong></h6>
+                                            <ul class="list-group">
+                                                <li class="list-group-item"><strong>Usuario 4:</strong> Excelente
+                                                    calidad y muy cómoda. ★★★★★</li>
+                                                <li class="list-group-item"><strong>Usuario 5:</strong> Es súper
+                                                    calentita y cómoda, perfecta para el invierno. La volvería a
+                                                    comprar. ★★★★★</li>
+                                                <li class="list-group-item"><strong>Usuario 1:</strong> Me gusta el
+                                                    diseño, pero la tela es un poco más delgada de lo que esperaba.
+                                                    ★★★★☆</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="modal-body">
-                                        <form>
-                                            <div class="form-group">
-                                                <label for="productImage">Imagen del Producto</label>
-                                                <div class="custom-file">
-                                                    <input type="file" class="form-control" id="productImage" accept="image/*">
-                                                    <label class="custom-file-label" for="productImage">Elegir archivo</label>
-                                                </div>
+
+                                    <!-- Producto 3 -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>ID: 9856321</span>
+                                        <div>
+                                            <button class="btn btn-sm btn-outline-primary" data-toggle="collapse"
+                                                data-target="#producto3">
+                                                Ver detalles
+                                            </button>
+                                            <button class="btn btn-primary btn-rounded btn-sm ml-2" data-toggle="modal"
+                                                data-target="#editModal">
+                                                <i class="fas fa-edit"></i> Editar
+                                            </button>
+                                            <button class="btn btn-danger btn-rounded btn-sm ml-2">
+                                                <i class="fas fa-trash-alt"></i> Eliminar
+                                            </button>
+                                        </div>
+                                    </li>
+                                    <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="producto3">
+                                        <div class="d-flex align-items-center">
+                                            <img src="images/chaquetas.webp" alt="Producto"
+                                                class="rounded img-admin-products">
+                                            <div class="flex-grow-1 ml-3">
+                                                <h5><strong>Chaqueta</strong></h5>
+                                                <p class="mb-1">Diseño elegante y cómodo para cualquier ocasión.</p>
+                                                <p><strong>Precio:</strong> 15.00€</p>
+                                                <p><strong>Categoría:</strong> Chaquetas</p>
+                                                <p><strong>Stock Disponible:</strong> 30 unidades</p>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="productName">Nombre del Producto</label>
-                                                <input type="text" class="form-control" id="productName" value="Abrigo">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="productPrice">Precio</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">€</span>
+                                        </div>
+                                        <div class="mt-3">
+                                            <h6><strong>Reseñas de Clientes:</strong></h6>
+                                            <ul class="list-group">
+                                                <li class="list-group-item"><strong>Usuario 2:</strong> Me encantó el
+                                                    material, es muy suave y cómodo. Perfecta para el día a día. ★★★★★
+                                                </li>
+                                                <li class="list-group-item"><strong>Usuario 4:</strong> El diseño es
+                                                    bonito, pero la talla me quedó un poco ajustada. Recomiendo pedir
+                                                    una talla más grande. ★★★★☆</li>
+                                                <li class="list-group-item"><strong>Usuario 5:</strong> Después de un
+                                                    par de lavadas, los colores siguen intactos. ¡Buena calidad! ★★★★★
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </div>
+
+                            <!-- Modal para Editar Producto -->
+                            <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+                                aria-labelledby="editModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel">Editar Producto</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="productImage">Imagen del Producto</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" class="form-control" id="productImage"
+                                                            accept="image/*">
+                                                        <label class="custom-file-label" for="productImage">Elegir
+                                                            archivo</label>
                                                     </div>
-                                                    <input type="number" class="form-control" id="productPrice" value="50.00" min="0" step="0.01">
                                                 </div>
-                                            </div>
-                                            
-                                            <div class="form-group">
-                                                <label for="productCategory">Categoría</label>
-                                                <select class="form-control" id="productCategory">
-                                                    <option value="ropa-invierno" selected>Ropa de Invierno</option>
-                                                    <option value="ropa-verano">Ropa de Verano</option>
-                                                    <option value="accesorios">Accesorios</option>
-                                                    <option value="zapatos">Zapatos</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="productStock">Stock Disponible</label>
-                                                <input type="number" class="form-control" id="productStock" value="20" min="0">
-                                            </div>                                            
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                        <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                                                <div class="form-group">
+                                                    <label for="productName">Nombre del Producto</label>
+                                                    <input type="text" class="form-control" id="productName"
+                                                        value="Abrigo">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="productPrice">Precio</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">€</span>
+                                                        </div>
+                                                        <input type="number" class="form-control" id="productPrice"
+                                                            value="50.00" min="0" step="0.01">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="productCategory">Categoría</label>
+                                                    <select class="form-control" id="productCategory">
+                                                        <option value="ropa-invierno" selected>Ropa de Invierno</option>
+                                                        <option value="ropa-verano">Ropa de Verano</option>
+                                                        <option value="accesorios">Accesorios</option>
+                                                        <option value="zapatos">Zapatos</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="productStock">Stock Disponible</label>
+                                                    <input type="number" class="form-control" id="productStock"
+                                                        value="20" min="0">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Cancelar</button>
+                                            <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- End of Main Content -->
+
+
             </div>
-            <!-- End of Main Content -->
+            <!-- End of Content Wrapper -->
 
             <!-- Footer -->
             <footer class="footer">
                 <p>&copy; 2025 Noir & Blanc. Todos los derechos reservados.</p>
                 <p>Panel de Administración | Desarrollado por <a class="footer-text">...</a></p>
             </footer>
-            
             <!-- End of Footer -->
-
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Page Wrapper -->
 
-    </div>
-    <!-- End of Page Wrapper -->
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Cerrar sesión</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Selecciona "Logout" si estás preparado para cerrar la sesión activa.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Cerrar sesión</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Selecciona "Logout" si estás preparado para cerrar la sesión activa.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                        <a class="btn btn-primary" href="login.html">Logout</a>
+                    </div>
                 </div>
             </div>
         </div>
