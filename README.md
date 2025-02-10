@@ -17,9 +17,11 @@ Mode Royale is an online clothing store where users can purchase products and le
 2. **Product**: Represents the items available in the store
 3. **Order**: An order purchased by the user
 4. **Review with score**: Allows registered users to leave a review about a product
+   
 ![Image](https://github.com/user-attachments/assets/93a4bfab-4edd-4bb8-b684-b3a9bd4d0027)
 
 ### 🧩 Class diagram
+
 ![Image](https://github.com/user-attachments/assets/fe62c4fa-7021-4bc3-8a2b-a99d9fca3aea)
 
 ### 👨‍👩‍👦 User permissions
@@ -51,4 +53,17 @@ A set of suggested products is displayed based on the categories of products pre
 | ![Image](https://github.com/user-attachments/assets/4520a856-d820-4c05-ab25-24b432da9281)       | Admin users       | Screen in which the administrator can see the users of the website, he/she can also see the reports that have been made and the users that are banned       |
 | ![Image](https://github.com/user-attachments/assets/cd51105b-2c8e-4f92-94a7-ff5c5b5fc577)       | Login       | This screen is used by both users and administrators to login using their email and password      |
 | ![Image](https://github.com/user-attachments/assets/b0619823-9d74-4dc8-9653-a0af8bbcd062)       | Register       | This screen is used to register users. Users must indicate their name, their email and create a password       |
+| ![Image](https://github.com/user-attachments/assets/d09c31de-a73b-4bd7-8e42-55bd673df736)       | Index       | Main screen of the website where users view the different product categories       |
+| ![Image](https://github.com/user-attachments/assets/b46f73dd-24a1-42ea-ad59-0a5da37da4be)       | Users profile      | Screen where registered users can edit certain attributes       |
+| ![Image](https://github.com/user-attachments/assets/caf08c29-3399-4161-9ba2-cb6c7915b3f9)       | Category       | Screen where users can view products belonging to a specific category       |
+| ![Image)](https://github.com/user-attachments/assets/aaff7dd2-0d46-4a93-87a0-8f838831b050)      | Elem detail       | Screen where the information of a specific product is displayed       |
+| ![Image](https://github.com/user-attachments/assets/34279293-2c28-492c-9d88-1a143c7f3066)       | Cart     | Screen where the products added to the cart by a user are displayed       |
+| ![Image](https://github.com/user-attachments/assets/dd6c566a-f78b-4605-9629-248ab883637b)       | Orders       | Screen where the previous orders made by a user are displayed      |
+| ![Image](https://github.com/user-attachments/assets/e2eb1a38-7ee4-4cc4-9a1d-f806c7e4542a)   | Orders detail       | Screen where the details of the products belonging to a specific order are displayed       |
+
+### 🗺️ Navigation diagram
+
+![Image](https://github.com/user-attachments/assets/d030c6fd-b1e1-49f8-b9ea-3604ee3be4da)
+
+
 
