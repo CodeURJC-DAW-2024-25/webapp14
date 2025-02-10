@@ -40,3 +40,13 @@ An email will be sent when a purchase is made and a pdf will be generated with t
 
 ### 💡 Advanced algorithm
 A set of suggested products is displayed based on the categories of products previously purchased by the user
+
+### 📺 Screen
+| Screen name    | Screen image      | Screen description      |
+|:------------: |:------------:| :------------:|
+| ![Image](https://github.com/user-attachments/assets/25b042a9-b51d-4d4b-8c0e-0f0b90c65f65)       | Admin charts       | ...       |
+| ![Image](https://github.com/user-attachments/assets/cdcc2834-227d-4be3-9871-8fd3de68786a)       | Admin orders       | ...       |
+| ![Image](https://github.com/user-attachments/assets/5584c478-3c4c-4b7a-8937-1b5f3e3f9057)       | Admin profile       | ...       |
+| ![Image](https://github.com/user-attachments/assets/ded15f09-3292-44ab-9c1e-836403ef712d)       | Admin products       | ...       |
+| ![Image](https://github.com/user-attachments/assets/4520a856-d820-4c05-ab25-24b432da9281)       | Admin users       | ...       |
+
