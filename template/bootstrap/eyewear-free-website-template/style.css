@@ -152,6 +152,17 @@ body {
   --bs-info-rgb: 230, 243, 250;
 }
 
+body:not(.no-padding) {
+  padding-top: 65px; /* Ajusta esto según la altura del navbar */
+}
+
+@media screen and (max-width: 991px) {
+  body:not(.no-padding) {
+      padding-top: 100px;
+  }
+}
+
+
 .btn {
   --bs-btn-font-family: var(--heading-font);
 }
@@ -704,6 +715,11 @@ a.footer-link:hover {
 
 
   .offcanvas-body .nav-item .nav-link {
+    color: black !important; /* Hace que los textos de Inicio, Perfil y Cesta sean negros */
+  }
+
+  
+  .offcanvas-body .nav-item.dropdown .nav-link {
     color: black !important; /* Hace que los textos de Inicio, Perfil y Cesta sean negros */
   }
 

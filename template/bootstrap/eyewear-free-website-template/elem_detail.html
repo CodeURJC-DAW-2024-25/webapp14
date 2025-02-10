@@ -56,8 +56,12 @@
               <a href="index.html" class="nav-link mx-2 active">Inicio</a>
             </li>
 
-            <li class="nav-item">
-              <a href="index.html" class="nav-link mx-2 active">Perfil</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link mx-2 active dropdown-toggle" role="button" data-bs-toggle="dropdown">Cuenta</a>
+              <ul class="dropdown-menu p-3 p-lg-0">
+                <li><a href="users_profile.html" class="dropdown-item">Editar perfil</a></li>
+                <li><a href="orders.html" class="dropdown-item">Ver Pedidos</a></li>
+              </ul>
             </li>
 
             <li class="nav-item">
@@ -74,19 +78,19 @@
               <a href="index.html" class="nav-link mx-2 active text-black">Inicio</a>
             </li>
 
-            <li class="lh-1">
-              <a href="account.html" class="mx-3">
+            <li class="nav_item dropdown">
+              <a class="nav-link mx-2 dropdown-toggle" role="button" data-bs-toggle="dropdown">
                 <iconify-icon icon="healthicons:person" class="fs-4 text-light"></iconify-icon>
               </a>
+              <ul class="dropdown-menu p-3 p-lg-0">
+                <li><a href="users_profile.html" class="dropdown-item">Editar perfil</a></li>
+                <li><a href="orders.html" class="dropdown-item">Ver Pedidos</a></li>
+              </ul>
             </li>
 
             <li class="lh-1">
-              <a href="#" class="mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
-                aria-controls="offcanvasCart">
-                <iconify-icon icon="mdi:cart" class="fs-4 text-light position-relative"></iconify-icon>
-                <span class="position-absolute translate-middle badge rounded-circle text-black bg-light p-1">
-                  03
-                </span>
+              <a href="cart.html" class="mx-3">
+                <iconify-icon icon="mdi:cart" class="fs-4 text-light"></iconify-icon>
               </a>
             </li>
           </ul>
@@ -108,7 +112,7 @@
     <section id="category" class="category2">
     <div class="container product-container">
       <div class="row">
-          <!-- Swiper de imágenes (izquierda) -->
+
           <div class="col-md-6">
               <div class="swiper slideshow">
                   <div class="swiper-wrapper">
@@ -122,7 +126,6 @@
               </div>
           </div>
   
-          <!-- Información del producto (derecha) -->
           <div class="col-md-6">
             <div class="product-info">
               <h1 class="product-name">POLO PUNTO JACQUARD</h1>
@@ -131,11 +134,21 @@
                   Polo regular fit de punto tejido con estructura abierta. Cuello solapa con abertura frontal. Manga corta.
               </p>
               
-              <h5>Colores disponibles:</h5>
-              <div class="color-options">
-                <div class="color-box selected" style="background-color: #2F4F4F;" title="Turquesa"></div>
-                <div class="color-box" style="background-color: #8B3A3A;" title="Burdeos"></div>
-            </div>
+              <h5>Selecciona tu talla:</h5>
+              <div class="size-options d-flex gap-2 mt-2">
+                  <input type="radio" class="btn-check" name="size" id="sizeS" value="S" autocomplete="off" checked>
+                  <label class="btn btn-outline-dark" for="sizeS">S</label>
+
+                  <input type="radio" class="btn-check" name="size" id="sizeM" value="M" autocomplete="off">
+                  <label class="btn btn-outline-dark" for="sizeM">M</label>
+
+                  <input type="radio" class="btn-check" name="size" id="sizeL" value="L" autocomplete="off">
+                  <label class="btn btn-outline-dark" for="sizeL">L</label>
+
+                  <input type="radio" class="btn-check" name="size" id="sizeXL" value="XL" autocomplete="off">
+                  <label class="btn btn-outline-dark" for="sizeXL">XL</label>
+              </div>
+
   
               <button class="btn btn-add-to-cart mt-3">Añadir a cesta</button>
             </div>
@@ -147,156 +160,105 @@
   </main>
 
   <footer id="footer">
-    <div class="container-fluid px-3 px-md-5  padding-medium">
+    <div class="container-fluid px-3 px-md-5 padding-medium">
       <div class="row mt-5">
         <div class="col-md-4">
           <div class="footer-menu">
             <h6>NOIR & BLANC</h6>
             <p class="mt-4">Donde la elegancia se encuentra con la perfección</p>
             <div class="social-links mt-4">
-              <ul class="d-flex list-unstyled gap-3">
+              <ul class="d-flex flex-wrap list-unstyled gap-3">
                 <li class="social">
                   <a href="#">
-                    <iconify-icon class="social-icon fs-4  me-4" icon="ri:facebook-fill"></iconify-icon>
+                    <iconify-icon class="social-icon fs-4" icon="ri:facebook-fill"></iconify-icon>
                   </a>
                 </li>
                 <li class="social">
                   <a href="#">
-                    <iconify-icon class="social-icon fs-4  me-4" icon="ri:twitter-fill"></iconify-icon>
+                    <iconify-icon class="social-icon fs-4" icon="ri:twitter-fill"></iconify-icon>
                   </a>
                 </li>
                 <li class="social">
                   <a href="#">
-                    <iconify-icon class="social-icon fs-4  me-4" icon="ri:pinterest-fill"></iconify-icon>
+                    <iconify-icon class="social-icon fs-4" icon="ri:pinterest-fill"></iconify-icon>
                   </a>
                 </li>
                 <li class="social">
                   <a href="#">
-                    <iconify-icon class="social-icon fs-4  me-4" icon="ri:instagram-fill"></iconify-icon>
+                    <iconify-icon class="social-icon fs-4" icon="ri:instagram-fill"></iconify-icon>
                   </a>
                 </li>
                 <li class="social">
                   <a href="#">
-                    <iconify-icon class="social-icon fs-4  me-4" icon="ri:youtube-fill"></iconify-icon>
+                    <iconify-icon class="social-icon fs-4" icon="ri:youtube-fill"></iconify-icon>
                   </a>
                 </li>
-
               </ul>
             </div>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-6 col-md-2">
           <div class="footer-menu">
-            <h6 class="text-uppercase fw-bold  mb-4">Quick Links</h6>
+            <h6 class="text-uppercase fw-bold mb-4">Enlaces rápidos</h6>
             <ul class="menu-list list-unstyled">
-              <li class="menu-item">
-                <a href="#" class="footer-link">Home</a>
-              </li>
-              <li class="menu-item">
-                <a href="#" class="footer-link">About us</a>
-              </li>
-              <li class="menu-item">
-                <a href="#" class="footer-link">Offer </a>
-              </li>
-              <li class="menu-item">
-                <a href="#" class="footer-link">Services</a>
-              </li>
-              <li class="menu-item">
-                <a href="#" class="footer-link">Conatct Us</a>
-              </li>
+              <li class="menu-item"><a href="#" class="footer-link">Inicio</a></li>
+              <li class="menu-item"><a href="#" class="footer-link">Sobre nosotros</a></li>
+              <li class="menu-item"><a href="#" class="footer-link">Ofertas</a></li>
+              <li class="menu-item"><a href="#" class="footer-link">Servicios</a></li>
+              <li class="menu-item"><a href="#" class="footer-link">Contáctanos</a></li>
             </ul>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-6 col-md-2">
           <div class="footer-menu">
-            <h6 class="text-uppercase fw-bold  mb-4">About</h6>
+            <h6 class="text-uppercase fw-bold mb-4">Acerca de</h6>
             <ul class="menu-list list-unstyled">
-              <li class="menu-item">
-                <a href="#" class="footer-link">How It Work</a>
-              </li>
-              <li class="menu-item">
-                <a href="#" class="footer-link">Our Packages</a>
-              </li>
-              <li class="menu-item">
-                <a href="#" class="footer-link">promotions</a>
-              </li>
-              <li class="menu-item">
-                <a href="#" class="footer-link">refer a friend</a>
-              </li>
+              <li class="menu-item"><a href="#" class="footer-link">Cómo funciona</a></li>
+              <li class="menu-item"><a href="#" class="footer-link">Nuestros paquetes</a></li>
+              <li class="menu-item"><a href="#" class="footer-link">Promociones</a></li>
+              <li class="menu-item"><a href="#" class="footer-link">Recomienda a un amigo</a></li>
             </ul>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-6 col-md-2">
           <div class="footer-menu">
-            <h6 class="text-uppercase fw-bold  mb-4">Services</h6>
+            <h6 class="text-uppercase fw-bold mb-4">Servicios</h6>
             <ul class="menu-list list-unstyled">
-              <li class="menu-item">
-                <a href="#" class="footer-link">Payments</a>
-              </li>
-              <li class="menu-item">
-                <a href="#" class="footer-link">Shipping</a>
-              </li>
-              <li class="menu-item">
-                <a href="#" class="footer-link">Product returns </a>
-              </li>
-              <li class="menu-item">
-                <a href="#" class="footer-link">FAQs</a>
-              </li>
-              <li class="menu-item">
-                <a href="#" class="footer-link">Checkout</a>
-              </li>
-              <li class="menu-item">
-                <a href="#" class="footer-link">other Issues</a>
-              </li>
+              <li class="menu-item"><a href="#" class="footer-link">Pagos</a></li>
+              <li class="menu-item"><a href="#" class="footer-link">Envíos</a></li>
+              <li class="menu-item"><a href="#" class="footer-link">Devoluciones</a></li>
+              <li class="menu-item"><a href="#" class="footer-link">Preguntas frecuentes</a></li>
+              <li class="menu-item"><a href="#" class="footer-link">Finalizar compra</a></li>
+              <li class="menu-item"><a href="#" class="footer-link">Otros problemas</a></li>
             </ul>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-6 col-md-2">
           <div class="footer-menu">
-            <h6 class="text-uppercase fw-bold  mb-4">Help Center</h6>
+            <h6 class="text-uppercase fw-bold mb-4">Centro de ayuda</h6>
             <ul class="menu-list list-unstyled">
-              <li class="menu-item">
-                <a href="#" class="footer-link">Payments</a>
-              </li>
-              <li class="menu-item">
-                <a href="#" class="footer-link">Shipping</a>
-              </li>
-              <li class="menu-item">
-                <a href="#" class="footer-link">Product returns </a>
-              </li>
-              <li class="menu-item">
-                <a href="#" class="footer-link">FAQs</a>
-              </li>
-              <li class="menu-item">
-                <a href="#" class="footer-link">Checkout</a>
-              </li>
-              <li class="menu-item">
-                <a href="#" class="footer-link">other Issues</a>
-              </li>
+              <li class="menu-item"><a href="#" class="footer-link">Pagos</a></li>
+              <li class="menu-item"><a href="#" class="footer-link">Envíos</a></li>
+              <li class="menu-item"><a href="#" class="footer-link">Devoluciones</a></li>
+              <li class="menu-item"><a href="#" class="footer-link">Preguntas frecuentes</a></li>
+              <li class="menu-item"><a href="#" class="footer-link">Finalizar compra</a></li>
+              <li class="menu-item"><a href="#" class="footer-link">Otros problemas</a></li>
             </ul>
           </div>
         </div>
-
       </div>
     </div>
-
-  <!-- Footer -->
-  <footer>
     <div id="footer-bottom">
       <hr class="m-0">
       <div class="container-fluid px-3 px-md-5 py-2">
-        <div class="row mt-3">
+        <div class="row mt-3 text-center text-md-start">
           <div class="col-md-6 copyright">
-            <p class="secondary-font">© 2023 EYEWEAR. All rights reserved.</p>
-          </div>
-          <div class="col-md-6 text-md-end">
-            <p class="secondary-font">Free HTML Template by <a href="https://templatesjungle.com/" target="_blank"
-                class="text-decoration-underline fw-bold">TemplatesJungle</a></p>
+            <p class="secondary-font">© 2025 NOIR & BLANC. Todos los derechos reservados.</p>
           </div>
         </div>
       </div>
     </div>
-  </footer>
+</footer>
 
   <!-- Scripts -->
   <script src="js/jquery-1.11.0.min.js"></script>
