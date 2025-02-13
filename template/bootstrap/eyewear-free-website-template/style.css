@@ -926,6 +926,7 @@ Styles page style start
 
 .category2 {
   margin-top: 5%;
+  margin-bottom: 5%;
 }
 
 
@@ -952,14 +953,14 @@ Styles page style start
   color: white;
 }
 
-/* 🔹 Reducir tamaño del Swiper */
+
 .swiper-container {
   width: 100%;
-  height: 600px; /* Altura más pequeña */
+  height: 600px; 
 }
 
 .swiper-slide img {
-  width: 80%; /* Imágenes más pequeñas */
+  width: 80%; 
   height: auto;
   max-height: 600px;
   display: block;
@@ -974,12 +975,12 @@ Styles page style start
   height: 100%;
 }
 
-/* 🔹 Flechas de navegación en blanco */
+
 .swiper-button-prev, .swiper-button-next {
   color: black !important;
 }
 
-/* 🔹 Asegurar que las flechas sean visibles */
+
 .swiper-button-prev::after, .swiper-button-next::after {
   font-size: 30px;
   color: black !important;
@@ -988,23 +989,207 @@ Styles page style start
 .color-options {
   display: flex;
   align-items: center;
-  gap: 10px; /* Espacio entre los colores */
+  gap: 10px; 
   margin-top: 10px;
 }
 
 .color-box {
-  width: 24px; /* Tamaño del cuadrado */
+  width: 24px; 
   height: 24px;
-  border-radius: 4px; /* Bordes redondeados */
-  border: 1px solid #ccc; /* Borde gris */
+  border-radius: 4px; 
+  border: 1px solid #ccc; 
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .color-box:hover {
-  border: 2px solid black; /* Efecto hover */
+  border: 2px solid black; 
 }
 
 .selected {
-  border: 2px solid black; /* Color seleccionado */
+  border: 2px solid black; 
+}
+
+
+.reviews-section {
+  background-color: #f8f8f8;
+  padding: 50px 0;
+}
+
+
+.profile-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto 10px;
+  border: 2px solid #ddd;
+}
+
+.review-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+.review-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px; 
+  margin-top: 10px;
+}
+
+
+.review-actions .btn {
+  width: 42px; 
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; 
+  font-size: 16px;
+  transition: 0.3s ease-in-out;
+  padding: 0; 
+}
+
+
+.btn-outline-primary {
+  border: 2px solid black;
+  color: black;
+}
+
+.btn-outline-primary i {
+  font-size: 18px; 
+}
+
+.btn-outline-primary:hover {
+  background: black;
+  color: white;
+}
+
+
+.btn-outline-danger {
+  border: 2px solid red;
+  color: red;
+}
+
+.btn-outline-danger i {
+  font-size: 18px; 
+}
+
+.btn-outline-danger:hover {
+  background: red;
+  color: white;
+}
+
+
+.btn-outline-warning {
+  border: 2px solid orange;
+  color: orange;
+}
+
+.btn-outline-warning i {
+  font-size: 18px; 
+}
+
+.btn-outline-warning:hover {
+  background: orange;
+  color: white;
+}
+
+
+
+.username {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.stars {
+  font-size: 1.2em;
+  color: #FFD700;
+  margin-bottom: 10px;
+}
+
+.review-text {
+  font-size: 0.95em;
+  color: #555;
+}
+
+
+.leave-review-section {
+  background: #ffffff;
+  padding: 50px 0;
+  border-radius: 8px;
+}
+
+
+.leave-review-section label {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+
+.review-form {
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 8px;
+  background: #f8f8f8;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.review-form .form-control {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 12px;
+  font-size: 16px;
+  resize: none;
+}
+
+
+.submit-btn {
+  padding: 12px 30px;
+  font-size: 18px;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.submit-btn:hover {
+  background: #333;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.star-rating {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  gap: 5px;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  font-size: 30px;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: gold;
 }
