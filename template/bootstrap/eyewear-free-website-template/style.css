@@ -1193,3 +1193,13 @@ Styles page style start
 .star-rating label:hover ~ label {
   color: gold;
 }
+
+
+.custom-btn {
+  padding: 6px 16px; 
+  font-size: 14px; 
+  height: 38px; 
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+}

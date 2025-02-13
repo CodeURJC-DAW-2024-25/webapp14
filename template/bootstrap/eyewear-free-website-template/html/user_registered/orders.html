@@ -30,6 +30,28 @@
 
 </head>
 <header>
+
+  <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasSearch"
+    aria-labelledby="Search">
+    <div class="offcanvas-header justify-content-center">
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+
+      <div class="order-md-last">
+        <h4 class="text-primary text-uppercase mb-3">
+          Search
+        </h4>
+        <div class="search-bar border rounded-2 border-dark-subtle">
+          <form id="search-form" class="text-center d-flex align-items-center" action="" method="">
+            <input type="text" class="form-control border-0 bg-transparent" placeholder="Search Here" />
+            <iconify-icon icon="tabler:search" class="fs-4 me-3"></iconify-icon>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <nav class="main-menu d-flex navbar fixed-top navbar-expand-lg py-4">
     <div class="container-fluid px-md-5">
       <div class="main-logo">
@@ -53,7 +75,7 @@
 
           <ul class="navbar-nav menu-list list-unstyled d-lg-none d-flex gap-md-3 ps-lg-5 mb-0">
             <li class="nav-item">
-              <a href="../user/index.html" class="nav-link mx-2 active">Inicio</a>
+              <a href="index.html" class="nav-link mx-2 active">Inicio</a>
             </li>
 
             <li class="nav-item dropdown">
@@ -75,7 +97,7 @@
         <div class="d-none d-lg-flex justify-content-end">
           <ul class="d-flex justify-content-end list-unstyled m-0">
             <li class="nav-item">
-              <a href="../user/index.html" class="nav-link mx-2 active text-black">Inicio</a>
+              <a href="../user/index.html" class="nav-link mx-2 active text-black">INICIO</a>
             </li>
 
             <li class="nav_item dropdown">
@@ -83,6 +105,7 @@
                 <iconify-icon icon="healthicons:person" class="fs-4 text-light"></iconify-icon>
               </a>
               <ul class="dropdown-menu p-3 p-lg-0">
+                <li><a href="../login_register/login.html" class="dropdown-item">Iniciar sesión</a></li>
                 <li><a href="users_profile.html" class="dropdown-item">Editar perfil</a></li>
                 <li><a href="orders.html" class="dropdown-item">Ver Pedidos</a></li>
               </ul>
@@ -91,6 +114,13 @@
             <li class="lh-1">
               <a href="cart.html" class="mx-3">
                 <iconify-icon icon="mdi:cart" class="fs-4 text-light"></iconify-icon>
+              </a>
+            </li>
+
+            <li class="lh-1">
+              <a href="#" class="mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSearch"
+                aria-controls="offcanvasSearch">
+                <iconify-icon icon="tabler:search" class="fs-4 text-light"></iconify-icon>
               </a>
             </li>
           </ul>
