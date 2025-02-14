@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-Webapp14Application<webapp14>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "es.codeurjc.webapp14.Webapp14Application",
+            "projectName": "webapp14",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<webapp14>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "es.codeurjc.webapp14.Application",
+            "projectName": "webapp14",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
