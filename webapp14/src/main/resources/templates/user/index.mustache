@@ -1,0 +1,430 @@
+{{> partialsUser/header }}
+
+<body class="no-padding">
+  <header class="col-12">
+    <nav class="main-menu d-flex navbar fixed-top navbar-expand-lg py-4">
+      <div class="container-fluid px-md-5">
+        <div class="main-logo">
+          <a href="index.html">NOIR & BLANC</a>
+        </div>
+
+        <button class="navbar-toggler border-0 shadow-none " type="button" data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="offcanvas offcanvas-end bg-white" tabindex="-1" id="offcanvasNavbar"
+          aria-labelledby="offcanvasNavbarLabel">
+
+          <div class="offcanvas-header justify-content-center">
+            <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas"
+              aria-label="Close"></button>
+          </div>
+
+          <div class="offcanvas-body justify-content-between align-items-center">
+
+            <ul class="navbar-nav menu-list list-unstyled d-lg-none d-flex gap-md-3 ps-lg-5 mb-0">
+              <li class="nav-item">
+                <a href="index.html" class="nav-link mx-2 active">Inicio</a>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link mx-2 active dropdown-toggle" role="button" data-bs-toggle="dropdown">Cuenta</a>
+                <ul class="dropdown-menu p-3 p-lg-0">
+                  <li><a href="../user_registered/users_profile.html" class="dropdown-item">Editar perfil</a></li>
+                  <li><a href="../user_registered/orders.html" class="dropdown-item">Ver Pedidos</a></li>
+                </ul>
+              </li>
+
+              <li class="nav-item">
+                <a href="../user_registered/cart.html" class="nav-link mx-2 active">Cesta</a>
+              </li>
+
+            </ul>
+
+          </div>
+
+          <div class="d-none d-lg-flex justify-content-end">
+            <ul class="d-flex justify-content-end list-unstyled m-0">
+              <li class="nav-item">
+                <a href="index.html" class="nav-link mx-2 active text-black">Inicio</a>
+              </li>
+
+              <li class="nav_item dropdown">
+                <a class="nav-link mx-2 dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                  <iconify-icon icon="healthicons:person" class="fs-4 text-light"></iconify-icon>
+                </a>
+                <ul class="dropdown-menu p-3 p-lg-0">
+                  <li><a href="../login_register/login.html" class="dropdown-item">Iniciar sesión</a></li>
+                  <li><a href="../user_registered/users_profile.html" class="dropdown-item">Editar perfil</a></li>
+                  <li><a href="../user_registered/orders.html" class="dropdown-item">Ver Pedidos</a></li>
+                </ul>
+              </li>
+
+              <li class="lh-1">
+                <a href="../user_registered/cart.html" class="mx-3">
+                  <iconify-icon icon="mdi:cart" class="fs-4 text-light"></iconify-icon>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+    </nav>
+
+  </header>
+
+  <div class="preloader-wrapper">
+    <div class="preloader">
+    </div>
+  </div>
+
+  <section id="hero">
+    <div class="swiper slideshow">
+      <div class="swiper-wrapper">
+
+        <!-- Video 1 -->
+        <div class="swiper-slide">
+          <video autoplay loop muted playsinline class="w-100">
+            <source src="../../videos/video3.webm" type="video/webm">
+            Tu navegador no soporta videos WebM.
+          </video>
+          <div
+            class="container-fluid px-5 padding-large position-absolute top-50 start-50 translate-middle text-center">
+            <h2 class="display-1 text-uppercase text-white mt-3">NOIR & BLANC</h2>
+            <p class="text-capitalize text-white fs-5 mb-4">Elegancia atemporal, estilo sin esfuerzo</p>
+            <a href="#" class="btn btn-outline-light btn-wrap">Comprar ahora</a>
+          </div>
+        </div>
+
+        <!-- Video 2 -->
+        <div class="swiper-slide">
+          <video autoplay loop muted playsinline class="w-100">
+            <source src="../../videos/video2.webm" type="video/webm">
+            Tu navegador no soporta videos WebM.
+          </video>
+          <div
+            class="container-fluid px-5 padding-large position-absolute top-50 start-50 translate-middle text-center">
+            <h2 class="display-1 text-uppercase text-white mt-3">NOIR & BLANC</h2>
+            <p class="text-capitalize text-white fs-5 mb-4">Elegancia atemporal, estilo sin esfuerzo</p>
+            <a href="#" class="btn btn-outline-light btn-wrap">Comprar ahora</a>
+          </div>
+        </div>
+
+        <!-- Video 3 -->
+        <div class="swiper-slide">
+          <video autoplay loop muted playsinline class="w-100">
+            <source src="../../videos/video1.webm" type="video/webm">
+            Tu navegador no soporta videos WebM.
+          </video>
+          <div
+            class="container-fluid px-5 padding-large position-absolute top-50 start-50 translate-middle text-center">
+            <h2 class="display-1 text-uppercase text-white mt-3">NOIR & BLANC</h2>
+            <p class="text-capitalize text-white fs-5 mb-4">Elegancia atemporal, estilo sin esfuerzo</p>
+            <a href="#" class="btn btn-outline-light btn-wrap">Comprar ahora</a>
+          </div>
+        </div>
+
+      </div>
+      <div class="swiper-pagination swiper-pagination-slideshow"></div>
+    </div>
+  </section>
+
+  <section id="category" class="category1" style="overflow-x: hidden;">
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="container-fluid p-0">
+          <div class="row">
+            <div class="col-12 p-0">
+              <div class="image-holder zoom-effect">
+                <img src="../../images/Pantalones.webp" class="img-fluid w-100"
+                  style="max-height: 600px; object-fit: cover;">
+                <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
+                  <h3 class="text-light text-uppercase">PANTALONES</h3>
+                  <a href="../user/category.html" class="btn btn-light mt-3">Descubrir más</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-fluid p-0">
+          <div class="row">
+            <div class="col-12 p-0">
+              <div class="image-holder zoom-effect">
+                <img src="../../images/chaquetas.webp" class="img-fluid w-100"
+                  style="max-height: 600px; object-fit: cover;">
+                <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
+                  <h3 class="text-light text-uppercase">CHAQUETAS</h3>
+                  <a href="../user/category.html" class="btn btn-light mt-3">Descubrir más</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-fluid p-0">
+          <div class="row">
+            <div class="col-12 p-0">
+              <div class="image-holder zoom-effect">
+                <img src="../../images/ABRIGO.webp" class="img-fluid w-100"
+                  style="max-height: 600px; object-fit: cover;">
+                <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
+                  <h3 class="text-light text-uppercase">ABRIGOS</h3>
+                  <a href="../user/category.html" class="btn btn-light mt-3">Descubrir más</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-fluid p-0">
+          <div class="row">
+            <div class="col-12 p-0">
+              <div class="image-holder zoom-effect">
+                <img src="../../images/LANDING-punto.webp" class="img-fluid w-100"
+                  style="max-height: 600px; object-fit: cover;">
+                <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
+                  <h3 class="text-light text-uppercase">JERSEY</h3>
+                  <a href="../user/category.html" class="btn btn-light mt-3">Descubrir más</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div>
+    <ul>
+    {{ #products }}
+      <li>{{name}} {{description}} {{price}}
+        <img src="/products/image/{{id}}" alt="Imagen de {{name}}" width="150">
+      </li>
+    </ul>
+    {{ /products }}
+  </div>
+
+  <section id="new-arrival" class="product-store">
+    <div class="container-fluid px-3 px-md-5 padding-medium">
+      <h2 class="display-5 fw-light text-uppercase text-center">TENDENCIAS</h2>
+      <div class="row">
+        <div class="container my-5">
+          <div class="row align-items-center">
+
+            <div class="col-md-4 text-center d-none d-md-block">
+              <img src="../../images/imagen1.webp" alt="Pantalones en la silla" class="img-fluid w-75">
+            </div>
+
+            <div class="col-md-4 text-center">
+              <img src="../../images/imagen2.webp" alt="Persona con pantalones" class="img-fluid w-75">
+            </div>
+
+            <div class="col-md-4 text-md-start text-center mt-3 mt-md-0">
+              <h2 class="fw-bold">Pantalón <br> straight-leg <br> mid-rise</h2>
+              <p class="fst-italic">denim collection <br> spring summer 2025</p>
+              <a href="../../user/elem_detail.html" class="btn btn-dark mt-3 px-4 py-2">Ver Detalles</a>
+            </div>
+
+          </div>
+        </div>
+
+
+        <div class="container my-5">
+          <div class="row align-items-center">
+
+            <div class="col-md-4 text-md-end text-center d-none d-md-block">
+              <h2 class="fw-bold">Abrigo <br> warm brown <br> moss green</h2>
+              <p class="fst-italic">Woman collection <br> spring summer 2025</p>
+              <a href="../user/elem_detail.html" class="btn btn-dark mt-3 px-4 py-2">Ver Detalles</a>
+            </div>
+
+
+            <div class="col-md-4 text-center">
+              <img src="../../images/imagen3.webp" alt="Abrigo en la silla" class="img-fluid w-75">
+            </div>
+
+            <div class="col-md-4 text-center d-none d-md-block">
+              <img src="../../images/imagen4.webp" alt="Persona con pantalones" class="img-fluid w-75">
+            </div>
+
+            <div class="col-md-12 text-center d-md-none mt-3">
+              <h2 class="fw-bold">Abrigo <br> warm brown <br> moss green</h2>
+              <p class="fst-italic">Woman collection <br> spring summer 2025</p>
+              <a href="../../user/elem_detail.html" class="btn btn-dark mt-3 px-4 py-2">Ver Detalles</a>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="container my-5">
+          <div class="row align-items-center">
+
+            <div class="col-md-4 text-center d-none d-md-block">
+              <img src="../../images/imagen5.webp" alt="Pantalones en la silla" class="img-fluid w-75">
+            </div>
+
+            <div class="col-md-4 text-center">
+              <img src="../../images/imagen6.webp" alt="Persona con pantalones" class="img-fluid w-75">
+            </div>
+
+            <div class="col-md-4 text-md-start text-center mt-3 mt-md-0">
+              <h2 class="fw-bold">Chaqueta <br> boomer <br> con piel</h2>
+              <p class="fst-italic">TRF collection <br> spring summer 2025</p>
+              <a href="../../user/elem_detail.html" class="btn btn-dark mt-3 px-4 py-2">Ver Detalles</a>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section id="service" class="bg-light padding-medium">
+    <div class="container">
+      <div class="row g-md-5 pt-4">
+        <div class="col-md-3 my-3">
+          <div class="card">
+            <div>
+              <iconify-icon class="service-icon text-black display-4" icon="ci:shopping-cart-02"></iconify-icon>
+            </div>
+            <h4 class=" text-uppercase py-3 m-0">Envíos Gratis</h3>
+              <div class="card-text">
+                <p class="blog-paragraph fs-6">En toda la península Ibérica</p>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-3 my-3">
+          <div class="card">
+            <div>
+              <iconify-icon class="service-icon text-black display-4" icon="tdesign:secured"></iconify-icon>
+            </div>
+            <h4 class=" text-uppercase py-3 m-0">Pago Seguro 100%</h3>
+              <div class="card-text">
+                <p class="blog-paragraph fs-6">Tus compras están protegidas con nuestros métodos de pago cifrados y
+                  verificados.</p>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-3 my-3">
+          <div class="card">
+            <div>
+              <iconify-icon class="service-icon text-black display-4" icon="la:award"></iconify-icon>
+            </div>
+            <h4 class=" text-uppercase py-3 m-0">Garantía de Calidad</h3>
+              <div class="card-text">
+                <p class="blog-paragraph fs-6">Nos aseguramos de que cada producto cumpla con los más altos estándares
+                  de calidad.</p>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-3 my-3">
+          <div class="card">
+            <div>
+              <iconify-icon class="service-icon text-black display-4" icon="solar:dollar-outline"></iconify-icon>
+            </div>
+            <h4 class=" text-uppercase py-3 m-0">Ofertas Diarias</h3>
+              <div class="card-text">
+                <p class="blog-paragraph fs-6">Descubre descuentos exclusivos cada día y aprovecha nuestras promociones
+                  especiales.</p>
+              </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <div class="container-fluid px-3 px-md-5 padding-medium">
+    <div class="row mt-5">
+      <div class="col-md-4">
+        <div class="footer-menu">
+          <h6>NOIR & BLANC</h6>
+          <p class="mt-4">Donde la elegancia se encuentra con la perfección</p>
+          <div class="social-links mt-4">
+            <ul class="d-flex flex-wrap list-unstyled gap-3">
+              <li class="social">
+                <a href="#">
+                  <iconify-icon class="social-icon fs-4" icon="ri:facebook-fill"></iconify-icon>
+                </a>
+              </li>
+              <li class="social">
+                <a href="#">
+                  <iconify-icon class="social-icon fs-4" icon="ri:twitter-fill"></iconify-icon>
+                </a>
+              </li>
+              <li class="social">
+                <a href="#">
+                  <iconify-icon class="social-icon fs-4" icon="ri:pinterest-fill"></iconify-icon>
+                </a>
+              </li>
+              <li class="social">
+                <a href="#">
+                  <iconify-icon class="social-icon fs-4" icon="ri:instagram-fill"></iconify-icon>
+                </a>
+              </li>
+              <li class="social">
+                <a href="#">
+                  <iconify-icon class="social-icon fs-4" icon="ri:youtube-fill"></iconify-icon>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="footer-menu">
+          <h6 class="text-uppercase fw-bold mb-4">Enlaces rápidos</h6>
+          <ul class="menu-list list-unstyled">
+            <li class="menu-item"><a href="#" class="footer-link">Inicio</a></li>
+            <li class="menu-item"><a href="#" class="footer-link">Sobre nosotros</a></li>
+            <li class="menu-item"><a href="#" class="footer-link">Ofertas</a></li>
+            <li class="menu-item"><a href="#" class="footer-link">Servicios</a></li>
+            <li class="menu-item"><a href="#" class="footer-link">Contáctanos</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="footer-menu">
+          <h6 class="text-uppercase fw-bold mb-4">Acerca de</h6>
+          <ul class="menu-list list-unstyled">
+            <li class="menu-item"><a href="#" class="footer-link">Cómo funciona</a></li>
+            <li class="menu-item"><a href="#" class="footer-link">Nuestros paquetes</a></li>
+            <li class="menu-item"><a href="#" class="footer-link">Promociones</a></li>
+            <li class="menu-item"><a href="#" class="footer-link">Recomienda a un amigo</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="footer-menu">
+          <h6 class="text-uppercase fw-bold mb-4">Servicios</h6>
+          <ul class="menu-list list-unstyled">
+            <li class="menu-item"><a href="#" class="footer-link">Pagos</a></li>
+            <li class="menu-item"><a href="#" class="footer-link">Envíos</a></li>
+            <li class="menu-item"><a href="#" class="footer-link">Devoluciones</a></li>
+            <li class="menu-item"><a href="#" class="footer-link">Preguntas frecuentes</a></li>
+            <li class="menu-item"><a href="#" class="footer-link">Finalizar compra</a></li>
+            <li class="menu-item"><a href="#" class="footer-link">Otros problemas</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-6 col-md-2">
+        <div class="footer-menu">
+          <h6 class="text-uppercase fw-bold mb-4">Centro de ayuda</h6>
+          <ul class="menu-list list-unstyled">
+            <li class="menu-item"><a href="#" class="footer-link">Pagos</a></li>
+            <li class="menu-item"><a href="#" class="footer-link">Envíos</a></li>
+            <li class="menu-item"><a href="#" class="footer-link">Devoluciones</a></li>
+            <li class="menu-item"><a href="#" class="footer-link">Preguntas frecuentes</a></li>
+            <li class="menu-item"><a href="#" class="footer-link">Finalizar compra</a></li>
+            <li class="menu-item"><a href="#" class="footer-link">Otros problemas</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{{> partialsUser/footer }}
