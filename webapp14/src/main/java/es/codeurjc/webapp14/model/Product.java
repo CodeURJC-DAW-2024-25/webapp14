@@ -1,94 +1,77 @@
 package es.codeurjc.webapp14.model;
 
-import java.util.List;
+import jakarta.persistence.*;
 
-import jakarta.validation.constraints.*;
-
+@Entity
 public class Product {
-
-    private int id;
-
-    @NotBlank(message = "El nombre del producto es obligatorio")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
-
-    @NotBlank(message = "La descripción es obligatoria")
     private String description;
-
-    @NotNull(message = "El precio es obligatorio")
-    @Positive(message = "El precio debe ser mayor que 0")
     private Double price;
-
-    @NotBlank(message = "Debe seleccionar una categoría")
     private String category;
 
-    @NotNull(message = "El stock es obligatorio")
-    @Min(value = 1, message = "El stock debe ser al menos 1")
-    private Integer stock;
+    @Lob // Guarda la imagen como BLOB
+    private byte[] image;
 
-    private boolean outOfStock;
+    public Product() {
 
-    private List<Review> reviews; // Nueva lista de reseñas
+    }
 
-
-    // Constructor
-    public Product(int id, String name, String description, double price, String category, int stock, List<Review> reviews) {
-        this.id = id;
+    public Product(String name, String description, double price, byte[] image) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.category = category;
-        this.stock = stock;
-        this.outOfStock = (stock == 0);
-        this.reviews = reviews;
+        this.image = image;
     }
 
     // Getters y Setters
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
     public void setPrice(Double price) {
         this.price = price;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-        this.outOfStock = (stock == 0);
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public boolean isOutOfStock() {
-        return outOfStock;
-    }
-
-    public void setOutOfStock(boolean outOfStock) {
-        this.outOfStock = outOfStock;
     }
 
     public String getCategory() {
         return category;
     }
 
-    public List<Review> getReviews() {
-        return reviews;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }
