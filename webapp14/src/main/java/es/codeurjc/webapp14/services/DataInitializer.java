@@ -4,12 +4,16 @@ import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.repositories.ProductRepository;
 import es.codeurjc.webapp14.repositories.ReviewRepository;
 import es.codeurjc.webapp14.repositories.UserRepository;
+import es.codeurjc.webapp14.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 
 @Component
@@ -62,15 +66,16 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void initializeUsers() {
-        if (userRepository.count() == 0) {
-            logger.info("Cargando usuarios...");
-            // Agregar lógica de creación de usuarios aquí
-            logger.info("Usuarios cargados correctamente.");
+        if (userRepository.findByRole(User.Role.ADMIN) == null) {
+            logger.info("No hay administrador en la base de datos. Creando uno...");
+            User admin = new User("Laura", "Gutierrez Navarro", "laura1.gn@gmail.com", "Laura.53", User.Role.ADMIN);
+            userRepository.save(admin);
+            logger.info("Administrador creado correctamente.");
         } else {
-            logger.info("Los usuarios ya estaban en la base de datos.");
+            logger.info("Ya existe un administrador en la base de datos.");
         }
     }
-
+    
     private void initializeReviews() {
         if (reviewRepository.count() == 0) {
             logger.info("Cargando reseñas...");

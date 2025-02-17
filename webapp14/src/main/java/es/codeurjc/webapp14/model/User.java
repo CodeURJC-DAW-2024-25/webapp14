@@ -40,6 +40,7 @@ public class User {
         this.surname = surname;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     // Getters y Setters
