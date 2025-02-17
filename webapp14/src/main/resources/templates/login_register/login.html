@@ -3,12 +3,12 @@
 
 <head>
 
-	<title>NOIR & BLANC LOGIN</title>
+	<title>NOIR & BLANC Login</title>
 
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="../../css/loginRegisterStyle.css">
 
@@ -16,14 +16,10 @@
 
 <body>
 
-	<!-- Navigation Bar -->
-	<nav class="main-menu d-flex navbar fixed-top navbar-expand-lg py-4">
-		<div class="container-fluid px-md-5">
-			<a href="../user/index.html">NOIR & BLANC</a>
-		</div>
-	</nav>
+	<!-- Navigation bar -->
+	{{> login_register/navigationBar}}
 
-	<!-- Login Section -->
+	<!-- Login section -->
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center">
@@ -38,16 +34,25 @@
 										<h3 class="mb-4">Inicia sesión</h3>
 									</div>
 								</div>
-								<form action="#" class="signin-form">
+
+								<!-- Login form -->
+								<form action="/login/user" method="POST" enctype="multipart/form-data"
+									class="signin-form">
+									<!-- Email -->
 									<div class="form-group mb-3">
-										<div class="label" for="name">E-mail</div>
-										<input type="text" class="form-control" placeholder="E-mail" required>
+										<div class="label" for="email">E-mail</div>
+										<input type="email" id="email" class="form-control" placeholder="E-mail"
+											name="email">
+										{{#errors.emailError}}
+										<span class="text-danger small">{{errors.emailError}}</span>
+										{{/errors.emailError}}
 									</div>
+									<!-- Password -->
 									<div class="form-group mb-3">
-										<div class="label" for="password">Contraseña</div>
+										<div class="label" for="email">Contraseña</div>
 										<div class="input-group">
 											<input type="password" id="password-field" class="form-control"
-												placeholder="Contraseña" required>
+												placeholder="Contraseña" name="password">
 											<div class="input-group-append">
 												<button class="btn btn-outline-secondary" type="button"
 													id="toggle-password">
@@ -55,20 +60,26 @@
 												</button>
 											</div>
 										</div>
+										{{#errors.passwordError}}
+										<span class="text-danger small">{{errors.passwordError}}</span>
+										{{/errors.passwordError}}
 									</div>
+									<!-- Forgotten password -->
 									<div class="form-group">
 										<a class="form-password" href="#">¿Has olvidado tu contraseña?</a>
 									</div>
+									<!-- Buttons -->
 									<div class="form-group">
-										<a href="../user/index.html"
-											class="form-control btn btn-primary rounded submit px-3">Iniciar sesión</a>
+										<button type="submit"
+											class="form-control btn btn-primary rounded submit px-3">Iniciar
+											sesión</button>
 									</div>
 									<div class="form-group">
-										<a href="register.html"
-											class="form-control btn btn-white rounded submit px-3">Crear
+										<a href="/register" class="form-control btn btn-white rounded submit px-3">Crear
 											cuenta</a>
 									</div>
 								</form>
+
 							</div>
 						</div>
 					</div>
@@ -76,24 +87,37 @@
 			</div>
 	</section>
 
-	<!-- Footer Section -->
-	<div id="footer-bottom">
-		<hr class="m-0">
-		<div class="container-fluid px-3 px-md-5 py-2">
-			<div class="row mt-3">
-				<div class="col-md-6 copyright">
-					<p class="secondary-font">© 2025 NOIR & BLANC Todos los derechos reservados</p>
-				</div>
-			</div>
-		</div>
-	</div>
+	<!-- Footer section -->
+	{{> login_register/footer_user}}
 
-	<!-- JavaScript Files -->
+	<!-- JavaScript files -->
 	<script src="../../js/jquery.min.js"></script>
 	<script src="../../js/popper.js"></script>
 	<script src="../../js/bootstrap.min.js"></script>
 	<script src="../../js/main.js"></script>
 
 </body>
+
+<script>
+
+	// To be able to show or not the password
+	document.addEventListener("DOMContentLoaded", function () {
+		const togglePassword = document.getElementById("toggle-password");
+		const passwordField = document.getElementById("password-field");
+		const eyeIcon = togglePassword.querySelector("i");
+		togglePassword.addEventListener("click", function () {
+			if (passwordField.type === "password") {
+				passwordField.type = "text";
+				eyeIcon.classList.remove("fa-eye");
+				eyeIcon.classList.add("fa-eye-slash");
+			} else {
+				passwordField.type = "password";
+				eyeIcon.classList.remove("fa-eye-slash");
+				eyeIcon.classList.add("fa-eye");
+			}
+		});
+	});
+
+</script>
 
 </html>

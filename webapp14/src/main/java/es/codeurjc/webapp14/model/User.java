@@ -1,26 +1,45 @@
 package es.codeurjc.webapp14.model;
 
 import jakarta.persistence.*;
+import java.sql.Blob;
 
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
+    private String surname;
+
     private String email;
+
     private String password;
+
     private String address;
 
-    @Lob // Guarda la imagen como BLOB
-    private byte[] profileImage;
+    @Lob
+    private Blob profileImage;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
     public enum Role {
         ADMIN, CUSTOMER
+    }
+
+    public User() {
+    }
+
+    public User(String name, String surname, String email, String password, Role role) {
+        super();
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
     }
 
     // Getters y Setters
@@ -38,6 +57,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getEmail() {
@@ -64,11 +91,11 @@ public class User {
         this.address = address;
     }
 
-    public byte[] getProfileImage() {
+    public Blob getProfileImage() {
         return profileImage;
     }
 
-    public void setProfileImage(byte[] profileImage) {
+    public void setProfileImage(Blob profileImage) {
         this.profileImage = profileImage;
     }
 
@@ -79,4 +106,5 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
 }

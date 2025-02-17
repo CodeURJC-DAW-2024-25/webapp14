@@ -1,20 +1,16 @@
 package es.codeurjc.webapp14.services;
 
 import es.codeurjc.webapp14.model.Product;
-import es.codeurjc.webapp14.model.Review;
-import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.repositories.ProductRepository;
 import es.codeurjc.webapp14.repositories.ReviewRepository;
 import es.codeurjc.webapp14.repositories.UserRepository;
-
-import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import jakarta.transaction.Transactional;
 
 @Component
 public class DataInitializer implements CommandLineRunner {

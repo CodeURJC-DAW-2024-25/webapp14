@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Webapp14Application",
+            "request": "launch",
+            "mainClass": "es.codeurjc.webapp14.Webapp14Application",
+            "projectName": "web_ejem1"
+        },
+        {
+            "type": "java",
+            "name": "Application",
+            "request": "launch",
+            "mainClass": "es.codeurjc.webapp14.Application",
+            "projectName": "web_ejem1"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-Webapp14Application<webapp14>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
