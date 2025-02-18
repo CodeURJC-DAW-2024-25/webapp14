@@ -1,9 +1,15 @@
 package es.codeurjc.webapp14.controllers;
 
 import es.codeurjc.webapp14.services.UserService;
+import es.codeurjc.webapp14.services.ProductService;
+import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.User;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -16,6 +22,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import jakarta.validation.Valid;
 
 @Controller
@@ -23,6 +31,12 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ProductService productService;
+
+    private List<String> categories = new ArrayList<>(Arrays.asList("ropa-invierno", "ropa-verano", "accesorios", "zapatos"));
+
 
     @GetMapping("/admin/profile") // To show the admin profile
     public String showAdminProfile(Model model) {
@@ -109,6 +123,74 @@ public class AdminController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+
+    @GetMapping("/admin/products")
+    public String showProducts(Model model) {
+        List<Product> products = productService.getAllProducts();
+        model.addAttribute("products", products);
+        // Add the product list in to the model
+        model.addAttribute("productCount", products.size());
+        model.addAttribute("categoriesCount", categories.size());
+        int totalStock = products.stream()
+                                .mapToInt(Product::getStock)
+                                .sum();
+    
+        long totalOutStock = products.stream()
+                                .filter(product -> product.getStock() == 0)
+                                .count();
+    
+        model.addAttribute("totalStock", totalStock);
+        model.addAttribute("totalOutStock", totalOutStock);
+        model.addAttribute("categories", categories);
+    
+        return "admin/admin_products";
+    }
+
+    @PostMapping("/admin/products/create")
+    public String addProduct(Product product) {
+
+    productService.saveProduct(product);
+
+    return "redirect:/admin/products";
+    }
+
+    @GetMapping("/admin/products/out-of-stock")
+    public String showOutOfStockProducts(Model model) {
+        List<Product> products = productService.getAllProductsOutOfStock();
+         // Add the product filtered list in to the model
+        model.addAttribute("products", products);
+        model.addAttribute("productCount", productService.getAllProducts().size());
+        model.addAttribute("categoriesCount", categories.size());
+        int totalStock = productService.getAllProducts().stream()
+                                .mapToInt(Product::getStock)
+                                .sum();
+    
+        long totalOutStock = products.stream()
+                                .filter(product -> product.getStock() == 0)
+                                .count();
+    
+        model.addAttribute("totalStock", totalStock);
+        model.addAttribute("totalOutStock", totalOutStock);
+        model.addAttribute("categories", categories);
+    
+        return "admin/admin_products";
+    }
+
+    @PostMapping("/admin/products/delete/{id}")
+    public String deleteProduct(@PathVariable Long id) {
+        productService.getProductById(id);
+	    productService.delete(id);
+        return "redirect:/admin/products";
+    }
+
+    @PostMapping("/admin/products/edit/{id}")
+    public String updateProduct(Product product) {
+
+        productService.saveProduct(product);
+        
+        return "redirect:/admin/products";
     }
 
 }

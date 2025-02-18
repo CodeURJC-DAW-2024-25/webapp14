@@ -27,4 +27,12 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
     }
 
+    public List<Product> getAllProductsOutOfStock() {
+        return productRepository.findByOutOfStockTrue();
+    }
+
+    public void delete(Long id) {
+        productRepository.deleteById(id);
+    }
+
 }

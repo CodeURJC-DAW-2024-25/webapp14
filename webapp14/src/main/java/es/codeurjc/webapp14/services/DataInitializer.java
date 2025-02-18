@@ -49,11 +49,11 @@ public class DataInitializer implements CommandLineRunner {
                 logger.info("Cargando productos...");
 
                 byte[] imageBytes1 = loadImage("src/main/resources/static/images/imagen7.webp");
-                Product product1 = new Product("Camiseta Negra", "Camiseta de algodón negra", 19.99, imageBytes1);
+                Product product1 = new Product("Camiseta Negra", "Camiseta de algodón negra", 19.99, imageBytes1,10);
                 productRepository.save(product1);
 
                 byte[] imageBytes2 = loadImage("src/main/resources/static/images/imagen8.webp");
-                Product product2 = new Product("Camiseta Blanca", "Camiseta de algodón blanca", 19.99, imageBytes2);
+                Product product2 = new Product("Camiseta Blanca", "Camiseta de algodón blanca", 19.99, imageBytes2,0);
                 productRepository.save(product2);
 
                 logger.info("Productos cargados correctamente.");

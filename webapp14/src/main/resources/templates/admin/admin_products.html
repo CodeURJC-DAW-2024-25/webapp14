@@ -27,52 +27,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../user/index.html">
-                <div class="sidebar-brand-text mx-3"><sup>NOIR & BLANC</sup></div>
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/charts">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Estadísticas</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Gestión
-            </div>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/users">
-                    <i class="fas fa-user"></i>
-                    <span>Usuarios</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/orders">
-                    <i class="fas fa-box"></i>
-                    <span>Pedidos</span>
-                </a>
-            </li>
-
-            <li class="nav-item active">
-                <a class="nav-link" href="/admin/products">
-                    <i class="fas fa-tshirt"></i>
-                    <span>Productos</span>
-                </a>
-            </li>
-        </ul>
+        {{> admin/sidebar}}
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -80,36 +35,9 @@
 
             <!-- Main Content -->
             <div id="content">
+
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-custom topbar mb-4 static-top shadow">
-                    <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button> 
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-                                <img class="img-profile rounded-circle" src="../../images/undraw_profile.svg">
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="admin_profile.html">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Perfil
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Cerrar sesión
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </nav>
+                {{> admin/topbar}}
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -211,7 +139,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="/admin/products" method="POST">
+                                        <form action="/admin/products/create" method="POST">
                                             <div class="form-group">
                                                 <label for="newProductImage">Imagen del Producto</label>
                                                 <div class="custom-file">
@@ -221,35 +149,34 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="newProductName">Nombre del Producto</label>
-                                                <input type="text" class="form-control" id="newProductName" name="name" placeholder="Ingrese el nombre">
+                                                <input type="text" class="form-control" id="newProductName" name="name" placeholder="Ingrese el nombre" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="newProductDescription">Descripción</label>
-                                                <input type="text" class="form-control" id="newProductDescription" name="description" placeholder="Ingrese la descripción">
+                                                <input type="text" class="form-control" id="newProductDescription" name="description" placeholder="Ingrese la descripción" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="newProductPrice">Precio</label>
                                                 <div class="input-group">
-                                                    <div class="input-group-prepend">
+                                                    <input type="number" class="form-control" id="newProductPrice" name="price" placeholder="Ingrese el precio" min="0" step="0.01" required>
+                                                    <div class="input-group-append">
                                                         <span class="input-group-text">€</span>
                                                     </div>
-                                                    <input type="number" class="form-control" id="newProductPrice" name="price" placeholder="Ingrese el precio" min="0" step="0.01">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="newProductCategory">Categoría</label>
-                                                <select class="form-control" id="newProductCategory" name="category">
+                                                <select class="form-control" id="newProductCategory" name="category" required>
                                                     <option value="" selected disabled>Seleccione la categoría</option>
-                                                    
                                                     {{#categories}}
                                                     <option value="{{.}}">{{.}}</option>
                                                     {{/categories}}
-                                            
                                                 </select>
-                                            </div>                                            
+                                            </div>
+                                                                                       
                                             <div class="form-group">
                                                 <label for="newProductStock">Stock Disponible</label>
-                                                <input type="number" class="form-control" id="newProductStock" name="stock" placeholder="Ingrese el stock" min="0">
+                                                <input type="number" class="form-control" id="newProductStock" name="stock" placeholder="Ingrese el stock" min="0" required>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Crear Producto</button>
                                         </form>
@@ -334,13 +261,13 @@
                                                 <button type="submit" class="btn btn-danger btn-rounded btn-sm ml-sm-2">
                                                     <i class="fas fa-trash-alt"></i> Eliminar
                                                 </button>
-                                            </form>                                            
+                                            </form>                             
                                         </div>
                                     </li>
                             
                                     <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="product{{id}}">
                                         <div class="d-flex align-items-center">
-                                            <img src="../../images/{{name}}.webp" alt="Producto" class="rounded img-admin-products">
+                                            <img src="../../images/abrigos.webp" alt="Producto" class="rounded img-admin-products">
                                             <div class="flex-grow-1 ml-3">
                                                 <h5><strong>{{name}}</strong></h5>
                                                 <p class="mb-1">{{description}}</p>
@@ -349,6 +276,7 @@
                                                 <p><strong>Stock Disponible:</strong> {{stock}} unidades</p>
                                             </div>
                                         </div>
+                                        <!--
                                         <div class="mt-3">
                                             <h6><strong>Reseñas de Clientes:</strong></h6>
                                             <ul class="list-group">
@@ -360,9 +288,12 @@
                                                 {{/reviews}}
                                             </ul>
                                         </div>
+                                        -->
                                     </div>
                     
+                                    
                                     <!-- Modal Editar Producto -->
+                                    
                                     <div class="modal fade" id="editModal{{id}}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{id}}" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
@@ -379,23 +310,38 @@
                                                             <input type="text" class="form-control" id="productName{{id}}" name="name" value="{{name}}">
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="productPrice{{id}}">Precio</label>
-                                                            <input type="number" class="form-control" id="productPrice{{id}}" name="price" value="{{price}}" min="0" step="0.01">
+                                                            <label for="productDescription{{id}}">Descripción</label>
+                                                            <input type="text" class="form-control" id="productDescription{{id}}" name="description" value="{{description}}">
                                                         </div>
+                                                        <div class="form-group">
+                                                            <label for="productPrice{{id}}">Precio</label>
+                                                            <div class="input-group">
+                                                                <input type="number" class="form-control" id="productPrice{{id}}" name="price" value="{{price}}" min="0" step="0.01">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text">€</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+
+    
+
+
                                                         <div class="form-group">
                                                             <label for="productCategory{{id}}">Categoría</label>
                                                             <input type="text" class="form-control" id="productCategory{{id}}" name="category" value="{{category}}">
                                                         </div>
 
+                                                        <!--
                                                         <div class="form-group">
                                                             <label for="productCategory{{id}}">Categoría</label>
-                                                            <select class="form-control" id="productCategory{{id}}" name="category" value="{{category}}">
+                                                            <select class="form-control" id="productCategory{{id}}" name="category" value="{{category}}"></select>
                                                                 <option value="" selected disabled>Seleccione la categoría</option>
                                                                 {{#categories}}
                                                                 <option value="{{.}}">{{.}}</option>
                                                                 {{/categories}}
                                                             </select>
-                                                        </div> 
+                                                        </div>-->
                                                         <div class="form-group">
                                                             <label for="productStock{{id}}">Stock Disponible</label>
                                                             <input type="number" class="form-control" id="productStock{{id}}" name="stock" value="{{stock}}" min="0">
@@ -409,6 +355,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     {{/products}}
                                 </ul>
                             </div>
@@ -422,10 +369,7 @@
             <!-- End of Content Wrapper -->
 
             <!-- Footer -->
-            <footer class="footer">
-                <p>&copy; 2025 Noir & Blanc. Todos los derechos reservados.</p>
-                <p>Panel de Administración | Desarrollado por <a class="footer-text">...</a></p>
-            </footer>
+            {{> admin/footer}}
             <!-- End of Footer -->
         </div>
         <!-- End of Page Wrapper -->
@@ -436,40 +380,14 @@
         </a>
 
         <!-- Logout Modal-->
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Cerrar sesión</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Selecciona "Aceptar" si estás preparado para cerrar la sesión activa.</div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                        <a class="btn btn-primary" href="../login_register/login.html">Aceptar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {{> admin/logoutModal}}
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 
 </body>
-
-<script>
-    $(document).ready(function() {
-    $('#sidebarToggleTop').click(function(e) {
-        e.preventDefault();
-        $('#accordionSidebar').toggleClass('toggled');
-        $('#content-wrapper').toggleClass('toggled');
-    });
-});
-</script>
 
 </html>
