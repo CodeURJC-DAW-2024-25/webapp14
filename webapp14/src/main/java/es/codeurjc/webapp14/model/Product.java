@@ -122,7 +122,6 @@ public class Product {
         return this.sold;
     }
 
-    
     public List<Review> getReviews() {
         return reviews;
     }

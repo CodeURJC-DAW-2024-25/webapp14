@@ -164,7 +164,7 @@
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Reportes pendientes
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{totalReportedReviews}}</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-clock fa-2x text-gray-300"></i>
@@ -219,10 +219,8 @@
                                                 <strong>Nombre:</strong> {{name}}<br>
                                                 <strong>Correo:</strong> {{email}}<br>
                                                 <strong>Dirección:</strong> {{address}}<br>
-                                                <strong>Número de pedidos:</strong> {{orders}}
                                             </div>
                                             <div class="mb-3">
-                                                <img src="{{profileImage}}" alt="Perfil de {{name}}" class="rounded-circle ml-3 img-user-admin">
                                             </div>
                                         </div>
                                     </div>
@@ -238,50 +236,65 @@
                             </div>
                         </div>
                     </div>
-                    
 
-                    <ul class="list-group">
-                        {{#reportedReviewsByUser}}  <!-- Iterar sobre la lista de usuarios con reseñas reportadas -->
-                        <li class="list-group-item">
-                            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
-                                <span>{{username}}</span> <!-- Nombre del usuario -->
-                                <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center mt-2 mt-sm-0 text-sm-right">
-                                    <span class="badge badge-danger badge-pill mb-2 mb-sm-0 mr-sm-2">{{reviewCount}} Avisos</span> <!-- Mostrar la cantidad de reseñas reportadas -->
-                                    <button class="btn btn-sm btn-outline-primary d-block d-sm-inline mb-2 mb-sm-0 mr-sm-2" 
-                                        data-toggle="collapse" data-target="#report{{username}}">
-                                        Ver reportes
-                                    </button>
-                                    <button class="btn btn-warning btn-rounded btn-sm d-block d-sm-inline">
-                                        <i class="fas fa-exclamation-triangle"></i> Banear
-                                    </button>
-                                </div>
+
+
+                    <div class="col-xl-12 col-lg-10">
+                        <div class="card shadow mb-4">
+                            <!-- Card Header -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-admin-title">Reseñas con reportes de Usuarios</h6>
                             </div>
-                        </li>
-                    
-                        <div class="collapse mt-2 mb-3" id="report{{username}}">
-                            <ul class="list-group ml-3">
-                                {{#reviews}}  <!-- Iterar sobre las reseñas del usuario -->
-                                <li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
-                                    <span class="report-text span-review text-start w-100">
-                                        <strong>ID del Producto: <span class="product-id">{{productId}}</span></strong><br>
-                                        {{reviewText}} <!-- Mostrar el texto de la reseña -->
-                                    </span>
-                                    <div class="report-actions report-btn d-flex mt-2 mt-md-0">
-                                        <button class="btn btn-success btn-sm me-2">
-                                            <i class="fas fa-check"></i> Aceptar
-                                        </button>
-                                        <button class="btn btn-danger btn-sm">
-                                            <i class="fas fa-trash"></i> Eliminar
-                                        </button>
+                
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <ul class="list-group">
+                                    {{#reportedReviewsByUser}}  <!-- Iterar sobre la lista de usuarios con reseñas reportadas -->
+                                    <li class="list-group-item">
+                                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
+                                            <span>{{username}}</span> <!-- Nombre del usuario -->
+                                            <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center mt-2 mt-sm-0 text-sm-right">
+                                                <span class="badge badge-danger badge-pill mb-2 mb-sm-0 mr-sm-2">{{reviewCount}} Avisos</span> <!-- Mostrar la cantidad de reseñas reportadas -->
+                                                <button class="btn btn-sm btn-outline-primary d-block d-sm-inline mb-2 mb-sm-0 mr-sm-2" 
+                                                    data-toggle="collapse" data-target="#report{{username}}">
+                                                    Ver reportes
+                                                </button>
+                                                <button class="btn btn-warning btn-rounded btn-sm d-block d-sm-inline">
+                                                    <i class="fas fa-exclamation-triangle"></i> Banear
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                
+                                    <div class="collapse mt-2 mb-3" id="report{{username}}">
+                                        <ul class="list-group ml-3">
+                                            {{#reviews}}  <!-- Iterar sobre las reseñas del usuario -->
+                                            <li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                                <span class="report-text span-review text-start w-100">
+                                                    <strong>ID del Producto: <span class="product-id">{{id}}</span></strong><br>
+                                                    {{reviewText}} <!-- Mostrar el texto de la reseña -->
+                                                </span>
+                                                <div class="report-actions report-btn d-flex mt-2 mt-md-0">
+                                                    <form action="/admin/users/accept/{{id}}" method="post">
+                                                        <button type="submit" class="btn btn-success btn-sm me-2">
+                                                            <i class="fas fa-check"></i> Aceptar
+                                                        </button>
+                                                    </form>
+                                                    <form action="/admin/users/delete/{{id}}" method="post">
+                                                        <button type="submit" class="btn btn-danger btn-sm">
+                                                            <i class="fas fa-trash"></i> Eliminar
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </li>
+                                            {{/reviews}}
+                                        </ul>
                                     </div>
-                                </li>
-                                {{/reviews}}
-                            </ul>
+                                    {{/reportedReviewsByUser}}
+                                </ul>
+                            </div>
                         </div>
-                        {{/reportedReviewsByUser}}
-                    </ul>
-                    
-                                                         
+                    </div>
                     
 
                     <div class="col-xl-12 col-lg-10">

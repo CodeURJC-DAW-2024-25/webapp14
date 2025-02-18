@@ -7,7 +7,7 @@ public class UserReports {
 
     private String username;
     private List<Review> reviews;
-    private int reviewCount;  // Campo para almacenar el número de reseñas
+    private int reviewCount;
 
     // Constructor
     public UserReports(String username) {

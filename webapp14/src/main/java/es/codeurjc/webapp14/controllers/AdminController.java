@@ -2,13 +2,19 @@ package es.codeurjc.webapp14.controllers;
 
 import es.codeurjc.webapp14.services.UserService;
 import es.codeurjc.webapp14.services.ProductService;
+import es.codeurjc.webapp14.services.ReviewService;
 import es.codeurjc.webapp14.model.Product;
+import es.codeurjc.webapp14.model.Review;
 import es.codeurjc.webapp14.model.User;
+import es.codeurjc.webapp14.model.UserReports;
+import es.codeurjc.webapp14.repositories.ReviewRepository;
+
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -32,6 +38,9 @@ public class AdminController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ReviewService reviewService;
 
     private List<String> categories = new ArrayList<>(
             Arrays.asList("ropa-invierno", "ropa-verano", "accesorios", "zapatos"));
@@ -189,6 +198,66 @@ public class AdminController {
         productService.saveProduct(product);
 
         return "redirect:/admin/products";
+    }
+
+    @GetMapping("/admin/users")
+    public String getUsers(Model model) {
+        List<User> users = userService.getAllUsers();
+
+        model.addAttribute("users", users);
+        model.addAttribute("userCont", users.size());
+        
+        List<UserReports> userReportsList = new ArrayList<>();
+
+        List<Product> products = productService.getAllProducts();
+        int totalReportedReviews = 0;
+
+        for (Product product : products) {
+            for (Review review : product.getReviews()) {
+                if (review.isReported()) {
+                    totalReportedReviews++;
+
+                    Optional<UserReports> userReportsOpt = userReportsList.stream()
+                            .filter(userReports -> userReports.getUsername().equals(review.getUsername()))
+                            .findFirst();
+
+                    if (userReportsOpt.isPresent()) {
+                        userReportsOpt.get().getReviews().add(review);
+                    } else {
+                        UserReports userReports = new UserReports(review.getUsername());
+                        userReports.getReviews().add(review);
+                        userReportsList.add(userReports);
+                    }
+                }
+            }
+        }
+
+        userReportsList.removeIf(userReports -> userReports.getReviews().isEmpty());
+
+        model.addAttribute("totalReportedReviews",totalReportedReviews);
+
+
+        for (UserReports userReports : userReportsList) {
+            userReports.setReviewCount(userReports.getReviews().size());
+        }
+
+        model.addAttribute("reportedReviewsByUser", userReportsList);
+        return "admin/admin_users";
+    }
+
+    @PostMapping("/admin/users/accept/{id}")
+    public String acceptReview(@PathVariable Long id, Model model) {
+        Review review = reviewService.getReviewById(id);
+        review.setReported(false);
+        reviewService.saveReview(review);
+        return "redirect:/admin/users";
+    }
+
+    @PostMapping("/admin/users/delete/{id}")
+    public String deleteReview(@PathVariable Long id, Model model) {
+        reviewService.getReviewById(id);
+        reviewService.delete(id);
+        return "redirect:/admin/users";
     }
 
 }

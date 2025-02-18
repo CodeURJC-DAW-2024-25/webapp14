@@ -2,6 +2,8 @@ package es.codeurjc.webapp14.model;
 
 import jakarta.persistence.*;
 import java.sql.Blob;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -22,6 +24,9 @@ public class User {
     private String address;
     
     private boolean banned;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
 
     @Lob
     private Blob profileImage;
@@ -120,4 +125,11 @@ public class User {
         this.banned = banned;
     }
 
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    } 
 }
