@@ -9,10 +9,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
@@ -30,17 +32,18 @@ public class UserController {
         return "users";
     }
 
-    @GetMapping("/register") // To show the register form
-    public String showRegistrationForm(Model model) {
-        model.addAttribute("user", new User());
-        return "login_register/register";
-    }
-
-    @PostMapping("/register/user") // To handle user registration
+    @RequestMapping(value = "/register", method = { RequestMethod.GET, RequestMethod.POST })
+    // To show the register form and handle user registration
     public String registerUser(@ModelAttribute("user") @Valid User user,
             BindingResult result,
             @RequestParam(value = "confirmPassword", defaultValue = "") String confirmPassword,
-            Model model) {
+            Model model, HttpServletRequest request) {
+        // If the request is GET only show the form
+        if (request.getMethod().equals("GET")) {
+            model.addAttribute("user", new User());
+            return "login_register/register";
+        }
+        // If the request is POST validate the data
         // Check if fields are empty
         if (user.getName().isEmpty()) {
             result.rejectValue("name", "error.user", "El nombre no puede estar vacío");
@@ -86,17 +89,17 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @GetMapping("/login") // To show the login form
-    public String showLoginForm(Model model) {
-        model.addAttribute("user", new User());
-        return "login_register/login";
-    }
-
-    @PostMapping("/login/user") // To handle the user login process
-    public String loginUser(@RequestParam("email") String email,
-            @RequestParam("password") String password,
-            Model model) {
+    @RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
+    // To show the login form and handle the user login process
+    public String loginUser(@RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "password", required = false) String password,
+            Model model, HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
+        // If the request is GET only show the form
+        if (request.getMethod().equals("GET")) {
+            model.addAttribute("user", new User());
+            return "login_register/login";
+        }
         // The user is searched by email
         User user = userService.findByEmail(email);
         // Check if the user exists
@@ -109,8 +112,8 @@ public class UserController {
         // If there are errors, the view is returned with the messages
         if (!errors.isEmpty()) {
             model.addAttribute("errors", errors);
-            model.addAttribute("email", email); // Mantener el email ingresado
-            return "login_register/login"; // Asegúrate de que el nombre de la vista coincide con tu plantilla HTML
+            model.addAttribute("email", email);
+            return "login_register/login";
         }
         // Redirect to another page if credentials are correct
         return "redirect:/admin/profile"; // CHANGE THIS

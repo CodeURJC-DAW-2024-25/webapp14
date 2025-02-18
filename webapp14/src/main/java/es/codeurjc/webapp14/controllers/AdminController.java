@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -22,8 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
@@ -35,32 +33,36 @@ public class AdminController {
     @Autowired
     private ProductService productService;
 
-    private List<String> categories = new ArrayList<>(Arrays.asList("ropa-invierno", "ropa-verano", "accesorios", "zapatos"));
+    private List<String> categories = new ArrayList<>(
+            Arrays.asList("ropa-invierno", "ropa-verano", "accesorios", "zapatos"));
 
-
-    @GetMapping("/admin/profile") // To show the admin profile
+    @GetMapping("/admin/profile")
+    // To show the admin profile
     public String showAdminProfile(Model model) {
         model.addAttribute("admin", userService.getAdmin());
         model.addAttribute("hasImage", userService.getAdmin().getProfileImage() != null);
         return "admin/admin_profile";
     }
 
-    @GetMapping("/admin/profile/edit") // To show the admin profile form
-    public String showAdminProfileEdit(Model model) {
-        model.addAttribute("admin", userService.getAdmin());
-        model.addAttribute("hasImage", userService.getAdmin().getProfileImage() != null);
-        return "admin/admin_profile_edit";
-    }
-
-    @PostMapping("/update/admin") // To handle admin editing
-    public String updateAdmin(@ModelAttribute("admin") @Valid User admin,
+    @RequestMapping(value = "/admin/edit", method = { RequestMethod.GET, RequestMethod.POST })
+    // To show the admin profile form and handle admin editing
+    public String showAdminProfileEdit(
+            @ModelAttribute("admin") @Valid User admin,
             BindingResult result,
-            @RequestParam("confirmPassword") String confirmPassword,
-            @RequestParam("currentPassword") String currentPassword,
+            @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
+            @RequestParam(value = "currentPassword", required = false) String currentPassword,
             @RequestParam(value = "imageUpload", required = false) MultipartFile image,
-            Model model) throws Exception {
-        // The administrator already saved in the database is obtained
+            Model model,
+            HttpServletRequest request) throws Exception {
+        // To handle admin editing
         User existingAdmin = userService.getAdmin();
+        // If the request is GET only show the form
+        if (request.getMethod().equals("GET")) {
+            model.addAttribute("admin", existingAdmin);
+            model.addAttribute("hasImage", existingAdmin.getProfileImage() != null);
+            return "admin/admin_profile_edit";
+        }
+        // If the request is POST validate the data
         // Check if fields are empty
         if (admin.getName().isEmpty()) {
             result.rejectValue("name", "error.user", "El nombre no puede estar vacío");
@@ -83,14 +85,12 @@ public class AdminController {
             result.rejectValue("newPassword", "error.admin", "La nueva contraseña no coincide");
         }
         // Verify if all password fields are empty or the current password is empty
-        if ((currentPassword.isEmpty() && admin.getPassword().isEmpty() && confirmPassword.isEmpty())
-                || currentPassword.isEmpty()) {
+        if ((currentPassword.isEmpty() && admin.getPassword().isEmpty() &&
+                confirmPassword.isEmpty()) || incorrectCurrentPassword) {
             admin.setPassword(existingAdmin.getPassword());
         }
         // If there are errors, the view is returned with the messages
         if (result.hasErrors()) {
-            model.addAttribute("admin", admin);
-            model.addAttribute("confirmPassword", confirmPassword);
             model.addAttribute("errors", result.getFieldErrors().stream()
                     .collect(Collectors.groupingBy(FieldError::getField,
                             Collectors.mapping(FieldError::getDefaultMessage, Collectors.toList()))));
@@ -98,9 +98,7 @@ public class AdminController {
         }
         // If the new password is valid update it
         if (!currentPassword.isEmpty() && !confirmPassword.isEmpty() && !incorrectCurrentPassword) {
-            admin.setPassword(confirmPassword); // Update password
-        } else if (incorrectCurrentPassword) {
-            admin.setPassword(existingAdmin.getPassword()); // Keep the existing password if incorrect
+            admin.setPassword(confirmPassword);
         }
         // Save the image if provided
         if (image != null && !image.isEmpty()) {
@@ -112,7 +110,8 @@ public class AdminController {
         return "redirect:/admin/profile";
     }
 
-    @GetMapping("/admin/profile/image") // To recover and return the administrator image
+    @GetMapping("/admin/profile/image")
+    // To recover and return the administrator image
     public ResponseEntity<Object> downloadImage() throws SQLException {
         User admin = userService.getAdmin();
         if (admin.getProfileImage() != null) {
@@ -125,7 +124,6 @@ public class AdminController {
         }
     }
 
-
     @GetMapping("/admin/products")
     public String showProducts(Model model) {
         List<Product> products = productService.getAllProducts();
@@ -134,54 +132,54 @@ public class AdminController {
         model.addAttribute("productCount", products.size());
         model.addAttribute("categoriesCount", categories.size());
         int totalStock = products.stream()
-                                .mapToInt(Product::getStock)
-                                .sum();
-    
+                .mapToInt(Product::getStock)
+                .sum();
+
         long totalOutStock = products.stream()
-                                .filter(product -> product.getStock() == 0)
-                                .count();
-    
+                .filter(product -> product.getStock() == 0)
+                .count();
+
         model.addAttribute("totalStock", totalStock);
         model.addAttribute("totalOutStock", totalOutStock);
         model.addAttribute("categories", categories);
-    
+
         return "admin/admin_products";
     }
 
     @PostMapping("/admin/products/create")
     public String addProduct(Product product) {
 
-    productService.saveProduct(product);
+        productService.saveProduct(product);
 
-    return "redirect:/admin/products";
+        return "redirect:/admin/products";
     }
 
     @GetMapping("/admin/products/out-of-stock")
     public String showOutOfStockProducts(Model model) {
         List<Product> products = productService.getAllProductsOutOfStock();
-         // Add the product filtered list in to the model
+        // Add the product filtered list in to the model
         model.addAttribute("products", products);
         model.addAttribute("productCount", productService.getAllProducts().size());
         model.addAttribute("categoriesCount", categories.size());
         int totalStock = productService.getAllProducts().stream()
-                                .mapToInt(Product::getStock)
-                                .sum();
-    
+                .mapToInt(Product::getStock)
+                .sum();
+
         long totalOutStock = products.stream()
-                                .filter(product -> product.getStock() == 0)
-                                .count();
-    
+                .filter(product -> product.getStock() == 0)
+                .count();
+
         model.addAttribute("totalStock", totalStock);
         model.addAttribute("totalOutStock", totalOutStock);
         model.addAttribute("categories", categories);
-    
+
         return "admin/admin_products";
     }
 
     @PostMapping("/admin/products/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
         productService.getProductById(id);
-	    productService.delete(id);
+        productService.delete(id);
         return "redirect:/admin/products";
     }
 
@@ -189,7 +187,7 @@ public class AdminController {
     public String updateProduct(Product product) {
 
         productService.saveProduct(product);
-        
+
         return "redirect:/admin/products";
     }
 
