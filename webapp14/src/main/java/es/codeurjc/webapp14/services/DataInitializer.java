@@ -262,33 +262,43 @@ public class DataInitializer implements CommandLineRunner {
         if (userRepository.count() == 0) {
             logger.info("Cargando usuarios...");
             try {
+                //byte[] imageBytes49 = loadImage("src/main/resources/images/users/perfil1.webp");
                 User user1 = new User("Paco", "García", "Calle Mirador 12-C", "pacoG@gmail.com", "12345", Role.CUSTOMER);
                 userRepository.save(user1);
 
+                //byte[] imageBytes50 = loadImage("src/main/resources/images/users/perfil2.webp");
                 User user2 = new User("Ana", "López", "Avenida de la Paz 4-B", "anaL@gmail.com", "54321", Role.CUSTOMER);
                 userRepository.save(user2);
 
-                User user3 = new User("Carlos", "Martínez", "Calle Gran Vía 3-A", "carlosM@gmail.com", "67890", Role.CUSTOMER);
+                //byte[] imageBytes51 = loadImage("src/main/resources/images/users/perfil3.webp");
+                User user3 = new User("Carlos", "Martínez", "Calle Gran Vía 3-A", "carlosM@gmail.com", "67890", Role.CUSTOMER );
                 userRepository.save(user3);
 
+                //byte[] imageBytes52 = loadImage("src/main/resources/images/users/perfil4.webp");
                 User user4 = new User("María", "Fernández", "Calle Toledo 15", "mariaF@gmail.com", "11223", Role.CUSTOMER);
                 userRepository.save(user4);
 
+                //byte[] imageBytes53 = loadImage("src/main/resources/images/users/perfil5.webp");
                 User user5 = new User("Luis", "Sánchez", "Plaza Mayor 7", "luisS@gmail.com", "44556", Role.CUSTOMER);
                 userRepository.save(user5);
 
+                //byte[] imageBytes54 = loadImage("src/main/resources/images/users/perfil6.webp");
                 User user6 = new User("José", "Pérez", "Calle de la Luna 9", "joseP@gmail.com", "78901", Role.CUSTOMER);
                 userRepository.save(user6);
 
+                //byte[] imageBytes55 = loadImage("src/main/resources/images/users/perfil7.webp");
                 User user7 = new User("Laura", "Rodríguez", "Calle San Juan 10", "lauraR@gmail.com", "23456", Role.CUSTOMER);
                 userRepository.save(user7);
 
+                //byte[] imageBytes56 = loadImage("src/main/resources/images/users/perfil8.webp");
                 User user8 = new User("David", "González", "Avenida de Andalucía 14", "davidG@gmail.com", "67890", Role.CUSTOMER);
                 userRepository.save(user8);
 
+                //byte[] imageBytes57 = loadImage("src/main/resources/images/users/perfil9.webp");
                 User user9 = new User("Elena", "Díaz", "Calle del Sol 21", "elenaD@gmail.com", "11234", Role.CUSTOMER);
                 userRepository.save(user9);
 
+                //byte[] imageBytes58 = loadImage("src/main/resources/images/users/perfil10.webp");
                 User user10 = new User("Sergio", "Jiménez", "Calle del Mar 18", "sergioJ@gmail.com", "66778", Role.CUSTOMER);
                 userRepository.save(user10);
 
@@ -894,8 +904,6 @@ public class DataInitializer implements CommandLineRunner {
                     }
                 }
                 
-
-    
                 logger.info("Reseñas cargadas correctamente.");
             } catch (Exception e) {
                 logger.error("Error al inicializar reseñas", e);

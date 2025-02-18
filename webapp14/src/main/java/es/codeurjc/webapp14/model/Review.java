@@ -1,5 +1,8 @@
 package es.codeurjc.webapp14.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -20,6 +23,11 @@ public class Review {
     private String reviewText;
     private boolean reported;
 
+    @Transient
+    private List<Boolean> ratingStars;
+
+    @Transient
+    private List<Boolean> emptyStars;
 
     public Review(){
         
@@ -31,6 +39,8 @@ public class Review {
         this.reported = reported;
         this.product = product;
         this.user = user;
+        this.ratingStars = generateStars(rating);
+        this.emptyStars = generateEmptyStars(rating);
     }
 
     // Getters y Setters
@@ -81,4 +91,40 @@ public class Review {
     public void setReported(boolean reported) {
         this.reported = reported;
     }
+
+    private List<Boolean> generateStars(int rating) {
+        List<Boolean> stars = new ArrayList<>();
+        for (int i = 0; i < rating; i++) {
+            stars.add(true);
+        }
+        return stars;
+    }
+
+    private List<Boolean> generateEmptyStars(int rating) {
+        List<Boolean> stars = new ArrayList<>();
+        for (int i = rating; i < 5; i++) {
+            stars.add(true);
+        }
+        return stars;
+    }
+
+    public void updateStars() {
+        this.ratingStars = generateStars(this.rating);
+        this.emptyStars = generateStars(5 - this.rating);
+    }
+
+    public List<Boolean> getRatingStars() {
+        if (this.ratingStars == null || this.ratingStars.isEmpty()) {
+            updateStars();
+        }
+        return ratingStars;
+    }
+
+    public List<Boolean> getEmptyStars() {
+        if (this.emptyStars == null || this.emptyStars.isEmpty()) {
+            updateStars();
+        }
+        return emptyStars;
+    }
+    
 }

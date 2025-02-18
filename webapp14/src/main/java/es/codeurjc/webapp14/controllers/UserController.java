@@ -3,15 +3,23 @@ package es.codeurjc.webapp14.controllers;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 import java.util.Map;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,6 +39,21 @@ public class UserController {
         model.addAttribute("users", userService.getAllUsers());
         return "users";
     }
+
+    /* 
+    @GetMapping("/users/image/{id}")
+    @ResponseBody
+    public ResponseEntity<byte[]> getProfileImage(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        if (user.getProfileImage() != null) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            return ResponseEntity.ok().headers(headers).body(user.getProfileImage());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+     */
 
     @RequestMapping(value = "/register", method = { RequestMethod.GET, RequestMethod.POST })
     // To show the register form and handle user registration
@@ -118,5 +141,5 @@ public class UserController {
         // Redirect to another page if credentials are correct
         return "redirect:/admin/profile"; // CHANGE THIS
     }
-
+    
 }

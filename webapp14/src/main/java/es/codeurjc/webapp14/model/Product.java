@@ -122,11 +122,12 @@ public class Product {
         return this.sold;
     }
 
-    /*public List<Review> getReviews() {
+    
+    public List<Review> getReviews() {
         return reviews;
     }
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
-    }*/
+    } 
 }
