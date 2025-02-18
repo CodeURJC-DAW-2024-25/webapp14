@@ -234,12 +234,9 @@
                                     </button>
                                 </div>
                             </div>
-                            
-                            
                     
                             <div class="card-body">
                                 <ul class="list-group">
-                                    <!-- Iteramos sobre la lista de productos -->
                                     {{#products}}
                                     <li class="list-group-item d-flex flex-column flex-sm-row justify-content-between align-items-start">
                                         <span>
@@ -264,7 +261,7 @@
                                             </form>                             
                                         </div>
                                     </li>
-                            
+                                    
                                     <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="product{{id}}">
                                         <div class="d-flex align-items-center">
                                             <img src="../../images/abrigos.webp" alt="Producto" class="rounded img-admin-products">
@@ -276,21 +273,18 @@
                                                 <p><strong>Stock Disponible:</strong> {{stock}} unidades</p>
                                             </div>
                                         </div>
-                                        <!--
                                         <div class="mt-3">
                                             <h6><strong>Reseñas de Clientes:</strong></h6>
                                             <ul class="list-group">
                                                 {{#reviews}}
                                                 <li class="list-group-item">
-                                                    <strong>{{username}}:</strong> {{reviewText}} 
+                                                    <strong>:</strong> {{reviewText}} 
                                                     <span>*{{rating}}</span>
                                                 </li>
                                                 {{/reviews}}
                                             </ul>
                                         </div>
-                                        -->
                                     </div>
-                    
                                     
                                     <!-- Modal Editar Producto -->
                                     

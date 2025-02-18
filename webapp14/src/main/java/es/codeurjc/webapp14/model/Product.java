@@ -1,7 +1,9 @@
 package es.codeurjc.webapp14.model;
 
 
-import java.util.Locale.Category;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -17,6 +19,9 @@ public class Product {
     private boolean outOfStock;
     private int sold;
     //private List<Review> reviews;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
 
 
     private String category;
@@ -38,13 +43,12 @@ public class Product {
         this.price = price;
         this.image = image;
         this.stock = stock;
-        this.outOfStock = stock > 0;
+        this.outOfStock = stock == 0;
         this.category = category.name();
         this.sold = 0;
-        //this.reviews = reviews;
     }
 
-    // Getters y Setters
+    // Getters and Setters
     public Long getId() {
         return id;
     }

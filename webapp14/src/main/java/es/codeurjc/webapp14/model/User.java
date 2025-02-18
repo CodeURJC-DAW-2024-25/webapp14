@@ -36,10 +36,11 @@ public class User {
     public User() {
     }
 
-    public User(String name, String surname, String email, String password, Role role) {
+    public User(String name, String surname, String address, String email, String password, Role role) {
         super();
         this.name = name;
         this.surname = surname;
+        this.address = address;
         this.email = email;
         this.password = password;
         this.role = role;

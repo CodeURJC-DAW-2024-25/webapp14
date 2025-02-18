@@ -9,7 +9,7 @@ public class Review {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
     @ManyToOne
@@ -19,6 +19,19 @@ public class Review {
     private int rating;
     private String reviewText;
     private boolean reported;
+
+
+    public Review(){
+        
+    }
+
+    public Review(int rating, String reviewText, boolean reported, Product product, User user){
+        this.rating = rating;
+        this.reviewText = reviewText;
+        this.reported = reported;
+        this.product = product;
+        this.user = user;
+    }
 
     // Getters y Setters
     public Long getId() {
