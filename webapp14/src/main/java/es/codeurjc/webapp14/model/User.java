@@ -20,6 +20,8 @@ public class User {
     private String password;
 
     private String address;
+    
+    private boolean banned;
 
     @Lob
     private Blob profileImage;
@@ -41,6 +43,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.banned = false;
     }
 
     // Getters y Setters
@@ -106,6 +109,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public boolean getBanned() {
+        return this.banned;
+    }
+
+    public void setBanned(boolean banned) {
+        this.banned = banned;
     }
 
 }

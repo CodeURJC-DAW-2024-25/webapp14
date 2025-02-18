@@ -1,19 +1,16 @@
 package es.codeurjc.webapp14.services;
 
 import es.codeurjc.webapp14.model.Product;
+import es.codeurjc.webapp14.model.Product.CategoryType;
 import es.codeurjc.webapp14.repositories.ProductRepository;
 import es.codeurjc.webapp14.repositories.ReviewRepository;
 import es.codeurjc.webapp14.repositories.UserRepository;
-import es.codeurjc.webapp14.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
-import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 
 @Component
@@ -49,11 +46,11 @@ public class DataInitializer implements CommandLineRunner {
                 logger.info("Cargando productos...");
 
                 byte[] imageBytes1 = loadImage("src/main/resources/static/images/imagen7.webp");
-                Product product1 = new Product("Camiseta Negra", "Camiseta de algodón negra", 19.99, imageBytes1,10);
+                Product product1 = new Product("Camiseta Negra", "Camiseta de algodón negra", 19.99, imageBytes1,10, CategoryType.PANTALONES);
                 productRepository.save(product1);
 
                 byte[] imageBytes2 = loadImage("src/main/resources/static/images/imagen8.webp");
-                Product product2 = new Product("Camiseta Blanca", "Camiseta de algodón blanca", 19.99, imageBytes2,0);
+                Product product2 = new Product("Camiseta Blanca", "Camiseta de algodón blanca", 19.99, imageBytes2,0, CategoryType.ABRIGOS);
                 productRepository.save(product2);
 
                 logger.info("Productos cargados correctamente.");
@@ -66,16 +63,15 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void initializeUsers() {
-        if (userRepository.findByRole(User.Role.ADMIN) == null) {
-            logger.info("No hay administrador en la base de datos. Creando uno...");
-            User admin = new User("Laura", "Gutierrez Navarro", "laura1.gn@gmail.com", "Laura.53", User.Role.ADMIN);
-            userRepository.save(admin);
-            logger.info("Administrador creado correctamente.");
+        if (userRepository.count() == 0) {
+            logger.info("Cargando usuarios...");
+            // Agregar lógica de creación de usuarios aquí
+            logger.info("Usuarios cargados correctamente.");
         } else {
-            logger.info("Ya existe un administrador en la base de datos.");
+            logger.info("Los usuarios ya estaban en la base de datos.");
         }
     }
-    
+
     private void initializeReviews() {
         if (reviewRepository.count() == 0) {
             logger.info("Cargando reseñas...");
