@@ -31,6 +31,10 @@ public class ProductService {
         return productRepository.findByOutOfStockTrue();
     }
 
+    public List<Product> getAllProductsSold() {
+        return productRepository.findTop4ByOrderBySoldDesc();
+    }
+
     public void delete(Long id) {
         productRepository.deleteById(id);
     }

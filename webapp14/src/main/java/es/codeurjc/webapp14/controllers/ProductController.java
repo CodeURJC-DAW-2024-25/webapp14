@@ -14,7 +14,7 @@ import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.services.ProductService;
 
 @Controller
-@RequestMapping("/products")
+@RequestMapping("/index")
 public class ProductController {
     private final ProductService productService;
 
@@ -24,7 +24,7 @@ public class ProductController {
 
     @GetMapping
     public String listProducts(Model model) {
-        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("products", productService.getAllProductsSold());
         return "user/index";
     }
 

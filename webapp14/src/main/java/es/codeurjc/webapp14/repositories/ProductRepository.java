@@ -8,6 +8,10 @@ import es.codeurjc.webapp14.model.Product;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByOutOfStockTrue();
+
+    List<Product> findTop4ByOrderBySoldDesc();
+
+
 }
 
 

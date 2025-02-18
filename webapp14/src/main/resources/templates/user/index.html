@@ -1,80 +1,6 @@
 {{> partialsUser/header }}
 
 <body class="no-padding">
-  <header class="col-12">
-    <nav class="main-menu d-flex navbar fixed-top navbar-expand-lg py-4">
-      <div class="container-fluid px-md-5">
-        <div class="main-logo">
-          <a href="index.html">NOIR & BLANC</a>
-        </div>
-
-        <button class="navbar-toggler border-0 shadow-none " type="button" data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="offcanvas offcanvas-end bg-white" tabindex="-1" id="offcanvasNavbar"
-          aria-labelledby="offcanvasNavbarLabel">
-
-          <div class="offcanvas-header justify-content-center">
-            <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas"
-              aria-label="Close"></button>
-          </div>
-
-          <div class="offcanvas-body justify-content-between align-items-center">
-
-            <ul class="navbar-nav menu-list list-unstyled d-lg-none d-flex gap-md-3 ps-lg-5 mb-0">
-              <li class="nav-item">
-                <a href="index.html" class="nav-link mx-2 active">Inicio</a>
-              </li>
-
-              <li class="nav-item dropdown">
-                <a class="nav-link mx-2 active dropdown-toggle" role="button" data-bs-toggle="dropdown">Cuenta</a>
-                <ul class="dropdown-menu p-3 p-lg-0">
-                  <li><a href="../user_registered/users_profile.html" class="dropdown-item">Editar perfil</a></li>
-                  <li><a href="../user_registered/orders.html" class="dropdown-item">Ver Pedidos</a></li>
-                </ul>
-              </li>
-
-              <li class="nav-item">
-                <a href="../user_registered/cart.html" class="nav-link mx-2 active">Cesta</a>
-              </li>
-
-            </ul>
-
-          </div>
-
-          <div class="d-none d-lg-flex justify-content-end">
-            <ul class="d-flex justify-content-end list-unstyled m-0">
-              <li class="nav-item">
-                <a href="index.html" class="nav-link mx-2 active text-black">Inicio</a>
-              </li>
-
-              <li class="nav_item dropdown">
-                <a class="nav-link mx-2 dropdown-toggle" role="button" data-bs-toggle="dropdown">
-                  <iconify-icon icon="healthicons:person" class="fs-4 text-light"></iconify-icon>
-                </a>
-                <ul class="dropdown-menu p-3 p-lg-0">
-                  <li><a href="../login_register/login.html" class="dropdown-item">Iniciar sesión</a></li>
-                  <li><a href="../user_registered/users_profile.html" class="dropdown-item">Editar perfil</a></li>
-                  <li><a href="../user_registered/orders.html" class="dropdown-item">Ver Pedidos</a></li>
-                </ul>
-              </li>
-
-              <li class="lh-1">
-                <a href="../user_registered/cart.html" class="mx-3">
-                  <iconify-icon icon="mdi:cart" class="fs-4 text-light"></iconify-icon>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-
-    </nav>
-
-  </header>
 
   <div class="preloader-wrapper">
     <div class="preloader">
@@ -199,86 +125,28 @@
     </div>
   </section>
 
-  <div>
-    <ul>
-    {{ #products }}
-      <li>{{name}} {{description}} {{price}}
-        <img src="/products/image/{{id}}" alt="Imagen de {{name}}" width="150">
-      </li>
-    </ul>
-    {{ /products }}
-  </div>
+
 
   <section id="new-arrival" class="product-store">
     <div class="container-fluid px-3 px-md-5 padding-medium">
       <h2 class="display-5 fw-light text-uppercase text-center">TENDENCIAS</h2>
-      <div class="row">
-        <div class="container my-5">
+      <div class="row justify-content-center py-4">
+        {{#products}}
+        <div class="col-md-6 mb-4">
           <div class="row align-items-center">
-
-            <div class="col-md-4 text-center d-none d-md-block">
-              <img src="../../images/imagen1.webp" alt="Pantalones en la silla" class="img-fluid w-75">
-            </div>
-
-            <div class="col-md-4 text-center">
-              <img src="../../images/imagen2.webp" alt="Persona con pantalones" class="img-fluid w-75">
+            <div class="col-md-6 text-center">
+              <img src="/index/image/{{id}}" alt="Pantalones en la silla" class="img-fluid w-75">
             </div>
 
             <div class="col-md-4 text-md-start text-center mt-3 mt-md-0">
-              <h2 class="fw-bold">Pantalón <br> straight-leg <br> mid-rise</h2>
+              <h2 class="fw-bold">{{name}}</h2>
               <p class="fst-italic">denim collection <br> spring summer 2025</p>
               <a href="../../user/elem_detail.html" class="btn btn-dark mt-3 px-4 py-2">Ver Detalles</a>
             </div>
-
           </div>
         </div>
+        {{/products}}
 
-
-        <div class="container my-5">
-          <div class="row align-items-center">
-
-            <div class="col-md-4 text-md-end text-center d-none d-md-block">
-              <h2 class="fw-bold">Abrigo <br> warm brown <br> moss green</h2>
-              <p class="fst-italic">Woman collection <br> spring summer 2025</p>
-              <a href="../user/elem_detail.html" class="btn btn-dark mt-3 px-4 py-2">Ver Detalles</a>
-            </div>
-
-
-            <div class="col-md-4 text-center">
-              <img src="../../images/imagen3.webp" alt="Abrigo en la silla" class="img-fluid w-75">
-            </div>
-
-            <div class="col-md-4 text-center d-none d-md-block">
-              <img src="../../images/imagen4.webp" alt="Persona con pantalones" class="img-fluid w-75">
-            </div>
-
-            <div class="col-md-12 text-center d-md-none mt-3">
-              <h2 class="fw-bold">Abrigo <br> warm brown <br> moss green</h2>
-              <p class="fst-italic">Woman collection <br> spring summer 2025</p>
-              <a href="../../user/elem_detail.html" class="btn btn-dark mt-3 px-4 py-2">Ver Detalles</a>
-            </div>
-
-          </div>
-        </div>
-
-        <div class="container my-5">
-          <div class="row align-items-center">
-
-            <div class="col-md-4 text-center d-none d-md-block">
-              <img src="../../images/imagen5.webp" alt="Pantalones en la silla" class="img-fluid w-75">
-            </div>
-
-            <div class="col-md-4 text-center">
-              <img src="../../images/imagen6.webp" alt="Persona con pantalones" class="img-fluid w-75">
-            </div>
-
-            <div class="col-md-4 text-md-start text-center mt-3 mt-md-0">
-              <h2 class="fw-bold">Chaqueta <br> boomer <br> con piel</h2>
-              <p class="fst-italic">TRF collection <br> spring summer 2025</p>
-              <a href="../../user/elem_detail.html" class="btn btn-dark mt-3 px-4 py-2">Ver Detalles</a>
-            </div>
-          </div>
-        </div>
       </div>
   </section>
 
@@ -336,95 +204,5 @@
       </div>
     </div>
   </section>
-
-
-  <div class="container-fluid px-3 px-md-5 padding-medium">
-    <div class="row mt-5">
-      <div class="col-md-4">
-        <div class="footer-menu">
-          <h6>NOIR & BLANC</h6>
-          <p class="mt-4">Donde la elegancia se encuentra con la perfección</p>
-          <div class="social-links mt-4">
-            <ul class="d-flex flex-wrap list-unstyled gap-3">
-              <li class="social">
-                <a href="#">
-                  <iconify-icon class="social-icon fs-4" icon="ri:facebook-fill"></iconify-icon>
-                </a>
-              </li>
-              <li class="social">
-                <a href="#">
-                  <iconify-icon class="social-icon fs-4" icon="ri:twitter-fill"></iconify-icon>
-                </a>
-              </li>
-              <li class="social">
-                <a href="#">
-                  <iconify-icon class="social-icon fs-4" icon="ri:pinterest-fill"></iconify-icon>
-                </a>
-              </li>
-              <li class="social">
-                <a href="#">
-                  <iconify-icon class="social-icon fs-4" icon="ri:instagram-fill"></iconify-icon>
-                </a>
-              </li>
-              <li class="social">
-                <a href="#">
-                  <iconify-icon class="social-icon fs-4" icon="ri:youtube-fill"></iconify-icon>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col-6 col-md-2">
-        <div class="footer-menu">
-          <h6 class="text-uppercase fw-bold mb-4">Enlaces rápidos</h6>
-          <ul class="menu-list list-unstyled">
-            <li class="menu-item"><a href="#" class="footer-link">Inicio</a></li>
-            <li class="menu-item"><a href="#" class="footer-link">Sobre nosotros</a></li>
-            <li class="menu-item"><a href="#" class="footer-link">Ofertas</a></li>
-            <li class="menu-item"><a href="#" class="footer-link">Servicios</a></li>
-            <li class="menu-item"><a href="#" class="footer-link">Contáctanos</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-6 col-md-2">
-        <div class="footer-menu">
-          <h6 class="text-uppercase fw-bold mb-4">Acerca de</h6>
-          <ul class="menu-list list-unstyled">
-            <li class="menu-item"><a href="#" class="footer-link">Cómo funciona</a></li>
-            <li class="menu-item"><a href="#" class="footer-link">Nuestros paquetes</a></li>
-            <li class="menu-item"><a href="#" class="footer-link">Promociones</a></li>
-            <li class="menu-item"><a href="#" class="footer-link">Recomienda a un amigo</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-6 col-md-2">
-        <div class="footer-menu">
-          <h6 class="text-uppercase fw-bold mb-4">Servicios</h6>
-          <ul class="menu-list list-unstyled">
-            <li class="menu-item"><a href="#" class="footer-link">Pagos</a></li>
-            <li class="menu-item"><a href="#" class="footer-link">Envíos</a></li>
-            <li class="menu-item"><a href="#" class="footer-link">Devoluciones</a></li>
-            <li class="menu-item"><a href="#" class="footer-link">Preguntas frecuentes</a></li>
-            <li class="menu-item"><a href="#" class="footer-link">Finalizar compra</a></li>
-            <li class="menu-item"><a href="#" class="footer-link">Otros problemas</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-6 col-md-2">
-        <div class="footer-menu">
-          <h6 class="text-uppercase fw-bold mb-4">Centro de ayuda</h6>
-          <ul class="menu-list list-unstyled">
-            <li class="menu-item"><a href="#" class="footer-link">Pagos</a></li>
-            <li class="menu-item"><a href="#" class="footer-link">Envíos</a></li>
-            <li class="menu-item"><a href="#" class="footer-link">Devoluciones</a></li>
-            <li class="menu-item"><a href="#" class="footer-link">Preguntas frecuentes</a></li>
-            <li class="menu-item"><a href="#" class="footer-link">Finalizar compra</a></li>
-            <li class="menu-item"><a href="#" class="footer-link">Otros problemas</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
 
 {{> partialsUser/footer }}
