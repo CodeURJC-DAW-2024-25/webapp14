@@ -1,5 +1,7 @@
 package es.codeurjc.webapp14.services;
 
+import es.codeurjc.webapp14.model.OrderProduct;
+import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Product.CategoryType;
 import es.codeurjc.webapp14.model.User.Role;
@@ -8,15 +10,21 @@ import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.repositories.ProductRepository;
 import es.codeurjc.webapp14.repositories.ReviewRepository;
 import es.codeurjc.webapp14.repositories.UserRepository;
+import es.codeurjc.webapp14.repositories.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Optional;
-
+import java.sql.Blob;
+import java.sql.SQLException;
 import jakarta.transaction.Transactional;
+import javax.sql.rowset.serial.SerialBlob;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
@@ -26,13 +34,15 @@ public class DataInitializer implements CommandLineRunner {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
+    private final OrderRepository orderRepository;
 
     // Inyección de dependencias por constructor (Mejor práctica)
     public DataInitializer(ProductRepository productRepository, UserRepository userRepository,
-            ReviewRepository reviewRepository) {
+            ReviewRepository reviewRepository, OrderRepository orderRepository) {
         this.productRepository = productRepository;
         this.userRepository = userRepository;
         this.reviewRepository = reviewRepository;
+        this.orderRepository = orderRepository;
     }
 
     @Override
@@ -42,6 +52,7 @@ public class DataInitializer implements CommandLineRunner {
         initializeProducts();
         initializeUsers();
         initializeReviews();
+        initializeOrders();
         logger.info("Datos inicializados correctamente.");
     }
 
@@ -50,204 +61,263 @@ public class DataInitializer implements CommandLineRunner {
             try {
                 logger.info("Cargando productos...");
 
-                //ABRIGOS
-                byte[] imageBytes1 = loadImage("src/main/resources/images/abrigos/abrigo1.webp");
-                Product product1 = new Product("Trench técnico", "Trench técnico con abrigo acolchado interior desmontable.", 79.95, imageBytes1,10, CategoryType.ABRIGOS);
+                // ABRIGOS
+                Blob imageBytes1 = loadImage("images/abrigos/abrigo1.webp");
+                Product product1 = new Product("Trench técnico",
+                        "Trench técnico con abrigo acolchado interior desmontable.", 79.95, imageBytes1, 10,
+                        CategoryType.ABRIGOS);
                 productRepository.save(product1);
 
-                byte[] imageBytes2 = loadImage("src/main/resources/images/abrigos/abrigo2.webp");
-                Product product2 = new Product("Trench técnico 2 en 1 ", "Trench técnico con abrigo acolchado interior desmontable.", 79.95, imageBytes2,0, CategoryType.ABRIGOS);
+                Blob imageBytes2 = loadImage("images/abrigos/abrigo2.webp");
+                Product product2 = new Product("Trench técnico 2 en 1 ",
+                        "Trench técnico con abrigo acolchado interior desmontable.", 79.95, imageBytes2, 0,
+                        CategoryType.ABRIGOS);
                 productRepository.save(product2);
 
-                byte[] imageBytes3 = loadImage("src/main/resources/images/abrigos/abrigo3.webp");
-                Product product3 = new Product("Parka Desmonatble Water Repellent", "Parka relaxed fit confeccionada en tejido técnico que repele agua en contacto.", 89.95, imageBytes3,10, CategoryType.ABRIGOS);
+                Blob imageBytes3 = loadImage("images/abrigos/abrigo3.webp");
+                Product product3 = new Product("Parka Desmonatble Water Repellent",
+                        "Parka relaxed fit confeccionada en tejido técnico que repele agua en contacto.", 89.95,
+                        imageBytes3, 10, CategoryType.ABRIGOS);
                 productRepository.save(product3);
 
-                byte[] imageBytes4 = loadImage("src/main/resources/images/abrigos/abrigo4.webp");
-                Product product4 = new Product("Abrigo con lana", "Abrigo straight fit confeccionado en tejido con lana. Cuello con solapas de muesca y manga larga acabada en puño con botones.", 69.95, imageBytes4,10, CategoryType.ABRIGOS);
+                Blob imageBytes4 = loadImage("images/abrigos/abrigo4.webp");
+                Product product4 = new Product("Abrigo con lana",
+                        "Abrigo straight fit confeccionado en tejido con lana. Cuello con solapas de muesca y manga larga acabada en puño con botones.",
+                        69.95, imageBytes4, 10, CategoryType.ABRIGOS);
                 productRepository.save(product4);
 
-                byte[] imageBytes5 = loadImage("src/main/resources/images/abrigos/abrigo5.webp");
-                Product product5 = new Product("Anorak Water and Wind Protection", "Anorak resistente al agua y al viento con aislamiento térmico para climas fríos.", 69.95, imageBytes5,10, CategoryType.ABRIGOS);
+                Blob imageBytes5 = loadImage("images/abrigos/abrigo5.webp");
+                Product product5 = new Product("Anorak Water and Wind Protection",
+                        "Anorak resistente al agua y al viento con aislamiento térmico para climas fríos.", 69.95,
+                        imageBytes5, 10, CategoryType.ABRIGOS);
                 productRepository.save(product5);
 
-                byte[] imageBytes6 = loadImage("src/main/resources/images/abrigos/abrigo6.webp");
-                Product product6 = new Product("Trench cinturón", "Trench de cuello solapa y manga larga acabada con trabilla y botón.", 59.95, imageBytes6,10, CategoryType.ABRIGOS);
+                Blob imageBytes6 = loadImage("images/abrigos/abrigo6.webp");
+                Product product6 = new Product("Trench cinturón",
+                        "Trench de cuello solapa y manga larga acabada con trabilla y botón.", 59.95, imageBytes6, 10,
+                        CategoryType.ABRIGOS);
                 productRepository.save(product6);
 
-                byte[] imageBytes7 = loadImage("src/main/resources/images/abrigos/abrigo7.webp");
-                Product product7 = new Product("Abrigo acolchado capucha", "Cazadora de cuello subido con capucha ajustable con cordones y manga larga.", 39.95, imageBytes7,10, CategoryType.ABRIGOS);
+                Blob imageBytes7 = loadImage("images/abrigos/abrigo7.webp");
+                Product product7 = new Product("Abrigo acolchado capucha",
+                        "Cazadora de cuello subido con capucha ajustable con cordones y manga larga.", 39.95,
+                        imageBytes7, 10, CategoryType.ABRIGOS);
                 productRepository.save(product7);
 
-                byte[] imageBytes8 = loadImage("src/main/resources/images/abrigos/abrigo8.webp");
-                Product product8 = new Product("Abrigo Soft", "Abrigo de cuello solapa y manga larga con hombreras. Bolsillos delanteros.", 39.95, imageBytes8,10, CategoryType.ABRIGOS);
+                Blob imageBytes8 = loadImage("images/abrigos/abrigo8.webp");
+                Product product8 = new Product("Abrigo Soft",
+                        "Abrigo de cuello solapa y manga larga con hombreras. Bolsillos delanteros.", 39.95,
+                        imageBytes8, 10, CategoryType.ABRIGOS);
                 productRepository.save(product8);
 
-                byte[] imageBytes9 = loadImage("src/main/resources/images/abrigos/abrigo9.webp");
-                Product product9 = new Product("Trench Encerrado Cuello Combinado", "Trench regular fit confeccionado en tejido de algodón con acabado encerado.", 89.95, imageBytes9,10, CategoryType.ABRIGOS);
+                Blob imageBytes9 = loadImage("images/abrigos/abrigo9.webp");
+                Product product9 = new Product("Trench Encerrado Cuello Combinado",
+                        "Trench regular fit confeccionado en tejido de algodón con acabado encerado.", 89.95,
+                        imageBytes9, 10, CategoryType.ABRIGOS);
                 productRepository.save(product9);
 
-                byte[] imageBytes10 = loadImage("src/main/resources/images/abrigos/abrigo10.webp");
-                Product product10 = new Product("Gabardina Relaxed Fit", "Gabardina relaxed fit confeccionada en tejido técnico.", 79.95, imageBytes10,10, CategoryType.ABRIGOS);
+                Blob imageBytes10 = loadImage("images/abrigos/abrigo10.webp");
+                Product product10 = new Product("Gabardina Relaxed Fit",
+                        "Gabardina relaxed fit confeccionada en tejido técnico.", 79.95, imageBytes10, 10,
+                        CategoryType.ABRIGOS);
                 productRepository.save(product10);
 
-                byte[] imageBytes11 = loadImage("src/main/resources/images/abrigos/abrigo11.webp");
-                Product product11 = new Product("Abrigo Cruzado Mezcla Lana", "Abrigo entallado confeccionado en hilatura con mezcla de lana.", 129.00, imageBytes11,10, CategoryType.ABRIGOS);
+                Blob imageBytes11 = loadImage("images/abrigos/abrigo11.webp");
+                Product product11 = new Product("Abrigo Cruzado Mezcla Lana",
+                        "Abrigo entallado confeccionado en hilatura con mezcla de lana.", 129.00, imageBytes11, 10,
+                        CategoryType.ABRIGOS);
                 productRepository.save(product11);
 
-                byte[] imageBytes12 = loadImage("src/main/resources/images/abrigos/abrigo12.webp");
-                Product product12 = new Product("Abrigo Oversize Soft", "Abrigo de cuello solapa y manga larga acabada con trabilla y botón.", 79.95, imageBytes12,10, CategoryType.ABRIGOS);
+                Blob imageBytes12 = loadImage("images/abrigos/abrigo12.webp");
+                Product product12 = new Product("Abrigo Oversize Soft",
+                        "Abrigo de cuello solapa y manga larga acabada con trabilla y botón.", 79.95, imageBytes12, 10,
+                        CategoryType.ABRIGOS);
                 productRepository.save(product12);
 
-
-                //CAMISETAS
-                byte[] imageBytes13 = loadImage("src/main/resources/images/camisetas/camiseta1.webp");
-                Product product13 = new Product("Oversize Soft", "Cuello solapa y manga larga acabada con trabilla y botón.", 79.95, imageBytes13,10, CategoryType.CAMISETAS);
+                // CAMISETAS
+                Blob imageBytes13 = loadImage("images/camisetas/camiseta1.webp");
+                Product product13 = new Product("Oversize Soft",
+                        "Cuello solapa y manga larga acabada con trabilla y botón.", 79.95, imageBytes13, 10,
+                        CategoryType.CAMISETAS);
                 productRepository.save(product13);
 
-                byte[] imageBytes14 = loadImage("src/main/resources/images/camisetas/camiseta2.webp");
-                Product product14 = new Product("Basic Fit", "Camiseta de algodón con corte ajustado.", 19.99, imageBytes14, 10, CategoryType.CAMISETAS);
+                Blob imageBytes14 = loadImage("images/camisetas/camiseta2.webp");
+                Product product14 = new Product("Basic Fit", "Camiseta de algodón con corte ajustado.", 19.99,
+                        imageBytes14, 10, CategoryType.CAMISETAS);
                 productRepository.save(product14);
 
-                byte[] imageBytes15 = loadImage("src/main/resources/images/camisetas/camiseta3.webp");
-                Product product15 = new Product("Vintage Stripes", "Camiseta con diseño a rayas y ajuste regular.", 24.99, imageBytes15, 10, CategoryType.CAMISETAS);
+                Blob imageBytes15 = loadImage("images/camisetas/camiseta3.webp");
+                Product product15 = new Product("Vintage Stripes", "Camiseta con diseño a rayas y ajuste regular.",
+                        24.99, imageBytes15, 10, CategoryType.CAMISETAS);
                 productRepository.save(product15);
 
-                byte[] imageBytes16 = loadImage("src/main/resources/images/camisetas/camiseta4.webp");
-                Product product16 = new Product("Urban Style", "Camiseta oversized con estampado urbano.", 29.99, imageBytes16, 10, CategoryType.CAMISETAS);
+                Blob imageBytes16 = loadImage("images/camisetas/camiseta4.webp");
+                Product product16 = new Product("Urban Style", "Camiseta oversized con estampado urbano.", 29.99,
+                        imageBytes16, 10, CategoryType.CAMISETAS);
                 productRepository.save(product16);
 
-                byte[] imageBytes17 = loadImage("src/main/resources/images/camisetas/camiseta5.webp");
-                Product product17 = new Product("Essential Black", "Camiseta negra de algodón premium.", 21.99, imageBytes17, 10, CategoryType.CAMISETAS);
+                Blob imageBytes17 = loadImage("images/camisetas/camiseta5.webp");
+                Product product17 = new Product("Essential Black", "Camiseta negra de algodón premium.", 21.99,
+                        imageBytes17, 10, CategoryType.CAMISETAS);
                 productRepository.save(product17);
 
-                byte[] imageBytes18 = loadImage("src/main/resources/images/camisetas/camiseta6.webp");
-                Product product18 = new Product("Soft Touch", "Camiseta de tacto suave y cuello redondo.", 18.99, imageBytes18, 10, CategoryType.CAMISETAS);
+                Blob imageBytes18 = loadImage("images/camisetas/camiseta6.webp");
+                Product product18 = new Product("Soft Touch", "Camiseta de tacto suave y cuello redondo.", 18.99,
+                        imageBytes18, 10, CategoryType.CAMISETAS);
                 productRepository.save(product18);
 
-                byte[] imageBytes19 = loadImage("src/main/resources/images/camisetas/camiseta7.webp");
-                Product product19 = new Product("Graphic Tee", "Camiseta con estampado gráfico exclusivo.", 27.99, imageBytes19, 10, CategoryType.CAMISETAS);
+                Blob imageBytes19 = loadImage("images/camisetas/camiseta7.webp");
+                Product product19 = new Product("Graphic Tee", "Camiseta con estampado gráfico exclusivo.", 27.99,
+                        imageBytes19, 10, CategoryType.CAMISETAS);
                 productRepository.save(product19);
 
-                byte[] imageBytes20 = loadImage("src/main/resources/images/camisetas/camiseta8.webp");
-                Product product20 = new Product("Loose Fit", "Camiseta de corte suelto, ideal para verano.", 22.99, imageBytes20, 10, CategoryType.CAMISETAS);
+                Blob imageBytes20 = loadImage("images/camisetas/camiseta8.webp");
+                Product product20 = new Product("Loose Fit", "Camiseta de corte suelto, ideal para verano.", 22.99,
+                        imageBytes20, 10, CategoryType.CAMISETAS);
                 productRepository.save(product20);
 
-                byte[] imageBytes21 = loadImage("src/main/resources/images/camisetas/camiseta9.webp");
-                Product product21 = new Product("Denim Blue", "Camiseta azul denim con detalles en costuras.", 26.99, imageBytes21, 10, CategoryType.CAMISETAS);
+                Blob imageBytes21 = loadImage("images/camisetas/camiseta9.webp");
+                Product product21 = new Product("Denim Blue", "Camiseta azul denim con detalles en costuras.", 26.99,
+                        imageBytes21, 10, CategoryType.CAMISETAS);
                 productRepository.save(product21);
 
-                byte[] imageBytes22 = loadImage("src/main/resources/images/camisetas/camiseta10.webp");
-                Product product22 = new Product("Minimalist", "Camiseta minimalista de algodón orgánico.", 23.99, imageBytes22, 10, CategoryType.CAMISETAS);
+                Blob imageBytes22 = loadImage("images/camisetas/camiseta10.webp");
+                Product product22 = new Product("Minimalist", "Camiseta minimalista de algodón orgánico.", 23.99,
+                        imageBytes22, 10, CategoryType.CAMISETAS);
                 productRepository.save(product22);
 
-                byte[] imageBytes23 = loadImage("src/main/resources/images/camisetas/camiseta11.webp");
-                Product product23 = new Product("Classic White", "Camiseta blanca clásica, imprescindible.", 19.99, imageBytes23, 10, CategoryType.CAMISETAS);
+                Blob imageBytes23 = loadImage("images/camisetas/camiseta11.webp");
+                Product product23 = new Product("Classic White", "Camiseta blanca clásica, imprescindible.", 19.99,
+                        imageBytes23, 10, CategoryType.CAMISETAS);
                 productRepository.save(product23);
 
-                byte[] imageBytes24 = loadImage("src/main/resources/images/camisetas/camiseta12.webp");
-                Product product24 = new Product("Retro Vibes", "Camiseta con estampado retro colorido.", 28.99, imageBytes24, 10, CategoryType.CAMISETAS);
+                Blob imageBytes24 = loadImage("images/camisetas/camiseta12.webp");
+                Product product24 = new Product("Retro Vibes", "Camiseta con estampado retro colorido.", 28.99,
+                        imageBytes24, 10, CategoryType.CAMISETAS);
                 productRepository.save(product24);
 
-
-                //PANTALONES
-                byte[] imageBytes25 = loadImage("src/main/resources/images/pantalones/pantalon1.webp");
-                Product product25 = new Product("Retro Vibes", "Pantalón con estampado retro colorido.", 28.99, imageBytes25, 10, CategoryType.PANTALONES);
+                // PANTALONES
+                Blob imageBytes25 = loadImage("images/pantalones/pantalon1.webp");
+                Product product25 = new Product("Retro Vibes", "Pantalón con estampado retro colorido.", 28.99,
+                        imageBytes25, 10, CategoryType.PANTALONES);
                 productRepository.save(product25);
 
-                byte[] imageBytes26 = loadImage("src/main/resources/images/pantalones/pantalon2.webp");
-                Product product26 = new Product("Skinny Jeans", "Pantalón vaquero ajustado con estilo moderno.", 39.99, imageBytes26, 10, CategoryType.PANTALONES);
+                Blob imageBytes26 = loadImage("images/pantalones/pantalon2.webp");
+                Product product26 = new Product("Skinny Jeans", "Pantalón vaquero ajustado con estilo moderno.", 39.99,
+                        imageBytes26, 10, CategoryType.PANTALONES);
                 productRepository.save(product26);
 
-                byte[] imageBytes27 = loadImage("src/main/resources/images/pantalones/pantalon3.webp");
-                Product product27 = new Product("Cargo Pants", "Pantalón cargo con múltiples bolsillos.", 45.99, imageBytes27, 10, CategoryType.PANTALONES);
+                Blob imageBytes27 = loadImage("images/pantalones/pantalon3.webp");
+                Product product27 = new Product("Cargo Pants", "Pantalón cargo con múltiples bolsillos.", 45.99,
+                        imageBytes27, 10, CategoryType.PANTALONES);
                 productRepository.save(product27);
 
-                byte[] imageBytes28 = loadImage("src/main/resources/images/pantalones/pantalon4.webp");
-                Product product28 = new Product("Chino Slim", "Pantalón chino de corte slim y tela ligera.", 42.99, imageBytes28, 10, CategoryType.PANTALONES);
+                Blob imageBytes28 = loadImage("images/pantalones/pantalon4.webp");
+                Product product28 = new Product("Chino Slim", "Pantalón chino de corte slim y tela ligera.", 42.99,
+                        imageBytes28, 10, CategoryType.PANTALONES);
                 productRepository.save(product28);
 
-                byte[] imageBytes29 = loadImage("src/main/resources/images/pantalones/pantalon5.webp");
-                Product product29 = new Product("Jogger Fit", "Pantalón jogger cómodo para uso diario.", 34.99, imageBytes29, 10, CategoryType.PANTALONES);
+                Blob imageBytes29 = loadImage("images/pantalones/pantalon5.webp");
+                Product product29 = new Product("Jogger Fit", "Pantalón jogger cómodo para uso diario.", 34.99,
+                        imageBytes29, 10, CategoryType.PANTALONES);
                 productRepository.save(product29);
 
-                byte[] imageBytes30 = loadImage("src/main/resources/images/pantalones/pantalon6.webp");
-                Product product30 = new Product("Classic Denim", "Pantalón vaquero clásico con ajuste recto.", 49.99, imageBytes30, 10, CategoryType.PANTALONES);
+                Blob imageBytes30 = loadImage("images/pantalones/pantalon6.webp");
+                Product product30 = new Product("Classic Denim", "Pantalón vaquero clásico con ajuste recto.", 49.99,
+                        imageBytes30, 10, CategoryType.PANTALONES);
                 productRepository.save(product30);
 
-                byte[] imageBytes31 = loadImage("src/main/resources/images/pantalones/pantalon7.webp");
-                Product product31 = new Product("Wide Leg", "Pantalón de pierna ancha con estilo retro.", 46.99, imageBytes31, 10, CategoryType.PANTALONES);
+                Blob imageBytes31 = loadImage("images/pantalones/pantalon7.webp");
+                Product product31 = new Product("Wide Leg", "Pantalón de pierna ancha con estilo retro.", 46.99,
+                        imageBytes31, 10, CategoryType.PANTALONES);
                 productRepository.save(product31);
 
-                byte[] imageBytes32 = loadImage("src/main/resources/images/pantalones/pantalon8.webp");
-                Product product32 = new Product("Linen Pants", "Pantalón de lino ligero, ideal para verano.", 38.99, imageBytes32, 10, CategoryType.PANTALONES);
+                Blob imageBytes32 = loadImage("images/pantalones/pantalon8.webp");
+                Product product32 = new Product("Linen Pants", "Pantalón de lino ligero, ideal para verano.", 38.99,
+                        imageBytes32, 10, CategoryType.PANTALONES);
                 productRepository.save(product32);
 
-                byte[] imageBytes33 = loadImage("src/main/resources/images/pantalones/pantalon9.webp");
-                Product product33 = new Product("Tailored Fit", "Pantalón de vestir con corte entallado.", 55.99, imageBytes33, 10, CategoryType.PANTALONES);
+                Blob imageBytes33 = loadImage("images/pantalones/pantalon9.webp");
+                Product product33 = new Product("Tailored Fit", "Pantalón de vestir con corte entallado.", 55.99,
+                        imageBytes33, 10, CategoryType.PANTALONES);
                 productRepository.save(product33);
 
-                byte[] imageBytes34 = loadImage("src/main/resources/images/pantalones/pantalon10.webp");
-                Product product34 = new Product("Baggy Jeans", "Pantalón vaquero ancho de estilo noventero.", 44.99, imageBytes34, 10, CategoryType.PANTALONES);
+                Blob imageBytes34 = loadImage("images/pantalones/pantalon10.webp");
+                Product product34 = new Product("Baggy Jeans", "Pantalón vaquero ancho de estilo noventero.", 44.99,
+                        imageBytes34, 10, CategoryType.PANTALONES);
                 productRepository.save(product34);
 
-                byte[] imageBytes35 = loadImage("src/main/resources/images/pantalones/pantalon11.webp");
-                Product product35 = new Product("Straight Cut", "Pantalón recto con diseño clásico.", 41.99, imageBytes35, 10, CategoryType.PANTALONES);
+                Blob imageBytes35 = loadImage("images/pantalones/pantalon11.webp");
+                Product product35 = new Product("Straight Cut", "Pantalón recto con diseño clásico.", 41.99,
+                        imageBytes35, 10, CategoryType.PANTALONES);
                 productRepository.save(product35);
 
-                byte[] imageBytes36 = loadImage("src/main/resources/images/pantalones/pantalon12.webp");
-                Product product36 = new Product("Relaxed Fit", "Pantalón de corte relajado para máxima comodidad.", 37.99, imageBytes36, 10, CategoryType.PANTALONES);
+                Blob imageBytes36 = loadImage("images/pantalones/pantalon12.webp");
+                Product product36 = new Product("Relaxed Fit", "Pantalón de corte relajado para máxima comodidad.",
+                        37.99, imageBytes36, 10, CategoryType.PANTALONES);
                 productRepository.save(product36);
 
-                //JERSÉIS
-                byte[] imageBytes37 = loadImage("src/main/resources/images/jerséis/jersey1.webp");
-                Product product37 = new Product("Relaxed Fit", "Corte relajado para máxima comodidad.", 37.99, imageBytes37, 10, CategoryType.JERSEYS);
+                // JERSÉIS
+                Blob imageBytes37 = loadImage("images/jerséis/jersey1.webp");
+                Product product37 = new Product("Relaxed Fit", "Corte relajado para máxima comodidad.", 37.99,
+                        imageBytes37, 10, CategoryType.JERSEYS);
                 productRepository.save(product37);
 
-                byte[] imageBytes38 = loadImage("src/main/resources/images/jerséis/jersey2.webp");
-                Product product38 = new Product("Classic Knit", "Jersey de punto con diseño clásico y elegante.", 42.99, imageBytes38, 10, CategoryType.JERSEYS);
+                Blob imageBytes38 = loadImage("images/jerséis/jersey2.webp");
+                Product product38 = new Product("Classic Knit", "Jersey de punto con diseño clásico y elegante.", 42.99,
+                        imageBytes38, 10, CategoryType.JERSEYS);
                 productRepository.save(product38);
 
-                byte[] imageBytes39 = loadImage("src/main/resources/images/jerséis/jersey3.webp");
-                Product product39 = new Product("Turtleneck Sweater", "Jersey de cuello alto para un estilo sofisticado.", 49.99, imageBytes39, 10, CategoryType.JERSEYS);
+                Blob imageBytes39 = loadImage("images/jerséis/jersey3.webp");
+                Product product39 = new Product("Turtleneck Sweater",
+                        "Jersey de cuello alto para un estilo sofisticado.", 49.99, imageBytes39, 10,
+                        CategoryType.JERSEYS);
                 productRepository.save(product39);
 
-                byte[] imageBytes40 = loadImage("src/main/resources/images/jerséis/jersey4.webp");
-                Product product40 = new Product("Chunky Knit", "Jersey grueso de punto con textura cálida.", 55.99, imageBytes40, 10, CategoryType.JERSEYS);
+                Blob imageBytes40 = loadImage("images/jerséis/jersey4.webp");
+                Product product40 = new Product("Chunky Knit", "Jersey grueso de punto con textura cálida.", 55.99,
+                        imageBytes40, 10, CategoryType.JERSEYS);
                 productRepository.save(product40);
 
-                byte[] imageBytes41 = loadImage("src/main/resources/images/jerséis/jersey5.webp");
-                Product product41 = new Product("Cable Knit", "Jersey con diseño trenzado en el tejido.", 47.99, imageBytes41, 10, CategoryType.JERSEYS);
+                Blob imageBytes41 = loadImage("images/jerséis/jersey5.webp");
+                Product product41 = new Product("Cable Knit", "Jersey con diseño trenzado en el tejido.", 47.99,
+                        imageBytes41, 10, CategoryType.JERSEYS);
                 productRepository.save(product41);
 
-                byte[] imageBytes42 = loadImage("src/main/resources/images/jerséis/jersey6.webp");
-                Product product42 = new Product("Slim Fit Sweater", "Jersey ajustado con diseño moderno.", 39.99, imageBytes42, 10, CategoryType.JERSEYS);
+                Blob imageBytes42 = loadImage("images/jerséis/jersey6.webp");
+                Product product42 = new Product("Slim Fit Sweater", "Jersey ajustado con diseño moderno.", 39.99,
+                        imageBytes42, 10, CategoryType.JERSEYS);
                 productRepository.save(product42);
 
-                byte[] imageBytes43 = loadImage("src/main/resources/images/jerséis/jersey7.webp");
-                Product product43 = new Product("Oversized Knit", "Jersey oversized para un look relajado.", 50.99, imageBytes43, 10, CategoryType.JERSEYS);
+                Blob imageBytes43 = loadImage("images/jerséis/jersey7.webp");
+                Product product43 = new Product("Oversized Knit", "Jersey oversized para un look relajado.", 50.99,
+                        imageBytes43, 10, CategoryType.JERSEYS);
                 productRepository.save(product43);
 
-                byte[] imageBytes44 = loadImage("src/main/resources/images/jerséis/jersey8.webp");
-                Product product44 = new Product("Striped Sweater", "Jersey a rayas con diseño casual.", 44.99, imageBytes44, 10, CategoryType.JERSEYS);
+                Blob imageBytes44 = loadImage("images/jerséis/jersey8.webp");
+                Product product44 = new Product("Striped Sweater", "Jersey a rayas con diseño casual.", 44.99,
+                        imageBytes44, 10, CategoryType.JERSEYS);
                 productRepository.save(product44);
 
-                byte[] imageBytes45 = loadImage("src/main/resources/images/jerséis/jersey9.webp");
-                Product product45 = new Product("Wool Blend", "Jersey de lana mezclada para mayor calidez.", 59.99, imageBytes45, 10, CategoryType.JERSEYS);
+                Blob imageBytes45 = loadImage("images/jerséis/jersey9.webp");
+                Product product45 = new Product("Wool Blend", "Jersey de lana mezclada para mayor calidez.", 59.99,
+                        imageBytes45, 10, CategoryType.JERSEYS);
                 productRepository.save(product45);
 
-                byte[] imageBytes46 = loadImage("src/main/resources/images/jerséis/jersey10.webp");
-                Product product46 = new Product("Mock Neck", "Jersey con cuello semi-alto y diseño minimalista.", 41.99, imageBytes46, 10, CategoryType.JERSEYS);
+                Blob imageBytes46 = loadImage("images/jerséis/jersey10.webp");
+                Product product46 = new Product("Mock Neck", "Jersey con cuello semi-alto y diseño minimalista.", 41.99,
+                        imageBytes46, 10, CategoryType.JERSEYS);
                 productRepository.save(product46);
 
-                byte[] imageBytes47 = loadImage("src/main/resources/images/jerséis/jersey11.webp");
-                Product product47 = new Product("V-Neck Sweater", "Jersey de cuello en V, ideal para capas.", 43.99, imageBytes47, 10, CategoryType.JERSEYS);
+                Blob imageBytes47 = loadImage("images/jerséis/jersey11.webp");
+                Product product47 = new Product("V-Neck Sweater", "Jersey de cuello en V, ideal para capas.", 43.99,
+                        imageBytes47, 10, CategoryType.JERSEYS);
                 productRepository.save(product47);
 
-                byte[] imageBytes48 = loadImage("src/main/resources/images/jerséis/jersey12.webp");
-                Product product48 = new Product("Cozy Fleece", "Jersey de felpa suave para máxima comodidad.", 38.99, imageBytes48, 10, CategoryType.JERSEYS);
+                Blob imageBytes48 = loadImage("images/jerséis/jersey12.webp");
+                Product product48 = new Product("Cozy Fleece", "Jersey de felpa suave para máxima comodidad.", 38.99,
+                        imageBytes48, 10, CategoryType.JERSEYS);
                 productRepository.save(product48);
-
 
                 logger.info("Productos cargados correctamente.");
             } catch (Exception e) {
@@ -262,44 +332,63 @@ public class DataInitializer implements CommandLineRunner {
         if (userRepository.count() == 0) {
             logger.info("Cargando usuarios...");
             try {
-                //byte[] imageBytes49 = loadImage("src/main/resources/images/users/perfil1.webp");
-                User user1 = new User("Paco", "García", "Calle Mirador 12-C", "pacoG@gmail.com", "12345", Role.CUSTOMER);
+                // Admin
+                User admin = new User("Laura", "Moreno", "laura1@gmail.com", "Laura.53", Role.ADMIN);
+                userRepository.save(admin);
+
+                Blob imageBytes49 = loadImage("images/users/perfil1.webp");
+                User user1 = new User("Paco", "García", imageBytes49, "Calle Mirador 12-C", "pacoG@gmail.com", "12345",
+                        Role.CUSTOMER);
                 userRepository.save(user1);
 
-                //byte[] imageBytes50 = loadImage("src/main/resources/images/users/perfil2.webp");
-                User user2 = new User("Ana", "López", "Avenida de la Paz 4-B", "anaL@gmail.com", "54321", Role.CUSTOMER);
+                Blob imageBytes50 = loadImage("images/users/perfil2.webp");
+                User user2 = new User("Ana", "López", imageBytes50, "Avenida de la Paz 4-B", "anaL@gmail.com", "54321",
+                        Role.CUSTOMER);
                 userRepository.save(user2);
 
-                //byte[] imageBytes51 = loadImage("src/main/resources/images/users/perfil3.webp");
-                User user3 = new User("Carlos", "Martínez", "Calle Gran Vía 3-A", "carlosM@gmail.com", "67890", Role.CUSTOMER );
+                Blob imageBytes51 = loadImage("images/users/perfil3.webp");
+                User user3 = new User("Carlos", "Martínez", imageBytes51, "Calle Gran Vía 3-A", "carlosM@gmail.com",
+                        "67890",
+                        Role.CUSTOMER);
                 userRepository.save(user3);
 
-                //byte[] imageBytes52 = loadImage("src/main/resources/images/users/perfil4.webp");
-                User user4 = new User("María", "Fernández", "Calle Toledo 15", "mariaF@gmail.com", "11223", Role.CUSTOMER);
+                Blob imageBytes52 = loadImage("images/users/perfil4.webp");
+                User user4 = new User("María", "Fernández", imageBytes52, "Calle Toledo 15", "mariaF@gmail.com",
+                        "11223",
+                        Role.CUSTOMER);
                 userRepository.save(user4);
 
-                //byte[] imageBytes53 = loadImage("src/main/resources/images/users/perfil5.webp");
-                User user5 = new User("Luis", "Sánchez", "Plaza Mayor 7", "luisS@gmail.com", "44556", Role.CUSTOMER);
+                Blob imageBytes53 = loadImage("images/users/perfil5.webp");
+                User user5 = new User("Luis", "Sánchez", imageBytes53, "Plaza Mayor 7", "luisS@gmail.com", "44556",
+                        Role.CUSTOMER);
                 userRepository.save(user5);
 
-                //byte[] imageBytes54 = loadImage("src/main/resources/images/users/perfil6.webp");
-                User user6 = new User("José", "Pérez", "Calle de la Luna 9", "joseP@gmail.com", "78901", Role.CUSTOMER);
+                Blob imageBytes54 = loadImage("images/users/perfil6.webp");
+                User user6 = new User("José", "Pérez", imageBytes54, "Calle de la Luna 9", "joseP@gmail.com", "78901",
+                        Role.CUSTOMER);
                 userRepository.save(user6);
 
-                //byte[] imageBytes55 = loadImage("src/main/resources/images/users/perfil7.webp");
-                User user7 = new User("Laura", "Rodríguez", "Calle San Juan 10", "lauraR@gmail.com", "23456", Role.CUSTOMER);
+                Blob imageBytes55 = loadImage("images/users/perfil7.webp");
+                User user7 = new User("Laura", "Rodríguez", imageBytes55, "Calle San Juan 10", "lauraR@gmail.com",
+                        "23456",
+                        Role.CUSTOMER);
                 userRepository.save(user7);
 
-                //byte[] imageBytes56 = loadImage("src/main/resources/images/users/perfil8.webp");
-                User user8 = new User("David", "González", "Avenida de Andalucía 14", "davidG@gmail.com", "67890", Role.CUSTOMER);
+                Blob imageBytes56 = loadImage("images/users/perfil8.webp");
+                User user8 = new User("David", "González", imageBytes56, "Avenida de Andalucía 14", "davidG@gmail.com",
+                        "67890",
+                        Role.CUSTOMER);
                 userRepository.save(user8);
 
-                //byte[] imageBytes57 = loadImage("src/main/resources/images/users/perfil9.webp");
-                User user9 = new User("Elena", "Díaz", "Calle del Sol 21", "elenaD@gmail.com", "11234", Role.CUSTOMER);
+                Blob imageBytes57 = loadImage("images/users/perfil9.webp");
+                User user9 = new User("Elena", "Díaz", imageBytes57, "Calle del Sol 21", "elenaD@gmail.com", "11234",
+                        Role.CUSTOMER);
                 userRepository.save(user9);
 
-                //byte[] imageBytes58 = loadImage("src/main/resources/images/users/perfil10.webp");
-                User user10 = new User("Sergio", "Jiménez", "Calle del Mar 18", "sergioJ@gmail.com", "66778", Role.CUSTOMER);
+                Blob imageBytes58 = loadImage("images/users/perfil10.webp");
+                User user10 = new User("Sergio", "Jiménez", imageBytes58, "Calle del Mar 18", "sergioJ@gmail.com",
+                        "66778",
+                        Role.CUSTOMER);
                 userRepository.save(user10);
 
                 logger.info("Usuarios cargados correctamente.");
@@ -315,7 +404,7 @@ public class DataInitializer implements CommandLineRunner {
         if (reviewRepository.count() == 0) {
             try {
                 logger.info("Cargando reseñas...");
-    
+
                 Optional<Product> product1 = productRepository.findById(1L);
                 Optional<Product> product2 = productRepository.findById(2L);
                 Optional<Product> product3 = productRepository.findById(3L);
@@ -377,12 +466,13 @@ public class DataInitializer implements CommandLineRunner {
                 Optional<User> user10 = userRepository.findById(10L);
 
                 if (product1.isPresent()) {
-                    if (user1.isPresent()){
+                    if (user1.isPresent()) {
                         Review review1 = new Review(5, "Excelente producto", false, product1.get(), user1.get());
                         reviewRepository.save(review1);
                     }
-                    if (user2.isPresent()){
-                        Review review2 = new Review(3, "Buena calidad, pero un poco caro", false, product1.get(), user2.get());
+                    if (user2.isPresent()) {
+                        Review review2 = new Review(3, "Buena calidad, pero un poco caro", false, product1.get(),
+                                user2.get());
                         reviewRepository.save(review2);
                     }
                 }
@@ -393,14 +483,16 @@ public class DataInitializer implements CommandLineRunner {
                         reviewRepository.save(review1);
                     }
                     if (user3.isPresent()) {
-                        Review review2 = new Review(2, "La calidad no es lo que esperaba", false, product2.get(), user3.get());
+                        Review review2 = new Review(2, "La calidad no es lo que esperaba", false, product2.get(),
+                                user3.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product3.isPresent()) {
                     if (user3.isPresent()) {
-                        Review review1 = new Review(5, "Me encanta, superó mis expectativas", false, product3.get(), user3.get());
+                        Review review1 = new Review(5, "Me encanta, superó mis expectativas", false, product3.get(),
+                                user3.get());
                         reviewRepository.save(review1);
                     }
                     if (user4.isPresent()) {
@@ -408,10 +500,11 @@ public class DataInitializer implements CommandLineRunner {
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product4.isPresent()) {
                     if (user4.isPresent()) {
-                        Review review1 = new Review(3, "Buen producto, pero mejorable", false, product4.get(), user4.get());
+                        Review review1 = new Review(3, "Buen producto, pero mejorable", false, product4.get(),
+                                user4.get());
                         reviewRepository.save(review1);
                     }
                     if (user5.isPresent()) {
@@ -419,10 +512,11 @@ public class DataInitializer implements CommandLineRunner {
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product5.isPresent()) {
                     if (user5.isPresent()) {
-                        Review review1 = new Review(4, "Lo usaré más veces, buena compra", false, product5.get(), user5.get());
+                        Review review1 = new Review(4, "Lo usaré más veces, buena compra", false, product5.get(),
+                                user5.get());
                         reviewRepository.save(review1);
                     }
                     if (user6.isPresent()) {
@@ -430,10 +524,11 @@ public class DataInitializer implements CommandLineRunner {
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product6.isPresent()) {
                     if (user6.isPresent()) {
-                        Review review1 = new Review(4, "Calidad buena, el envío tardó", false, product6.get(), user6.get());
+                        Review review1 = new Review(4, "Calidad buena, el envío tardó", false, product6.get(),
+                                user6.get());
                         reviewRepository.save(review1);
                     }
                     if (user7.isPresent()) {
@@ -441,10 +536,11 @@ public class DataInitializer implements CommandLineRunner {
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product7.isPresent()) {
                     if (user7.isPresent()) {
-                        Review review1 = new Review(5, "Excelente calidad y muy útil", false, product7.get(), user7.get());
+                        Review review1 = new Review(5, "Excelente calidad y muy útil", false, product7.get(),
+                                user7.get());
                         reviewRepository.save(review1);
                     }
                     if (user8.isPresent()) {
@@ -452,18 +548,19 @@ public class DataInitializer implements CommandLineRunner {
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product8.isPresent()) {
                     if (user8.isPresent()) {
                         Review review1 = new Review(3, "Está bien para el precio", false, product8.get(), user8.get());
                         reviewRepository.save(review1);
                     }
                     if (user9.isPresent()) {
-                        Review review2 = new Review(5, "Muy práctico, lo recomiendo", false, product8.get(), user9.get());
+                        Review review2 = new Review(5, "Muy práctico, lo recomiendo", false, product8.get(),
+                                user9.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product9.isPresent()) {
                     if (user9.isPresent()) {
                         Review review1 = new Review(4, "Me gustó mucho el diseño", false, product9.get(), user9.get());
@@ -474,65 +571,76 @@ public class DataInitializer implements CommandLineRunner {
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product10.isPresent()) {
                     if (user10.isPresent()) {
-                        Review review1 = new Review(5, "Totalmente satisfecho con la compra", false, product10.get(), user10.get());
+                        Review review1 = new Review(5, "Totalmente satisfecho con la compra", false, product10.get(),
+                                user10.get());
                         reviewRepository.save(review1);
                     }
                     if (user1.isPresent()) {
-                        Review review2 = new Review(2, "No se ajusta a lo que esperaba", false, product10.get(), user1.get());
+                        Review review2 = new Review(2, "No se ajusta a lo que esperaba", false, product10.get(),
+                                user1.get());
                         reviewRepository.save(review2);
                     }
                 }
 
                 if (product11.isPresent()) {
                     if (user1.isPresent()) {
-                        Review review1 = new Review(4, "Muy buen producto, cumple lo prometido", false, product11.get(), user1.get());
+                        Review review1 = new Review(4, "Muy buen producto, cumple lo prometido", false, product11.get(),
+                                user1.get());
                         reviewRepository.save(review1);
                     }
                     if (user2.isPresent()) {
-                        Review review2 = new Review(3, "Buena calidad, pero se tarda en llegar", false, product11.get(), user2.get());
+                        Review review2 = new Review(3, "Buena calidad, pero se tarda en llegar", false, product11.get(),
+                                user2.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product12.isPresent()) {
                     if (user2.isPresent()) {
-                        Review review1 = new Review(5, "Me ha encantado, vale la pena", false, product12.get(), user2.get());
+                        Review review1 = new Review(5, "Me ha encantado, vale la pena", false, product12.get(),
+                                user2.get());
                         reviewRepository.save(review1);
                     }
                     if (user3.isPresent()) {
-                        Review review2 = new Review(2, "No lo recomendaría, esperaba más", false, product12.get(), user3.get());
+                        Review review2 = new Review(2, "No lo recomendaría, esperaba más", false, product12.get(),
+                                user3.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product13.isPresent()) {
                     if (user3.isPresent()) {
-                        Review review1 = new Review(5, "Perfecto para mis necesidades, excelente", false, product13.get(), user3.get());
+                        Review review1 = new Review(5, "Perfecto para mis necesidades, excelente", false,
+                                product13.get(), user3.get());
                         reviewRepository.save(review1);
                     }
                     if (user4.isPresent()) {
-                        Review review2 = new Review(1, "No cumple con la descripción", false, product13.get(), user4.get());
+                        Review review2 = new Review(1, "No cumple con la descripción", false, product13.get(),
+                                user4.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product14.isPresent()) {
                     if (user4.isPresent()) {
-                        Review review1 = new Review(4, "Muy buena opción, pero con detalles a mejorar", false, product14.get(), user4.get());
+                        Review review1 = new Review(4, "Muy buena opción, pero con detalles a mejorar", false,
+                                product14.get(), user4.get());
                         reviewRepository.save(review1);
                     }
                     if (user5.isPresent()) {
-                        Review review2 = new Review(5, "Gran compra, muy contento", false, product14.get(), user5.get());
+                        Review review2 = new Review(5, "Gran compra, muy contento", false, product14.get(),
+                                user5.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product15.isPresent()) {
                     if (user5.isPresent()) {
-                        Review review1 = new Review(3, "El producto es bueno, pero el envío fue lento", false, product15.get(), user5.get());
+                        Review review1 = new Review(3, "El producto es bueno, pero el envío fue lento", false,
+                                product15.get(), user5.get());
                         reviewRepository.save(review1);
                     }
                     if (user6.isPresent()) {
@@ -540,21 +648,24 @@ public class DataInitializer implements CommandLineRunner {
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product16.isPresent()) {
                     if (user6.isPresent()) {
-                        Review review1 = new Review(4, "Producto útil y fácil de usar", false, product16.get(), user6.get());
+                        Review review1 = new Review(4, "Producto útil y fácil de usar", false, product16.get(),
+                                user6.get());
                         reviewRepository.save(review1);
                     }
                     if (user7.isPresent()) {
-                        Review review2 = new Review(3, "Buena calidad, pero algo caro", false, product16.get(), user7.get());
+                        Review review2 = new Review(3, "Buena calidad, pero algo caro", false, product16.get(),
+                                user7.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product17.isPresent()) {
                     if (user7.isPresent()) {
-                        Review review1 = new Review(5, "Maravilloso, completamente satisfecho", false, product17.get(), user7.get());
+                        Review review1 = new Review(5, "Maravilloso, completamente satisfecho", false, product17.get(),
+                                user7.get());
                         reviewRepository.save(review1);
                     }
                     if (user8.isPresent()) {
@@ -562,43 +673,50 @@ public class DataInitializer implements CommandLineRunner {
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product18.isPresent()) {
                     if (user8.isPresent()) {
-                        Review review1 = new Review(4, "Buen producto, lo recomiendo", false, product18.get(), user8.get());
+                        Review review1 = new Review(4, "Buen producto, lo recomiendo", false, product18.get(),
+                                user8.get());
                         reviewRepository.save(review1);
                     }
                     if (user9.isPresent()) {
-                        Review review2 = new Review(1, "No me funcionó correctamente", false, product18.get(), user9.get());
+                        Review review2 = new Review(1, "No me funcionó correctamente", false, product18.get(),
+                                user9.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product19.isPresent()) {
                     if (user9.isPresent()) {
-                        Review review1 = new Review(3, "Está bien para lo que cuesta", false, product19.get(), user9.get());
+                        Review review1 = new Review(3, "Está bien para lo que cuesta", false, product19.get(),
+                                user9.get());
                         reviewRepository.save(review1);
                     }
                     if (user10.isPresent()) {
-                        Review review2 = new Review(5, "Excelente, lo volveré a comprar", false, product19.get(), user10.get());
+                        Review review2 = new Review(5, "Excelente, lo volveré a comprar", false, product19.get(),
+                                user10.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product20.isPresent()) {
                     if (user10.isPresent()) {
-                        Review review1 = new Review(4, "Buen desempeño, aunque le falta algo", false, product20.get(), user10.get());
+                        Review review1 = new Review(4, "Buen desempeño, aunque le falta algo", false, product20.get(),
+                                user10.get());
                         reviewRepository.save(review1);
                     }
                     if (user1.isPresent()) {
-                        Review review2 = new Review(3, "Es bueno, pero no lo que esperaba", false, product20.get(), user1.get());
+                        Review review2 = new Review(3, "Es bueno, pero no lo que esperaba", false, product20.get(),
+                                user1.get());
                         reviewRepository.save(review2);
                     }
                 }
 
                 if (product21.isPresent()) {
                     if (user1.isPresent()) {
-                        Review review1 = new Review(4, "Buena calidad, aunque algo pesado", false, product21.get(), user1.get());
+                        Review review1 = new Review(4, "Buena calidad, aunque algo pesado", false, product21.get(),
+                                user1.get());
                         reviewRepository.save(review1);
                     }
                     if (user2.isPresent()) {
@@ -606,304 +724,358 @@ public class DataInitializer implements CommandLineRunner {
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product22.isPresent()) {
                     if (user2.isPresent()) {
-                        Review review1 = new Review(3, "Cumple su función, pero no tiene muchas características", false, product22.get(), user2.get());
+                        Review review1 = new Review(3, "Cumple su función, pero no tiene muchas características", false,
+                                product22.get(), user2.get());
                         reviewRepository.save(review1);
                     }
                     if (user3.isPresent()) {
-                        Review review2 = new Review(2, "No es lo que esperaba, le faltan detalles", false, product22.get(), user3.get());
+                        Review review2 = new Review(2, "No es lo que esperaba, le faltan detalles", false,
+                                product22.get(), user3.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product23.isPresent()) {
                     if (user3.isPresent()) {
-                        Review review1 = new Review(5, "Lo mejor que he comprado, estoy muy contento", false, product23.get(), user3.get());
+                        Review review1 = new Review(5, "Lo mejor que he comprado, estoy muy contento", false,
+                                product23.get(), user3.get());
                         reviewRepository.save(review1);
                     }
                     if (user4.isPresent()) {
-                        Review review2 = new Review(4, "Buena compra, aunque mejoraría el diseño", false, product23.get(), user4.get());
+                        Review review2 = new Review(4, "Buena compra, aunque mejoraría el diseño", false,
+                                product23.get(), user4.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product24.isPresent()) {
                     if (user4.isPresent()) {
-                        Review review1 = new Review(5, "Excelente calidad y precio", false, product24.get(), user4.get());
+                        Review review1 = new Review(5, "Excelente calidad y precio", false, product24.get(),
+                                user4.get());
                         reviewRepository.save(review1);
                     }
                     if (user5.isPresent()) {
-                        Review review2 = new Review(4, "Muy bueno, pero el servicio de entrega fue lento", false, product24.get(), user5.get());
+                        Review review2 = new Review(4, "Muy bueno, pero el servicio de entrega fue lento", false,
+                                product24.get(), user5.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product25.isPresent()) {
                     if (user5.isPresent()) {
-                        Review review1 = new Review(3, "Buena calidad, pero no duró tanto como esperaba", false, product25.get(), user5.get());
+                        Review review1 = new Review(3, "Buena calidad, pero no duró tanto como esperaba", false,
+                                product25.get(), user5.get());
                         reviewRepository.save(review1);
                     }
                     if (user6.isPresent()) {
-                        Review review2 = new Review(4, "Muy funcional, aunque el tamaño es un poco grande", false, product25.get(), user6.get());
+                        Review review2 = new Review(4, "Muy funcional, aunque el tamaño es un poco grande", false,
+                                product25.get(), user6.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product26.isPresent()) {
                     if (user6.isPresent()) {
-                        Review review1 = new Review(5, "Es justo lo que buscaba, lo recomiendo mucho", false, product26.get(), user6.get());
+                        Review review1 = new Review(5, "Es justo lo que buscaba, lo recomiendo mucho", false,
+                                product26.get(), user6.get());
                         reviewRepository.save(review1);
                     }
                     if (user7.isPresent()) {
-                        Review review2 = new Review(2, "No es tan útil como pensaba", false, product26.get(), user7.get());
+                        Review review2 = new Review(2, "No es tan útil como pensaba", false, product26.get(),
+                                user7.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product27.isPresent()) {
                     if (user7.isPresent()) {
-                        Review review1 = new Review(4, "Buen producto, pero el precio podría ser más bajo", false, product27.get(), user7.get());
+                        Review review1 = new Review(4, "Buen producto, pero el precio podría ser más bajo", false,
+                                product27.get(), user7.get());
                         reviewRepository.save(review1);
                     }
                     if (user8.isPresent()) {
-                        Review review2 = new Review(5, "Perfecto para mi uso diario, no me arrepiento", false, product27.get(), user8.get());
+                        Review review2 = new Review(5, "Perfecto para mi uso diario, no me arrepiento", false,
+                                product27.get(), user8.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product28.isPresent()) {
                     if (user8.isPresent()) {
-                        Review review1 = new Review(3, "Buen producto, pero no es tan duradero como esperábamos", false, product28.get(), user8.get());
+                        Review review1 = new Review(3, "Buen producto, pero no es tan duradero como esperábamos", false,
+                                product28.get(), user8.get());
                         reviewRepository.save(review1);
                     }
                     if (user9.isPresent()) {
-                        Review review2 = new Review(4, "Buen rendimiento, pero el diseño podría mejorar", false, product28.get(), user9.get());
+                        Review review2 = new Review(4, "Buen rendimiento, pero el diseño podría mejorar", false,
+                                product28.get(), user9.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product29.isPresent()) {
                     if (user9.isPresent()) {
-                        Review review1 = new Review(5, "Superó mis expectativas, muy recomendado", false, product29.get(), user9.get());
+                        Review review1 = new Review(5, "Superó mis expectativas, muy recomendado", false,
+                                product29.get(), user9.get());
                         reviewRepository.save(review1);
                     }
                     if (user10.isPresent()) {
-                        Review review2 = new Review(4, "Es bueno, aunque me gustaría que fuera más compacto", false, product29.get(), user10.get());
+                        Review review2 = new Review(4, "Es bueno, aunque me gustaría que fuera más compacto", false,
+                                product29.get(), user10.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product30.isPresent()) {
                     if (user10.isPresent()) {
-                        Review review1 = new Review(2, "No funciona correctamente, muy decepcionado", false, product30.get(), user10.get());
+                        Review review1 = new Review(2, "No funciona correctamente, muy decepcionado", false,
+                                product30.get(), user10.get());
                         reviewRepository.save(review1);
                     }
                     if (user1.isPresent()) {
-                        Review review2 = new Review(4, "Está bien, aunque tiene algunos detalles que podrían mejorar", false, product30.get(), user1.get());
+                        Review review2 = new Review(4, "Está bien, aunque tiene algunos detalles que podrían mejorar",
+                                false, product30.get(), user1.get());
                         reviewRepository.save(review2);
                     }
                 }
 
                 if (product31.isPresent()) {
                     if (user1.isPresent()) {
-                        Review review1 = new Review(5, "Producto increíble, definitivamente lo recomendaré", false, product31.get(), user1.get());
+                        Review review1 = new Review(5, "Producto increíble, definitivamente lo recomendaré", false,
+                                product31.get(), user1.get());
                         reviewRepository.save(review1);
                     }
                     if (user2.isPresent()) {
-                        Review review2 = new Review(4, "Es bastante bueno, aunque algo pesado", false, product31.get(), user2.get());
+                        Review review2 = new Review(4, "Es bastante bueno, aunque algo pesado", false, product31.get(),
+                                user2.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product32.isPresent()) {
                     if (user2.isPresent()) {
-                        Review review1 = new Review(3, "Cumple su función, pero no tiene tantas características", false, product32.get(), user2.get());
+                        Review review1 = new Review(3, "Cumple su función, pero no tiene tantas características", false,
+                                product32.get(), user2.get());
                         reviewRepository.save(review1);
                     }
                     if (user3.isPresent()) {
-                        Review review2 = new Review(4, "Buen rendimiento, pero algo caro para lo que ofrece", false, product32.get(), user3.get());
+                        Review review2 = new Review(4, "Buen rendimiento, pero algo caro para lo que ofrece", false,
+                                product32.get(), user3.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product33.isPresent()) {
                     if (user3.isPresent()) {
-                        Review review1 = new Review(5, "Excelente, ya lo tengo en mi lista de favoritos", false, product33.get(), user3.get());
+                        Review review1 = new Review(5, "Excelente, ya lo tengo en mi lista de favoritos", false,
+                                product33.get(), user3.get());
                         reviewRepository.save(review1);
                     }
                     if (user4.isPresent()) {
-                        Review review2 = new Review(4, "Me gusta mucho, aunque la entrega fue algo demorada", false, product33.get(), user4.get());
+                        Review review2 = new Review(4, "Me gusta mucho, aunque la entrega fue algo demorada", false,
+                                product33.get(), user4.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product34.isPresent()) {
                     if (user4.isPresent()) {
-                        Review review1 = new Review(5, "Perfecto, cumple todo lo que prometen", false, product34.get(), user4.get());
+                        Review review1 = new Review(5, "Perfecto, cumple todo lo que prometen", false, product34.get(),
+                                user4.get());
                         reviewRepository.save(review1);
                     }
                     if (user5.isPresent()) {
-                        Review review2 = new Review(3, "Es bueno, pero esperaba más por el precio", false, product34.get(), user5.get());
+                        Review review2 = new Review(3, "Es bueno, pero esperaba más por el precio", false,
+                                product34.get(), user5.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product35.isPresent()) {
                     if (user5.isPresent()) {
-                        Review review1 = new Review(4, "Buen producto, pero el diseño podría mejorarse", false, product35.get(), user5.get());
+                        Review review1 = new Review(4, "Buen producto, pero el diseño podría mejorarse", false,
+                                product35.get(), user5.get());
                         reviewRepository.save(review1);
                     }
                     if (user6.isPresent()) {
-                        Review review2 = new Review(5, "Lo uso todos los días, muy funcional", false, product35.get(), user6.get());
+                        Review review2 = new Review(5, "Lo uso todos los días, muy funcional", false, product35.get(),
+                                user6.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product36.isPresent()) {
                     if (user6.isPresent()) {
-                        Review review1 = new Review(3, "Está bien, pero me gustaría que tuviera más opciones", false, product36.get(), user6.get());
+                        Review review1 = new Review(3, "Está bien, pero me gustaría que tuviera más opciones", false,
+                                product36.get(), user6.get());
                         reviewRepository.save(review1);
                     }
                     if (user7.isPresent()) {
-                        Review review2 = new Review(4, "Satisfactorio, pero el manual de instrucciones es confuso", false, product36.get(), user7.get());
+                        Review review2 = new Review(4, "Satisfactorio, pero el manual de instrucciones es confuso",
+                                false, product36.get(), user7.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product37.isPresent()) {
                     if (user7.isPresent()) {
-                        Review review1 = new Review(5, "El mejor producto que he comprado en mucho tiempo", false, product37.get(), user7.get());
+                        Review review1 = new Review(5, "El mejor producto que he comprado en mucho tiempo", false,
+                                product37.get(), user7.get());
                         reviewRepository.save(review1);
                     }
                     if (user8.isPresent()) {
-                        Review review2 = new Review(4, "Me encanta, pero el precio es algo alto", false, product37.get(), user8.get());
+                        Review review2 = new Review(4, "Me encanta, pero el precio es algo alto", false,
+                                product37.get(), user8.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product38.isPresent()) {
                     if (user8.isPresent()) {
-                        Review review1 = new Review(2, "No cumplió con mis expectativas, me decepcionó", false, product38.get(), user8.get());
+                        Review review1 = new Review(2, "No cumplió con mis expectativas, me decepcionó", false,
+                                product38.get(), user8.get());
                         reviewRepository.save(review1);
                     }
                     if (user9.isPresent()) {
-                        Review review2 = new Review(3, "Apenas cumple su función, esperaba más", false, product38.get(), user9.get());
+                        Review review2 = new Review(3, "Apenas cumple su función, esperaba más", false, product38.get(),
+                                user9.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product39.isPresent()) {
                     if (user9.isPresent()) {
-                        Review review1 = new Review(5, "Muy satisfecho con la compra, todo excelente", false, product39.get(), user9.get());
+                        Review review1 = new Review(5, "Muy satisfecho con la compra, todo excelente", false,
+                                product39.get(), user9.get());
                         reviewRepository.save(review1);
                     }
                     if (user10.isPresent()) {
-                        Review review2 = new Review(4, "Me gusta, pero el tamaño es un poco grande para mí", false, product39.get(), user10.get());
+                        Review review2 = new Review(4, "Me gusta, pero el tamaño es un poco grande para mí", false,
+                                product39.get(), user10.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product40.isPresent()) {
                     if (user10.isPresent()) {
-                        Review review1 = new Review(3, "No es malo, pero se puede mejorar", false, product40.get(), user10.get());
+                        Review review1 = new Review(3, "No es malo, pero se puede mejorar", false, product40.get(),
+                                user10.get());
                         reviewRepository.save(review1);
                     }
                     if (user1.isPresent()) {
-                        Review review2 = new Review(4, "Es un buen producto, aunque la entrega fue algo tardada", false, product40.get(), user1.get());
+                        Review review2 = new Review(4, "Es un buen producto, aunque la entrega fue algo tardada", false,
+                                product40.get(), user1.get());
                         reviewRepository.save(review2);
                     }
                 }
 
                 if (product41.isPresent()) {
                     if (user1.isPresent()) {
-                        Review review1 = new Review(5, "Excelente calidad y muy funcional, lo uso todos los días", false, product41.get(), user1.get());
+                        Review review1 = new Review(5, "Excelente calidad y muy funcional, lo uso todos los días",
+                                false, product41.get(), user1.get());
                         reviewRepository.save(review1);
                     }
                     if (user2.isPresent()) {
-                        Review review2 = new Review(4, "Buen producto, pero el diseño podría ser más moderno", false, product41.get(), user2.get());
+                        Review review2 = new Review(4, "Buen producto, pero el diseño podría ser más moderno", false,
+                                product41.get(), user2.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product42.isPresent()) {
                     if (user2.isPresent()) {
-                        Review review1 = new Review(3, "Funciona bien, pero algo lento en comparación con otros", false, product42.get(), user2.get());
+                        Review review1 = new Review(3, "Funciona bien, pero algo lento en comparación con otros", false,
+                                product42.get(), user2.get());
                         reviewRepository.save(review1);
                     }
                     if (user3.isPresent()) {
-                        Review review2 = new Review(5, "Me encantó, es muy rápido y fácil de usar", false, product42.get(), user3.get());
+                        Review review2 = new Review(5, "Me encantó, es muy rápido y fácil de usar", false,
+                                product42.get(), user3.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product43.isPresent()) {
                     if (user3.isPresent()) {
-                        Review review1 = new Review(4, "Buen producto, pero la durabilidad podría mejorar", false, product43.get(), user3.get());
+                        Review review1 = new Review(4, "Buen producto, pero la durabilidad podría mejorar", false,
+                                product43.get(), user3.get());
                         reviewRepository.save(review1);
                     }
                     if (user4.isPresent()) {
-                        Review review2 = new Review(5, "Excelente relación calidad-precio, lo recomiendo", false, product43.get(), user4.get());
+                        Review review2 = new Review(5, "Excelente relación calidad-precio, lo recomiendo", false,
+                                product43.get(), user4.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product44.isPresent()) {
                     if (user4.isPresent()) {
-                        Review review1 = new Review(3, "Está bien, pero esperaba más funciones por el precio", false, product44.get(), user4.get());
+                        Review review1 = new Review(3, "Está bien, pero esperaba más funciones por el precio", false,
+                                product44.get(), user4.get());
                         reviewRepository.save(review1);
                     }
                     if (user5.isPresent()) {
-                        Review review2 = new Review(4, "Buen producto, aunque la entrega se retrasó un poco", false, product44.get(), user5.get());
+                        Review review2 = new Review(4, "Buen producto, aunque la entrega se retrasó un poco", false,
+                                product44.get(), user5.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product45.isPresent()) {
                     if (user5.isPresent()) {
-                        Review review1 = new Review(5, "Muy satisfecho, superó mis expectativas", false, product45.get(), user5.get());
+                        Review review1 = new Review(5, "Muy satisfecho, superó mis expectativas", false,
+                                product45.get(), user5.get());
                         reviewRepository.save(review1);
                     }
                     if (user6.isPresent()) {
-                        Review review2 = new Review(4, "Es bueno, pero a veces tiene fallos en el rendimiento", false, product45.get(), user6.get());
+                        Review review2 = new Review(4, "Es bueno, pero a veces tiene fallos en el rendimiento", false,
+                                product45.get(), user6.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product46.isPresent()) {
                     if (user6.isPresent()) {
-                        Review review1 = new Review(3, "El producto es funcional, pero no es tan potente como esperaba", false, product46.get(), user6.get());
+                        Review review1 = new Review(3, "El producto es funcional, pero no es tan potente como esperaba",
+                                false, product46.get(), user6.get());
                         reviewRepository.save(review1);
                     }
                     if (user7.isPresent()) {
-                        Review review2 = new Review(5, "Lo compré para mi oficina y ha sido una excelente decisión", false, product46.get(), user7.get());
+                        Review review2 = new Review(5, "Lo compré para mi oficina y ha sido una excelente decisión",
+                                false, product46.get(), user7.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product47.isPresent()) {
                     if (user7.isPresent()) {
-                        Review review1 = new Review(4, "Buen producto, pero el precio podría ser más bajo", false, product47.get(), user7.get());
+                        Review review1 = new Review(4, "Buen producto, pero el precio podría ser más bajo", false,
+                                product47.get(), user7.get());
                         reviewRepository.save(review1);
                     }
                     if (user8.isPresent()) {
-                        Review review2 = new Review(5, "Perfecto para lo que necesito, lo recomiendo sin dudas", false, product47.get(), user8.get());
+                        Review review2 = new Review(5, "Perfecto para lo que necesito, lo recomiendo sin dudas", false,
+                                product47.get(), user8.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 if (product48.isPresent()) {
                     if (user8.isPresent()) {
-                        Review review1 = new Review(2, "No cumplió con lo que esperaba, me decepcionó", false, product48.get(), user8.get());
+                        Review review1 = new Review(2, "No cumplió con lo que esperaba, me decepcionó", false,
+                                product48.get(), user8.get());
                         reviewRepository.save(review1);
                     }
                     if (user9.isPresent()) {
-                        Review review2 = new Review(3, "Es adecuado, pero no destaca sobre otros productos similares", false, product48.get(), user9.get());
+                        Review review2 = new Review(3, "Es adecuado, pero no destaca sobre otros productos similares",
+                                false, product48.get(), user9.get());
                         reviewRepository.save(review2);
                     }
                 }
-                
+
                 logger.info("Reseñas cargadas correctamente.");
             } catch (Exception e) {
                 logger.error("Error al inicializar reseñas", e);
@@ -912,15 +1084,96 @@ public class DataInitializer implements CommandLineRunner {
             logger.info("Las reseñas ya estaban en la base de datos.");
         }
     }
-    
-    
 
-    private byte[] loadImage(String path) {
-        try {
-            return Files.readAllBytes(Paths.get(path));
-        } catch (Exception e) {
-            logger.error("No se pudo cargar la imagen: " + path, e);
-            return new byte[0]; // Retorna una imagen vacía para evitar errores
+    public void initializeOrders() {
+        if (orderRepository.count() == 0) {
+            logger.info("Cargando pedidos...");
+            // Load products
+            Product product1 = productRepository.findById(1L).orElse(null);
+            Product product2 = productRepository.findById(23L).orElse(null);
+            Product product3 = productRepository.findById(41L).orElse(null);
+            Product product4 = productRepository.findById(33L).orElse(null);
+            Product product5 = productRepository.findById(9L).orElse(null);
+            Product product6 = productRepository.findById(29L).orElse(null);
+            Product product7 = productRepository.findById(15L).orElse(null);
+            Product product8 = productRepository.findById(8L).orElse(null);
+            // Load users
+            User user1 = userRepository.findById(1L).orElse(null);
+            User user2 = userRepository.findById(2L).orElse(null);
+            User user3 = userRepository.findById(3L).orElse(null);
+            User user4 = userRepository.findById(4L).orElse(null);
+            // Order 1
+            if (user1 != null && product1 != null && product2 != null && product3 != null) {
+                Order order1 = new Order();
+                order1.setUser(user1);
+                order1.setState(Order.State.Procesado);
+                order1.setIsPaid(true);
+                OrderProduct orderProduct1 = new OrderProduct(order1, product1, 2);
+                OrderProduct orderProduct2 = new OrderProduct(order1, product2, 1);
+                OrderProduct orderProduct3 = new OrderProduct(order1, product3, 1);
+                order1.getOrderProducts().addAll(Arrays.asList(orderProduct1, orderProduct2, orderProduct3));
+                order1.setTotalPrice(orderProduct1.getSubtotalPrice() + orderProduct2.getSubtotalPrice()
+                        + orderProduct3.getSubtotalPrice());
+                logger.info("Guardando el pedido: " + order1);
+                orderRepository.save(order1);
+                logger.info("Pedido guardado con éxito");
+            }
+            // Order 2
+            if (user2 != null && product4 != null && product5 != null) {
+                Order order2 = new Order();
+                order2.setUser(user2);
+                order2.setState(Order.State.Enviado);
+                order2.setIsPaid(true);
+                OrderProduct orderProduct4 = new OrderProduct(order2, product4, 2);
+                OrderProduct orderProduct5 = new OrderProduct(order2, product5, 1);
+                order2.getOrderProducts().addAll(Arrays.asList(orderProduct4, orderProduct5));
+                order2.setTotalPrice(orderProduct4.getSubtotalPrice() + orderProduct5.getSubtotalPrice());
+                orderRepository.save(order2);
+            }
+            // Order 3
+            if (user3 != null && product6 != null && product7 != null && product8 != null) {
+                Order order3 = new Order();
+                order3.setUser(user3);
+                order3.setState(Order.State.Procesado);
+                order3.setIsPaid(true);
+                OrderProduct orderProduct6 = new OrderProduct(order3, product6, 2);
+                OrderProduct orderProduct7 = new OrderProduct(order3, product7, 1);
+                OrderProduct orderProduct8 = new OrderProduct(order3, product8, 3);
+                order3.getOrderProducts().addAll(Arrays.asList(orderProduct6, orderProduct7, orderProduct8));
+                order3.setTotalPrice(orderProduct6.getSubtotalPrice() + orderProduct7.getSubtotalPrice()
+                        + orderProduct8.getSubtotalPrice());
+                orderRepository.save(order3);
+            }
+            // Order 4
+            if (user4 != null && product7 != null) {
+                Order order4 = new Order();
+                order4.setUser(user4);
+                order4.setState(Order.State.No_pagado);
+                order4.setIsPaid(false);
+                OrderProduct orderProduct7 = new OrderProduct(order4, product7, 1);
+                order4.getOrderProducts().addAll(Arrays.asList(orderProduct7));
+                order4.setTotalPrice(orderProduct7.getSubtotalPrice());
+                orderRepository.save(order4);
+            }
+            logger.info("Pedidos cargados correctamente.");
         }
     }
+
+    public Blob loadImage(String imagePath) {
+        try {
+            Resource resource = new ClassPathResource(imagePath);
+            if (!resource.exists()) {
+                System.out.println("Error: No se encontró la imagen en la ruta especificada.");
+                return null;
+            }
+            try (InputStream inputStream = resource.getInputStream()) {
+                byte[] imageBytes = inputStream.readAllBytes();
+                return new SerialBlob(imageBytes);
+            }
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

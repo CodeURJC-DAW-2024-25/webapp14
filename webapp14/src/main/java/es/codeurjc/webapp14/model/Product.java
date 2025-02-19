@@ -1,14 +1,15 @@
 package es.codeurjc.webapp14.model;
 
-
-
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import jakarta.persistence.*;
 
 @Entity
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,11 +19,10 @@ public class Product {
     private Integer stock;
     private boolean outOfStock;
     private int sold;
-    //private List<Review> reviews;
+    // private List<Review> reviews;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
-
 
     private String category;
 
@@ -31,13 +31,12 @@ public class Product {
     }
 
     @Lob // Guarda la imagen como BLOB
-    private byte[] image;
+    private Blob image;
 
     public Product() {
-
     }
 
-    public Product(String name, String description, double price, byte[] image, int stock, CategoryType category) {
+    public Product(String name, String description, double price, Blob image, int stock, CategoryType category) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -74,7 +73,8 @@ public class Product {
     }
 
     public Double getPrice() {
-        return price;
+        BigDecimal bd = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     public void setPrice(Double price) {
@@ -89,11 +89,11 @@ public class Product {
         this.category = category;
     }
 
-    public byte[] getImage() {
+    public Blob getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(Blob image) {
         this.image = image;
     }
 
@@ -128,5 +128,6 @@ public class Product {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
-    } 
+    }
+
 }

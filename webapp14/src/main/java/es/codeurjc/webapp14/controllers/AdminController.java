@@ -1,14 +1,14 @@
 package es.codeurjc.webapp14.controllers;
 
 import es.codeurjc.webapp14.services.UserService;
+import es.codeurjc.webapp14.services.OrderService;
 import es.codeurjc.webapp14.services.ProductService;
 import es.codeurjc.webapp14.services.ReviewService;
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Review;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.model.UserReports;
-import es.codeurjc.webapp14.repositories.ReviewRepository;
-
+import es.codeurjc.webapp14.model.Order;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +37,9 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private OrderService orderService;
 
     @Autowired
     private ProductService productService;
@@ -133,6 +138,39 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/admin/orders")
+    // To show the orders
+    public String showAdminOrders(Model model) {
+        List<Order> orders = orderService.getAllOrders();
+        List<Order> paidOrders = orders.stream()
+                .filter(Order::getIsPaid) // Filter only paid orders
+                .collect(Collectors.toList());
+        model.addAttribute("orders", paidOrders);
+        model.addAttribute("orderCount", paidOrders.size());
+        return "admin/admin_orders";
+    }
+
+    @GetMapping("/product/image/{id}")
+    @ResponseBody
+    // To show the product image
+    public ResponseEntity<byte[]> getProductImage(@PathVariable Long id) {
+        Product product = productService.getProductById(id);
+        Blob imageBlob = product.getImage();
+        if (imageBlob != null) {
+            try {
+                byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.IMAGE_JPEG);
+                return ResponseEntity.ok().headers(headers).body(imageBytes);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/admin/products")
     public String showProducts(Model model) {
         List<Product> products = productService.getAllProducts();
@@ -206,7 +244,7 @@ public class AdminController {
 
         model.addAttribute("users", users);
         model.addAttribute("userCont", users.size());
-        
+
         List<UserReports> userReportsList = new ArrayList<>();
 
         List<Product> products = productService.getAllProducts();
@@ -234,8 +272,7 @@ public class AdminController {
 
         userReportsList.removeIf(userReports -> userReports.getReviews().isEmpty());
 
-        model.addAttribute("totalReportedReviews",totalReportedReviews);
-
+        model.addAttribute("totalReportedReviews", totalReportedReviews);
 
         for (UserReports userReports : userReportsList) {
             userReports.setReviewCount(userReports.getReviews().size());

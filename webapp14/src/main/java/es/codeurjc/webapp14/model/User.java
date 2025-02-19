@@ -22,7 +22,7 @@ public class User {
     private String password;
 
     private String address;
-    
+
     private boolean banned;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -41,10 +41,22 @@ public class User {
     public User() {
     }
 
-    public User(String name, String surname, String address, String email, String password, Role role) {
+    public User(String name, String surname, String email, String password, Role role) {
         super();
         this.name = name;
         this.surname = surname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.banned = false;
+    }
+
+    public User(String name, String surname, Blob profileImage, String address, String email, String password,
+            Role role) {
+        super();
+        this.name = name;
+        this.surname = surname;
+        this.profileImage = profileImage;
         this.address = address;
         this.email = email;
         this.password = password;
@@ -131,5 +143,6 @@ public class User {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
-    } 
+    }
+
 }

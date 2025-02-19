@@ -1,8 +1,10 @@
 package es.codeurjc.webapp14.controllers;
 
+import java.sql.SQLException;
+import java.sql.Blob;
 import java.util.List;
-
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,16 +13,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import es.codeurjc.webapp14.model.Product;
-import es.codeurjc.webapp14.model.Review;
 import es.codeurjc.webapp14.services.ProductService;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @Controller
 @RequestMapping("/index")
 public class ProductController {
+
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
@@ -37,10 +36,17 @@ public class ProductController {
     @ResponseBody
     public ResponseEntity<byte[]> getProductImage(@PathVariable Long id) {
         Product product = productService.getProductById(id);
-        if (product.getImage() != null) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG);
-            return ResponseEntity.ok().headers(headers).body(product.getImage());
+        Blob imageBlob = product.getImage();
+        if (imageBlob != null) {
+            try {
+                byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.IMAGE_JPEG);
+                return ResponseEntity.ok().headers(headers).body(imageBytes);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -59,6 +65,5 @@ public class ProductController {
         model.addAttribute("products", products);
         return "user/category";
     }
-    
-    
+
 }
