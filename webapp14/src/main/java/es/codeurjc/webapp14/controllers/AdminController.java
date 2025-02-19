@@ -7,7 +7,6 @@ import es.codeurjc.webapp14.services.ReviewService;
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Review;
 import es.codeurjc.webapp14.model.User;
-import es.codeurjc.webapp14.model.UserReports;
 import es.codeurjc.webapp14.model.Order;
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -241,44 +240,26 @@ public class AdminController {
     @GetMapping("/admin/users")
     public String getUsers(Model model) {
         List<User> users = userService.getAllUsers();
+        List<User> bannedUsers = userService.getAllUsersBanned();
+
 
         model.addAttribute("users", users);
         model.addAttribute("userCont", users.size());
+        model.addAttribute("bannedUsers", bannedUsers);
+        model.addAttribute("bannedUserCont", bannedUsers.size());
 
-        List<UserReports> userReportsList = new ArrayList<>();
-
-        List<Product> products = productService.getAllProducts();
         int totalReportedReviews = 0;
 
-        for (Product product : products) {
-            for (Review review : product.getReviews()) {
-                if (review.isReported()) {
-                    totalReportedReviews++;
+        List<User> usersWithReportedReviews = userService.getUsersWithReportedReviews();
 
-                    Optional<UserReports> userReportsOpt = userReportsList.stream()
-                            .filter(userReports -> userReports.getUsername().equals(review.getUsername()))
-                            .findFirst();
-
-                    if (userReportsOpt.isPresent()) {
-                        userReportsOpt.get().getReviews().add(review);
-                    } else {
-                        UserReports userReports = new UserReports(review.getUsername());
-                        userReports.getReviews().add(review);
-                        userReportsList.add(userReports);
-                    }
-                }
-            }
+        for (User user : usersWithReportedReviews) {
+            totalReportedReviews += user.getReports();
         }
-
-        userReportsList.removeIf(userReports -> userReports.getReviews().isEmpty());
+        model.addAttribute("usersWithReportedReviews", usersWithReportedReviews);
 
         model.addAttribute("totalReportedReviews", totalReportedReviews);
+        
 
-        for (UserReports userReports : userReportsList) {
-            userReports.setReviewCount(userReports.getReviews().size());
-        }
-
-        model.addAttribute("reportedReviewsByUser", userReportsList);
         return "admin/admin_users";
     }
 
@@ -294,6 +275,25 @@ public class AdminController {
     public String deleteReview(@PathVariable Long id, Model model) {
         reviewService.getReviewById(id);
         reviewService.delete(id);
+        return "redirect:/admin/users";
+    }
+
+    @PostMapping("/admin/users/ban/{id}")
+    public String banUser(@PathVariable Long id, Model model) {
+        User user = userService.findById(id);
+        user.setBanned(true);
+        user.getReviews().clear();
+        userService.saveUser(user);
+
+        return "redirect:/admin/users";
+    }
+
+    @PostMapping("/admin/users/unban/{id}")
+    public String unbanUser(@PathVariable Long id, Model model) {
+        User user = userService.findById(id);
+        user.setBanned(false);
+        userService.saveUser(user);
+
         return "redirect:/admin/users";
     }
 

@@ -41,6 +41,9 @@ public class Review {
         this.reported = reported;
         this.product = product;
         this.user = user;
+        if (reported){
+            user.setReports(1);
+        }
         this.ratingStars = generateStars(rating);
         this.emptyStars = generateEmptyStars(rating);
     }
@@ -92,6 +95,7 @@ public class Review {
 
     public void setReported(boolean reported) {
         this.reported = reported;
+        this.user.setReports(1);
     }
     
     public String getUsername(){

@@ -43,7 +43,7 @@ public class Product {
         this.image = image;
         this.stock = stock;
         this.outOfStock = stock == 0;
-        this.category = category.name();
+        this.category = category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase();
         this.sold = 0;
     }
 
