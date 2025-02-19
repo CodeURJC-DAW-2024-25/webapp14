@@ -12,13 +12,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.services.ProductService;
+import org.springframework.data.domain.Page;
 
 @Controller
 @RequestMapping("/index")
-public class ProductController {
+public class ProductController { 
 
     private final ProductService productService;
 
@@ -60,10 +62,29 @@ public class ProductController {
     }
 
     @GetMapping("/category/{category}")
-    public String listProductsByCategory(@PathVariable String category, Model model) {
-        List<Product> products = productService.getProductsByCategory(category);
-        model.addAttribute("products", products);
+    public String listProductsByCategory(@PathVariable String category, @RequestParam(defaultValue = "0") int page, Model model) {
+        Page<Product> productsPage = productService.getProductsByCategory(category, page);
+
+        model.addAttribute("products", productsPage.getContent());
+        model.addAttribute("category", category);
         return "user/category";
     }
+
+    @GetMapping("/moreProducts") 
+    public String getMoreProducts(
+            @RequestParam String category,
+            @RequestParam int page,
+            Model model) { 
+
+        Page<Product> productsPage = productService.getProductsByCategory(category, page);
+        boolean hasMore = page < productsPage.getTotalPages() - 1;
+
+        model.addAttribute("products", productsPage.getContent());
+        model.addAttribute("hasMore", hasMore);
+
+        return "user/moreProducts";
+    }
+
+
 
 }

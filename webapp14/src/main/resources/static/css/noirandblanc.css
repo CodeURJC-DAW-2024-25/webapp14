@@ -956,6 +956,28 @@ Styles page style start
   transition: 0.15s;
 }
 
+.btn-loadMore {
+  display: block;
+  width: 200px;
+  padding: 12px;
+  border: 2px solid black;
+  background: white;
+  color: black;
+  font-size: 16px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.15s;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.btn-loadMore:hover {
+  background: black;
+  color: white;
+}
+
+
+
 .btn-add-to-cart:hover {
   background: black;
   color: white;

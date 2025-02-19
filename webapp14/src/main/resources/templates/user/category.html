@@ -5,7 +5,7 @@
   <main class="container-fluid pt-5">
     <section id="category" class="category2">
       <div class="container-fluid px-md-5">
-        <div class="row gx-4"> 
+        <div id="products" class="row gx-4"> 
           {{#products}}
           <div class="col-md-6 col-lg-3 my-4">
             <div class="product-item text-center">
@@ -22,7 +22,9 @@
           {{/products}}
         </div>
       </div>
-      
+      <div>
+        <button type="button" id="loadMoreButton" class="btn btn-loadMore" onclick='loadMore("{{category}}")'>Cargar más</button>
+      </div>
     </section>
   </main>
 
