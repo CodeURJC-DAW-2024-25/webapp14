@@ -1,26 +1,33 @@
 package es.codeurjc.webapp14.model;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import jakarta.persistence.*;
 
 @Entity
 public class OrderProduct {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id")
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id")
     private Product product;
 
     private int quantity;
 
+
     @ManyToOne
     @JoinColumn(name = "size_id", nullable = false)
     private Size size;
+
+    private Double subtotalPrice;
 
     public OrderProduct() {
     }
@@ -32,7 +39,7 @@ public class OrderProduct {
         this.quantity = quantity;
     }
 
-    // Getters y Setters
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -71,5 +78,22 @@ public class OrderProduct {
 
     public void setSize(Size size) {
         this.size = size;
+    }
+
+    public Double getSubtotalPrice() {
+        if (product != null) {
+            BigDecimal bd = new BigDecimal(product.getPrice() * quantity).setScale(2, RoundingMode.HALF_UP);
+            return bd.doubleValue();
+        } else {
+            return 0.0;
+        }
+    }
+
+    public void setSubtotalPrice(Double subtotalPrice) {
+        if (product != null) {
+            this.subtotalPrice = product.getPrice() * quantity;
+        } else {
+            this.subtotalPrice = 0.0;
+        }
     }
 }

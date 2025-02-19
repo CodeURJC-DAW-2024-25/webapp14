@@ -17,6 +17,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+    }
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -54,6 +59,14 @@ public class UserService {
             admin.setProfileImage(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
         }
         this.saveAdmin(admin);
+    }
+
+    public List<User> getAllUsersBanned() {
+       return userRepository.findByBannedTrue();
+    }
+
+    public List<User> getUsersWithReportedReviews() {
+        return userRepository.findUsersWithReportedReviews();
     }
 
 }

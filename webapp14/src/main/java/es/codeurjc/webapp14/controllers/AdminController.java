@@ -1,14 +1,13 @@
 package es.codeurjc.webapp14.controllers;
 
 import es.codeurjc.webapp14.services.UserService;
+import es.codeurjc.webapp14.services.OrderService;
 import es.codeurjc.webapp14.services.ProductService;
 import es.codeurjc.webapp14.services.ReviewService;
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Review;
 import es.codeurjc.webapp14.model.User;
-import es.codeurjc.webapp14.model.UserReports;
-import es.codeurjc.webapp14.repositories.ReviewRepository;
-
+import es.codeurjc.webapp14.model.Order;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +36,9 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private OrderService orderService;
 
     @Autowired
     private ProductService productService;
@@ -133,6 +137,39 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/admin/orders")
+    // To show the orders
+    public String showAdminOrders(Model model) {
+        List<Order> orders = orderService.getAllOrders();
+        List<Order> paidOrders = orders.stream()
+                .filter(Order::getIsPaid) // Filter only paid orders
+                .collect(Collectors.toList());
+        model.addAttribute("orders", paidOrders);
+        model.addAttribute("orderCount", paidOrders.size());
+        return "admin/admin_orders";
+    }
+
+    @GetMapping("/product/image/{id}")
+    @ResponseBody
+    // To show the product image
+    public ResponseEntity<byte[]> getProductImage(@PathVariable Long id) {
+        Product product = productService.getProductById(id);
+        Blob imageBlob = product.getImage();
+        if (imageBlob != null) {
+            try {
+                byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.IMAGE_JPEG);
+                return ResponseEntity.ok().headers(headers).body(imageBytes);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/admin/products")
     public String showProducts(Model model) {
         List<Product> products = productService.getAllProducts();
@@ -203,45 +240,26 @@ public class AdminController {
     @GetMapping("/admin/users")
     public String getUsers(Model model) {
         List<User> users = userService.getAllUsers();
+        List<User> bannedUsers = userService.getAllUsersBanned();
+
 
         model.addAttribute("users", users);
         model.addAttribute("userCont", users.size());
-        
-        List<UserReports> userReportsList = new ArrayList<>();
+        model.addAttribute("bannedUsers", bannedUsers);
+        model.addAttribute("bannedUserCont", bannedUsers.size());
 
-        List<Product> products = productService.getAllProducts();
         int totalReportedReviews = 0;
 
-        for (Product product : products) {
-            for (Review review : product.getReviews()) {
-                if (review.isReported()) {
-                    totalReportedReviews++;
+        List<User> usersWithReportedReviews = userService.getUsersWithReportedReviews();
 
-                    Optional<UserReports> userReportsOpt = userReportsList.stream()
-                            .filter(userReports -> userReports.getUsername().equals(review.getUsername()))
-                            .findFirst();
-
-                    if (userReportsOpt.isPresent()) {
-                        userReportsOpt.get().getReviews().add(review);
-                    } else {
-                        UserReports userReports = new UserReports(review.getUsername());
-                        userReports.getReviews().add(review);
-                        userReportsList.add(userReports);
-                    }
-                }
-            }
+        for (User user : usersWithReportedReviews) {
+            totalReportedReviews += user.getReports();
         }
+        model.addAttribute("usersWithReportedReviews", usersWithReportedReviews);
 
-        userReportsList.removeIf(userReports -> userReports.getReviews().isEmpty());
+        model.addAttribute("totalReportedReviews", totalReportedReviews);
+        
 
-        model.addAttribute("totalReportedReviews",totalReportedReviews);
-
-
-        for (UserReports userReports : userReportsList) {
-            userReports.setReviewCount(userReports.getReviews().size());
-        }
-
-        model.addAttribute("reportedReviewsByUser", userReportsList);
         return "admin/admin_users";
     }
 
@@ -257,6 +275,25 @@ public class AdminController {
     public String deleteReview(@PathVariable Long id, Model model) {
         reviewService.getReviewById(id);
         reviewService.delete(id);
+        return "redirect:/admin/users";
+    }
+
+    @PostMapping("/admin/users/ban/{id}")
+    public String banUser(@PathVariable Long id, Model model) {
+        User user = userService.findById(id);
+        user.setBanned(true);
+        user.getReviews().clear();
+        userService.saveUser(user);
+
+        return "redirect:/admin/users";
+    }
+
+    @PostMapping("/admin/users/unban/{id}")
+    public String unbanUser(@PathVariable Long id, Model model) {
+        User user = userService.findById(id);
+        user.setBanned(false);
+        userService.saveUser(user);
+
         return "redirect:/admin/users";
     }
 

@@ -2,6 +2,10 @@ package es.codeurjc.webapp14.services;
 
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.repositories.ProductRepository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,8 +43,10 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public List<Product> getProductsByCategory(String category) {
-        return productRepository.findByCategory(category.toUpperCase());
+    public Page<Product> getProductsByCategory(String category, int page) {
+        int pageSize = 4;
+        Pageable pageable = PageRequest.of(page, pageSize);
+        return productRepository.findByCategory(category.toUpperCase(), pageable);
     }
     
 }

@@ -1,0 +1,19 @@
+
+    {{#products}}
+    <div class="col-md-6 col-lg-3 my-4">
+      <div class="product-item text-center">
+        <div class="image-holder">
+          <img src="/index/image/{{id}}" alt="Producto 1" class="product-image img-fluid">
+        </div>
+        <div class="product-detail mt-2">
+          <h5 class="product-title">{{name}}</h5>
+          <p>{{price}} EUR</p>
+          <a href="/index/elem_detail/{{id}}" class="btn btn-outline-dark">Ver detalles</a>
+        </div>
+      </div>
+    </div>
+    {{/products}}
+
+{{^hasMore}}
+<!-- true -->
+{{/hasMore}}

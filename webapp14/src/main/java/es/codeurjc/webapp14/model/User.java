@@ -22,8 +22,10 @@ public class User {
     private String password;
 
     private String address;
-    
+
     private boolean banned;
+
+    private int reports;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
@@ -41,15 +43,29 @@ public class User {
     public User() {
     }
 
-    public User(String name, String surname, String address, String email, String password, Role role) {
+    public User(String name, String surname, String email, String password, Role role) {
         super();
         this.name = name;
         this.surname = surname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.banned = false;
+        this.reports = 0;
+    }
+
+    public User(String name, String surname, Blob profileImage, String address, String email, String password,
+            Role role) {
+        super();
+        this.name = name;
+        this.surname = surname;
+        this.profileImage = profileImage;
         this.address = address;
         this.email = email;
         this.password = password;
         this.role = role;
         this.banned = false;
+        this.reports = 0;
     }
 
     // Getters y Setters
@@ -131,5 +147,14 @@ public class User {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
-    } 
+    }
+
+    public int getReports() {
+        return this.reports;
+    }
+
+    public void setReports(int reports) {
+        this.reports += reports;
+    }
+
 }

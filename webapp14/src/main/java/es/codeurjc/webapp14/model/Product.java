@@ -1,12 +1,15 @@
 package es.codeurjc.webapp14.model;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import jakarta.persistence.*;
 
 @Entity
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,20 +31,22 @@ public class Product {
     }
 
     @Lob // Guarda la imagen como BLOB
-    private byte[] image;
+    // Conflicts
+    // private byte[] image;
+    private Blob image;
 
     public Product() {
-
+        
     }
 
-    public Product(String name, String description, double price, byte[] image, int stock, CategoryType category) {
+    public Product(String name, String description, double price, Blob image, int stock, CategoryType category) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.image = image;
         this.stock = stock;
         this.outOfStock = stock == 0;
-        this.category = category.name();
+        this.category = category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase();
         this.sold = 0;
     }
 
@@ -71,7 +76,8 @@ public class Product {
     }
 
     public Double getPrice() {
-        return price;
+        BigDecimal bd = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     public void setPrice(Double price) {
@@ -86,11 +92,11 @@ public class Product {
         this.category = category;
     }
 
-    public byte[] getImage() {
+    public Blob getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(Blob image) {
         this.image = image;
     }
 

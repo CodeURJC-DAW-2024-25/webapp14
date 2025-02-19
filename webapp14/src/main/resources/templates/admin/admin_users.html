@@ -31,52 +31,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../user/index.html">
-                <div class="sidebar-brand-text mx-3"><sup>NOIR & BLANC</sup></div>
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/charts">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Estadísticas</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Gestión
-            </div>
-
-            <li class="nav-item active">
-                <a class="nav-link" href="/admin/users">
-                    <i class="fas fa-user"></i>
-                    <span>Usuarios</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/orders">
-                    <i class="fas fa-box"></i>
-                    <span>Pedidos</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/products">
-                    <i class="fas fa-tshirt"></i>
-                    <span>Productos</span>
-                </a>
-            </li>
-        </ul>
+        {{> admin/sidebar}}
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -84,36 +39,9 @@
 
             <!-- Main Content -->
             <div id="content">
+
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-custom topbar mb-4 static-top shadow">
-                    <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>  
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-                                <img class="img-profile rounded-circle" src="../../images/undraw_profile.svg">
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="admin_profile.html">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Perfil
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Cerrar sesión
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </nav>
+                {{> admin/topbar}}
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -183,7 +111,7 @@
                                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                 Usuarios baneados
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{bannedUserCont}}</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-ban fa-2x text-gray-300"></i>
@@ -249,30 +177,33 @@
                             <!-- Card Body -->
                             <div class="card-body">
                                 <ul class="list-group">
-                                    {{#reportedReviewsByUser}}  <!-- Iterar sobre la lista de usuarios con reseñas reportadas -->
+                                    {{#usersWithReportedReviews}}  <!-- Iterar sobre la lista de usuarios con reseñas reportadas -->
                                     <li class="list-group-item">
                                         <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
-                                            <span>{{username}}</span> <!-- Nombre del usuario -->
+                                            <span>{{name}}</span> <!-- Nombre del usuario -->
                                             <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center mt-2 mt-sm-0 text-sm-right">
-                                                <span class="badge badge-danger badge-pill mb-2 mb-sm-0 mr-sm-2">{{reviewCount}} Avisos</span> <!-- Mostrar la cantidad de reseñas reportadas -->
+                                                <span class="badge badge-danger badge-pill mb-2 mb-sm-0 mr-sm-2">{{reports}} Avisos</span>
                                                 <button class="btn btn-sm btn-outline-primary d-block d-sm-inline mb-2 mb-sm-0 mr-sm-2" 
-                                                    data-toggle="collapse" data-target="#report{{username}}">
+                                                    data-toggle="collapse" data-target="#report{{name}}">
                                                     Ver reportes
                                                 </button>
-                                                <button class="btn btn-warning btn-rounded btn-sm d-block d-sm-inline">
-                                                    <i class="fas fa-exclamation-triangle"></i> Banear
-                                                </button>
+                                                <form action="/admin/users/ban/{{id}}" method="post">
+                                                    <button type="submit" class="btn btn-warning btn-rounded btn-sm d-block d-sm-inline">
+                                                        <i class="fas fa-exclamation-triangle"></i> Banear
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </li>
                                 
-                                    <div class="collapse mt-2 mb-3" id="report{{username}}">
+                                    <div class="collapse mt-2 mb-3" id="report{{name}}">
                                         <ul class="list-group ml-3">
-                                            {{#reviews}}  <!-- Iterar sobre las reseñas del usuario -->
+                                            {{#reviews}}
+                                            {{#reported}}
                                             <li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
                                                 <span class="report-text span-review text-start w-100">
-                                                    <strong>ID del Producto: <span class="product-id">{{id}}</span></strong><br>
-                                                    {{reviewText}} <!-- Mostrar el texto de la reseña -->
+                                                    <strong>ID del Producto: <span class="product-id">{{product.id}}</span></strong><br>
+                                                    {{reviewText}}
                                                 </span>
                                                 <div class="report-actions report-btn d-flex mt-2 mt-md-0">
                                                     <form action="/admin/users/accept/{{id}}" method="post">
@@ -287,55 +218,38 @@
                                                     </form>
                                                 </div>
                                             </li>
+                                            {{/reported}}
                                             {{/reviews}}
                                         </ul>
                                     </div>
-                                    {{/reportedReviewsByUser}}
+                                    {{/usersWithReportedReviews}}
                                 </ul>
                             </div>
                         </div>
                     </div>
                     
-
                     <div class="col-xl-12 col-lg-10">
                         <div class="card shadow mb-4">
                             <!-- Card Header -->
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-admin-title">Usuarios baneados</h6>
                             </div>
-
+                    
                             <!-- Card Body -->
                             <div class="card-body">
                                 <ul class="list-group">
-                                    <!-- User 3 -->
+                                    {{#bannedUsers}}
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>Usuario 3</span>
+                                        <span>{{name}}</span>
                                         <div>
-                                            <button class="btn btn-warning btn-rounded btn-sm">
-                                                <i class="fas fa-exclamation-triangle"></i> Desbanear
-                                            </button>
+                                            <form action="/admin/users/unban/{{id}}" method="post">
+                                                <button type="submit" class="btn btn-warning btn-rounded btn-sm d-block d-sm-inline">
+                                                    <i class="fas fa-exclamation-triangle"></i> Desbanear
+                                                </button>
+                                            </form>
                                         </div>
                                     </li>
-
-                                    <!-- User 4 -->
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>Usuario 4</span>
-                                        <div>
-                                            <button class="btn btn-warning btn-rounded btn-sm">
-                                                <i class="fas fa-exclamation-triangle"></i> Desbanear
-                                            </button>
-                                        </div>
-                                    </li>
-
-                                    <!-- User 5 -->
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>Usuario 5</span>
-                                        <div>
-                                            <button class="btn btn-warning btn-rounded btn-sm">
-                                                <i class="fas fa-exclamation-triangle"></i> Desbanear
-                                            </button>
-                                        </div>
-                                    </li>
+                                    {{/bannedUsers}}
                                 </ul>
                             </div>
                         </div>
@@ -344,12 +258,8 @@
             </div>
             <!-- End of Main Content -->
 
-            <!-- Footer -->
-            <footer class="footer">
-                <p>&copy; 2025 Noir & Blanc. Todos los derechos reservados.</p>
-                <p>Panel de Administración | Desarrollado por <a class="footer-text">...</a></p>
-            </footer>
-            <!-- End of Footer -->
+            <!-- Footer section -->
+            {{> admin/footer}}
 
         </div>
         <!-- End of Content Wrapper -->
