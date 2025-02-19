@@ -18,16 +18,21 @@ public class OrderProduct {
 
     private int quantity;
 
-    public OrderProduct() {
+    @ManyToOne
+    @JoinColumn(name = "size_id", nullable = false)
+    private Size size;
 
+    public OrderProduct() {
     }
 
-    public OrderProduct(Order order, Product product, int quantity) {
+    public OrderProduct(Order order, Product product, Size size, int quantity) {
         this.order = order;
         this.product = product;
+        this.size = size;
         this.quantity = quantity;
     }
 
+    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -58,5 +63,13 @@ public class OrderProduct {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Size getSize() {
+        return size;
+    }
+
+    public void setSize(Size size) {
+        this.size = size;
     }
 }

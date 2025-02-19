@@ -2,6 +2,8 @@ package es.codeurjc.webapp14.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +21,26 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
-    private String state;
-    private int totalPrice;
+    @Enumerated(EnumType.STRING)
+    private State state;
+
+    public enum State {
+        CART, PAYED
+    }
+
+    @Column(precision = 10, scale = 2)
+    private BigDecimal totalPrice = BigDecimal.ZERO;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    public Order() {
+
+    }
+
+    public Order(User user, State state) {
+        this.user = user;
+        this.state = state;
+    }
 
     // Getters y Setters
     public Long getId() {
@@ -39,11 +59,31 @@ public class Order {
         this.user = user;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public List<OrderProduct> getOrderProducts() {
         return orderProducts;
     }
 
+    public void calculateTotalPrice() {
+        this.totalPrice = orderProducts.stream()
+                .map(op -> BigDecimal.valueOf(op.getProduct().getPrice())
+                        .multiply(BigDecimal.valueOf(op.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
     public void setOrderProducts(List<OrderProduct> orderProducts) {
         this.orderProducts = orderProducts;
+        calculateTotalPrice();
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
     }
 }

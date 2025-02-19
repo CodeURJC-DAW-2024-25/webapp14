@@ -1,7 +1,5 @@
 package es.codeurjc.webapp14.model;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +16,10 @@ public class Product {
     private Integer stock;
     private boolean outOfStock;
     private int sold;
-    //private List<Review> reviews;
+    // private List<Review> reviews;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
-
 
     private String category;
 
@@ -128,5 +125,5 @@ public class Product {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
-    } 
+    }
 }

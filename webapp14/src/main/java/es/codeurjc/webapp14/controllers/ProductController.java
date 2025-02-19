@@ -17,7 +17,6 @@ import es.codeurjc.webapp14.model.Review;
 import es.codeurjc.webapp14.services.ProductService;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 @RequestMapping("/index")
 public class ProductController {
@@ -33,19 +32,6 @@ public class ProductController {
         return "user/index";
     }
 
-    @GetMapping("/image/{id}")
-    @ResponseBody
-    public ResponseEntity<byte[]> getProductImage(@PathVariable Long id) {
-        Product product = productService.getProductById(id);
-        if (product.getImage() != null) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG);
-            return ResponseEntity.ok().headers(headers).body(product.getImage());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     @GetMapping("/elem_detail/{id}")
     public String ProductDetails(Model model, @PathVariable Long id) {
         model.addAttribute("product", productService.getProductById(id));
@@ -59,6 +45,5 @@ public class ProductController {
         model.addAttribute("products", products);
         return "user/category";
     }
-    
-    
+
 }

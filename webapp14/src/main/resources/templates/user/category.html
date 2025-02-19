@@ -1,29 +1,28 @@
 {{> partialsUser/header }}
-<body>
 
-  <!-- Main Content -->
-  <main class="container-fluid pt-5">
-    <section id="category" class="category2">
-      <div class="container-fluid px-md-5">
-        <div class="row gx-4"> 
-          {{#products}}
-          <div class="col-md-6 col-lg-3 my-4">
-            <div class="product-item text-center">
-              <div class="image-holder">
-                <img src="/index/image/{{id}}" alt="Producto 1" class="product-image img-fluid">
-              </div>
-              <div class="product-detail mt-2">
-                <h5 class="product-title">{{name}}</h5>
-                <p>{{price}} EUR</p>
-                <a href="/index/elem_detail/{{id}}" class="btn btn-outline-dark">Ver detalles</a>
-              </div>
+<!-- Main Content -->
+<main class="container-fluid pt-5">
+  <section id="category" class="category2">
+    <div class="container-fluid px-md-5">
+      <div class="row gx-4">
+        {{#products}}
+        <div class="col-md-6 col-lg-3 my-4">
+          <div class="product-item text-center">
+            <div class="image-holder">
+              <img src="/image/{{id}}" alt="Producto 1" class="product-image img-fluid">
+            </div>
+            <div class="product-detail mt-2">
+              <h5 class="product-title">{{name}}</h5>
+              <p>{{price}} EUR</p>
+              <a href="/index/elem_detail/{{id}}" class="btn btn-outline-dark">Ver detalles</a>
             </div>
           </div>
-          {{/products}}
         </div>
+        {{/products}}
       </div>
-      
-    </section>
-  </main>
+    </div>
 
-  {{> partialsUser/footer }}
+  </section>
+</main>
+
+{{> partialsUser/footer }}
