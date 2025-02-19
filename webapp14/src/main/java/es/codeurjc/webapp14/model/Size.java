@@ -1,16 +1,21 @@
 package es.codeurjc.webapp14.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 public class Size {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+
+    @Enumerated(EnumType.STRING)
+    private SizeName name;
+
+    public enum SizeName {
+        S, M, L, XL
+    }
+
     private int stock;
-    private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
@@ -19,7 +24,7 @@ public class Size {
     public Size() {
     }
 
-    public Size(String name, int stock, Product product) {
+    public Size(SizeName name, int stock, Product product) {
         this.name = name;
         this.stock = stock;
         this.product = product;
@@ -33,11 +38,11 @@ public class Size {
         this.id = id;
     }
 
-    public String getName() {
+    public SizeName getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(SizeName name) {
         this.name = name;
     }
 
@@ -47,14 +52,6 @@ public class Size {
 
     public void setStock(int stock) {
         this.stock = stock;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Product getProduct() {

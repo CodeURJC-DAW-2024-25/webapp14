@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.services.ProductService;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.data.domain.Page;
 
 @Controller
@@ -32,26 +33,6 @@ public class ProductController {
     public String listProducts(Model model) {
         model.addAttribute("products", productService.getAllProductsSold());
         return "user/index";
-    }
-
-    @GetMapping("/image/{id}")
-    @ResponseBody
-    public ResponseEntity<byte[]> getProductImage(@PathVariable Long id) {
-        Product product = productService.getProductById(id);
-        Blob imageBlob = product.getImage();
-        if (imageBlob != null) {
-            try {
-                byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.IMAGE_JPEG);
-                return ResponseEntity.ok().headers(headers).body(imageBytes);
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-            }
-        } else {
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @GetMapping("/elem_detail/{id}")
@@ -84,7 +65,4 @@ public class ProductController {
 
         return "user/moreProducts";
     }
-
-
-
 }

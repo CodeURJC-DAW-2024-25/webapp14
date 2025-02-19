@@ -22,14 +22,20 @@ public class OrderProduct {
 
     private int quantity;
 
+
+    @ManyToOne
+    @JoinColumn(name = "size_id", nullable = false)
+    private Size size;
+
     private Double subtotalPrice;
 
     public OrderProduct() {
     }
 
-    public OrderProduct(Order order, Product product, int quantity) {
+    public OrderProduct(Order order, Product product, Size size, int quantity) {
         this.order = order;
         this.product = product;
+        this.size = size;
         this.quantity = quantity;
     }
 
@@ -66,6 +72,14 @@ public class OrderProduct {
         this.quantity = quantity;
     }
 
+    public Size getSize() {
+        return size;
+    }
+
+    public void setSize(Size size) {
+        this.size = size;
+    }
+
     public Double getSubtotalPrice() {
         if (product != null) {
             BigDecimal bd = new BigDecimal(product.getPrice() * quantity).setScale(2, RoundingMode.HALF_UP);
@@ -82,5 +96,4 @@ public class OrderProduct {
             this.subtotalPrice = 0.0;
         }
     }
-
 }

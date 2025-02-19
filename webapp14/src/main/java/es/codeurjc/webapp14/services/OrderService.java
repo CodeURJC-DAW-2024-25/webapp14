@@ -24,4 +24,7 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public List<Order> getUserOrders() {
+        return orderRepository.findAll();
+    }
 }

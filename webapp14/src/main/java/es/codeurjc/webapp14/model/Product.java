@@ -31,9 +31,12 @@ public class Product {
     }
 
     @Lob // Guarda la imagen como BLOB
+    // Conflicts
+    // private byte[] image;
     private Blob image;
 
     public Product() {
+        
     }
 
     public Product(String name, String description, double price, Blob image, int stock, CategoryType category) {
@@ -129,5 +132,4 @@ public class Product {
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
-
 }

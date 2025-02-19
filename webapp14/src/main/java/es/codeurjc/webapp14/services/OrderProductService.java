@@ -18,8 +18,8 @@ public class OrderProductService {
         return orderProductRepository.findAll();
     }
 
-    public OrderProduct getOrderProductById(Long id) {
-        return orderProductRepository.findById(id).orElse(null);
+    public List<OrderProduct> getOrderProductsByOrderId(Long orderId) {
+        return orderProductRepository.findByOrderId(orderId);
     }
 
     public OrderProduct saveOrderProduct(OrderProduct orderProduct) {
