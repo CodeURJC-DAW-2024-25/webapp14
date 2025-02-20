@@ -2,6 +2,7 @@ package es.codeurjc.webapp14.controllers;
 
 import java.sql.SQLException;
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -106,6 +107,16 @@ public class ProductController {
         model.addAttribute("hasMore", hasMore);
 
         return "user/moreReviews";
+    }
+
+    
+    @GetMapping("/search")
+    @ResponseBody
+    public List<Product> searchProducts(@RequestParam(value = "query", required = false) String query) {
+        if (query == null || query.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return productService.searchProductsByName(query);
     }
 
 }

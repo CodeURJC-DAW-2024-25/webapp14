@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import es.codeurjc.webapp14.model.Review;
 
 import java.util.List;
 
@@ -48,6 +47,10 @@ public class ProductService {
         int pageSize = 4;
         Pageable pageable = PageRequest.of(page, pageSize);
         return productRepository.findByCategory(category.toUpperCase(), pageable);
+    }
+
+    public List<Product> searchProductsByName(String query) {
+        return productRepository.findByNameContainingIgnoreCase(query);
     }
     
 }

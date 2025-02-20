@@ -272,17 +272,22 @@
                                         </div>
                                     </li>
                                     
-                                    
-                                    
                                     <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="product{{id}}">
                                         <div class="d-flex align-items-center">
                                             <div class="image-wrapper position-relative">
-                                                <img src="/image/{{id}}" alt="Producto" class="rounded img-admin-products {{#outOfStock}}out-of-stock{{/outOfStock}}">
-                                                
-                                                {{#outOfStock}}
-                                                <div class="out-of-stock-overlay">Sin Stock</div>
-                                                {{/outOfStock}}
+                                                {{#imageBool}}
+                                                    <img src="/image/{{id}}" alt="Producto" class="rounded img-admin-products {{#outOfStock}}out-of-stock{{/outOfStock}}">
+                                                    
+                                                    {{#outOfStock}}
+                                                        <div class="out-of-stock-overlay">Sin Stock</div>
+                                                    {{/outOfStock}}
+                                                {{/imageBool}}
+                                            
+                                                {{^imageBool}}
+                                                    <img src="/images/no_image.png" alt="Producto" class="rounded img-admin-products">
+                                                {{/imageBool}}
                                             </div>
+                                            
                                             
                                             <div class="flex-grow-1 ml-3">
                                                 <h5><strong>{{name}}</strong></h5>
@@ -341,7 +346,7 @@
                                                                 <div class="col-md-5 text-center">
                                                                     <div class="cardImage shadow-sm p-3 mb-4">
                                                                         <h6 class="text-muted">Nueva Imagen</h6>
-                                                                        <img id="newImagePreview" class="img-fluid rounded" alt="Nueva Imagen" style="max-width: 100%; height: auto; display: none;">
+                                                                        <img id="newImagePreview{{id}}" class="img-fluid rounded" alt="Nueva Imagen" style="max-width: 100%; height: auto; display: none;">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -350,7 +355,7 @@
                                                         <div class="form-group">
                                                             <label for="updateImage">Actualizar Imagen</label>
                                                             <div class="custom-file">
-                                                                <input type="file" class="custom-file-input" id="updateImage" name="image" accept="image/*" onchange="previewUpdatedImage(event)">
+                                                                <input type="file" class="custom-file-input" id="updateImage{{id}}" name="image" accept="image/*" onchange="previewUpdatedImage(event, '{{id}}')">
                                                                 <label class="custom-file-label" for="updateImage">Seleccionar Archivo...</label>
                                                             </div>
                                                         </div>
@@ -438,18 +443,13 @@
 
 <script>
     $(document).ready(function() {
-    // Al hacer clic en el botón de toggle de la barra lateral
     $('#sidebarToggleTop').click(function(e) {
         e.preventDefault();
-        // Toggle la clase "toggled" a la barra lateral
         $('#accordionSidebar').toggleClass('toggled');
-        // Ajustar el contenido para no dejar hueco
         $('#content-wrapper').toggleClass('toggled');
     });
 });
-</script>
 
-<script>
     function previewImage(event) {
         const file = event.target.files[0];
         const reader = new FileReader();
@@ -467,20 +467,13 @@
         }
     }
 
-    function previewUpdatedImage(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    const newImagePreview = document.getElementById("newImagePreview");
-
-    reader.onload = function (e) {
-        newImagePreview.src = e.target.result;
-        newImagePreview.style.display = "block"; // Mostrar la nueva imagen
-    };
-
-    if (file) {
-        reader.readAsDataURL(file);
+    function previewUpdatedImage(event, productId) {
+        var output = document.getElementById('newImagePreview' + productId);
+        if (event.target.files.length > 0) {
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.style.display = 'block';
+        }
     }
-}
 
 </script>
 

@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import jakarta.persistence.*;
@@ -26,6 +28,7 @@ public class Product {
     private int sold;
     // private List<Review> reviews;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
@@ -35,6 +38,7 @@ public class Product {
         PANTALONES, CAMISETAS, ABRIGOS, JERSEYS
     }
 
+    @JsonIgnore
     @Lob // Guarda la imagen como BLOB
     // Conflicts
     // private byte[] image;
@@ -50,6 +54,7 @@ public class Product {
         this.description = description;
         this.price = price;
         this.image = image;
+        this.imageBool = true;
         this.stock = stock;
         this.outOfStock = stock == 0;
         this.category = category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase();

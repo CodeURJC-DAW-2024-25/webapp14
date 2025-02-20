@@ -225,6 +225,9 @@ public class AdminController {
             product.setImage(BlobProxy.generateProxy(image.getInputStream(), image.getSize()));
             product.setImageBool(true);
         }
+        else{
+            product.setImageBool(false);
+        }
 
         productService.saveProduct(product);
 
