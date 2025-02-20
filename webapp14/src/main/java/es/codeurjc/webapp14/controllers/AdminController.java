@@ -8,6 +8,8 @@ import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Review;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.model.Order;
+
+import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,6 +17,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -204,13 +208,29 @@ public class AdminController {
         return "admin/admin_products";
     }
 
-    @PostMapping("/admin/products/create")
-    public String addProduct(Product product) {
+    @RequestMapping(value = "/admin/products/create", method = { RequestMethod.GET, RequestMethod.POST })
+    public String addProduct(@ModelAttribute("product") @Valid Product product,
+                            BindingResult result,
+                            @RequestParam(value = "imageUpload", required = false) MultipartFile image,
+                            Model model) throws IOException {
+
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getFieldErrors().stream()
+                    .collect(Collectors.groupingBy(FieldError::getField,
+                            Collectors.mapping(FieldError::getDefaultMessage, Collectors.toList()))));
+            return "admin/products/create";
+        }
+
+        if (image != null && !image.isEmpty()) {
+            product.setImage(BlobProxy.generateProxy(image.getInputStream(), image.getSize()));
+            product.setImageBool(true);
+        }
 
         productService.saveProduct(product);
 
         return "redirect:/admin/products";
     }
+
 
     @GetMapping("/admin/products/out-of-stock")
     public String showOutOfStockProducts(Model model) {
@@ -242,12 +262,34 @@ public class AdminController {
     }
 
     @PostMapping("/admin/products/edit/{id}")
-    public String updateProduct(Product product) {
+    public String updateProduct(@PathVariable Long id,
+                                @ModelAttribute("product") @Valid Product updatedProduct,
+                                BindingResult result,
+                                @RequestParam(value = "removeImage", required = false) boolean removeImage,
+                                @RequestParam(value = "image", required = false) MultipartFile imageField,
+                                Model model) throws IOException {
 
-        productService.saveProduct(product);
+        Product existingProduct = productService.getProductById(id);
+
+        existingProduct.setName(updatedProduct.getName());
+        existingProduct.setDescription(updatedProduct.getDescription());
+        existingProduct.setPrice(updatedProduct.getPrice());
+        existingProduct.setCategory(updatedProduct.getCategory());
+        existingProduct.setStock(updatedProduct.getStock());
+
+        // Image
+        if (removeImage) {
+            existingProduct.setImage(null);
+            existingProduct.setImageBool(false);
+        } else if (imageField != null && !imageField.isEmpty()) {
+            existingProduct.setImage(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
+            existingProduct.setImageBool(true);
+        }
+
+        productService.saveProduct(existingProduct);
 
         return "redirect:/admin/products";
-    }
+    }    
 
     @GetMapping("/admin/users")
     public String getUsers(Model model) {

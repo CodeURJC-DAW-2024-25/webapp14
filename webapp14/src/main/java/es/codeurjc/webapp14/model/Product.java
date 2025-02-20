@@ -34,6 +34,7 @@ public class Product {
     // Conflicts
     // private byte[] image;
     private Blob image;
+    private boolean imageBool;
 
     public Product() {
         
@@ -132,4 +133,12 @@ public class Product {
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
     }
+
+    public boolean getImageBool(){
+		return this.imageBool;
+	}
+
+	public void setImageBool(boolean imageBool){
+		this.imageBool = imageBool;
+	}
 }
