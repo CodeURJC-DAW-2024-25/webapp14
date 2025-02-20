@@ -2,10 +2,13 @@ package es.codeurjc.webapp14.services;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import es.codeurjc.webapp14.model.User;
+import es.codeurjc.webapp14.model.User.Role;
 import es.codeurjc.webapp14.repositories.UserRepository;
 
 @Service
@@ -23,7 +26,7 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findByRole(Role.CUSTOMER);
     }
 
     public User saveUser(User user) {
@@ -34,15 +37,17 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public User getAdmin() {
-        return userRepository.findByRole(User.Role.ADMIN);
+    public Optional<User> getAdmin() {
+        return userRepository.findByRole(Role.ADMIN).stream().findFirst();
     }
+    
 
     public void saveAdmin(User admin) {
-        User existingAdmin = getAdmin();
-        if (existingAdmin == null) {
+        Optional<User> existing = getAdmin();
+        if (!existing.isPresent()) {
             userRepository.save(admin);
         } else {
+            User existingAdmin = existing.get();
             existingAdmin.setName(admin.getName());
             existingAdmin.setSurname(admin.getSurname());
             existingAdmin.setEmail(admin.getEmail());

@@ -44,6 +44,7 @@
       <h2 class="fw-bold text-center mb-4">Reseñas de Clientes</h2>
       <div class="row">
         {{#reviews}}
+        {{^reported}}
         <div class="col-md-4">
           <div class="review-card">
             <h5 class="username">{{user.name}} {{user.surname}}</h5>
@@ -60,15 +61,20 @@
               <button class="btn btn-outline-primary">
                 <i class="fas fa-pencil-alt"></i>
               </button>
-              <button class="btn btn-outline-danger">
-                <i class="fas fa-trash-alt"></i>
-              </button>
-              <button class="btn btn-outline-warning">
-                <i class="fas fa-exclamation-circle"></i>
-              </button>
+              <form action="/index/{{product.id}}/{{id}}/delete" method="post">
+                <button type="submit" class="btn btn-outline-danger">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </form>
+              <form action="/index/{{product.id}}/{{id}}/report" method="post">
+                <button type="submit" class="btn btn-outline-warning">
+                  <i class="fas fa-exclamation-circle"></i>
+                </button>
+              </form>
             </div>
           </div>
         </div>
+        {{/reported}}
         {{/reviews}}
 
         {{^reviews}}

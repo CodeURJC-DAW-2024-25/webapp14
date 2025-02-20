@@ -9,8 +9,11 @@
         <div class="col-md-6 col-lg-3 my-4">
           <div class="product-item text-center">
             <div class="image-holder">
-              <img src="/image/{{id}}" alt="Producto 1" class="product-image img-fluid">
-            </div>
+              <img src="/image/{{id}}" alt="Producto" class="rounded img-admin-products {{#outOfStock}}out-of-stock{{/outOfStock}}">
+                                                
+              {{#outOfStock}}
+              <div class="out-of-stock-overlay">Sin Stock</div>
+              {{/outOfStock}}            </div>
             <div class="product-detail mt-2">
               <h5 class="product-title">{{name}}</h5>
               <p>{{price}} EUR</p>

@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import es.codeurjc.webapp14.model.User;
+import es.codeurjc.webapp14.model.User.Role;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmail(String email);
 
-    User findByRole(User.Role role);
+    //User findByRole(User.Role role);
 
     Optional<User> findById(Long id);
 
@@ -21,4 +22,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u JOIN u.reviews r WHERE r.reported = true")
     List<User> findUsersWithReportedReviews();
 
+    List<User> findByRole(Role role);
 }

@@ -11,23 +11,30 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import es.codeurjc.webapp14.model.Product;
+import es.codeurjc.webapp14.model.Review;
 import es.codeurjc.webapp14.services.ProductService;
+import es.codeurjc.webapp14.services.ReviewService;
+
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+
 
 @Controller
 @RequestMapping("/index")
 public class ProductController { 
 
-    private final ProductService productService;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+    @Autowired
+    private ReviewService reviewService;
+
+    @Autowired
+    private ProductService productService;
 
     @GetMapping
     public String listProducts(Model model) {
@@ -41,6 +48,24 @@ public class ProductController {
         model.addAttribute("reviews", productService.getProductById(id).getReviews());
         return "user/elem_detail";
     }
+
+    @PostMapping("/{productId}/{reviewId}/report")
+    public String reportReview(@PathVariable Long productId, @PathVariable Long reviewId) {
+        Review review = reviewService.getReviewById(reviewId);
+
+        review.setReported(true);
+        reviewService.saveReview(review);
+        return "redirect:/index/elem_detail/" + productId;
+    }
+    
+    @PostMapping("/{productId}/{reviewId}/delete")
+    public String deleleteReview(@PathVariable Long productId, @PathVariable Long reviewId) {
+        reviewService.getReviewById(reviewId);
+
+        reviewService.delete(reviewId);
+        return "redirect:/index/elem_detail/" + productId;
+    }
+
 
     @GetMapping("/category/{category}")
     public String listProductsByCategory(@PathVariable String category, @RequestParam(defaultValue = "0") int page, Model model) {
