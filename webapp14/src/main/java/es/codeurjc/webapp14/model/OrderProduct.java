@@ -22,7 +22,6 @@ public class OrderProduct {
 
     private int quantity;
 
-
     @ManyToOne
     @JoinColumn(name = "size_id", nullable = false)
     private Size size;
@@ -96,4 +95,5 @@ public class OrderProduct {
             this.subtotalPrice = 0.0;
         }
     }
+
 }

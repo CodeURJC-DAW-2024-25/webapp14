@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -242,7 +241,6 @@ public class AdminController {
         List<User> users = userService.getAllUsers();
         List<User> bannedUsers = userService.getAllUsersBanned();
 
-
         model.addAttribute("users", users);
         model.addAttribute("userCont", users.size());
         model.addAttribute("bannedUsers", bannedUsers);
@@ -258,7 +256,6 @@ public class AdminController {
         model.addAttribute("usersWithReportedReviews", usersWithReportedReviews);
 
         model.addAttribute("totalReportedReviews", totalReportedReviews);
-        
 
         return "admin/admin_users";
     }

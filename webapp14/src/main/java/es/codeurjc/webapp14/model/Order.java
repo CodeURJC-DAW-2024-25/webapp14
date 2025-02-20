@@ -1,11 +1,9 @@
 package es.codeurjc.webapp14.model;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,31 +22,12 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
-    // Conflicts
-    // @Enumerated(EnumType.STRING)
-    // private State state;
-
-    // public enum State {
-    //     CART, PAYED
-    // }
-
-    // @Column(precision = 10, scale = 2)
-    // private BigDecimal totalPrice = BigDecimal.ZERO;
-
-    // private LocalDateTime createdAt = LocalDateTime.now();
-
-    // public Order() {
-
-    // }
-
-    // public Order(User user, State state) {
-    //     this.user = user;
-    //     this.state = state;
-    // }
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     private boolean isPaid;
 
-    private double totalPrice;
+    @Column(precision = 10, scale = 2)
+    private BigDecimal totalPrice = BigDecimal.ZERO;
 
     public enum State {
         Pagado, No_pagado, Enviado, Procesado
@@ -58,7 +37,13 @@ public class Order {
     private State state;
 
     public Order() {
-        
+
+    }
+
+    public Order(User user, State state, Boolean isPaid) {
+        this.user = user;
+        this.state = state;
+        this.isPaid = isPaid;
     }
 
     // Getters and Setters
@@ -89,22 +74,10 @@ public class Order {
     public List<OrderProduct> getOrderProducts() {
         return orderProducts;
     }
-    
-    // Conflicts
-    public void calculateTotalPrice() {
-        this.totalPrice = orderProducts.stream()
-                .map(op -> BigDecimal.valueOf(op.getProduct().getPrice())
-                        .multiply(BigDecimal.valueOf(op.getQuantity())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }
 
     public void setOrderProducts(List<OrderProduct> orderProducts) {
         this.orderProducts = orderProducts;
         calculateTotalPrice();
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
     }
 
     public State getState() {
@@ -123,15 +96,19 @@ public class Order {
         this.isPaid = isPaid;
     }
 
-    // Conflicts
-    public Double getTotalPrice() {
-        return BigDecimal.valueOf(totalPrice)
-                .setScale(2, RoundingMode.HALF_UP)
-                .doubleValue();
+    public BigDecimal getTotalPrice() {
+        return totalPrice.setScale(2, RoundingMode.HALF_UP);
     }
 
     public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
+        this.totalPrice = BigDecimal.valueOf(totalPrice);
+    }
+
+    public void calculateTotalPrice() {
+        this.totalPrice = orderProducts.stream()
+                .map(op -> BigDecimal.valueOf(op.getProduct().getPrice())
+                        .multiply(BigDecimal.valueOf(op.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 }
