@@ -45,7 +45,7 @@ public class ProductController {
     @GetMapping("/elem_detail/{id}")
     public String ProductDetails(Model model, @PathVariable Long id) {
         model.addAttribute("product", productService.getProductById(id));
-        model.addAttribute("reviews", productService.getProductById(id).getReviews());
+        model.addAttribute("reviews", productService.getProductById(id).getTwoReviews(0, 2));
         return "user/elem_detail";
     }
 
@@ -90,4 +90,22 @@ public class ProductController {
 
         return "user/moreProducts";
     }
+
+
+    @GetMapping("/moreReviews")
+    public String getMoreReviews(
+        @RequestParam Long id,
+            @RequestParam int from,  
+            @RequestParam int to,
+            Model model) {
+        Product product = productService.getProductById(id);
+        List<Review> reviewsList = product.getTwoReviews(from, to);
+        boolean hasMore = to < product.getReviews().size();
+
+        model.addAttribute("reviews", reviewsList);
+        model.addAttribute("hasMore", hasMore);
+
+        return "user/moreReviews";
+    }
+
 }

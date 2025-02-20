@@ -42,10 +42,10 @@
   <section class="reviews-section">
     <div class="container my-5">
       <h2 class="fw-bold text-center mb-4">Reseñas de Clientes</h2>
-      <div class="row">
+      <div id="reviews" class="row">
         {{#reviews}}
         {{^reported}}
-        <div class="col-md-4">
+        <div class="col-12">
           <div class="review-card">
             <h5 class="username">{{user.name}} {{user.surname}}</h5>
             <div class="stars">
@@ -80,6 +80,9 @@
         {{^reviews}}
         <p class="text-center">Aún no hay reseñas para este producto.</p>
         {{/reviews}}
+      </div>
+      <div>
+        <button type="button" id="loadMoreReviewsButton" class="btn btn-loadMore" onclick='loadMoreReviews("{{product.id}}")'>Cargar más</button>
       </div>
     </div>
   </section>

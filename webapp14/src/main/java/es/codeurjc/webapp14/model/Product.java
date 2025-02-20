@@ -3,6 +3,11 @@ package es.codeurjc.webapp14.model;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import jakarta.persistence.*;
@@ -134,6 +139,22 @@ public class Product {
         this.reviews = reviews;
     }
 
+
+    public List<Review> getTwoReviews(int from, int to) {
+        if (reviews.isEmpty()) {
+            return List.of(); 
+        }
+    
+        int validFrom = Math.max(0, from); 
+        int validTo = Math.min(reviews.size(), to);
+    
+        if (validFrom >= validTo) {
+            return List.of();
+        }
+    
+        return reviews.subList(validFrom, validTo);
+    }
+    
     public boolean getImageBool(){
 		return this.imageBool;
 	}

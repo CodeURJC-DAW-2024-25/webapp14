@@ -83,7 +83,7 @@ public class DataInitializer implements CommandLineRunner {
                 // byte[] imageBytes1 =
                 // loadImage("src/main/resources/images/abrigos/abrigo1.webp");
                 Blob imageBytes1 = loadImage("images/abrigos/abrigo1.webp");
-                Product product1 = new Product("Trench técnico",
+                Product product1 = new Product("Trench tecnico",
                         "Trench técnico con abrigo acolchado interior desmontable.", 79.95, imageBytes1, 10,
                         CategoryType.ABRIGOS);
                 productRepository.save(product1);
@@ -91,7 +91,7 @@ public class DataInitializer implements CommandLineRunner {
                 // byte[] imageBytes2 =
                 // loadImage("src/main/resources/images/abrigos/abrigo2.webp");
                 Blob imageBytes2 = loadImage("images/abrigos/abrigo2.webp");
-                Product product2 = new Product("Trench técnico 2 en 1 ",
+                Product product2 = new Product("Trench tecnico 2 en 1 ",
                         "Trench técnico con abrigo acolchado interior desmontable.", 79.95, imageBytes2, 0,
                         CategoryType.ABRIGOS);
                 productRepository.save(product2);
@@ -123,8 +123,8 @@ public class DataInitializer implements CommandLineRunner {
                 // byte[] imageBytes6 =
                 // loadImage("src/main/resources/images/abrigos/abrigo6.webp");
                 Blob imageBytes6 = loadImage("images/abrigos/abrigo6.webp");
-                Product product6 = new Product("Trench cinturón",
-                        "Trench de cuello solapa y manga larga acabada con trabilla y botón.", 59.95, imageBytes6, 10,
+                Product product6 = new Product("Trench cinturon",
+                        "Trench de cuello solapa y manga larga acabada con trabilla y botón.", 59.95, imageBytes6, 0,
                         CategoryType.ABRIGOS);
                 productRepository.save(product6);
 
@@ -156,7 +156,7 @@ public class DataInitializer implements CommandLineRunner {
                 // loadImage("src/main/resources/images/abrigos/abrigo10.webp");
                 Blob imageBytes10 = loadImage("images/abrigos/abrigo10.webp");
                 Product product10 = new Product("Gabardina Relaxed Fit",
-                        "Gabardina relaxed fit confeccionada en tejido técnico.", 79.95, imageBytes10, 10,
+                        "Gabardina relaxed fit confeccionada en tejido técnico.", 79.95, imageBytes10, 0,
                         CategoryType.ABRIGOS);
                 productRepository.save(product10);
 
@@ -601,6 +601,24 @@ public class DataInitializer implements CommandLineRunner {
                         Review review2 = new Review(3, "Buena calidad, pero un poco caro", false, product1.get(),
                                 user2.get());
                         reviewRepository.save(review2);
+                        Review review3 = new Review(3, "Buena calidad, pero un poco caro", false, product1.get(),
+                                user2.get());
+                        reviewRepository.save(review3);
+                        Review review4 = new Review(3, "Buena calidad, pero un poco caro", false, product1.get(),
+                                user2.get());
+                        reviewRepository.save(review4);
+                        Review review5 = new Review(3, "Buena calidad, pero un poco caro", false, product1.get(),
+                                user2.get());
+                        reviewRepository.save(review5);
+                        Review review6 = new Review(3, "Buena calidad, pero un poco caro", false, product1.get(),
+                                user2.get());
+                        reviewRepository.save(review6);
+                        Review review7 = new Review(3, "Buena calidad, pero un poco caro", false, product1.get(),
+                                user2.get());
+                        reviewRepository.save(review7);
+                        Review review8 = new Review(3, "Buena calidad, pero un poco caro", false, product1.get(),
+                                user2.get());
+                        reviewRepository.save(review8);
                     }
                 }
 

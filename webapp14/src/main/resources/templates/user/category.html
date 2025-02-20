@@ -4,16 +4,21 @@
 <main class="container-fluid pt-5">
   <section id="category" class="category2">
     <div class="container-fluid px-md-5">
-      <div class="row gx-4">
+      <div id="products" class="row gx-4">
         {{#products}}
         <div class="col-md-6 col-lg-3 my-4">
           <div class="product-item text-center">
+            {{#outOfStock}}
             <div class="image-holder">
-              <img src="/image/{{id}}" alt="Producto" class="rounded img-admin-products {{#outOfStock}}out-of-stock{{/outOfStock}}">
-                                                
-              {{#outOfStock}}
+              <img src="/image/{{id}}" alt="Producto 1" class="product-image img-fluid out-of-stock">
               <div class="out-of-stock-overlay">Sin Stock</div>
-              {{/outOfStock}}            </div>
+            </div>
+            {{/outOfStock}}
+            {{^outOfStock}}
+            <div class="image-holder">
+              <img src="/image/{{id}}" alt="Producto 1" class="product-image img-fluid">
+            </div>
+            {{/outOfStock}}
             <div class="product-detail mt-2">
               <h5 class="product-title">{{name}}</h5>
               <p>{{price}} EUR</p>

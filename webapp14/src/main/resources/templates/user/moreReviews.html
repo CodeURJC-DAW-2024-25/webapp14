@@ -1,0 +1,39 @@
+{{#reviews}}
+        {{^reported}}
+        <div class="col-12">
+          <div class="review-card">
+            <h5 class="username">{{user.name}} {{user.surname}}</h5>
+            <div class="stars">
+              {{#ratingStars}}
+              <span>&#9733;</span>
+              {{/ratingStars}}
+              {{#emptyStars}}
+              <span>&#9734;</span>
+              {{/emptyStars}}
+            </div>
+            <p class="review-text">{{reviewText}}</p>
+            <div class="review-actions">
+              <button class="btn btn-outline-primary">
+                <i class="fas fa-pencil-alt"></i>
+              </button>
+              <form action="/index/{{product.id}}/{{id}}/delete" method="post">
+                <button type="submit" class="btn btn-outline-danger">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </form>
+              <form action="/index/{{product.id}}/{{id}}/report" method="post">
+                <button type="submit" class="btn btn-outline-warning">
+                  <i class="fas fa-exclamation-circle"></i>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        {{/reported}}
+        {{/reviews}}
+
+
+{{^hasMore}}
+<!-- true -->
+{{/hasMore}}
+ 
