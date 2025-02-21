@@ -1,34 +1,48 @@
 /* Sidebar */
 #accordionSidebar {
-  height: 100vh; /* Ensures it occupies the full screen height */
-  overflow: hidden; /* Prevent unnecessary scrollbars */
-  width: 250px; /* Width of the expanded sidebar */
-  position: fixed; /* Fix the sidebar to the left */
-  left: 0; /* Ensures it sticks to the left */
-  top: 0; /* Ensures the sidebar is at the top */
-  transition: transform 0.3s ease, width 0.3s ease; /* Smooth transitions */
-  background-color: #000001; /* Sidebar background */
+  height: 100vh;
+  /* Ensures it occupies the full screen height */
+  overflow: hidden;
+  /* Prevent unnecessary scrollbars */
+  width: 250px;
+  /* Width of the expanded sidebar */
+  position: fixed;
+  /* Fix the sidebar to the left */
+  left: 0;
+  /* Ensures it sticks to the left */
+  top: 0;
+  /* Ensures the sidebar is at the top */
+  transition: transform 0.3s ease, width 0.3s ease;
+  /* Smooth transitions */
+  background-color: #000001;
+  /* Sidebar background */
 }
 
 #accordionSidebar.toggled {
-  transform: translateX(-250px); /* Moves the sidebar off-screen */
-  width: 0; /* Reduces the width to 0 when collapsed */
+  transform: translateX(-250px);
+  /* Moves the sidebar off-screen */
+  width: 0;
+  /* Reduces the width to 0 when collapsed */
 }
 
 /* Content should adjust when the sidebar is collapsed */
 #content-wrapper {
   transition: margin-left 0.3s ease;
-  margin-left: 220px; /* Space occupied by the sidebar when expanded */
+  margin-left: 220px;
+  /* Space occupied by the sidebar when expanded */
 }
 
 #content-wrapper.toggled {
-  margin-left: 0; /* Content occupies the full available space when the sidebar is collapsed */
+  margin-left: 0;
+  /* Content occupies the full available space when the sidebar is collapsed */
 }
 
 /* Sidebar toggle icon (visible when the sidebar is collapsed) */
 #sidebarToggleTop i {
-  color: white; /* Icon color */
-  font-size: 24px; /* Icon size */
+  color: white;
+  /* Icon color */
+  font-size: 24px;
+  /* Icon size */
 }
 
 /* Style for the topbar */
@@ -56,24 +70,34 @@
 
 /* Sidebar on small devices */
 @media (max-width: 768px) {
+
   /* When the sidebar is expanded on small screens */
   #accordionSidebar {
-    width: 100vw; /* Full screen width */
-    height: 100vh; /* Full screen height */
-    position: fixed; /* Fix the sidebar */
+    width: 100vw;
+    /* Full screen width */
+    height: 100vh;
+    /* Full screen height */
+    position: fixed;
+    /* Fix the sidebar */
     top: 0;
     left: 0;
-    z-index: 1050; /* Ensure it's above the content */
-    transform: translateX(0); /* Make it visible when expanded */
-    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease; /* Smooth transition */
-    padding-top: 60px; /* Add space at the top for the button */
+    z-index: 1050;
+    /* Ensure it's above the content */
+    transform: translateX(0);
+    /* Make it visible when expanded */
+    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+    /* Smooth transition */
+    padding-top: 60px;
+    /* Add space at the top for the button */
   }
 
   /* When the sidebar is collapsed */
   #accordionSidebar.toggled {
-    transform: translateX(-100vw); /* Move the sidebar off-screen */
+    transform: translateX(-100vw);
+    /* Move the sidebar off-screen */
     width: 0;
-    height: 0; /* Ensure it takes up 0 space when collapsed */
+    height: 0;
+    /* Ensure it takes up 0 space when collapsed */
   }
 
   /* Adjust content to occupy full available space */
@@ -84,23 +108,34 @@
 
   /* Change the toggle icon to be more visible on small screens */
   #sidebarToggleTop i {
-    font-size: 30px; /* Increase icon size */
-    color: white; /* Make the icon white */
-    position: fixed; /* Fix the button in the top-left */
-    top: 10px; /* Position it slightly from the top */
-    left: 10px; /* Position it slightly from the left */
-    z-index: 1060; /* Ensure it's above the sidebar */
-    background-color: rgba(0, 0, 0, 0.5); /* Subtle background behind the icon */
+    font-size: 30px;
+    /* Increase icon size */
+    color: white;
+    /* Make the icon white */
+    position: fixed;
+    /* Fix the button in the top-left */
+    top: 10px;
+    /* Position it slightly from the top */
+    left: 10px;
+    /* Position it slightly from the left */
+    z-index: 1060;
+    /* Ensure it's above the sidebar */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Subtle background behind the icon */
     padding: 10px;
-    border-radius: 50%; /* Make it circular */
+    border-radius: 50%;
+    /* Make it circular */
     cursor: pointer;
   }
 
   /* Style elements inside the sidebar */
   #accordionSidebar .nav-item {
-    padding: 10px 20px; /* Better spacing between elements */
-    text-align: center; /* Center icons and text */
-    margin-bottom: 15px; /* Spacing between icons */
+    padding: 10px 20px;
+    /* Better spacing between elements */
+    text-align: center;
+    /* Center icons and text */
+    margin-bottom: 15px;
+    /* Spacing between icons */
   }
 
   /* Style icons and text inside the sidebar */
@@ -108,76 +143,92 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff; /* White for links */
-    font-size: 16px; /* Larger font size */
-    text-transform: uppercase; /* Uppercase text for a modern style */
-    transition: color 0.3s ease; /* Smooth color transition on hover */
+    color: #fff;
+    /* White for links */
+    font-size: 16px;
+    /* Larger font size */
+    text-transform: uppercase;
+    /* Uppercase text for a modern style */
+    transition: color 0.3s ease;
+    /* Smooth color transition on hover */
   }
 
   /* Hover color change for links */
   #accordionSidebar .nav-link:hover {
-    color: #4e73df; /* Blue hover effect */
+    color: #4e73df;
+    /* Blue hover effect */
   }
 
   /* Sidebar title style */
   .sidebar-brand-text {
-    font-size: 20px; /* Larger font size */
-    font-weight: bold; /* Make the text heavier */
+    font-size: 20px;
+    /* Larger font size */
+    font-weight: bold;
+    /* Make the text heavier */
     color: #fff;
-    text-transform: uppercase; /* Uppercase title */
+    text-transform: uppercase;
+    /* Uppercase title */
   }
-  
+
   /* Sidebar item hover effect */
   #accordionSidebar .nav-item:hover {
-    background-color: rgba(0, 0, 0, 0.8); /* Subtle background on hover */
-    border-radius: 5px; /* Rounded edges for a more stylish look */
+    background-color: rgba(0, 0, 0, 0.8);
+    /* Subtle background on hover */
+    border-radius: 5px;
+    /* Rounded edges for a more stylish look */
   }
 }
 
 /* Image adjustments */
 .img-admin-products {
   width: 150px;
-  height: 200px; 
-  object-fit: cover; 
-  flex-shrink: 0; 
+  height: 200px;
+  object-fit: cover;
+  flex-shrink: 0;
   border: 1px solid #ddd;
 }
 
 .img-user-admin {
-  width: 100px; 
-  height: 100px; 
+  width: 100px;
+  height: 100px;
   object-fit: cover;
 }
 
 /* Adjust text and image sizes on small screens */
 @media (max-width: 576px) {
   .user-info-div {
-    font-size: 0.8rem; /* Reduce text size */
+    font-size: 0.8rem;
+    /* Reduce text size */
   }
 
   .img-user-admin {
-    width: 50px; /* Reduce image size */
-    height: 50px; /* Ensure image remains square */
+    width: 50px;
+    /* Reduce image size */
+    height: 50px;
+    /* Ensure image remains square */
   }
 
-  .collapse .d-flex {  
-    flex-direction: column;  
-    align-items: flex-start; /* Keep text aligned to the left */  
+  .collapse .d-flex {
+    flex-direction: column;
+    align-items: flex-start;
+    /* Keep text aligned to the left */
   }
 
-  .collapse img {  
-    margin-bottom: 10px;  
-    width: 100%;  
-    max-width: 200px; /* Adjust as needed */  
+  .collapse img {
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 200px;
+    /* Adjust as needed */
   }
 
-  .collapse .flex-grow-1,  
-  .collapse .list-group-item {  
-    font-size: 14px; /* Reduce general text and review sizes */  
+  .collapse .flex-grow-1,
+  .collapse .list-group-item {
+    font-size: 14px;
+    /* Reduce general text and review sizes */
   }
 
-  .collapse h5 {  
-    font-size: 16px;  
+  .collapse h5 {
+    font-size: 16px;
   }
 
   .list-group-item .d-flex.flex-column.flex-sm-row.mt-2 {
@@ -196,42 +247,56 @@
   }
 
   .card-header.d-flex {
-    flex-direction: column; /* Stack elements vertically */
-    align-items: flex-start; /* Align to the left */
+    flex-direction: column;
+    /* Stack elements vertically */
+    align-items: flex-start;
+    /* Align to the left */
   }
 
   #filter-out-of-stock {
-    font-size: 0.75rem; /* Reduce text size */
-    padding: 0.25rem 0.5rem; /* Make the button more compact */
-    margin-top: 5px; /* Add spacing above the button */
-    width: auto; /* Let the width adjust automatically */
+    font-size: 0.75rem;
+    /* Reduce text size */
+    padding: 0.25rem 0.5rem;
+    /* Make the button more compact */
+    margin-top: 5px;
+    /* Add spacing above the button */
+    width: auto;
+    /* Let the width adjust automatically */
   }
 }
 
 /* Additional adjustments for lists and buttons on small screens */
 @media (max-width: 576px) {
+
   /* Reduce text size */
   .list-group-item span {
-    font-size: 0.5rem; /* Smaller text */
+    font-size: 0.5rem;
+    /* Smaller text */
   }
 
   /* Reduce button size */
   .list-group-item .btn {
-    font-size: 0.75rem; /* Reduce button text size */
-    padding: 0.25rem 0.5rem; /* Reduce padding for a smaller button */
+    font-size: 0.75rem;
+    /* Reduce button text size */
+    padding: 0.25rem 0.5rem;
+    /* Reduce padding for a smaller button */
   }
 }
 
 @media (max-width: 768px) {
+
   /* Reduce text size for medium screens */
   .list-group-item span {
-    font-size: 1rem; /* Slightly smaller text */
+    font-size: 1rem;
+    /* Slightly smaller text */
   }
 
   /* Reduce button size on medium screens */
   .list-group-item .btn {
-    font-size: 0.5rem; /* Reduce button text size */
-    padding: 0.3rem 0.6rem; /* Adjust padding for button */
+    font-size: 0.5rem;
+    /* Reduce button text size */
+    padding: 0.3rem 0.6rem;
+    /* Adjust padding for button */
   }
 }
 
@@ -240,18 +305,18 @@
 }
 
 .reviews-list {
-  display: flex; 
+  display: flex;
   align-items: center;
 }
 
 .span-review {
-  flex: 1; 
+  flex: 1;
   min-width: 0;
 }
 
 .report-btn {
-  display: flex; 
-  gap: 10px; 
+  display: flex;
+  gap: 10px;
   flex-shrink: 0;
 }
 
@@ -261,9 +326,9 @@
 }
 
 .btn-warning:disabled {
-  background-color: #ffd026; 
-  border-color: #ffd026;  
-  color: white;            
+  background-color: #ffd026;
+  border-color: #ffd026;
+  color: white;
 }
 
 .out-of-stock {
@@ -317,15 +382,15 @@
 }
 
 .custom-btn {
-  background-color: #1cc88a !important;  
-  color: white !important;  
-  border-color: #1cc88a !important;  
+  background-color: #1cc88a !important;
+  color: white !important;
+  border-color: #1cc88a !important;
 }
 
 .custom-btn:hover {
-  background-color: #17a673 !important; 
-  border-color: #149065 !important;  
-  color: white !important;  
+  background-color: #17a673 !important;
+  border-color: #149065 !important;
+  color: white !important;
 }
 
 
@@ -334,7 +399,14 @@
   border: none;
   transition: all 0.3s ease-in-out;
 }
+
 .cardImage:hover {
   transform: scale(1.02);
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.product-name {
+  word-wrap: break-word;
+  white-space: normal;
+  max-width: 110px;
 }

@@ -32,6 +32,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
@@ -73,7 +74,7 @@ public class AdminController {
             HttpServletRequest request) throws Exception {
         // To handle admin editing
         Optional<User> existing = userService.getAdmin();
-        if(existing.isPresent()){
+        if (existing.isPresent()) {
             User existingAdmin = existing.get();
             // If the request is GET only show the form
             if (request.getMethod().equals("GET")) {
@@ -127,8 +128,7 @@ public class AdminController {
             }
             // Redirect to another page if all is correct
             return "redirect:/admin/profile";
-        }
-        else{
+        } else {
             return "redirect:/admin/profile";
         }
     }
@@ -137,7 +137,7 @@ public class AdminController {
     // To recover and return the administrator image
     public ResponseEntity<Object> downloadImage() throws SQLException {
         Optional<User> exits = userService.getAdmin();
-        if(exits.isPresent()){
+        if (exits.isPresent()) {
             User admin = exits.get();
             if (admin.getProfileImage() != null) {
                 Blob image = admin.getProfileImage();
@@ -147,22 +147,33 @@ public class AdminController {
             } else {
                 return ResponseEntity.notFound().build();
             }
-        }
-        else{
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @GetMapping("/admin/orders")
+    @RequestMapping(value = "/admin/orders", method = { RequestMethod.GET, RequestMethod.POST })
     // To show the orders
-    public String showAdminOrders(Model model) {
-        List<Order> orders = orderService.getAllOrders();
-        List<Order> paidOrders = orders.stream()
-                .filter(Order::getIsPaid) // Filter only paid orders
-                .collect(Collectors.toList());
-        model.addAttribute("orders", paidOrders);
-        model.addAttribute("orderCount", paidOrders.size());
-        return "admin/admin_orders";
+    public String showAdminOrders(@RequestParam(value = "orderId", required = false) Long orderId,
+            @RequestParam(value = "state", required = false) Order.State newState, Model model,
+            HttpServletRequest request) {
+        // If the request is GET
+        if (request.getMethod().equals("GET")) {
+            List<Order> orders = orderService.getAllOrders();
+            List<Order> paidOrders = orders.stream()
+                    .filter(Order::getIsPaid) // Filter only paid orders
+                    .collect(Collectors.toList());
+            model.addAttribute("orders", paidOrders);
+            model.addAttribute("orderCount", paidOrders.size());
+            return "admin/admin_orders";
+        }
+        // If the request is POST
+        Order order = orderService.getOrderById(orderId);
+        if (order != null) {
+            order.setState(newState);
+            orderService.saveOrder(order);
+        }
+        return "redirect:/admin/orders";
     }
 
     @GetMapping("/product/image/{id}")
@@ -210,9 +221,9 @@ public class AdminController {
 
     @RequestMapping(value = "/admin/products/create", method = { RequestMethod.GET, RequestMethod.POST })
     public String addProduct(@ModelAttribute("product") @Valid Product product,
-                            BindingResult result,
-                            @RequestParam(value = "imageUpload", required = false) MultipartFile image,
-                            Model model) throws IOException {
+            BindingResult result,
+            @RequestParam(value = "imageUpload", required = false) MultipartFile image,
+            Model model) throws IOException {
 
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getFieldErrors().stream()
@@ -224,8 +235,7 @@ public class AdminController {
         if (image != null && !image.isEmpty()) {
             product.setImage(BlobProxy.generateProxy(image.getInputStream(), image.getSize()));
             product.setImageBool(true);
-        }
-        else{
+        } else {
             product.setImageBool(false);
         }
 
@@ -233,7 +243,6 @@ public class AdminController {
 
         return "redirect:/admin/products";
     }
-
 
     @GetMapping("/admin/products/out-of-stock")
     public String showOutOfStockProducts(Model model) {
@@ -266,11 +275,11 @@ public class AdminController {
 
     @PostMapping("/admin/products/edit/{id}")
     public String updateProduct(@PathVariable Long id,
-                                @ModelAttribute("product") @Valid Product updatedProduct,
-                                BindingResult result,
-                                @RequestParam(value = "removeImage", required = false) boolean removeImage,
-                                @RequestParam(value = "image", required = false) MultipartFile imageField,
-                                Model model) throws IOException {
+            @ModelAttribute("product") @Valid Product updatedProduct,
+            BindingResult result,
+            @RequestParam(value = "removeImage", required = false) boolean removeImage,
+            @RequestParam(value = "image", required = false) MultipartFile imageField,
+            Model model) throws IOException {
 
         Product existingProduct = productService.getProductById(id);
 
@@ -292,7 +301,7 @@ public class AdminController {
         productService.saveProduct(existingProduct);
 
         return "redirect:/admin/products";
-    }    
+    }
 
     @GetMapping("/admin/users")
     public String getUsers(Model model) {
