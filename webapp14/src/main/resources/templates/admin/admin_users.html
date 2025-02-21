@@ -24,6 +24,12 @@
     <link rel="stylesheet" href="/css/custom.css">
 </head>
 
+{{^admin}}
+{{> acces_error}}
+{{/admin}}
+
+{{#admin}}
+
 <body id="page-top">
 
     </nav>
@@ -304,5 +310,7 @@
     });
 });
 </script>
+
+{{/admin}}
 
 </html>

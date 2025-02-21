@@ -44,7 +44,6 @@
       <h2 class="fw-bold text-center mb-4">Reseñas de Clientes</h2>
       <div id="reviews" class="row">
         {{#reviews}}
-        {{^reported}}
         <div class="col-12">
           <div class="review-card">
             <h5 class="username">{{user.name}} {{user.surname}}</h5>
@@ -74,7 +73,6 @@
             </div>
           </div>
         </div>
-        {{/reported}}
         {{/reviews}}
 
         {{^reviews}}

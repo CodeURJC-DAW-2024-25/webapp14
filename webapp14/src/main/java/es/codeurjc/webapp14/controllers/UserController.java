@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import es.codeurjc.webapp14.model.User;
+import es.codeurjc.webapp14.model.User.Role;
 import es.codeurjc.webapp14.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -106,33 +108,54 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
-    // To show the login form and handle the user login process
     public String loginUser(@RequestParam(value = "email", required = false) String email,
-            @RequestParam(value = "password", required = false) String password,
-            Model model, HttpServletRequest request) {
+                            @RequestParam(value = "password", required = false) String password,
+                            Model model, HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
-        // If the request is GET only show the form
+
         if (request.getMethod().equals("GET")) {
             model.addAttribute("user", new User());
             return "login_register/login";
         }
-        // The user is searched by email
+
         User user = userService.findByEmail(email);
-        // Check if the user exists
+
         if (user == null) {
             errors.put("emailError", "El correo electrónico no está registrado");
-        } // Check if the password is incorrect
-        else if (!user.getPassword().equals(password)) {
+        } else if (!user.getPassword().equals(password)) {
             errors.put("passwordError", "Contraseña incorrecta");
         }
-        // If there are errors, the view is returned with the messages
+        else if(user.getRole() != Role.ADMIN && user.getRole() != Role.CUSTOMER){
+            errors.put("rolError","Rol inválido");
+        }
+
         if (!errors.isEmpty()) {
             model.addAttribute("errors", errors);
             model.addAttribute("email", email);
             return "login_register/login";
         }
-        // Redirect to another page if credentials are correct
-        return "redirect:/admin/profile"; // CHANGE THIS
+
+        HttpSession session = request.getSession();
+        session.setAttribute("logged", true);
+        session.setAttribute("userName", user.getName());
+        session.setAttribute("userEmail", user.getEmail());
+        session.setAttribute("admin", user.getRole().equals(Role.ADMIN));
+
+
+        if (user.getRole() == Role.ADMIN){
+            return "redirect:/admin/profile";
+        }
+        else{
+            return "redirect:/index";
+        }
     }
+
+    @RequestMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.invalidate();
+        return "redirect:/index";
+    }
+
 
 }

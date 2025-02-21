@@ -19,6 +19,12 @@
 
 </head>
 
+{{^admin}}
+{{> acces_error}}
+{{/admin}}
+
+{{#admin}}
+
 <body id="page-top">
 
     <div id="wrapper">
@@ -191,5 +197,9 @@
     });
 
 </script>
+
+
+{{/admin}}
+
 
 </html>

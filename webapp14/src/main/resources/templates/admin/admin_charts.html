@@ -23,6 +23,12 @@
   <link rel="stylesheet" href="../../css/custom.css">
 </head>
 
+  {{^admin}}
+  {{> acces_error}}
+  {{/admin}}
+
+  {{#admin}}
+
 <body id="page-top">
 
   <!-- Page Wrapper -->
@@ -323,5 +329,7 @@
   });
 });
 </script>
+
+{{/admin}}
 
 </html>

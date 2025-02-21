@@ -1,9 +1,13 @@
 package es.codeurjc.webapp14.controllers;
 
 import java.sql.SQLException;
+import java.security.Principal;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.management.relation.Role;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +25,8 @@ import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Review;
 import es.codeurjc.webapp14.services.ProductService;
 import es.codeurjc.webapp14.services.ReviewService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +43,24 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @ModelAttribute
+    public void addAttributes(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Boolean logged = (Boolean) session.getAttribute("logged");
+        String userName = (String) session.getAttribute("userName");
+        Boolean admin = session.getAttribute("admin") != null && (Boolean) session.getAttribute("admin");
+
+        if (logged != null && logged) {
+            model.addAttribute("logged", true);
+            model.addAttribute("userName", userName);
+            model.addAttribute("admin", admin);
+           
+        } else {
+            model.addAttribute("logged", false);
+            model.addAttribute("admin", false);
+        }
+    }
 
     @GetMapping
     public String listProducts(Model model) {

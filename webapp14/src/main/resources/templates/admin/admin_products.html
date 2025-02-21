@@ -23,6 +23,12 @@
 
 </head>
 
+{{^admin}}
+{{> acces_error}}
+{{/admin}}
+
+{{#admin}}
+
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -476,6 +482,8 @@
     }
 
 </script>
+
+{{/admin}}
 
 
 

@@ -34,8 +34,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
+@RequestMapping("/admin")
 @Controller
 public class AdminController {
 
@@ -54,15 +56,43 @@ public class AdminController {
     private List<String> categories = new ArrayList<>(
             Arrays.asList("ropa-invierno", "ropa-verano", "accesorios", "zapatos"));
 
-    @GetMapping("/admin/profile")
-    // To show the admin profile
-    public String showAdminProfile(Model model) {
-        model.addAttribute("admin", userService.getAdmin());
-        model.addAttribute("hasImage", userService.getAdmin().get().getProfileImage() != null);
-        return "admin/admin_profile";
+    @ModelAttribute
+    public void addAttributes(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Boolean logged = (Boolean) session.getAttribute("logged");
+        String userName = (String) session.getAttribute("userName");
+        Boolean admin = session.getAttribute("admin") != null && (Boolean) session.getAttribute("admin");
+
+        if (logged != null && logged) {
+            model.addAttribute("logged", true);
+            model.addAttribute("userName", userName);
+            model.addAttribute("admin", admin);
+        } else {
+            model.addAttribute("logged", false);
+            model.addAttribute("admin", false);
+
+        }
+
     }
 
-    @RequestMapping(value = "/admin/edit", method = { RequestMethod.GET, RequestMethod.POST })
+    @GetMapping("/profile")
+    public String showAdminProfile(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String email = (String) session.getAttribute("userEmail");
+
+        if (email == null) {
+            return "redirect:/login";
+        }
+
+        User admin = userService.findByEmail(email);
+
+        model.addAttribute("admin", admin);
+        model.addAttribute("hasImage", admin.getProfileImage() != null);
+        return "admin/admin_profile";
+
+    }
+
+    @RequestMapping(value = "/edit", method = { RequestMethod.GET, RequestMethod.POST })
     // To show the admin profile form and handle admin editing
     public String showAdminProfileEdit(
             @ModelAttribute("admin") @Valid User admin,
@@ -133,7 +163,7 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/admin/profile/image")
+    @GetMapping("/profile/image")
     // To recover and return the administrator image
     public ResponseEntity<Object> downloadImage() throws SQLException {
         Optional<User> exits = userService.getAdmin();
@@ -152,7 +182,7 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(value = "/admin/orders", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/orders", method = { RequestMethod.GET, RequestMethod.POST })
     // To show the orders
     public String showAdminOrders(@RequestParam(value = "orderId", required = false) Long orderId,
             @RequestParam(value = "state", required = false) Order.State newState, Model model,
@@ -197,7 +227,7 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/admin/products")
+    @GetMapping("/products")
     public String showProducts(Model model) {
         List<Product> products = productService.getAllProducts();
         model.addAttribute("products", products);
@@ -219,7 +249,7 @@ public class AdminController {
         return "admin/admin_products";
     }
 
-    @RequestMapping(value = "/admin/products/create", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/products/create", method = { RequestMethod.GET, RequestMethod.POST })
     public String addProduct(@ModelAttribute("product") @Valid Product product,
             BindingResult result,
             @RequestParam(value = "imageUpload", required = false) MultipartFile image,
@@ -244,7 +274,7 @@ public class AdminController {
         return "redirect:/admin/products";
     }
 
-    @GetMapping("/admin/products/out-of-stock")
+    @GetMapping("/products/out-of-stock")
     public String showOutOfStockProducts(Model model) {
         List<Product> products = productService.getAllProductsOutOfStock();
         // Add the product filtered list in to the model
@@ -266,14 +296,14 @@ public class AdminController {
         return "admin/admin_products";
     }
 
-    @PostMapping("/admin/products/delete/{id}")
+    @PostMapping("/products/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
         productService.getProductById(id);
         productService.delete(id);
         return "redirect:/admin/products";
     }
 
-    @PostMapping("/admin/products/edit/{id}")
+    @PostMapping("/products/edit/{id}")
     public String updateProduct(@PathVariable Long id,
             @ModelAttribute("product") @Valid Product updatedProduct,
             BindingResult result,
@@ -303,7 +333,7 @@ public class AdminController {
         return "redirect:/admin/products";
     }
 
-    @GetMapping("/admin/users")
+    @GetMapping("/users")
     public String getUsers(Model model) {
         List<User> users = userService.getAllUsers();
         List<User> bannedUsers = userService.getAllUsersBanned();
@@ -327,7 +357,7 @@ public class AdminController {
         return "admin/admin_users";
     }
 
-    @PostMapping("/admin/users/accept/{id}")
+    @PostMapping("/users/accept/{id}")
     public String acceptReview(@PathVariable Long id, Model model) {
         Review review = reviewService.getReviewById(id);
         review.setReported(false);
@@ -335,14 +365,14 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
-    @PostMapping("/admin/users/delete/{id}")
+    @PostMapping("/users/delete/{id}")
     public String deleteReview(@PathVariable Long id, Model model) {
         reviewService.getReviewById(id);
         reviewService.delete(id);
         return "redirect:/admin/users";
     }
 
-    @PostMapping("/admin/users/ban/{id}")
+    @PostMapping("/users/ban/{id}")
     public String banUser(@PathVariable Long id, Model model) {
         User user = userService.findById(id);
         user.setBanned(true);
@@ -352,7 +382,7 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
-    @PostMapping("/admin/users/unban/{id}")
+    @PostMapping("/users/unban/{id}")
     public String unbanUser(@PathVariable Long id, Model model) {
         User user = userService.findById(id);
         user.setBanned(false);

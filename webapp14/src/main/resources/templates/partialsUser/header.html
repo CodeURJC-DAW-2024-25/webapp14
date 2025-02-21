@@ -95,14 +95,22 @@
 
           <div class="d-none d-lg-flex justify-content-end">
             <ul class="d-flex justify-content-end list-unstyled m-0">
+              {{#logged}}
+              <a>{{userName}}</a>
+              {{/logged}}
               <li class="nav_item dropdown">
                 <a class="nav-link mx-2 dropdown-toggle" role="button" data-bs-toggle="dropdown">
                   <iconify-icon icon="healthicons:person" class="fs-4 text-light"></iconify-icon>
                 </a>
                 <ul class="dropdown-menu p-3 p-lg-0">
-                  <li><a href="/login_register/login" class="dropdown-item">Iniciar sesión</a></li>
+                  {{#logged}}
+                  <li><a href="/logout" class="dropdown-item">Cerrar sesión</a></li>
                   <li><a href="/user_registered/users_profile" class="dropdown-item">Editar perfil</a></li>
                   <li><a href="/orders" class="dropdown-item">Ver Pedidos</a></li>
+                  {{/logged}}
+                  {{^logged}}
+                  <li><a href="/login" class="dropdown-item">Iniciar sesión</a></li>
+                  {{/logged}}
                 </ul>
               </li>
 
