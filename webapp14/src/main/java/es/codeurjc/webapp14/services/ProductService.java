@@ -64,15 +64,6 @@ public class ProductService {
     public List<Product> getRecommendedProductsBasedOnLastOrder(Long userId) {
         Order lastOrder = orderRepository.findFirstByUserIdOrderByCreatedAtDesc(userId);
 
-        System.out.println("Último pedido ID: " + lastOrder.getId());
-        System.out.println("Creado en: " + lastOrder.getCreatedAt());
-        System.out.println("Estado: " + lastOrder.getState());
-        System.out.println("Productos en el pedido:");
-        lastOrder.getOrderProducts().forEach(op -> {
-            System.out.println(" - Product ID: " + op.getProduct().getId() 
-                               + " | Categoría: " + op.getProduct().getCategory());
-        });
-
         List<String> categories = lastOrder.getOrderProducts().stream()
             .map(op -> op.getProduct().getCategory())
             .distinct()

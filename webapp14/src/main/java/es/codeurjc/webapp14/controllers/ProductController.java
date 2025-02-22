@@ -59,7 +59,11 @@ public class ProductController {
     public String listProducts(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Long sessionUserId = (Long) session.getAttribute("userId");
-        model.addAttribute("productsRecommended", productService.getRecommendedProductsBasedOnLastOrder(sessionUserId));
+
+        if (sessionUserId != null) {
+            model.addAttribute("productsRecommended", productService.getRecommendedProductsBasedOnLastOrder(sessionUserId));
+        }
+        
         model.addAttribute("products", productService.getAllProductsSold());
         return "user/index";
     }
