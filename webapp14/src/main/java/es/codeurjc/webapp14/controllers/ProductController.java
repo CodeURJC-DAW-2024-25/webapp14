@@ -1,17 +1,9 @@
 package es.codeurjc.webapp14.controllers;
 
-import java.sql.SQLException;
-import java.security.Principal;
-import java.sql.Blob;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.management.relation.Role;
-
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +20,6 @@ import es.codeurjc.webapp14.services.ReviewService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
@@ -43,6 +34,7 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
@@ -69,8 +61,24 @@ public class ProductController {
     }
 
     @GetMapping("/elem_detail/{id}")
-    public String ProductDetails(Model model, @PathVariable Long id) {
+    public String ProductDetails(Model model, @PathVariable Long id, HttpServletRequest request) {
+        HttpSession session = request.getSession();
         model.addAttribute("product", productService.getProductById(id));
+        List<Review> reviews = productService.getProductById(id).getTwoReviews(0, 2);
+        for (Review review : reviews){
+            String userEmail = (String) session.getAttribute("userEmail");
+            if (userEmail == null){
+                review.setOwn(false);
+            }
+            else{
+                if(userEmail.equals(review.getUser().getEmail())){
+                    review.setOwn(true);
+                }
+                else{
+                    review.setOwn(false);
+                }
+            }
+        }
         model.addAttribute("reviews", productService.getProductById(id).getTwoReviews(0, 2));
         return "user/elem_detail";
     }
@@ -123,9 +131,24 @@ public class ProductController {
         @RequestParam Long id,
             @RequestParam int from,  
             @RequestParam int to,
-            Model model) {
+            Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
         Product product = productService.getProductById(id);
         List<Review> reviewsList = product.getTwoReviews(from, to);
+        for (Review review : reviewsList){
+            String userEmail = (String) session.getAttribute("userEmail");
+            if (userEmail == null){
+                review.setOwn(false);
+            }
+            else{
+                if(userEmail.equals(review.getUser().getEmail())){
+                    review.setOwn(true);
+                }
+                else{
+                    review.setOwn(false);
+                }
+            }
+        }
         boolean hasMore = to < product.getReviews().size();
 
         model.addAttribute("reviews", reviewsList);

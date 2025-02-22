@@ -23,6 +23,7 @@ public class Review {
     private int rating;
     private String reviewText;
     private boolean reported;
+    private boolean own;
 
     @Transient
     private List<Boolean> ratingStars;
@@ -135,6 +136,14 @@ public class Review {
             updateStars();
         }
         return emptyStars;
+    }
+
+    public boolean getOwn() {
+        return this.own;
+    }
+
+    public void setOwn(boolean own) {
+        this.own = own;
     }
     
 

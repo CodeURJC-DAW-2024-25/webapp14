@@ -57,6 +57,7 @@
             </div>
             <p class="review-text">{{reviewText}}</p>
             <div class="review-actions">
+              {{#own}}
               <button class="btn btn-outline-primary">
                 <i class="fas fa-pencil-alt"></i>
               </button>
@@ -65,11 +66,16 @@
                   <i class="fas fa-trash-alt"></i>
                 </button>
               </form>
+              {{/own}}
+              {{#logged}}
+              {{^own}}
               <form action="/index/{{product.id}}/{{id}}/report" method="post">
                 <button type="submit" class="btn btn-outline-warning">
                   <i class="fas fa-exclamation-circle"></i>
                 </button>
               </form>
+              {{/own}}
+              {{/logged}}
             </div>
           </div>
         </div>
