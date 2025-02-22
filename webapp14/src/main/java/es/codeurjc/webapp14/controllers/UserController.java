@@ -139,6 +139,7 @@ public class UserController {
         session.setAttribute("logged", true);
         session.setAttribute("userName", user.getName());
         session.setAttribute("userEmail", user.getEmail());
+        session.setAttribute("userId", user.getId());
         session.setAttribute("admin", user.getRole().equals(Role.ADMIN));
 
 

@@ -121,6 +121,7 @@
 
 <section id="new-arrival" class="product-store">
   <div class="container-fluid px-3 px-md-5 padding-medium">
+    {{^logged}}
     <h2 class="display-5 fw-light text-uppercase text-center">TENDENCIAS</h2>
     <div class="row justify-content-center py-4">
       {{#products}}
@@ -138,6 +139,34 @@
         </div>
       </div>
       {{/products}}
+      {{/logged}}
+
+      {{#logged}}
+    <h2 class="display-5 fw-light text-uppercase text-center">PRODUCTOS RECOMENDADOS</h2>
+    <div class="row justify-content-center py-4">
+      {{#productsRecommended}}
+      <div class="col-md-6 mb-4">
+        <div class="row align-items-center">
+          <div class="col-md-6 text-center">
+            <img src="/image/{{id}}" alt="Pantalones en la silla" class="img-fluid w-75">
+          </div>
+
+          <div class="col-md-4 text-md-start text-center mt-3 mt-md-0">
+            <h2 class="fw-bold">{{name}}</h2>
+            <p class="fst-italic">denim collection <br> spring summer 2025</p>
+            <a href="/index/elem_detail/{{id}}" class="btn btn-dark mt-3 px-4 py-2">Ver Detalles</a>
+          </div>
+        </div>
+      </div>
+      {{/productsRecommended}}
+      <div class="col-12 mt-3 my-3 text-start">
+        <a href="#" class="btn btn-dark px-4 py-2">
+          Ver más
+          <iconify-icon icon="material-symbols:arrow-right-alt" class="me-1"></iconify-icon>
+        </a>
+      </div>
+      {{/logged}}
+
 
     </div>
 </section>

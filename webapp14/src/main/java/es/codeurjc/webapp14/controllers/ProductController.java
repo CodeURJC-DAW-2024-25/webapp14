@@ -41,6 +41,7 @@ public class ProductController {
         HttpSession session = request.getSession();
         Boolean logged = (Boolean) session.getAttribute("logged");
         String userName = (String) session.getAttribute("userName");
+        Long sessionUserId = (Long) session.getAttribute("userId");
         Boolean admin = session.getAttribute("admin") != null && (Boolean) session.getAttribute("admin");
 
         if (logged != null && logged) {
@@ -55,7 +56,10 @@ public class ProductController {
     }
 
     @GetMapping
-    public String listProducts(Model model) {
+    public String listProducts(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Long sessionUserId = (Long) session.getAttribute("userId");
+        model.addAttribute("productsRecommended", productService.getRecommendedProductsBasedOnLastOrder(sessionUserId));
         model.addAttribute("products", productService.getAllProductsSold());
         return "user/index";
     }
