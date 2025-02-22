@@ -1,5 +1,7 @@
 package es.codeurjc.webapp14.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -23,4 +25,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findUsersWithReportedReviews();
 
     List<User> findByRole(Role role);
+
+    Page<User> findByRoleNot(Role role, Pageable pageable);
+
+    @Query("SELECT u FROM User u JOIN u.reviews r WHERE r.reported = true")
+    Page<User> findUsersWithReportedReviews(Pageable pageable);
+
+    
+    
 }

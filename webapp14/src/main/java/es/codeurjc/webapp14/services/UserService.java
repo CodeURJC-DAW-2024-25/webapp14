@@ -5,8 +5,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.engine.jdbc.BlobProxy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.model.User.Role;
 import es.codeurjc.webapp14.repositories.UserRepository;
@@ -73,5 +78,15 @@ public class UserService {
     public List<User> getUsersWithReportedReviews() {
         return userRepository.findUsersWithReportedReviews();
     }
+
+    public Page<User> getUsersPaginated(int page, int size) {
+        return userRepository.findByRoleNot(Role.ADMIN, PageRequest.of(page, size));
+    }
+
+    public Page<User> getUsersWithReportedReviewsPaginated(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return userRepository.findUsersWithReportedReviews(pageable);
+    }
+    
 
 }

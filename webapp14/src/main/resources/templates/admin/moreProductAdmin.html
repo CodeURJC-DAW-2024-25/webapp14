@@ -1,0 +1,154 @@
+{{#products}}
+                <li class="list-group-item d-flex flex-column flex-sm-row justify-content-between align-items-start {{#outOfStock}}out-of-stock-container{{/outOfStock}}">
+                    <span>
+                        ID: {{id}}
+                    </span>
+                    <div class="d-flex flex-column flex-sm-row mt-2">
+                        <button class="btn btn-sm btn-outline-primary custom-btn mb-2 mb-sm-0" data-toggle="collapse" data-target="#product{{id}}">
+                            Ver detalles
+                        </button>                                            
+                        <button class="btn btn-primary btn-rounded btn-sm mb-2 mb-sm-0 ml-sm-2" data-toggle="modal" data-target="#editModal{{id}}">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <form action="/admin/products/delete/{{id}}" method="post">
+                            <button type="submit" class="btn btn-danger btn-rounded btn-sm ml-sm-2">
+                                <i class="fas fa-trash-alt"></i> Eliminar
+                            </button>
+                        </form>                             
+                    </div>
+                </li>
+                
+                <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="product{{id}}">
+                    <div class="d-flex align-items-center">
+                        <div class="image-wrapper position-relative">
+                            {{#imageBool}}
+                                <img src="/image/{{id}}" alt="Producto" class="rounded img-admin-products {{#outOfStock}}out-of-stock{{/outOfStock}}">
+                                
+                                {{#outOfStock}}
+                                    <div class="out-of-stock-overlay">Sin Stock</div>
+                                {{/outOfStock}}
+                            {{/imageBool}}
+                        
+                            {{^imageBool}}
+                                <img src="/images/no_image.png" alt="Producto" class="rounded img-admin-products">
+                            {{/imageBool}}
+                        </div>
+                        
+                        <div class="flex-grow-1 ml-3">
+                            <h5><strong>{{name}}</strong></h5>
+                            <p class="mb-1">{{description}}</p>
+                            <p><strong>Precio:</strong> {{price}}&euro;</p>
+                            <p><strong>Categoría:</strong> {{category}}</p>
+                            <p><strong>Stock Disponible:</strong> {{stock}} unidades</p>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <h6><strong>Reseñas de Clientes:</strong></h6>
+                        <ul class="list-group">
+                            {{#reviews}}
+                            <li class="list-group-item">
+                                <strong>{{user.name}}:</strong> {{reviewText}}  
+                                <span class="text-warning">
+                                    {{#ratingStars}}
+                                    <span>&#9733;</span>
+                                    {{/ratingStars}}
+                                    {{#emptyStars}}
+                                    <span>&#9734;</span>
+                                    {{/emptyStars}}
+                                </span>
+                            </li>
+                            {{/reviews}}
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Modal Edit Product -->
+                <div class="modal fade" id="editModal{{id}}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{id}}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel{{id}}">Editar Producto - {{name}}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/admin/products/edit/{{id}}" method="post" enctype="multipart/form-data">
+                                    <div class="container">
+                                        <div class="row justify-content-center">
+                                            {{#image}}
+                                            <div class="col-md-5 text-center">
+                                                <div class="cardImage shadow-sm p-3 mb-4">
+                                                    <h6 class="text-muted">Imagen Actual</h6>
+                                                    <img id="originalImage" class="img-fluid rounded" alt="Imagen Actual" style="max-width: 100%; height: auto;" src="/image/{{id}}">
+                                                </div>
+                                            </div>
+                                            {{/image}}
+                                
+                                            <div class="col-md-5 text-center">
+                                                <div class="cardImage shadow-sm p-3 mb-4">
+                                                    <h6 class="text-muted">Nueva Imagen</h6>
+                                                    <img id="newImagePreview{{id}}" class="img-fluid rounded" alt="Nueva Imagen" style="max-width: 100%; height: auto; display: none;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="form-group">
+                                        <label for="updateImage">Actualizar Imagen</label>
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="updateImage{{id}}" name="image" accept="image/*" onchange="previewUpdatedImage(event, '{{id}}')">
+                                            <label class="custom-file-label" for="updateImage">Seleccionar Archivo...</label>
+                                        </div>
+                                    </div>
+                                
+                                    {{#image}}
+                                    <div class="form-check">
+                                        <input type="checkbox" name="removeImage" class="form-check-input" id="removeImage">
+                                        <label class="form-check-label" for="removeImage">Eliminar Imagen</label>
+                                    </div>
+                                    {{/image}}
+                                
+                                    <div class="form-group">
+                                        <label for="productName{{id}}">Nombre del Producto</label>
+                                        <input type="text" class="form-control" id="productName{{id}}" name="name" value="{{name}}">
+                                    </div>
+                                
+                                    <div class="form-group">
+                                        <label for="productDescription{{id}}">Descripción</label>
+                                        <input type="text" class="form-control" id="productDescription{{id}}" name="description" value="{{description}}">
+                                    </div>
+                                
+                                    <div class="form-group">
+                                        <label for="productPrice{{id}}">Precio</label>
+                                        <div class="input-group">
+                                            <input type="number" class="form-control" id="productPrice{{id}}" name="price" value="{{price}}" min="0" step="0.01">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">&euro;</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="form-group">
+                                        <label for="productCategory{{id}}">Categoría</label>
+                                        <input type="text" class="form-control" id="productCategory{{id}}" name="category" value="{{category}}">
+                                    </div>
+                                
+                                    <div class="form-group">
+                                        <label for="productStock{{id}}">Stock Disponible</label>
+                                        <input type="number" class="form-control" id="productStock{{id}}" name="stock" value="{{stock}}" min="0">
+                                    </div>
+                                
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/products}}
+                {{^hasMore}}
+                <!-- true -->
+                {{/hasMore}}

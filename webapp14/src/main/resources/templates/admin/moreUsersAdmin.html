@@ -1,0 +1,25 @@
+    {{#users}}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        <span>{{name}}</span>
+        <div>
+            <button class="btn btn-sm btn-outline-primary" data-toggle="collapse" data-target="#infoUser{{id}}">
+                Ver información
+            </button>                                            
+        </div>
+    </li>
+    <div class="collapse mt-2 mb-3" id="infoUser{{id}}">
+        <div class="card card-body d-flex flex-row flex-column-reverse flex-sm-row align-items-center">
+            <div class="user-info-div">
+                <strong>Nombre:</strong> {{name}}<br>
+                <strong>Correo:</strong> {{email}}<br>
+                <strong>Dirección:</strong> {{address}}<br>
+            </div>
+            <div class="mb-3">
+            </div>
+        </div>
+    </div>
+    {{/users}}
+
+{{^hasMore}}
+<!-- true -->
+{{/hasMore}}

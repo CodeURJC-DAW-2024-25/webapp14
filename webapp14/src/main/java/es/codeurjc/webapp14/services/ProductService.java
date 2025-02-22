@@ -71,4 +71,8 @@ public class ProductService {
 
         return productRepository.findRecommendedProductsByCategories(categories, userId, PageRequest.of(0, 12));
     }
+
+    public Page<Product> getProductsPaginated(int page, int size) {
+        return productRepository.findAll(PageRequest.of(page, size));
+    }
 }

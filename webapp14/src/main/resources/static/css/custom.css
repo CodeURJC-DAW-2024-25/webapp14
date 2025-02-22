@@ -410,3 +410,35 @@
   white-space: normal;
   max-width: 110px;
 }
+
+#load-more {
+  background-color: #f0f0f0;
+  color: #555;
+  border-radius: 5px;
+  padding: 8px 20px;
+  font-weight: normal;
+  border: 1px solid #ddd;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+#load-more:hover {
+  background-color: #e0e0e0;
+  border-color: #ccc;
+}
+
+
+#load-more-user-review{
+  background-color: #f0f0f0;
+  color: #555;
+  border-radius: 5px;
+  padding: 8px 20px;
+  font-weight: normal;
+  border: 1px solid #ddd;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+
+#load-more-user-review:hover {
+  background-color: #e0e0e0;
+  border-color: #ccc;
+}

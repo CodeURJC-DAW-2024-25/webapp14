@@ -22,6 +22,7 @@ import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
@@ -228,10 +229,18 @@ public class AdminController {
     }
 
     @GetMapping("/products")
-    public String showProducts(Model model) {
+    public String showProducts(@RequestParam(defaultValue = "0") int page, 
+                           @RequestParam(defaultValue = "10") int size, 
+                           Model model) {
+
+        Page<Product> productPage = productService.getProductsPaginated(page, size);
+
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("hasMore", productPage.hasNext());
+        model.addAttribute("nextPage", page + 1);
+
         List<Product> products = productService.getAllProducts();
-        model.addAttribute("products", products);
-        // Add the product list in to the model
+
         model.addAttribute("productCount", products.size());
         model.addAttribute("categoriesCount", categories.size());
         int totalStock = products.stream()
@@ -246,7 +255,22 @@ public class AdminController {
         model.addAttribute("totalOutStock", totalOutStock);
         model.addAttribute("categories", categories);
 
-        return "admin/admin_products";
+        return "admin/admin_products";   
+    }
+
+    @GetMapping("/moreProductsAdmin") 
+    public String getMoreAdminProducts(
+            @RequestParam int page, 
+            @RequestParam int size, 
+            Model model) { 
+
+        Page<Product> productsPage = productService.getProductsPaginated(page, size);
+        boolean hasMore = page < productsPage.getTotalPages() - 1;
+
+        model.addAttribute("products", productsPage.getContent());
+        model.addAttribute("hasMore", hasMore);
+
+        return "admin/moreProductAdmin";
     }
 
     @RequestMapping(value = "/products/create", method = { RequestMethod.GET, RequestMethod.POST })
@@ -334,28 +358,74 @@ public class AdminController {
     }
 
     @GetMapping("/users")
-    public String getUsers(Model model) {
+    public String getUsers(@RequestParam(defaultValue = "0") int page, 
+                        @RequestParam(defaultValue = "5") int size,
+                        @RequestParam(defaultValue = "0") int reportedPage,
+                        Model model) {
+
+
+        Page<User> usersPage = userService.getUsersPaginated(page, size);
+
+        model.addAttribute("users", usersPage.getContent());
+        model.addAttribute("hasMore", usersPage.hasNext());
+        model.addAttribute("nextPage", page + 1);
+
         List<User> users = userService.getAllUsers();
         List<User> bannedUsers = userService.getAllUsersBanned();
 
-        model.addAttribute("users", users);
         model.addAttribute("userCont", users.size());
         model.addAttribute("bannedUsers", bannedUsers);
         model.addAttribute("bannedUserCont", bannedUsers.size());
 
         int totalReportedReviews = 0;
 
+        Page<User> reportedUsersPage = userService.getUsersWithReportedReviewsPaginated(reportedPage, size);
+
+        model.addAttribute("usersWithReportedReviews", reportedUsersPage.getContent());
+        model.addAttribute("reportedHasMore", reportedUsersPage.hasNext());
+        model.addAttribute("reportedNextPage", reportedPage + 1);
+
         List<User> usersWithReportedReviews = userService.getUsersWithReportedReviews();
 
         for (User user : usersWithReportedReviews) {
             totalReportedReviews += user.getReports();
         }
-        model.addAttribute("usersWithReportedReviews", usersWithReportedReviews);
 
         model.addAttribute("totalReportedReviews", totalReportedReviews);
 
         return "admin/admin_users";
     }
+
+    @GetMapping("/moreUsersAdmin") 
+    public String getMoreAdminUsers(
+            @RequestParam int page, 
+            @RequestParam int size, 
+            Model model) { 
+
+        Page<User> usersPage = userService.getUsersPaginated(page, size);
+        boolean hasMore = page < usersPage.getTotalPages() - 1;
+
+        model.addAttribute("users", usersPage.getContent());
+        model.addAttribute("hasMore", hasMore);
+
+        return "admin/moreUsersAdmin";
+    }
+
+    @GetMapping("/moreUsersReviewsAdmin") 
+    public String getMoreAdminUsersReviews(
+            @RequestParam int reportedPage, 
+            @RequestParam int size, 
+            Model model) { 
+
+        Page<User> reportedUsersPage = userService.getUsersWithReportedReviewsPaginated(reportedPage, size);
+        boolean hasMore = reportedPage < reportedUsersPage.getTotalPages() - 1;
+
+        model.addAttribute("usersWithReportedReviews", reportedUsersPage.getContent());
+        model.addAttribute("hasMore", hasMore);
+
+        return "admin/moreUsersReviewsAdmin";
+    }
+
 
     @PostMapping("/users/accept/{id}")
     public String acceptReview(@PathVariable Long id, Model model) {
