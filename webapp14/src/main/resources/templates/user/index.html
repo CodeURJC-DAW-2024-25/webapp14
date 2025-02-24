@@ -125,7 +125,7 @@
     <h2 class="display-5 fw-light text-uppercase text-center">TENDENCIAS</h2>
     <div class="row justify-content-center py-4">
       {{#products}}
-      <div class="col-md-6 mb-4">
+      <div id="trendProducts" class="col-md-6 mb-4">
         <div class="row align-items-center">
           <div class="col-md-6 text-center">
             <img src="/image/{{id}}" alt="Pantalones en la silla" class="img-fluid w-75">
@@ -139,11 +139,14 @@
         </div>
       </div>
       {{/products}}
+      <div>
+        <button type="button" id="loadMoreTrendingProductsButton" class="btn btn-loadMore" onclick='loadMoreTrendingProducts()'>Cargar más</button>
+      </div>
       {{/logged}}
 
       {{#logged}}
     <h2 class="display-5 fw-light text-uppercase text-center">PRODUCTOS RECOMENDADOS</h2>
-    <div class="row justify-content-center py-4">
+    <div id="recProducts" class="row justify-content-center py-4">
       {{#productsRecommended}}
       <div class="col-md-6 mb-4">
         <div class="row align-items-center">
@@ -159,15 +162,12 @@
         </div>
       </div>
       {{/productsRecommended}}
-      <div class="col-12 mt-3 my-3 text-start">
-        <a href="#" class="btn btn-dark px-4 py-2">
-          Ver más
-          <iconify-icon icon="material-symbols:arrow-right-alt" class="me-1"></iconify-icon>
-        </a>
-      </div>
+      
       {{/logged}}
-
-
+      
+    </div>
+    <div>
+      <button type="button" id="loadMoreRecommendedProductsButton" class="btn btn-loadMore" onclick='loadMoreRecommendedProducts()'>Cargar más</button>
     </div>
 </section>
 

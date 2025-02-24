@@ -73,7 +73,7 @@ public class ProductController {
         Long sessionUserId = (Long) session.getAttribute("userId");
 
         if (sessionUserId != null) {
-            model.addAttribute("productsRecommended", productService.getRecommendedProductsBasedOnLastOrder(sessionUserId));
+            model.addAttribute("productsRecommended", productService.getRecommendedProductsBasedOnLastOrder(sessionUserId, 0, 2));
         }
         
         model.addAttribute("products", productService.getAllProductsSold());
@@ -81,33 +81,33 @@ public class ProductController {
     }
 
     @GetMapping("/elem_detail/{id}")
-public String ProductDetails(Model model, @PathVariable Long id, HttpServletRequest request) {
-    HttpSession session = request.getSession();
-    Product product = productService.getProductById(id);
-    List<Review> reviews = product.getTwoReviews(0, 2);
+    public String ProductDetails(Model model, @PathVariable Long id, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Product product = productService.getProductById(id);
+        List<Review> reviews = product.getTwoReviews(0, 2);
 
-    String userEmail = (String) session.getAttribute("userEmail");
+        String userEmail = (String) session.getAttribute("userEmail");
 
-    for (Review review : reviews) {
-        if (userEmail == null){
-            review.setOwn(false);
-        } else {
-            review.setOwn(userEmail.equals(review.getUser().getEmail()));
+        for (Review review : reviews) {
+            if (userEmail == null){
+                review.setOwn(false);
+            } else {
+                review.setOwn(userEmail.equals(review.getUser().getEmail()));
+            }
+            review.updateStars();
+
+            model.addAttribute("rating" + review.getRating(), true);
+            review.setRating1(review.getRating() == 1);
+            review.setRating2(review.getRating() == 2);
+            review.setRating3(review.getRating() == 3);
+            review.setRating4(review.getRating() == 4);
+            review.setRating5(review.getRating() == 5);
         }
-        review.updateStars();
 
-        model.addAttribute("rating" + review.getRating(), true);
-        review.setRating1(review.getRating() == 1);
-        review.setRating2(review.getRating() == 2);
-        review.setRating3(review.getRating() == 3);
-        review.setRating4(review.getRating() == 4);
-        review.setRating5(review.getRating() == 5);
+        model.addAttribute("product", product);
+        model.addAttribute("reviews", reviews);
+        return "user/elem_detail";
     }
-
-    model.addAttribute("product", product);
-    model.addAttribute("reviews", reviews);
-    return "user/elem_detail";
-}
 
 
     @PostMapping("/{productId}/{reviewId}/report")
@@ -192,6 +192,25 @@ public String ProductDetails(Model model, @PathVariable Long id, HttpServletRequ
         model.addAttribute("hasMore", hasMore);
 
         return "user/moreProducts";
+    }
+
+    @GetMapping("/moreRecProducts") 
+    public String getMoreRecProducts(
+            @RequestParam int page,
+            @RequestParam int size,
+            Model model,
+            HttpServletRequest request) { 
+        
+        HttpSession session = request.getSession();
+        Long sessionUserId = (Long) session.getAttribute("userId");
+
+        Page<Product> productsPage = productService.getRecommendedProductsBasedOnLastOrder(sessionUserId, page, size);
+        boolean hasMore = page < productsPage.getTotalPages() - 1;
+
+        model.addAttribute("productsRecommended", productsPage.getContent());
+        model.addAttribute("hasMore", hasMore);
+
+        return "user/moreRecProducts";
     }
 
 

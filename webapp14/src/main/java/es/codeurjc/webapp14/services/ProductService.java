@@ -61,7 +61,7 @@ public class ProductService {
     }
     
 
-    public List<Product> getRecommendedProductsBasedOnLastOrder(Long userId) {
+    public Page<Product> getRecommendedProductsBasedOnLastOrder(Long userId, int page, int size) {
         Order lastOrder = orderRepository.findFirstByUserIdOrderByCreatedAtDesc(userId);
 
         List<String> categories = lastOrder.getOrderProducts().stream()
@@ -69,7 +69,7 @@ public class ProductService {
             .distinct()
             .collect(Collectors.toList());
 
-        return productRepository.findRecommendedProductsByCategories(categories, userId, PageRequest.of(0, 12));
+        return productRepository.findRecommendedProductsByCategories(categories, userId, PageRequest.of(page, size));
     }
 
     public Page<Product> getProductsPaginated(int page, int size) {

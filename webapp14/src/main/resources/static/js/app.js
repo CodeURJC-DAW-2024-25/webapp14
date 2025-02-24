@@ -2,10 +2,9 @@ const NUM_RESULTS = 4;
 let currentPage = 0;
 const NUM_RESULT_REVIEWS = 2;
 let loadMoreRequests = 0;
-
-
 const NUM_PRODUCTS = 10;
 let currentPage2 = 0;
+let page = 0;
 
 async function loadMoreAdminProducts(button) {
     currentPage2++;
@@ -64,6 +63,21 @@ async function loadMore(category) {
 
     if (data.includes("<!-- true -->")) {
         document.getElementById('loadMoreButton').style.display = 'none';
+    }
+}
+
+
+//load more recommended products
+async function loadMoreRecommendedProducts() {
+    page++;
+
+    const response = await fetch(`/index/moreRecProducts?page=${page}&size=${NUM_RESULT_REVIEWS}`);
+    const data = await response.text();
+
+    document.getElementById("recProducts").innerHTML += data;
+
+    if (data.includes("<!-- true -->")) {
+        document.getElementById('loadMoreRecommendedProductsButton').style.display = 'none';
     }
 }
 

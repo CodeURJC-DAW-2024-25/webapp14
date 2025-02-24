@@ -1,0 +1,22 @@
+
+    {{#productsRecommended}}
+    <div class="col-md-6 mb-4">
+      <div class="row align-items-center">
+        <div class="col-md-6 text-center">
+          <img src="/image/{{id}}" alt="Pantalones en la silla" class="img-fluid w-75">
+        </div>
+
+        <div class="col-md-4 text-md-start text-center mt-3 mt-md-0">
+          <h2 class="fw-bold">{{name}}</h2>
+          <p class="fst-italic">denim collection <br> spring summer 2025</p>
+          <a href="/index/elem_detail/{{id}}" class="btn btn-dark mt-3 px-4 py-2">Ver Detalles</a>
+        </div>
+      </div>
+    </div>
+    {{/productsRecommended}}
+
+  
+{{^hasMore}}
+<!-- true -->
+{{/hasMore}}
+ 

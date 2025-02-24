@@ -28,7 +28,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
        "   SELECT DISTINCT op.product.id FROM OrderProduct op " +
        "   WHERE op.order.user.id = :userId" +
        ")")
-    List<Product> findRecommendedProductsByCategories(@Param("categories") List<String> categories,
+    Page<Product> findRecommendedProductsByCategories(@Param("categories") List<String> categories,
                                                     @Param("userId") Long userId,
                                                     Pageable pageable);
 
