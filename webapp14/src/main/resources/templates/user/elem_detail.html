@@ -126,6 +126,10 @@
         <p class="text-center">Aún no hay reseñas para este producto.</p>
         {{/reviews}}
       </div>
+
+      <div>
+        <button type="button" id="loadMoreReviewsButton" class="btn btn-loadMore" onclick='loadMoreReviews("{{product.id}}")'>Cargar más</button>
+      </div>
     </div>
 
     
@@ -135,11 +139,11 @@
   <section class="leave-review-section">
     <div class="container my-5">
       <h2 class="fw-bold text-center mb-4">Deja Tu Reseña</h2>
-
-      <form action="#" method="POST" class="review-form mx-auto">
-
+  
+      <form action="/index/{{product.id}}/addReview" method="POST" class="review-form mx-auto">
+  
         <div class="mb-3 text-center">
-          <label for="rating" class="form-label">Tu Valoración</label>
+          <label class="form-label">Tu Valoración</label>
           <div class="star-rating">
             <input type="radio" name="rating" id="star5" value="5"><label for="star5">&#9733;</label>
             <input type="radio" name="rating" id="star4" value="4"><label for="star4">&#9733;</label>
@@ -148,22 +152,21 @@
             <input type="radio" name="rating" id="star1" value="1"><label for="star1">&#9733;</label>
           </div>
         </div>
-
+  
         <div class="mb-3">
           <label for="review-text" class="form-label">Tu Reseña</label>
           <textarea id="review-text" name="review-text" class="form-control" rows="4"
             placeholder="Escribe tu reseña aquí..." required></textarea>
         </div>
-
+  
         <div class="text-center">
           <button type="submit" class="btn btn-dark submit-btn">Enviar Reseña</button>
         </div>
-
+  
       </form>
     </div>
   </section>
-
-</main>
+</main>  
 
 
 {{> partialsUser/footer }}

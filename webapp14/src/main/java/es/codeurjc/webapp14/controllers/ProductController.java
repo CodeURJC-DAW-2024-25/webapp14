@@ -19,7 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Review;
+import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.services.ProductService;
+import es.codeurjc.webapp14.services.UserService;
 import es.codeurjc.webapp14.services.ReviewService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -37,6 +39,10 @@ public class ProductController {
 
     @Autowired
     private ReviewService reviewService;
+
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private ProductService productService;
@@ -136,6 +142,32 @@ public String ProductDetails(Model model, @PathVariable Long id, HttpServletRequ
         reviewService.saveReview(review);
         return "redirect:/index/elem_detail/" + productId;
     }
+
+
+    @PostMapping("/{productId}/addReview")
+    public String addReview(@PathVariable Long productId,
+                            @RequestParam int rating,
+                            @RequestParam("review-text") String reviewText,
+                            HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        String userEmail = (String) session.getAttribute("userEmail");
+
+        if (userEmail == null) {
+            return "redirect:/login";
+        }
+
+        User user = userService.findByEmail(userEmail);
+        Product product = productService.getProductById(productId);
+
+        Review newReview = new Review(rating, reviewText, false, product, user);
+        newReview.updateStars(); 
+
+        reviewService.saveReview(newReview);
+
+        return "redirect:/index/elem_detail/" + productId;
+    }
+
 
 
     @GetMapping("/category/{category}")
