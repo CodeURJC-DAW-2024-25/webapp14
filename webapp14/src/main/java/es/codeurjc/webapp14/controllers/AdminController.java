@@ -76,6 +76,18 @@ public class AdminController {
 
     }
 
+    @GetMapping("/charts")
+    public String showAdminCharts(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        String email = (String) session.getAttribute("userEmail");
+
+        if (email == null) {
+            return "redirect:/login";
+        }
+
+        return "admin/admin_charts";
+    }
+
     @GetMapping("/profile")
     public String showAdminProfile(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -229,9 +241,9 @@ public class AdminController {
     }
 
     @GetMapping("/products")
-    public String showProducts(@RequestParam(defaultValue = "0") int page, 
-                           @RequestParam(defaultValue = "10") int size, 
-                           Model model) {
+    public String showProducts(@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            Model model) {
 
         Page<Product> productPage = productService.getProductsPaginated(page, size);
 
@@ -255,14 +267,14 @@ public class AdminController {
         model.addAttribute("totalOutStock", totalOutStock);
         model.addAttribute("categories", categories);
 
-        return "admin/admin_products";   
+        return "admin/admin_products";
     }
 
-    @GetMapping("/moreProductsAdmin") 
+    @GetMapping("/moreProductsAdmin")
     public String getMoreAdminProducts(
-            @RequestParam int page, 
-            @RequestParam int size, 
-            Model model) { 
+            @RequestParam int page,
+            @RequestParam int size,
+            Model model) {
 
         Page<Product> productsPage = productService.getProductsPaginated(page, size);
         boolean hasMore = page < productsPage.getTotalPages() - 1;
@@ -358,11 +370,10 @@ public class AdminController {
     }
 
     @GetMapping("/users")
-    public String getUsers(@RequestParam(defaultValue = "0") int page, 
-                        @RequestParam(defaultValue = "5") int size,
-                        @RequestParam(defaultValue = "0") int reportedPage,
-                        Model model) {
-
+    public String getUsers(@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "0") int reportedPage,
+            Model model) {
 
         Page<User> usersPage = userService.getUsersPaginated(page, size);
 
@@ -396,11 +407,11 @@ public class AdminController {
         return "admin/admin_users";
     }
 
-    @GetMapping("/moreUsersAdmin") 
+    @GetMapping("/moreUsersAdmin")
     public String getMoreAdminUsers(
-            @RequestParam int page, 
-            @RequestParam int size, 
-            Model model) { 
+            @RequestParam int page,
+            @RequestParam int size,
+            Model model) {
 
         Page<User> usersPage = userService.getUsersPaginated(page, size);
         boolean hasMore = page < usersPage.getTotalPages() - 1;
@@ -411,11 +422,11 @@ public class AdminController {
         return "admin/moreUsersAdmin";
     }
 
-    @GetMapping("/moreUsersReviewsAdmin") 
+    @GetMapping("/moreUsersReviewsAdmin")
     public String getMoreAdminUsersReviews(
-            @RequestParam int reportedPage, 
-            @RequestParam int size, 
-            Model model) { 
+            @RequestParam int reportedPage,
+            @RequestParam int size,
+            Model model) {
 
         Page<User> reportedUsersPage = userService.getUsersWithReportedReviewsPaginated(reportedPage, size);
         boolean hasMore = reportedPage < reportedUsersPage.getTotalPages() - 1;
@@ -425,7 +436,6 @@ public class AdminController {
 
         return "admin/moreUsersReviewsAdmin";
     }
-
 
     @PostMapping("/users/accept/{id}")
     public String acceptReview(@PathVariable Long id, Model model) {
