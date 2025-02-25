@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <title>Informe de Pedido</title>
+    <link rel="stylesheet" href="webapp14/src/main/resources/static/css/pdfStyle.css"></link>
+
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>INFORME DEL PEDIDO</h1>
+        <hr></hr>
+    </div>
+
+    <div class="order-info">
+        <p><strong>Fecha:</strong> {{createdAt}}</p>
+        <p><strong>Estado:</strong> {{state}}</p>
+        <p><strong>Productos:</strong></p>
+    </div>
+
+    <table class="product-list">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio del producto</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#orderProducts}}
+            <tr>
+                <td>{{product.name}}</td>
+                <td>{{quantity}}</td>
+                <td>{{product.price}}€</td>
+                <td>{{subtotal}}€</td>
+            </tr>
+            {{/orderProducts}}
+        </tbody>
+    </table>
+    <br></br>
+    <hr></hr>
+
+    <p class="total">Total: {{totalPrice}}€</p>
+
+</body>
+
+</html>
