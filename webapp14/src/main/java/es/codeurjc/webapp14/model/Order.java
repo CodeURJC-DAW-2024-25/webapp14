@@ -36,6 +36,9 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private State state;
 
+    @Transient // Esto indica que este campo no se guarda en la base de datos
+    private String createdAtFormatted;
+
     public Order() {
 
     }
@@ -111,4 +114,11 @@ public class Order {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    public String getCreatedAtFormatted() {
+        return createdAtFormatted;
+    }
+
+    public void setCreatedAtFormatted(String createdAtFormatted) {
+        this.createdAtFormatted = createdAtFormatted;
+    }
 }

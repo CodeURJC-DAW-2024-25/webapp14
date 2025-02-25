@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import es.codeurjc.webapp14.model.Order;
+import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.repositories.OrderRepository;
 
 @Service
@@ -28,8 +29,7 @@ public class OrderService {
         return orderRepository.findById(id).orElse(null);
     }
 
-    public List<Order> getUserOrders() {
-        return orderRepository.findAll();
+    public List<Order> getUserOrders(User user) {
+        return orderRepository.findByUser(user);
     }
-
 }

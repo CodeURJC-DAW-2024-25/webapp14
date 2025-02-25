@@ -20,7 +20,7 @@
             {{ #orders }}
             <tr>
               <th class="py-4 align-middle">{{ id }}</th>
-              <td class="py-4 align-middle">{{ createdAt }}</td>
+              <td class="py-4 align-middle">{{ createdAtFormatted }}</td>
               <td class="py-4 align-middle">{{ totalPrice }} EUR</td>
               <td class="py-4 align-middle">
                 <a class="btn btn-outline-dark btn-sm" href="/orders/{{id}}">Ver detalles</a>
@@ -29,10 +29,6 @@
             {{ /orders }}
           </tbody>
         </table>
-        <div>
-          <b-pagination v-model="currentPage" :total-rows="ventas.length" :per-page="perPage"
-            aria-controls="my-table"></b-pagination>
-        </div>
       </div>
     </div>
   </div>
