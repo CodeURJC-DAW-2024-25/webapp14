@@ -4,6 +4,7 @@ import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.repositories.OrderRepository;
 import es.codeurjc.webapp14.repositories.ProductRepository;
+import es.codeurjc.webapp14.repositories.SizeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,9 @@ public class ProductService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private SizeRepository sizeRepository;
 
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -74,5 +78,17 @@ public class ProductService {
 
     public Page<Product> getProductsPaginated(int page, int size) {
         return productRepository.findAll(PageRequest.of(page, size));
+    }
+
+    public int getTotalStockOfAllProducts() {
+        return sizeRepository.getTotalStockOfAllProducts();
+    }
+
+    public int countProductsWithAllSizesOutOfStock() {
+        return sizeRepository.countProductsWithAllSizesOutOfStock();
+    }
+
+    public List<Product> getProductsWithAllSizesOutOfStock() {
+        return sizeRepository.findProductsWithAllSizesOutOfStock();
     }
 }

@@ -6,6 +6,8 @@ import es.codeurjc.webapp14.services.ProductService;
 import es.codeurjc.webapp14.services.ReviewService;
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Review;
+import es.codeurjc.webapp14.model.Size;
+import es.codeurjc.webapp14.model.Size.SizeName;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.model.Order;
 
@@ -288,13 +290,10 @@ public class AdminController {
 
         model.addAttribute("productCount", products.size());
         model.addAttribute("categoriesCount", categories.size());
-        int totalStock = products.stream()
-                .mapToInt(Product::getStock)
-                .sum();
+        int totalStock = productService.getTotalStockOfAllProducts();
 
-        long totalOutStock = products.stream()
-                .filter(product -> product.getStock() == 0)
-                .count();
+        int totalOutStock = productService.countProductsWithAllSizesOutOfStock();
+
 
         model.addAttribute("totalStock", totalStock);
         model.addAttribute("totalOutStock", totalOutStock);
@@ -318,11 +317,15 @@ public class AdminController {
         return "admin/moreProductAdmin";
     }
 
-    @RequestMapping(value = "/products/create", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/products/create", method = {RequestMethod.GET, RequestMethod.POST})
     public String addProduct(@ModelAttribute("product") @Valid Product product,
-            BindingResult result,
-            @RequestParam(value = "imageUpload", required = false) MultipartFile image,
-            Model model) throws IOException {
+                            BindingResult result,
+                            @RequestParam(value = "imageUpload", required = false) MultipartFile image,
+                            @RequestParam(value = "stock_S", required = false, defaultValue = "0") int stockS,
+                            @RequestParam(value = "stock_M", required = false, defaultValue = "0") int stockM,
+                            @RequestParam(value = "stock_L", required = false, defaultValue = "0") int stockL,
+                            @RequestParam(value = "stock_XL", required = false, defaultValue = "0") int stockXL,
+                            Model model) throws IOException {
 
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getFieldErrors().stream()
@@ -338,25 +341,32 @@ public class AdminController {
             product.setImageBool(false);
         }
 
+        List<Size> sizes = List.of(
+            new Size(Size.SizeName.S, stockS, product),
+            new Size(Size.SizeName.M, stockM, product),
+            new Size(Size.SizeName.L, stockL, product),
+            new Size(Size.SizeName.XL, stockXL, product)
+        );
+
+        product.setSizes(sizes);
+        product.setStock(stockS + stockM + stockL + stockXL);
+
         productService.saveProduct(product);
 
         return "redirect:/admin/products";
     }
 
+
     @GetMapping("/products/out-of-stock")
     public String showOutOfStockProducts(Model model) {
-        List<Product> products = productService.getAllProductsOutOfStock();
+        List<Product> products = productService.getProductsWithAllSizesOutOfStock();
         // Add the product filtered list in to the model
         model.addAttribute("products", products);
         model.addAttribute("productCount", productService.getAllProducts().size());
         model.addAttribute("categoriesCount", categories.size());
-        int totalStock = productService.getAllProducts().stream()
-                .mapToInt(Product::getStock)
-                .sum();
 
-        long totalOutStock = products.stream()
-                .filter(product -> product.getStock() == 0)
-                .count();
+        int totalStock = productService.getTotalStockOfAllProducts();
+        int totalOutStock = productService.countProductsWithAllSizesOutOfStock();
 
         model.addAttribute("totalStock", totalStock);
         model.addAttribute("totalOutStock", totalOutStock);
@@ -371,24 +381,38 @@ public class AdminController {
         productService.delete(id);
         return "redirect:/admin/products";
     }
-
     @PostMapping("/products/edit/{id}")
     public String updateProduct(@PathVariable Long id,
             @ModelAttribute("product") @Valid Product updatedProduct,
             BindingResult result,
             @RequestParam(value = "removeImage", required = false) boolean removeImage,
             @RequestParam(value = "image", required = false) MultipartFile imageField,
+            @RequestParam Map<String, String> stockParams,
             Model model) throws IOException {
-
+    
         Product existingProduct = productService.getProductById(id);
-
+    
         existingProduct.setName(updatedProduct.getName());
         existingProduct.setDescription(updatedProduct.getDescription());
         existingProduct.setPrice(updatedProduct.getPrice());
         existingProduct.setCategory(updatedProduct.getCategory());
-        existingProduct.setStock(updatedProduct.getStock());
-
-        // Image
+    
+        if (existingProduct.getSizes() != null) {
+            int totalStock = 0;
+            
+            for (Size size : existingProduct.getSizes()) {
+                String stockKey = "stock_" + size.getName();
+                if (stockParams.containsKey(stockKey)) {
+                    int newStock = Integer.parseInt(stockParams.get(stockKey));
+                    size.setStock(newStock);
+                }
+                totalStock += size.getStock();
+            }
+        
+            existingProduct.setStock(totalStock);
+        }
+        
+    
         if (removeImage) {
             existingProduct.setImage(null);
             existingProduct.setImageBool(false);
@@ -396,11 +420,12 @@ public class AdminController {
             existingProduct.setImage(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
             existingProduct.setImageBool(true);
         }
-
+    
         productService.saveProduct(existingProduct);
-
+    
         return "redirect:/admin/products";
     }
+    
 
     @GetMapping("/users")
     public String getUsers(@RequestParam(defaultValue = "0") int page,

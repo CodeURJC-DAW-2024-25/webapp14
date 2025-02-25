@@ -35,11 +35,14 @@ public class Product {
     }
 
     @JsonIgnore
-    @Lob // Guarda la imagen como BLOB
+    @Lob
     // Conflicts
     // private byte[] image;
     private Blob image;
     private boolean imageBool;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Size> sizes = new ArrayList<>();
 
     public Product() {
         
@@ -163,4 +166,13 @@ public class Product {
 	public void setImageBool(boolean imageBool){
 		this.imageBool = imageBool;
 	}
+
+
+    public List<Size> getSizes() {
+        return sizes;
+    }
+
+    public void setSizes(List<Size> sizes) {
+        this.sizes = sizes;
+    }
 }

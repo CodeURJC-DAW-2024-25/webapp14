@@ -190,47 +190,33 @@
                                             </div>
                                                                                        
                                             <div class="form-group">
-                                                <label for="newProductStock">Stock Disponible</label>
-                                                <input type="number" class="form-control" id="newProductStock" name="stock" placeholder="Ingrese el stock" min="0" required>
+                                                <label>Stock Disponible por Talla</label>
+                                                <div class="row">
+                                                    <div class="col-md-3 col-sm-6 mb-2">
+                                                        <label for="stock_S" class="d-block text-center font-weight-bold">S</label>
+                                                        <input type="number" class="form-control text-center" id="stock_S" name="stock_S" value="0" min="0">
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-6 mb-2">
+                                                        <label for="stock_M" class="d-block text-center font-weight-bold">M</label>
+                                                        <input type="number" class="form-control text-center" id="stock_M" name="stock_M" value="0" min="0">
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-6 mb-2">
+                                                        <label for="stock_L" class="d-block text-center font-weight-bold">L</label>
+                                                        <input type="number" class="form-control text-center" id="stock_L" name="stock_L" value="0" min="0">
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-6 mb-2">
+                                                        <label for="stock_XL" class="d-block text-center font-weight-bold">XL</label>
+                                                        <input type="number" class="form-control text-center" id="stock_XL" name="stock_XL" value="0" min="0">
+                                                    </div>
+                                                </div>
                                             </div>
+                                            
+                                            
                                             <button type="submit" class="btn btn-primary">Crear Producto</button>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Modal Botton -->
-                        <button type="button" class="btn btn-success mt-3 mb-3 d-flex align-items-center botton-margin"
-                            data-toggle="modal" data-target="#categoryModal">
-                            <i class="fas fa-folder-plus mr-2"></i> Añadir Categoría
-                        </button>
-                        <!-- Modal -->
-                        <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog"aria-labelledby="categoryModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="categoryModalLabel">Añadir Nueva Categoría</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form id="addCategoryForm" method="post" action="/admin/categories/add">
-                                            <input type="hidden" name="_csrf" value="{{token}}" />
-                                            <div class="form-group">
-                                                <label for="newCategoryName">Nombre de la Categoría</label>
-                                                <input type="text" class="form-control" id="newCategoryName" name="categoryName"
-                                                    placeholder="Ingrese el nombre de la categoría" required>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                        <button type="submit" form="addCategoryForm" class="btn btn-success">Guardar Categoría</button>
                                     </div>
                                 </div>
                             </div>
@@ -295,7 +281,12 @@
                                                 <p class="mb-1">{{description}}</p>
                                                 <p><strong>Precio:</strong> {{price}}&euro;</p>
                                                 <p><strong>Categoría:</strong> {{category}}</p>
-                                                <p><strong>Stock Disponible:</strong> {{stock}} unidades</p>
+                                                <p><strong>Stock Disponible:</strong></p>
+                                                <ul>
+                                                    {{#sizes}}
+                                                    <li><strong>{{name}}:</strong> {{stock}} unidades</li>
+                                                    {{/sizes}}
+                                                </ul>
                                             </div>
                                         </div>
                                         <div class="mt-3">
@@ -313,6 +304,9 @@
                                                         {{/emptyStars}}
                                                     </span>
                                                 </li>
+                                                {{/reviews}}
+                                                {{^reviews}}
+                                                <p class="mb-1">Aún no hay reseñas para este producto</p>
                                                 {{/reviews}}
                                             </ul>
                                         </div>
@@ -392,10 +386,20 @@
                                                         </div>
                                                     
                                                         <div class="form-group">
-                                                            <label for="productStock{{id}}">Stock Disponible</label>
-                                                            <input type="number" class="form-control" id="productStock{{id}}" name="stock" value="{{stock}}" min="0">
+                                                            <label>Stock Disponible por Talla</label>
+                                                            <div class="row">
+                                                                {{#sizes}}
+                                                                <div class="col-md-3 col-sm-6 mb-2">
+                                                                    <label for="stock{{name}}" class="d-block text-center font-weight-bold">{{name}}</label>
+                                                                    <input type="number" class="form-control text-center" 
+                                                                           id="stock{{name}}" name="stock_{{name}}" 
+                                                                           value="{{stock}}" min="0">
+                                                                </div>
+                                                                {{/sizes}}
+                                                            </div>
                                                         </div>
-                                                    
+                                                        
+                                                        
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                                             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
