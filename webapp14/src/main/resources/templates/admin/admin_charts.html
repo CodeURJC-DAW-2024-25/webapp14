@@ -1,335 +1,181 @@
-<!DOCTYPE html>
-<html lang="es">
+{{> partialsAdmin/header }}
 
-<head>
+<!-- Begin Page Content -->
+<script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    var ctx = document.getElementById('graficoVentas').getContext('2d');
+    var graficoVentas = new Chart(ctx, {
+      type: 'line', // Tipo de gráfico: líneas
+      data: {
+        labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'], // Días de la semana
+        datasets: [{
+          label: 'Productos Vendidos', // Título de la línea
+          data: [15, 20, 35, 40, 50, 60, 70], // Ejemplo de ventas de productos
+          borderColor: 'rgba(75, 192, 192, 1)', // Color de la línea
+          backgroundColor: 'rgba(75, 192, 192, 0.2)', // Color de fondo de la línea
+          fill: true, // Hacer que la línea esté rellena
+          tension: 0.4 // Curvatura de la línea
+        }]
+      },
+      options: {
+        responsive: true, // Hacer que el gráfico sea responsivo
+        scales: {
+          y: {
+            beginAtZero: true // Comenzar el eje Y desde 0
+          }
+        }
+      }
+    });
+  })
+</script>
 
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>NOIR & BLANC ADMIN</title>
-
-  <!-- Custom fonts for this template-->
-  <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link
-    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-    rel="stylesheet">
-
-  <!-- Custom styles for this template-->
-  <link href="../../css/sb-admin-2.min.css" rel="stylesheet">
-
-  <link rel="stylesheet" href="../../css/custom.css">
-</head>
-
-  {{^admin}}
-  {{> acces_error}}
-  {{/admin}}
-
-  {{#admin}}
-
-<body id="page-top">
-
-  <!-- Page Wrapper -->
-  <div id="wrapper">
-
-    <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-      <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../user/index.html">
-        <div class="sidebar-brand-text mx-3"><sup>NOIR & BLANC</sup></div>
-      </a>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider my-0">
-
-      <!-- Nav Item - Dashboard -->
-      <li class="nav-item active">
-        <a class="nav-link" href="admin_charts.html">
-          <i class="fas fa-chart-line"></i>
-          <span>Estadísticas</span></a>
-      </li>
-
-      <!-- Divider -->
-      <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        Gestión
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-x ps--active-y">
+  <!-- End Navbar -->
+  <div class="container-fluid py-2">
+    <div class="row">
+      <div class="ms-3 col-12">
+        <h3 class="mb-0 h4 font-weight-bolder">Panel de control</h3>
+        <p class="mb-4">
+          Consulta las ventas, . . . .
+        </p>
       </div>
-
-      <li class="nav-item">
-        <a class="nav-link" href="admin_users.html">
-          <i class="fas fa-user"></i>
-          <span>Usuarios</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="admin_orders.html">
-          <i class="fas fa-box"></i>
-          <span>Pedidos</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="admin_products.html">
-          <i class="fas fa-tshirt"></i>
-          <span>Productos</span>
-        </a>
-      </li>
-    </ul>
-    <!-- End of Sidebar -->
-
-    <!-- Content Wrapper -->
-    <div id="content-wrapper" class="d-flex flex-column">
-
-      <!-- Main Content -->
-      <div id="content">
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-custom topbar mb-4 static-top shadow">
-          <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
-            <i class="fa fa-bars"></i>
-          </button> 
-          <!-- Topbar Navbar -->
-          <ul class="navbar-nav ml-auto">
-            <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-                <img class="img-profile rounded-circle" src="../../images/undraw_profile.svg">
-              </a>
-              <!-- Dropdown - User Information -->
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="admin_profile.html">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Perfil
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Cerrar sesión
-                </a>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+          <div class="card-header p-2 ps-3">
+            <div class="d-flex justify-content-between">
+              <div>
+                <p class="text-sm mb-0 text-capitalize">Today's Money</p>
+                <h4 class="mb-0">$53k</h4>
               </div>
-            </li>
-          </ul>
-        </nav>
-        <!-- End of Topbar -->
-
-        <!-- Begin Page Content -->
-        <main
-          class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-x ps--active-y">
-          <!-- End Navbar -->
-          <div class="container-fluid py-2">
-            <div class="row">
-              <div class="ms-3 col-12">
-                <h3 class="mb-0 h4 font-weight-bolder">Dashboard</h3>
-                <p class="mb-4">
-                  Check the sales, value and bounce rate by country.
-                </p>
-              </div>
-              <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                  <div class="card-header p-2 ps-3">
-                    <div class="d-flex justify-content-between">
-                      <div>
-                        <p class="text-sm mb-0 text-capitalize">Today's Money</p>
-                        <h4 class="mb-0">$53k</h4>
-                      </div>
-                      <div
-                        class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                        <i class="material-symbols-rounded opacity-10">weekend</i>
-                      </div>
-                    </div>
-                  </div>
-                  <hr class="dark horizontal my-0">
-                  <div class="card-footer p-2 ps-3">
-                    <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                  <div class="card-header p-2 ps-3">
-                    <div class="d-flex justify-content-between">
-                      <div>
-                        <p class="text-sm mb-0 text-capitalize">Today's Users</p>
-                        <h4 class="mb-0">2300</h4>
-                      </div>
-                      <div
-                        class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                        <i class="material-symbols-rounded opacity-10">person</i>
-                      </div>
-                    </div>
-                  </div>
-                  <hr class="dark horizontal my-0">
-                  <div class="card-footer p-2 ps-3">
-                    <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+3% </span>than last month</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                  <div class="card-header p-2 ps-3">
-                    <div class="d-flex justify-content-between">
-                      <div>
-                        <p class="text-sm mb-0 text-capitalize">Ads Views</p>
-                        <h4 class="mb-0">3,462</h4>
-                      </div>
-                      <div
-                        class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                        <i class="material-symbols-rounded opacity-10">leaderboard</i>
-                      </div>
-                    </div>
-                  </div>
-                  <hr class="dark horizontal my-0">
-                  <div class="card-footer p-2 ps-3">
-                    <p class="mb-0 text-sm"><span class="text-danger font-weight-bolder">-2% </span>than yesterday</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-sm-6">
-                <div class="card">
-                  <div class="card-header p-2 ps-3">
-                    <div class="d-flex justify-content-between">
-                      <div>
-                        <p class="text-sm mb-0 text-capitalize">Sales</p>
-                        <h4 class="mb-0">$103,430</h4>
-                      </div>
-                      <div
-                        class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-                        <i class="material-symbols-rounded opacity-10">weekend</i>
-                      </div>
-                    </div>
-                  </div>
-                  <hr class="dark horizontal my-0">
-                  <div class="card-footer p-2 ps-3">
-                    <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+5% </span>than yesterday</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-4 col-md-6 mt-4 mb-4">
-                <div class="card">
-                  <div class="card-body">
-                    <h6 class="mb-0 ">Website Views</h6>
-                    <p class="text-sm ">Last Campaign Performance</p>
-                    <div class="pe-2">
-                      <div class="chart">
-                        <canvas id="chart-bars" class="chart-canvas" height="340" width="573"
-                          style="display: block; box-sizing: border-box; height: 170px; width: 286px;"></canvas>
-                      </div>
-                    </div>
-                    <hr class="dark horizontal">
-                    <div class="d-flex ">
-                      <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
-                      <p class="mb-0 text-sm"> campaign sent 2 days ago </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-6 mt-4 mb-4">
-                <div class="card ">
-                  <div class="card-body">
-                    <h6 class="mb-0 "> Daily Sales </h6>
-                    <p class="text-sm "> (<span class="font-weight-bolder">+15%</span>) increase in today sales. </p>
-                    <div class="pe-2">
-                      <div class="chart">
-                        <canvas id="chart-line" class="chart-canvas" height="340" width="573"
-                          style="display: block; box-sizing: border-box; height: 170px; width: 286px;"></canvas>
-                      </div>
-                    </div>
-                    <hr class="dark horizontal">
-                    <div class="d-flex ">
-                      <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
-                      <p class="mb-0 text-sm"> updated 4 min ago </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4 mt-4 mb-3">
-                <div class="card">
-                  <div class="card-body">
-                    <h6 class="mb-0 ">Completed Tasks</h6>
-                    <p class="text-sm ">Last Campaign Performance</p>
-                    <div class="pe-2">
-                      <div class="chart">
-                        <canvas id="chart-line-tasks" class="chart-canvas" height="340" width="573"
-                          style="display: block; box-sizing: border-box; height: 170px; width: 286px;"></canvas>
-                      </div>
-                    </div>
-                    <hr class="dark horizontal">
-                    <div class="d-flex ">
-                      <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
-                      <p class="mb-0 text-sm">just updated</p>
-                    </div>
-                  </div>
-                </div>
+              <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
+                <i class="material-symbols-rounded opacity-10">weekend</i>
               </div>
             </div>
           </div>
-        </main>
-      </div>
-      <!-- End of Main Content -->
-
-      <!-- Footer -->
-      <footer class="footer">
-        <p>&copy; 2025 Noir & Blanc. Todos los derechos reservados.</p>
-        <p>Panel de Administración | Desarrollado por <a class="footer-text">...</a></p>
-      </footer>
-
-      <!-- End of Footer -->
-
-    </div>
-    <!-- End of Content Wrapper -->
-
-  </div>
-  <!-- End of Page Wrapper -->
-
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Cerrar sesión</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Selecciona "Aceptar" si estás preparado para cerrar la sesión activa.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-          <a class="btn btn-primary" href="../login_register/login.html">Aceptar</a>
+          <hr class="dark horizontal my-0">
+          <div class="card-footer p-2 ps-3">
+            <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p>
+          </div>
         </div>
       </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+          <div class="card-header p-2 ps-3">
+            <div class="d-flex justify-content-between">
+              <div>
+                <p class="text-sm mb-0 text-capitalize">Today's Users</p>
+                <h4 class="mb-0">2300</h4>
+              </div>
+              <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
+                <i class="material-symbols-rounded opacity-10">person</i>
+              </div>
+            </div>
+          </div>
+          <hr class="dark horizontal my-0">
+          <div class="card-footer p-2 ps-3">
+            <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+3% </span>than last month</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+          <div class="card-header p-2 ps-3">
+            <div class="d-flex justify-content-between">
+              <div>
+                <p class="text-sm mb-0 text-capitalize">Ads Views</p>
+                <h4 class="mb-0">3,462</h4>
+              </div>
+              <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
+                <i class="material-symbols-rounded opacity-10">leaderboard</i>
+              </div>
+            </div>
+          </div>
+          <hr class="dark horizontal my-0">
+          <div class="card-footer p-2 ps-3">
+            <p class="mb-0 text-sm"><span class="text-danger font-weight-bolder">-2% </span>than yesterday</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6">
+        <div class="card">
+          <div class="card-header p-2 ps-3">
+            <div class="d-flex justify-content-between">
+              <div>
+                <p class="text-sm mb-0 text-capitalize">Sales</p>
+                <h4 class="mb-0">$103,430</h4>
+              </div>
+              <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
+                <i class="material-symbols-rounded opacity-10">weekend</i>
+              </div>
+            </div>
+          </div>
+          <hr class="dark horizontal my-0">
+          <div class="card-footer p-2 ps-3">
+            <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+5% </span>than yesterday</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-4 col-md-6 mt-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h6 class="mb-0 ">Website Views</h6>
+            <p class="text-sm ">Last Campaign Performance</p>
+            <div class="pe-2">
+              <div class="chart">
+                <canvas id="graficoVentas" width="400" height="200"></canvas>
+              </div>
+            </div>
+            <hr class="dark horizontal">
+            <div class="d-flex ">
+              <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+              <p class="mb-0 text-sm"> campaign sent 2 days ago </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 mt-4 mb-4">
+        <div class="card ">
+          <div class="card-body">
+            <h6 class="mb-0 "> Daily Sales </h6>
+            <p class="text-sm "> (<span class="font-weight-bolder">+15%</span>) increase in today sales. </p>
+            <div class="pe-2">
+              <div class="chart">
+                <canvas id="chart-line" class="chart-canvas" height="340" width="573"
+                  style="display: block; box-sizing: border-box; height: 170px; width: 286px;"></canvas>
+              </div>
+            </div>
+            <hr class="dark horizontal">
+            <div class="d-flex ">
+              <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+              <p class="mb-0 text-sm"> updated 4 min ago </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 mt-4 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <h6 class="mb-0 ">Completed Tasks</h6>
+            <p class="text-sm ">Last Campaign Performance</p>
+            <div class="pe-2">
+              <div class="chart">
+                <canvas id="chart-line-tasks" class="chart-canvas" height="340" width="573"
+                  style="display: block; box-sizing: border-box; height: 170px; width: 286px;"></canvas>
+              </div>
+            </div>
+            <hr class="dark horizontal">
+            <div class="d-flex ">
+              <i class="material-symbols-rounded text-sm my-auto me-1">schedule</i>
+              <p class="mb-0 text-sm">just updated</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+</main>
 
-  <script src="../../vendor/jquery/jquery.min.js"></script>
-  <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-</body>
-
-<script>
-  $(document).ready(function() {
-  $('#sidebarToggleTop').click(function(e) {
-      e.preventDefault();
-      $('#accordionSidebar').toggleClass('toggled');
-      $('#content-wrapper').toggleClass('toggled');
-  });
-});
-</script>
-
-{{/admin}}
-
-</html>
+{{> partialsAdmin/footer }}
