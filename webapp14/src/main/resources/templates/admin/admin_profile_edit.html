@@ -49,6 +49,7 @@
 
                                 <!-- Profile form -->
                                 <form action="/admin/edit" method="post" enctype="multipart/form-data" class="user">
+                                    <input type="hidden" name="_csrf" value="{{token}}" />
                                     <!-- Image -->
                                     <div class="text-center">
                                         {{#hasImage}}
@@ -101,6 +102,9 @@
                                             {{#errors.password}}
                                             <p class="text-danger small">{{.}}</p>
                                             {{/errors.password}}
+                                            {{#errors.currentPassword}}
+                                            <p class="text-danger small">{{.}}</p>
+                                            {{/errors.currentPassword}}
                                         </div>
                                         <div class="col-sm-4">
                                             <input type="password" class="form-control form-control-user" id="password"
@@ -113,9 +117,6 @@
                                             <input type="password" class="form-control form-control-user"
                                                 id="confirmPassword" name="confirmPassword"
                                                 placeholder="Confirmar nueva contraseña">
-                                            {{#errors.newPassword}}
-                                            <p class="text-danger small">{{.}}</p>
-                                            {{/errors.newPassword}}
                                         </div>
                                     </div>
                                     <hr>

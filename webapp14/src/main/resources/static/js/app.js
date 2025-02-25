@@ -31,6 +31,8 @@ async function loadMoreAdminUsers(button) {
 
     document.getElementById("users").innerHTML += data;
 
+    console.log(data)
+
     if (data.includes("<!-- true -->")) {
         document.getElementById('load-more').style.display = 'none';
     }

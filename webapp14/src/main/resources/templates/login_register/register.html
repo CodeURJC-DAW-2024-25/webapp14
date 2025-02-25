@@ -38,6 +38,7 @@
 
 							<!-- Register form -->
 							<form action="/register" method="POST" enctype="multipart/form-data" class="register-form">
+								<input type="hidden" name="_csrf" value="{{token}}" />
 								<!-- Name -->
 								<div class="form-group">
 									<label><i class="zmdi zmdi-account material-icons-name"></i></label>
@@ -62,19 +63,24 @@
 								{{#errors.email}}
 								<p class="text-danger small">{{.}}</p>
 								{{/errors.email}}
-								<!-- Password -->
-								<div class="form-group">
-									<label for="password"><i class="zmdi zmdi-lock"></i></label>
-									<input type="password" name="password" id="password" placeholder="Contraseña"
-										novalidate />
-								</div>
+
 								{{#errors.password}}
 								<p class="text-danger small">{{.}}</p>
 								{{/errors.password}}
+								
+								<!-- Password -->
+								<div class="form-group">
+									<label for="encodedPassword"><i class="zmdi zmdi-lock"></i></label>
+									<input type="encodedPassword" name="encodedPassword" id="encodedPassword" placeholder="Contraseña"
+										novalidate />
+								</div>
+								{{#errors.encodedPassword}}
+								<p class="text-danger small">{{.}}</p>
+								{{/errors.encodedPassword}}
 								<!-- Confirm password -->
 								<div class="form-group">
 									<label for="confirmPassword"><i class="zmdi zmdi-lock-outline"></i></label>
-									<input type="password" name="confirmPassword" id="confirmPassword"
+									<input type="encodedPassword" name="confirmPassword" id="confirmPassword"
 										placeholder="Confirmar contraseña" novalidate />
 								</div>
 								<!-- Privacy policy -->

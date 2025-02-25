@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.codeurjc.webapp14.model.User;
-import es.codeurjc.webapp14.model.User.Role;
 import es.codeurjc.webapp14.repositories.UserRepository;
 
 @Service
@@ -31,7 +30,7 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {
-        return userRepository.findByRole(Role.CUSTOMER);
+        return userRepository.findByRolesContaining("CUSTOMER");
     }
 
     public User saveUser(User user) {
@@ -43,8 +42,9 @@ public class UserService {
     }
 
     public Optional<User> getAdmin() {
-        return userRepository.findByRole(Role.ADMIN).stream().findFirst();
+        return userRepository.findByRolesContaining("ADMIN").stream().findFirst();
     }
+
     
 
     public void saveAdmin(User admin) {
@@ -56,7 +56,7 @@ public class UserService {
             existingAdmin.setName(admin.getName());
             existingAdmin.setSurname(admin.getSurname());
             existingAdmin.setEmail(admin.getEmail());
-            existingAdmin.setPassword(admin.getPassword());
+            existingAdmin.setEncodedPassword(admin.getEncodedPassword());
             if (admin.getProfileImage() != null && !admin.getProfileImage().equals(existingAdmin.getProfileImage())) {
                 existingAdmin.setProfileImage(admin.getProfileImage());
             }
@@ -80,8 +80,9 @@ public class UserService {
     }
 
     public Page<User> getUsersPaginated(int page, int size) {
-        return userRepository.findByRoleNot(Role.ADMIN, PageRequest.of(page, size));
+        return userRepository.findByRolesNotContaining("ADMIN", PageRequest.of(page, size));
     }
+    
 
     public Page<User> getUsersWithReportedReviewsPaginated(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);

@@ -4,7 +4,6 @@ import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.model.OrderProduct;
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Product.CategoryType;
-import es.codeurjc.webapp14.model.User.Role;
 import es.codeurjc.webapp14.model.Review;
 import es.codeurjc.webapp14.model.Size;
 import es.codeurjc.webapp14.model.User;
@@ -18,9 +17,11 @@ import es.codeurjc.webapp14.repositories.OrderProductRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -51,7 +52,9 @@ public class DataInitializer implements CommandLineRunner {
     private final OrderProductRepository orderProductRepository;
     private final SizeRepository sizeRepository;
 
-    // Inyección de dependencias por constructor (Mejor práctica)
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public DataInitializer(ProductRepository productRepository, UserRepository userRepository,
             ReviewRepository reviewRepository, OrderRepository orderRepository,
             OrderProductRepository orderProductRepository, SizeRepository sizeRepository) {
@@ -460,62 +463,62 @@ public class DataInitializer implements CommandLineRunner {
             logger.info("Cargando usuarios...");
             try {
                 // Admin
-                User admin = new User("Laura", "Moreno", "laura1@gmail.com", "Laura.53", Role.ADMIN);
+                User admin = new User("Laura", "Moreno", "laura1@gmail.com", passwordEncoder.encode("Laura.53"), "USER", "ADMIN");
                 userRepository.save(admin);
 
                 Blob imageBytes49 = loadImage("images/users/perfil1.webp");
-                User user1 = new User("Paco", "García", imageBytes49, "Calle Mirador 12-C", "pacoG@gmail.com", "12345",
-                        Role.CUSTOMER);
+                User user1 = new User("Paco", "García", imageBytes49, "Calle Mirador 12-C", "pacoG@gmail.com", passwordEncoder.encode("12345"),
+                        "USER");
                 userRepository.save(user1);
 
                 Blob imageBytes50 = loadImage("images/users/perfil2.webp");
-                User user2 = new User("Ana", "López", imageBytes50, "Avenida de la Paz 4-B", "anaL@gmail.com", "54321",
-                        Role.CUSTOMER);
+                User user2 = new User("Ana", "López", imageBytes50, "Avenida de la Paz 4-B", "anaL@gmail.com", passwordEncoder.encode("54321"),
+                        "USER");
                 userRepository.save(user2);
 
                 Blob imageBytes51 = loadImage("images/users/perfil3.webp");
                 User user3 = new User("Carlos", "Martínez", imageBytes51, "Calle Gran Vía 3-A", "carlosM@gmail.com",
-                        "67890",
-                        Role.CUSTOMER);
+                        passwordEncoder.encode("67890"),
+                        "USER");
                 userRepository.save(user3);
 
                 Blob imageBytes52 = loadImage("images/users/perfil4.webp");
                 User user4 = new User("María", "Fernández", imageBytes52, "Calle Toledo 15", "mariaF@gmail.com",
-                        "11223",
-                        Role.CUSTOMER);
+                        passwordEncoder.encode("11223"),
+                        "USER");
                 userRepository.save(user4);
 
                 Blob imageBytes53 = loadImage("images/users/perfil5.webp");
-                User user5 = new User("Luis", "Sánchez", imageBytes53, "Plaza Mayor 7", "luisS@gmail.com", "44556",
-                        Role.CUSTOMER);
+                User user5 = new User("Luis", "Sánchez", imageBytes53, "Plaza Mayor 7", "luisS@gmail.com", passwordEncoder.encode("44556"),
+                        "USER");
                 userRepository.save(user5);
 
                 Blob imageBytes54 = loadImage("images/users/perfil6.webp");
-                User user6 = new User("José", "Pérez", imageBytes54, "Calle de la Luna 9", "joseP@gmail.com", "78901",
-                        Role.CUSTOMER);
+                User user6 = new User("José", "Pérez", imageBytes54, "Calle de la Luna 9", "joseP@gmail.com", passwordEncoder.encode("78901"),
+                        "USER");
                 userRepository.save(user6);
 
                 Blob imageBytes55 = loadImage("images/users/perfil7.webp");
                 User user7 = new User("Laura", "Rodríguez", imageBytes55, "Calle San Juan 10", "lauraR@gmail.com",
-                        "23456",
-                        Role.CUSTOMER);
+                        passwordEncoder.encode("23456"),
+                        "USER");
                 userRepository.save(user7);
 
                 Blob imageBytes56 = loadImage("images/users/perfil8.webp");
                 User user8 = new User("David", "González", imageBytes56, "Avenida de Andalucía 14", "davidG@gmail.com",
-                        "67890",
-                        Role.CUSTOMER);
+                        passwordEncoder.encode("67890"),
+                        "USER");
                 userRepository.save(user8);
 
                 Blob imageBytes57 = loadImage("images/users/perfil9.webp");
-                User user9 = new User("Elena", "Díaz", imageBytes57, "Calle del Sol 21", "elenaD@gmail.com", "11234",
-                        Role.CUSTOMER);
+                User user9 = new User("Elena", "Díaz", imageBytes57, "Calle del Sol 21", "elenaD@gmail.com", passwordEncoder.encode("11234"),
+                        "USER");
                 userRepository.save(user9);
 
                 Blob imageBytes58 = loadImage("images/users/perfil10.webp");
                 User user10 = new User("Sergio", "Jiménez", imageBytes58, "Calle del Mar 18", "sergioJ@gmail.com",
-                        "66778",
-                        Role.CUSTOMER);
+                        passwordEncoder.encode("66778"),
+                        "USER");
                 userRepository.save(user10);
 
                 logger.info("Usuarios cargados correctamente.");

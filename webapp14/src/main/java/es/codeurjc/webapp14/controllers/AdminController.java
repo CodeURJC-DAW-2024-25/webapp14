@@ -14,7 +14,9 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,8 +58,12 @@ public class AdminController {
     @Autowired
     private ReviewService reviewService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
     private List<String> categories = new ArrayList<>(
-            Arrays.asList("ropa-invierno", "ropa-verano", "accesorios", "zapatos"));
+            Arrays.asList("abrigos", "camisetas", "pantalones", "jerséis"));
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
@@ -90,6 +98,8 @@ public class AdminController {
 
     @GetMapping("/profile")
     public String showAdminProfile(Model model, HttpServletRequest request) {
+
+
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("userEmail");
 
@@ -99,6 +109,9 @@ public class AdminController {
 
         User admin = userService.findByEmail(email);
 
+        System.out.println("Roles: " + admin.getRoles());
+
+
         model.addAttribute("admin", admin);
         model.addAttribute("hasImage", admin.getProfileImage() != null);
         return "admin/admin_profile";
@@ -106,74 +119,94 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/edit", method = { RequestMethod.GET, RequestMethod.POST })
-    // To show the admin profile form and handle admin editing
     public String showAdminProfileEdit(
-            @ModelAttribute("admin") @Valid User admin,
-            BindingResult result,
-            @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
-            @RequestParam(value = "currentPassword", required = false) String currentPassword,
+            @RequestParam(value = "name", required = false, defaultValue = "") String name,
+            @RequestParam(value = "surname", required = false, defaultValue = "") String surname,
+            @RequestParam(value = "email", required = false, defaultValue = "") String email,
+            @RequestParam(value = "confirmPassword", required = false, defaultValue = "") String confirmPassword,
+            @RequestParam(value = "password", required = false, defaultValue = "") String password,
+            @RequestParam(value = "currentPassword", required = false, defaultValue = "") String currentPassword,
             @RequestParam(value = "imageUpload", required = false) MultipartFile image,
             Model model,
             HttpServletRequest request) throws Exception {
-        // To handle admin editing
+
+        System.out.println("Entro");
         Optional<User> existing = userService.getAdmin();
-        if (existing.isPresent()) {
-            User existingAdmin = existing.get();
-            // If the request is GET only show the form
-            if (request.getMethod().equals("GET")) {
-                model.addAttribute("admin", existingAdmin);
-                model.addAttribute("hasImage", existingAdmin.getProfileImage() != null);
-                return "admin/admin_profile_edit";
-            }
-            // If the request is POST validate the data
-            // Check if fields are empty
-            if (admin.getName().isEmpty()) {
-                result.rejectValue("name", "error.user", "El nombre no puede estar vacío");
-            }
-            if (admin.getSurname().isEmpty()) {
-                result.rejectValue("surname", "error.user", "El apellido no puede estar vacío");
-            }
-            if (admin.getEmail().isEmpty()) {
-                result.rejectValue("email", "error.user", "El correo electrónico no puede estar vacío");
-            }
-            // Validate current password
-            boolean incorrectCurrentPassword = false;
-            if (!existingAdmin.getPassword().equals(currentPassword) && !currentPassword.isEmpty()) {
-                incorrectCurrentPassword = true;
-                result.rejectValue("password", "error.admin", "La contraseña actual es incorrecta");
-            }
-            // Verify that the new password matches the confirmation password
-            if (!confirmPassword.isEmpty() && !admin.getPassword().equals(confirmPassword)) {
-                incorrectCurrentPassword = true;
-                result.rejectValue("newPassword", "error.admin", "La nueva contraseña no coincide");
-            }
-            // Verify if all password fields are empty or the current password is empty
-            if ((currentPassword.isEmpty() && admin.getPassword().isEmpty() &&
-                    confirmPassword.isEmpty()) || incorrectCurrentPassword) {
-                admin.setPassword(existingAdmin.getPassword());
-            }
-            // If there are errors, the view is returned with the messages
-            if (result.hasErrors()) {
-                model.addAttribute("errors", result.getFieldErrors().stream()
-                        .collect(Collectors.groupingBy(FieldError::getField,
-                                Collectors.mapping(FieldError::getDefaultMessage, Collectors.toList()))));
-                return "admin/admin_profile_edit";
-            }
-            // If the new password is valid update it
-            if (!currentPassword.isEmpty() && !confirmPassword.isEmpty() && !incorrectCurrentPassword) {
-                admin.setPassword(confirmPassword);
-            }
-            // Save the image if provided
-            if (image != null && !image.isEmpty()) {
-                userService.saveAdmin(admin, image);
-            } else {
-                userService.saveAdmin(admin);
-            }
-            // Redirect to another page if all is correct
-            return "redirect:/admin/profile";
-        } else {
+        if (existing.isEmpty()) {
+            System.out.println("User vacío");
+
             return "redirect:/admin/profile";
         }
+
+        User existingAdmin = existing.get();
+
+        if ("GET".equals(request.getMethod())) {
+            System.out.println("Soy get");
+
+            model.addAttribute("admin", existingAdmin);
+            model.addAttribute("hasImage", existingAdmin.getProfileImage() != null);
+            return "admin/admin_profile_edit";
+        }
+
+        Map<String, List<String>> errors = new HashMap<>();
+
+        System.out.println("Soy post");
+        System.out.println("admin name: " + existingAdmin.getName() );
+        System.out.println("Soy post");
+
+        // Validaciones
+        if (name.isEmpty()) {
+            errors.computeIfAbsent("name", k -> new ArrayList<>()).add("El nombre no puede estar vacío");
+        }
+        if (surname.isEmpty()) {
+            errors.computeIfAbsent("surname", k -> new ArrayList<>()).add("El apellido no puede estar vacío");
+        }
+        if (email.isEmpty()) {
+            errors.computeIfAbsent("email", k -> new ArrayList<>()).add("El correo electrónico no puede estar vacío");
+        }
+
+        System.out.println("admin passow: " + existingAdmin.getName() );
+
+
+        if(currentPassword.isEmpty()){
+            System.out.println("Password vacía");
+            errors.computeIfAbsent("password", k -> new ArrayList<>()).add("La contraseña no puede estar vacía");
+        }
+
+        if (!currentPassword.isEmpty() && (!passwordEncoder.matches(currentPassword, existingAdmin.getEncodedPassword()))) {
+            errors.computeIfAbsent("currentPassword", k -> new ArrayList<>()).add("La contraseña actual es incorrecta");
+        }
+        if (!password.isEmpty() && !password.equals(confirmPassword)) {
+            errors.computeIfAbsent("newPassword", k -> new ArrayList<>()).add("La nueva contraseña no coincide");
+        }
+
+        if (!errors.isEmpty()) {
+            System.out.println("Hay errores");
+
+            model.addAttribute("errors", errors);
+            model.addAttribute("admin", existingAdmin);
+            model.addAttribute("hasImage", existingAdmin.getProfileImage() != null);
+            return "admin/admin_profile_edit";
+        }
+
+        System.out.println("No hay errores");
+
+        existingAdmin.setName(name);
+        existingAdmin.setSurname(surname);
+        existingAdmin.setEmail(email);
+
+        if (!currentPassword.isEmpty() && !password.isEmpty()) {
+            String encoded = passwordEncoder.encode(confirmPassword);
+            existingAdmin.setEncodedPassword(encoded);
+        }
+
+        if (image != null && !image.isEmpty()) {
+            userService.saveAdmin(existingAdmin, image);
+        } else {
+            userService.saveAdmin(existingAdmin);
+        }
+
+        return "redirect:/admin/profile";
     }
 
     @GetMapping("/profile/image")

@@ -144,6 +144,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <form action="/admin/products/create" method="POST" enctype="multipart/form-data">
+                                            <input type="hidden" name="_csrf" value="{{token}}" />
                                             <div class="text-center">
                                                 <div class="form-group">
                                                     <div>
@@ -219,6 +220,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <form id="addCategoryForm" method="post" action="/admin/categories/add">
+                                            <input type="hidden" name="_csrf" value="{{token}}" />
                                             <div class="form-group">
                                                 <label for="newCategoryName">Nombre de la Categoría</label>
                                                 <input type="text" class="form-control" id="newCategoryName" name="categoryName"
@@ -264,6 +266,7 @@
                                                 <i class="fas fa-edit"></i> Editar
                                             </button>
                                             <form action="/admin/products/delete/{{id}}" method="post">
+                                                <input type="hidden" name="_csrf" value="{{token}}" />
                                                 <button type="submit" class="btn btn-danger btn-rounded btn-sm ml-sm-2">
                                                     <i class="fas fa-trash-alt"></i> Eliminar
                                                 </button>
@@ -327,6 +330,7 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <form action="/admin/products/edit/{{id}}" method="post" enctype="multipart/form-data">
+                                                        <input type="hidden" name="_csrf" value="{{token}}" />
                                                         <div class="container">
                                                             <div class="row justify-content-center">
                                                                 {{#image}}

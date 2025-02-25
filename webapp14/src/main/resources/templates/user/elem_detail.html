@@ -60,6 +60,7 @@
                 <i class="fas fa-pencil-alt"></i>
               </button>
               <form action="/index/{{product.id}}/{{id}}/delete" method="post">
+                <input type="hidden" name="_csrf" value="{{token}}" />
                 <button type="submit" class="btn btn-outline-danger">
                   <i class="fas fa-trash-alt"></i>
                 </button>
@@ -68,6 +69,7 @@
               {{#logged}}
               {{^own}}
               <form action="/index/{{product.id}}/{{id}}/report" method="post">
+                <input type="hidden" name="_csrf" value="{{token}}" />
                 <button type="submit" class="btn btn-outline-warning">
                   <i class="fas fa-exclamation-circle"></i>
                 </button>
@@ -86,7 +88,8 @@
                   </div>
                   <div class="modal-body">
                       <form action="/index/{{product.id}}/{{id}}/edit" method="post">
-                          <div class="mb-3">
+                        <input type="hidden" name="_csrf" value="{{token}}" />
+                        <div class="mb-3">
                             <label for="edit-rating" class="form-label">Tu Valoración</label>
                             <div class="star-edit-rating">
                               <input type="radio" name="rating" id="edit-star5-{{id}}" value="5" {{#rating5}}checked{{/rating5}}>
@@ -136,12 +139,14 @@
 
   </section>
 
+  {{#logged}}
+
   <section class="leave-review-section">
     <div class="container my-5">
       <h2 class="fw-bold text-center mb-4">Deja Tu Reseña</h2>
   
       <form action="/index/{{product.id}}/addReview" method="POST" class="review-form mx-auto">
-  
+        <input type="hidden" name="_csrf" value="{{token}}" />
         <div class="mb-3 text-center">
           <label class="form-label">Tu Valoración</label>
           <div class="star-rating">
@@ -166,6 +171,8 @@
       </form>
     </div>
   </section>
+
+  {{/logged}}
 </main>  
 
 

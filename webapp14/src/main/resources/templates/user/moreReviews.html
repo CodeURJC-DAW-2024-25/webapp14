@@ -17,6 +17,7 @@
                 <i class="fas fa-pencil-alt"></i>
               </button>
               <form action="/index/{{product.id}}/{{id}}/delete" method="post">
+                <input type="hidden" name="_csrf" value="{{token}}" />
                 <button type="submit" class="btn btn-outline-danger">
                   <i class="fas fa-trash-alt"></i>
                 </button>
@@ -25,6 +26,7 @@
               {{#logged}}
               {{^own}}
               <form action="/index/{{product.id}}/{{id}}/report" method="post">
+                <input type="hidden" name="_csrf" value="{{token}}" />
                 <button type="submit" class="btn btn-outline-warning">
                   <i class="fas fa-exclamation-circle"></i>
                 </button>

@@ -111,6 +111,7 @@
                                             <!-- Form to change  to change the order state -->
                                             <form id="form-update{{id}}" action="/admin/orders" method="post"
                                                 style="display:none; margin-top: 13px">
+                                                <input type="hidden" name="_csrf" value="{{token}}" />
                                                 <input type="hidden" name="orderId" value="{{id}}">
                                                 <select name="state" class="form-control d-inline w-auto">
                                                     <option value="Pagado" {% if state='Pagado' %}selected{% endif %}>

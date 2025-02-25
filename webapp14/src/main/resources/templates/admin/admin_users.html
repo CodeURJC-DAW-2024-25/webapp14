@@ -193,6 +193,7 @@
                                                     Ver reportes
                                                 </button>
                                                 <form action="/admin/users/ban/{{id}}" method="post">
+                                                    <input type="hidden" name="_csrf" value="{{token}}" />
                                                     <button type="submit" class="btn btn-warning btn-rounded btn-sm d-block d-sm-inline">
                                                         <i class="fas fa-exclamation-triangle"></i> Banear
                                                     </button>
@@ -212,11 +213,13 @@
                                                 </span>
                                                 <div class="report-actions report-btn d-flex mt-2 mt-md-0">
                                                     <form action="/admin/users/accept/{{id}}" method="post">
+                                                        <input type="hidden" name="_csrf" value="{{token}}" />
                                                         <button type="submit" class="btn btn-success btn-sm me-2">
                                                             <i class="fas fa-check"></i> Aceptar
                                                         </button>
                                                     </form>
                                                     <form action="/admin/users/delete/{{id}}" method="post">
+                                                        <input type="hidden" name="_csrf" value="{{token}}" />
                                                         <button type="submit" class="btn btn-danger btn-sm">
                                                             <i class="fas fa-trash"></i> Eliminar
                                                         </button>
@@ -251,6 +254,7 @@
                                         <span>{{name}}</span>
                                         <div>
                                             <form action="/admin/users/unban/{{id}}" method="post">
+                                                <input type="hidden" name="_csrf" value="{{token}}" />
                                                 <button type="submit" class="btn btn-warning btn-rounded btn-sm d-block d-sm-inline">
                                                     <i class="fas fa-exclamation-triangle"></i> Desbanear
                                                 </button>

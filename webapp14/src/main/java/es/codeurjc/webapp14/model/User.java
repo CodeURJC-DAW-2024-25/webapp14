@@ -19,7 +19,7 @@ public class User {
 
     private String email;
 
-    private String password;
+    private String encodedPassword;
 
     private String address;
 
@@ -33,37 +33,32 @@ public class User {
     @Lob
     private Blob profileImage;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
-    public enum Role {
-        ADMIN, CUSTOMER
-    }
+    @ElementCollection(fetch = FetchType.EAGER)
+	private List<String> roles;
 
     public User() {
     }
 
-    public User(String name, String surname, String email, String password, Role role) {
+    public User(String name, String surname, String email, String encodedPassword, String... roles) {
         super();
         this.name = name;
         this.surname = surname;
         this.email = email;
-        this.password = password;
-        this.role = role;
+        this.encodedPassword = encodedPassword;
+        this.roles = List.of(roles);
         this.banned = false;
         this.reports = 0;
     }
 
-    public User(String name, String surname, Blob profileImage, String address, String email, String password,
-            Role role) {
+    public User(String name, String surname, Blob profileImage, String address, String email, String encodedPassword, String... roles) {
         super();
         this.name = name;
         this.surname = surname;
         this.profileImage = profileImage;
         this.address = address;
         this.email = email;
-        this.password = password;
-        this.role = role;
+        this.encodedPassword = encodedPassword;
+        this.roles = List.of(roles);
         this.banned = false;
         this.reports = 0;
     }
@@ -101,14 +96,6 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -125,13 +112,13 @@ public class User {
         this.profileImage = profileImage;
     }
 
-    public Role getRole() {
-        return role;
-    }
+    public List<String> getRoles() {
+		return roles;
+	}
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
 
     public boolean getBanned() {
         return this.banned;
@@ -155,6 +142,14 @@ public class User {
 
     public void setReports(int reports) {
         this.reports += reports;
+    }
+
+    public String getEncodedPassword(){
+        return encodedPassword;
+    }
+
+    public void setEncodedPassword(String encodedPassword){
+        this.encodedPassword = encodedPassword;
     }
 
 }
