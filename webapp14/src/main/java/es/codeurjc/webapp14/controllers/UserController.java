@@ -188,5 +188,16 @@ public class UserController {
         return "redirect:/index";
     }
 
+    @GetMapping("/edit_profile")
+    public String EditForm(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Long sessionUserId = (Long) session.getAttribute("userId");
+        User user = userService.findById(sessionUserId);
+        model.addAttribute("user", user);
+        return "/user_registered/users_profile";
+
+    }
+    
+
 
 }

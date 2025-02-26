@@ -10,34 +10,35 @@
           <h4>Editar perfil</h4>
         </div>
         <br>
-        <form class="user">
+        <form action="/user_profile/edit/{id}" method="POST" class="user">
           <div class="form-group">
             <label for="exampleFirstName">Nombre:</label>
-            <input type="text" class="form-control" id="exampleFirstName" placeholder="First Name" value="Laura">
+            <input type="text" class="form-control" id="exampleFirstName" placeholder="First Name" value="{{user.name}}">
           </div>
           <div class="form-group">
             <label for="exampleLastName">Apellidos:</label>
-            <input type="text" class="form-control" id="exampleLastName" placeholder="Last Name" value="López Martínez">
+            <input type="text" class="form-control" id="exampleLastName" placeholder="Last Name" value="{{user.surname}}">
           </div>
           <div class="form-group">
             <label for="exampleInputEmail">Correo electrónico:</label>
             <input type="email" class="form-control" id="exampleInputEmail" placeholder="Email Address"
-              value="laura.123@gmail.com">
+              value="{{user.email}}">
           </div>
           <div class="form-group">
             <label for="exampleInputAddress">Dirección:</label>
             <input type="text" class="form-control" id="exampleInputAddress" placeholder="Address"
-              value="C/Example Nº1 1ºA">
+              value="{{user.address}}">
           </div>
           <div class="form-group">
             <label for="exampleInputPassword">Contraseña:</label>
             <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password"
-              value="password123">
+              value="Introduza su contraseña">
           </div>
           <div class="form-group">
             <label for="inputFile">Seleccionar imagen Perfil:</label>
             <input type="file" class="form-control" id="inputFile" accept="image/*">
           </div>
+          <input type="hidden" name="_csrf" value="{{token}}" />
           <br>
           <div class="d-flex justify-content-between">
             <button type="submit" class="btn btn-primary px-3">Guardar cambios</button>
