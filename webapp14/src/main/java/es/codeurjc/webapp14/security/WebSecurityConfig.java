@@ -53,7 +53,7 @@ public class WebSecurityConfig {
 						.requestMatchers("/login_register/**").permitAll()
 						.requestMatchers("/index/*/*/edit").permitAll()
 						.requestMatchers("/access-error").permitAll()
-						.requestMatchers("/cart").permitAll()
+						.requestMatchers("/cart/**").permitAll()
 						.requestMatchers("/orders/**").permitAll()
 						.requestMatchers("/image/**").permitAll()
 						.requestMatchers("*/users_profile/**").permitAll()

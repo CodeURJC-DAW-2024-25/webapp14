@@ -1,6 +1,7 @@
 package es.codeurjc.webapp14.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -31,5 +32,11 @@ public class OrderService {
 
     public List<Order> getUserOrders(User user) {
         return orderRepository.findByUser(user);
+    }
+
+
+
+    public Optional<Order> getUnpaidOrder(User user) {
+        return orderRepository.findFirstByUserAndIsPaidFalse(user);
     }
 }

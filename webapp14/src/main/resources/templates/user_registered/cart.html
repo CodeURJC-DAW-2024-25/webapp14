@@ -1,7 +1,26 @@
 {{> partialsUser/header }}
 
+
+
 <section style="margin-top: 8rem;">
   <div class="container">
+
+    {{#orderProductsEmpty}}
+    <div class="row justify-content-center text-center">
+      <div class="col-12">
+        <div class="alert alert-info p-5" style="background-color: #f8f9fa; border-radius: 15px; border: 2px solid black;">
+          <h4 class="text-primary mb-3">¡Tu carrito está vacío!</h4>
+          <p class="text-muted">Parece que aún no has agregado productos a tu carrito. ¡Empieza a comprar ahora y agrega lo que te guste!</p>
+          <a href="/index" class="btn btn-primary btn-lg">Comienza a comprar</a>
+        </div>
+      </div>
+    </div>
+    {{/orderProductsEmpty}}
+
+
+    {{^orderProductsEmpty}}
+
+
     <div class="row mb-5">
       <div class="col-lg-8">
         <div>
@@ -17,30 +36,38 @@
             </div>
             <div>
               <!-- Product-->
+              {{#orderProducts}}
               <div class="row d-flex align-items-center text-center pt-4">
                 <div class="col-5">
                   <div class="d-flex align-items-center gap-2">
-                    <a href="../user/elem_detail.html">
-                      <img class="cart-item-img col-6" src="/images/imagen7.webp" alt="...">
+                    <a href="/index/elem_detail/{{product.id}}">
+                      <img class="cart-item-img col-6" src="/image/{{product.id}}" alt="...">
                     </a>
                     <div class="text-start col-4">
-                      <a href="../user/elem_detail.html"><strong>POLO PUNTO JACQUARD</strong></a>
+                      <a href="/index/elem_detail/{{product.id}}l"><strong>{{product.name}}</strong></a>
                       <br>
-                      <span class="text-muted text-sm">M</span>
+                      <span class="text-muted text-sm">{{size}}</span>
                     </div>
                   </div>
                 </div>
-                <div class="col-2">35,95 EUR</div>
-                <div class="col-2">1</div>
-                <div class="col-2 text-center">35,95 EUR</div>
+                <div class="col-2">{{product.price}} EUR</div>
+                <div class="col-2">{{quantity}}</div>
+                <div class="col-2 text-center">{{subtotalPrice}} EUR</div>
                 <div class="col-1 text-center">
-                  <a href="">X</a>
+                  <form action="/cart/delete/{{id}}" method="post">
+                    <input type="hidden" name="_csrf" value="{{token}}" />
+                    <button type="submit" style="background: none; border: none; padding: 0;">X</button>
+                  </form>
                 </div>
               </div>
+              {{/orderProducts}}
             </div>
           </div>
         </div>
       </div>
+      
+
+      
       <div class="col-lg-4">
         <div class="block mb-5">
           <div class="block-header mb-4">
@@ -49,18 +76,22 @@
           <div class="block-body bg-light p-4">
             <p class="text-sm">Los gastos de envío se calculan en función del valor de la compra.</p>
             <ul class="order-summary mb-0 list-unstyled">
-              <li class="order-summary-item"><span>Subtotal </span><span>35,95 EUR</span></li>
-              <li class="order-summary-item"><span>Envío </span><span class="text-uppercase">5,00 EUR</span></li>
-              <li class="order-summary-item border-0"><span>Total </span><strong class="order-summary-total">112,85
+              <li class="order-summary-item"><span>Subtotal </span><span>{{totalPrice}} EUR</span></li>
+              <li class="order-summary-item"><span>Envío </span><span class="text-uppercase">{{shippingCost}} EUR</span></li>
+              <li class="order-summary-item border-0"><span>Total </span><strong class="order-summary-total">{{finalPrice}}
                   EUR</strong></li>
             </ul>
           </div>
           <div class="my-5 d-flex justify-content-between flex-column flex-lg-row">
-            <a class="btn btn-dark" href="/orders">Proceder al pago</a>
+            <form action="/cart/process-order" method="POST">
+              <input type="hidden" name="_csrf" value="{{token}}" />
+              <button type="submit" class="btn btn-dark" {{#orderNotProcessed}}disabled{{/orderNotProcessed}}>Proceder al pago</button>
+            </form>            
           </div>
         </div>
       </div>
     </div>
+    {{/orderProductsEmpty}}
   </div>
 </section>
 

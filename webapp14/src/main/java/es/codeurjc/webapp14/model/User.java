@@ -33,6 +33,9 @@ public class User {
     @Lob
     private Blob profileImage;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();
+
     @ElementCollection(fetch = FetchType.EAGER)
 	private List<String> roles;
 
@@ -150,6 +153,14 @@ public class User {
 
     public void setEncodedPassword(String encodedPassword){
         this.encodedPassword = encodedPassword;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
 }

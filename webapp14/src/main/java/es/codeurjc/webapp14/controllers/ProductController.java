@@ -19,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Review;
+import es.codeurjc.webapp14.model.Size;
+import es.codeurjc.webapp14.model.Size.SizeName;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.services.ProductService;
 import es.codeurjc.webapp14.services.UserService;
@@ -108,6 +110,24 @@ public class ProductController {
             review.setRating4(review.getRating() == 4);
             review.setRating5(review.getRating() == 5);
         }
+
+        boolean hasSizeS = false;
+        boolean hasSizeM = false;
+        boolean hasSizeL = false;
+        boolean hasSizeXL = false;
+
+        // Verificar stock en cada talla
+        for (Size size : product.getSizes()) {
+            if (size.getName() == SizeName.S && size.getStock() > 0) hasSizeS = true;
+            if (size.getName() == SizeName.M && size.getStock() > 0) hasSizeM = true;
+            if (size.getName() == SizeName.L && size.getStock() > 0) hasSizeL = true;
+            if (size.getName() == SizeName.XL && size.getStock() > 0) hasSizeXL = true;
+        }
+
+        model.addAttribute("hasSizeS", hasSizeS);
+        model.addAttribute("hasSizeM", hasSizeM);
+        model.addAttribute("hasSizeL", hasSizeL);
+        model.addAttribute("hasSizeXL", hasSizeXL);
     
         model.addAttribute("product", product);
         model.addAttribute("reviews", reviews);

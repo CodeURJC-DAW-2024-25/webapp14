@@ -1259,7 +1259,7 @@ public class DataInitializer implements CommandLineRunner {
                     order4.setState(Order.State.No_pagado);
                     order4.setIsPaid(false);
                     Size size = sizes.get(random.nextInt(sizes.size()));
-                    OrderProduct orderProduct7 = new OrderProduct(order4, products.get(1), size, 1);
+                    OrderProduct orderProduct7 = new OrderProduct(order4, products.get(1), "L", 1);
                     order4.getOrderProducts().addAll(Arrays.asList(orderProduct7));
                     order4.setTotalPrice(orderProduct7.getSubtotalPrice());
                     orderRepository.save(order4);
@@ -1277,7 +1277,7 @@ public class DataInitializer implements CommandLineRunner {
                             Product product = products.get(j);
                             Size size = sizes.get(random.nextInt(sizes.size()));
                             int cantidad = random.nextInt(3) + 1;
-                            orderProducts.add(new OrderProduct(order, product, size, cantidad));
+                            orderProducts.add(new OrderProduct(order, product, "XL", cantidad));
                         }
                         order.setOrderProducts(orderProducts);
                         orderRepository.save(order);

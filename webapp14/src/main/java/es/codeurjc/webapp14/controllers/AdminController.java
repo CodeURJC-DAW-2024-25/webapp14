@@ -350,6 +350,8 @@ public class AdminController {
 
         product.setSizes(sizes);
         product.setStock(stockS + stockM + stockL + stockXL);
+        product.setOutOfStock(stockS + stockM + stockL + stockXL == 0);
+
 
         productService.saveProduct(product);
 
@@ -410,6 +412,7 @@ public class AdminController {
             }
         
             existingProduct.setStock(totalStock);
+            existingProduct.setOutOfStock(totalStock == 0);
         }
         
     
