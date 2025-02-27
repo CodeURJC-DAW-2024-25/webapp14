@@ -12,31 +12,28 @@ import es.codeurjc.webapp14.model.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    List<Product> findByOutOfStockTrue();
+        List<Product> findByOutOfStockTrue();
 
-    List<Product> findTop4ByOrderBySoldDesc();
+        List<Product> findTop4ByOrderBySoldDesc();
 
-    Page<Product> findByCategory(String category, Pageable pageable);
+        List<Product> findTop5ByOrderBySoldDesc();
 
-    Page<Product> findAll(Pageable pageable);
+        Page<Product> findByCategory(String category, Pageable pageable);
 
-    List<Product> findByNameContainingIgnoreCase(String name);
+        Page<Product> findAll(Pageable pageable);
 
-    @Query("SELECT p FROM Product p " +
-       "WHERE p.category IN :categories " +
-       "AND p.id NOT IN (" +
-       "   SELECT DISTINCT op.product.id FROM OrderProduct op " +
-       "   WHERE op.order.user.id = :userId" +
-       ")")
-    Page<Product> findRecommendedProductsByCategories(@Param("categories") List<String> categories,
-                                                    @Param("userId") Long userId,
-                                                    Pageable pageable);
+        List<Product> findByNameContainingIgnoreCase(String name);
 
-    @Query("SELECT p FROM Product p WHERE p.category = :category")
-    List<Product> findTopProductsByCategory(@Param("category") String category, Pageable pageable);
+        @Query("SELECT p FROM Product p " +
+                        "WHERE p.category IN :categories " +
+                        "AND p.id NOT IN (" +
+                        "   SELECT DISTINCT op.product.id FROM OrderProduct op " +
+                        "   WHERE op.order.user.id = :userId" +
+                        ")")
+        Page<Product> findRecommendedProductsByCategories(@Param("categories") List<String> categories,
+                        @Param("userId") Long userId,
+                        Pageable pageable);
 
-
+        @Query("SELECT p FROM Product p WHERE p.category = :category")
+        List<Product> findTopProductsByCategory(@Param("category") String category, Pageable pageable);
 }
-
-
-

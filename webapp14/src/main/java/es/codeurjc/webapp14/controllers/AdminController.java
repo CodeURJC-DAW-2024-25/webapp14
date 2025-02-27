@@ -7,7 +7,6 @@ import es.codeurjc.webapp14.services.ReviewService;
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Review;
 import es.codeurjc.webapp14.model.Size;
-import es.codeurjc.webapp14.model.Size.SizeName;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.model.Order;
 
@@ -63,7 +62,6 @@ public class AdminController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
     private List<String> categories = new ArrayList<>(
             Arrays.asList("abrigos", "camisetas", "pantalones", "jerséis"));
 
@@ -88,19 +86,37 @@ public class AdminController {
 
     @GetMapping("/charts")
     public String showAdminCharts(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String email = (String) session.getAttribute("userEmail");
+        model.addAttribute("totalSales", orderService.getTotalSales());
+        model.addAttribute("todaySales", orderService.getTodaySales());
+        model.addAttribute("totalOrders", orderService.getTotalOrders());
+        model.addAttribute("totalUsers", userService.getAllUsers().size());
 
-        if (email == null) {
-            return "redirect:/login";
+        // 1️⃣ OBTENER LOS PRODUCTOS MÁS VENDIDOS
+        List<Product> topProducts = productService.getTop5BestSellingProducts();
+
+        if (topProducts.size() > 5) {
+            topProducts = topProducts.subList(0, 5);
         }
+
+        List<String> productNames = topProducts.stream().map(Product::getName).collect(Collectors.toList());
+        List<Integer> productSales = topProducts.stream().map(Product::getSold).collect(Collectors.toList());
+
+        model.addAttribute("productNames", productNames);
+        model.addAttribute("productSales", productSales);
+
+        // Obtener datos de pedidos en el último mes
+        Map<String, List<?>> ordersData = orderService.getOrdersLast30Days();
+
+        System.out.println(orderService.getOrdersLast30Days());
+
+        model.addAttribute("orderDates", ordersData.get("dates"));
+        model.addAttribute("orderCounts", ordersData.get("counts"));
 
         return "admin/admin_charts";
     }
 
     @GetMapping("/profile")
     public String showAdminProfile(Model model, HttpServletRequest request) {
-
 
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("userEmail");
@@ -112,7 +128,6 @@ public class AdminController {
         User admin = userService.findByEmail(email);
 
         System.out.println("Roles: " + admin.getRoles());
-
 
         model.addAttribute("admin", admin);
         model.addAttribute("hasImage", admin.getProfileImage() != null);
@@ -153,7 +168,7 @@ public class AdminController {
         Map<String, List<String>> errors = new HashMap<>();
 
         System.out.println("Soy post");
-        System.out.println("admin name: " + existingAdmin.getName() );
+        System.out.println("admin name: " + existingAdmin.getName());
         System.out.println("Soy post");
 
         // Validaciones
@@ -167,15 +182,15 @@ public class AdminController {
             errors.computeIfAbsent("email", k -> new ArrayList<>()).add("El correo electrónico no puede estar vacío");
         }
 
-        System.out.println("admin passow: " + existingAdmin.getName() );
+        System.out.println("admin passow: " + existingAdmin.getName());
 
-
-        if(currentPassword.isEmpty()){
+        if (currentPassword.isEmpty()) {
             System.out.println("Password vacía");
             errors.computeIfAbsent("password", k -> new ArrayList<>()).add("La contraseña no puede estar vacía");
         }
 
-        if (!currentPassword.isEmpty() && (!passwordEncoder.matches(currentPassword, existingAdmin.getEncodedPassword()))) {
+        if (!currentPassword.isEmpty()
+                && (!passwordEncoder.matches(currentPassword, existingAdmin.getEncodedPassword()))) {
             errors.computeIfAbsent("currentPassword", k -> new ArrayList<>()).add("La contraseña actual es incorrecta");
         }
         if (!password.isEmpty() && !password.equals(confirmPassword)) {
@@ -294,7 +309,6 @@ public class AdminController {
 
         int totalOutStock = productService.countProductsWithAllSizesOutOfStock();
 
-
         model.addAttribute("totalStock", totalStock);
         model.addAttribute("totalOutStock", totalOutStock);
         model.addAttribute("categories", categories);
@@ -317,15 +331,15 @@ public class AdminController {
         return "admin/moreProductAdmin";
     }
 
-    @RequestMapping(value = "/products/create", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/products/create", method = { RequestMethod.GET, RequestMethod.POST })
     public String addProduct(@ModelAttribute("product") @Valid Product product,
-                            BindingResult result,
-                            @RequestParam(value = "imageUpload", required = false) MultipartFile image,
-                            @RequestParam(value = "stock_S", required = false, defaultValue = "0") int stockS,
-                            @RequestParam(value = "stock_M", required = false, defaultValue = "0") int stockM,
-                            @RequestParam(value = "stock_L", required = false, defaultValue = "0") int stockL,
-                            @RequestParam(value = "stock_XL", required = false, defaultValue = "0") int stockXL,
-                            Model model) throws IOException {
+            BindingResult result,
+            @RequestParam(value = "imageUpload", required = false) MultipartFile image,
+            @RequestParam(value = "stock_S", required = false, defaultValue = "0") int stockS,
+            @RequestParam(value = "stock_M", required = false, defaultValue = "0") int stockM,
+            @RequestParam(value = "stock_L", required = false, defaultValue = "0") int stockL,
+            @RequestParam(value = "stock_XL", required = false, defaultValue = "0") int stockXL,
+            Model model) throws IOException {
 
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getFieldErrors().stream()
@@ -342,11 +356,10 @@ public class AdminController {
         }
 
         List<Size> sizes = List.of(
-            new Size(Size.SizeName.S, stockS, product),
-            new Size(Size.SizeName.M, stockM, product),
-            new Size(Size.SizeName.L, stockL, product),
-            new Size(Size.SizeName.XL, stockXL, product)
-        );
+                new Size(Size.SizeName.S, stockS, product),
+                new Size(Size.SizeName.M, stockM, product),
+                new Size(Size.SizeName.L, stockL, product),
+                new Size(Size.SizeName.XL, stockXL, product));
 
         product.setSizes(sizes);
         product.setStock(stockS + stockM + stockL + stockXL);
@@ -355,7 +368,6 @@ public class AdminController {
 
         return "redirect:/admin/products";
     }
-
 
     @GetMapping("/products/out-of-stock")
     public String showOutOfStockProducts(Model model) {
@@ -381,6 +393,7 @@ public class AdminController {
         productService.delete(id);
         return "redirect:/admin/products";
     }
+
     @PostMapping("/products/edit/{id}")
     public String updateProduct(@PathVariable Long id,
             @ModelAttribute("product") @Valid Product updatedProduct,
@@ -389,17 +402,17 @@ public class AdminController {
             @RequestParam(value = "image", required = false) MultipartFile imageField,
             @RequestParam Map<String, String> stockParams,
             Model model) throws IOException {
-    
+
         Product existingProduct = productService.getProductById(id);
-    
+
         existingProduct.setName(updatedProduct.getName());
         existingProduct.setDescription(updatedProduct.getDescription());
         existingProduct.setPrice(updatedProduct.getPrice());
         existingProduct.setCategory(updatedProduct.getCategory());
-    
+
         if (existingProduct.getSizes() != null) {
             int totalStock = 0;
-            
+
             for (Size size : existingProduct.getSizes()) {
                 String stockKey = "stock_" + size.getName();
                 if (stockParams.containsKey(stockKey)) {
@@ -408,11 +421,10 @@ public class AdminController {
                 }
                 totalStock += size.getStock();
             }
-        
+
             existingProduct.setStock(totalStock);
         }
-        
-    
+
         if (removeImage) {
             existingProduct.setImage(null);
             existingProduct.setImageBool(false);
@@ -420,12 +432,11 @@ public class AdminController {
             existingProduct.setImage(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
             existingProduct.setImageBool(true);
         }
-    
+
         productService.saveProduct(existingProduct);
-    
+
         return "redirect:/admin/products";
     }
-    
 
     @GetMapping("/users")
     public String getUsers(@RequestParam(defaultValue = "0") int page,
