@@ -15,4 +15,9 @@ public class SecurityController {
     public String accessDenied() {
         return "access_error";
     }
+
+    @GetMapping("/no-page-error")
+    public String pageDenied() {
+        return "no_page_error";
+    }
 }

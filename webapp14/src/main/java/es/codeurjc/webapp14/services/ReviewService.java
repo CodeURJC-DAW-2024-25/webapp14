@@ -5,6 +5,7 @@ import es.codeurjc.webapp14.repositories.ReviewRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReviewService {
@@ -22,10 +23,10 @@ public class ReviewService {
         return ReviewRepository.save(Review);
     }
 
-    public Review getReviewById(Long id) {
-        return ReviewRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Reviewo no encontrado con ID: " + id));
+    public Optional<Review> getReviewById(Long id) {
+        return ReviewRepository.findById(id);
     }
+    
 
     public void delete(Long id) {
         ReviewRepository.deleteById(id);

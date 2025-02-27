@@ -95,8 +95,14 @@ public class OrdersController {
 
     @GetMapping("/{id}")
     public String getOrderProductsById(@PathVariable Long id, Model model) {
-        Order order = orderService.getOrderById(id);
 
+    Optional<Order> optionalOrder = orderService.getOrderById(id);
+    
+    if (!optionalOrder.isPresent()) {
+        return "redirect:/no-page-error";
+    }
+
+    Order order = optionalOrder.get();
         if (order != null) {
             BigDecimal subtotal = order.getTotalPrice();
 

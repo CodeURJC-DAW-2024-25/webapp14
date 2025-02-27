@@ -4,6 +4,7 @@ package es.codeurjc.webapp14.controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -97,7 +98,14 @@ public class ProductController {
     @GetMapping("/elem_detail/{id}")
     public String ProductDetails(Model model, @PathVariable Long id, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Product product = productService.getProductById(id);
+        Optional <Product> existproduct = productService.getProductById(id);
+
+        if(!existproduct.isPresent()){
+            return "redirect:/no-page-error";
+        }
+
+        Product product = existproduct.get();
+
         List<Review> reviews = product.getTwoReviews(0, 2);
     
         String userEmail = (String) session.getAttribute("userEmail");
@@ -146,7 +154,13 @@ public class ProductController {
 
     @PostMapping("/{productId}/{reviewId}/report")
     public String reportReview(@PathVariable Long productId, @PathVariable Long reviewId) {
-        Review review = reviewService.getReviewById(reviewId);
+        Optional <Review> existreview = reviewService.getReviewById(reviewId);;
+
+        if(!existreview.isPresent()){
+            return "redirect:/no-page-error";
+        }
+
+        Review review = existreview.get();
 
         review.setReported(true);
         reviewService.saveReview(review);
@@ -172,7 +186,13 @@ public class ProductController {
         HttpSession session = request.getSession();
         String userEmail = (String) session.getAttribute("userEmail");
     
-        Review review = reviewService.getReviewById(reviewId);
+        Optional <Review> existreview = reviewService.getReviewById(reviewId);;
+
+        if(!existreview.isPresent()){
+            return "redirect:/no-page-error";
+        }
+
+        Review review = existreview.get();
     
         if (userEmail == null || !userEmail.equals(review.getUser().getEmail())) {
             return "redirect:/access-error";
@@ -202,7 +222,13 @@ public class ProductController {
         }
 
         User user = userService.findByEmail(userEmail);
-        Product product = productService.getProductById(productId);
+        Optional <Product> existproduct = productService.getProductById(productId);
+
+        if(!existproduct.isPresent()){
+            return "redirect:/no-page-error";
+        }
+
+        Product product = existproduct.get();
 
         Review newReview = new Review(rating, reviewText, false, product, user);
         newReview.updateStars(); 
@@ -265,7 +291,13 @@ public class ProductController {
             @RequestParam int to,
             Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Product product = productService.getProductById(id);
+        Optional <Product> existproduct = productService.getProductById(id);
+
+        if(!existproduct.isPresent()){
+            return "redirect:/no-page-error";
+        }
+
+        Product product = existproduct.get();
         List<Review> reviewsList = product.getTwoReviews(from, to);
         for (Review review : reviewsList){
             String userEmail = (String) session.getAttribute("userEmail");

@@ -246,7 +246,13 @@ public class AdminController {
             return "admin/admin_orders";
         }
         // If the request is POST
-        Order order = orderService.getOrderById(orderId);
+        Optional<Order> optionalOrder = orderService.getOrderById(orderId);
+    
+        if (!optionalOrder.isPresent()) {
+            return "redirect:/no-page-error";
+        }
+    
+        Order order = optionalOrder.get();        
         if (order != null) {
             order.setState(newState);
             orderService.saveOrder(order);
@@ -258,7 +264,11 @@ public class AdminController {
     @ResponseBody
     // To show the product image
     public ResponseEntity<byte[]> getProductImage(@PathVariable Long id) {
-        Product product = productService.getProductById(id);
+        Optional <Product> existproduct = productService.getProductById(id);
+
+ 
+
+        Product product = existproduct.get();
         Blob imageBlob = product.getImage();
         if (imageBlob != null) {
             try {
@@ -379,7 +389,11 @@ public class AdminController {
 
     @PostMapping("/products/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
-        productService.getProductById(id);
+        Optional <Product> existproduct = productService.getProductById(id);
+
+        if(!existproduct.isPresent()){
+            return "redirect:/no-page-error";
+        }
         productService.delete(id);
         return "redirect:/admin/products";
     }
@@ -392,8 +406,14 @@ public class AdminController {
             @RequestParam Map<String, String> stockParams,
             Model model) throws IOException {
     
-        Product existingProduct = productService.getProductById(id);
-    
+        Optional <Product> existproduct = productService.getProductById(id);
+
+        if(!existproduct.isPresent()){
+            return "redirect:/no-page-error";
+        }
+        
+        Product existingProduct= existproduct.get();
+            
         existingProduct.setName(updatedProduct.getName());
         existingProduct.setDescription(updatedProduct.getDescription());
         existingProduct.setPrice(updatedProduct.getPrice());
@@ -500,7 +520,14 @@ public class AdminController {
 
     @PostMapping("/users/accept/{id}")
     public String acceptReview(@PathVariable Long id, Model model) {
-        Review review = reviewService.getReviewById(id);
+        Optional <Review> existreview = reviewService.getReviewById(id);;
+
+        if(!existreview.isPresent()){
+            return "redirect:/no-page-error";
+        }
+
+        Review review = existreview.get();
+
         review.setReported(false);
         reviewService.saveReview(review);
         return "redirect:/admin/users";
@@ -508,7 +535,14 @@ public class AdminController {
 
     @PostMapping("/users/delete/{id}")
     public String deleteReview(@PathVariable Long id, Model model) {
-        reviewService.getReviewById(id);
+
+        Optional <Review> existreview = reviewService.getReviewById(id);;
+
+        if(!existreview.isPresent()){
+            return "redirect:/no-page-error";
+        }
+
+        
         reviewService.delete(id);
         return "redirect:/admin/users";
     }

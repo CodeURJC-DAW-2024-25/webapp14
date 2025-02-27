@@ -58,6 +58,7 @@ public class WebSecurityConfig {
 						.requestMatchers("/image/**").permitAll()
 						.requestMatchers("*/users_profile/**").permitAll()
 						.requestMatchers("/edit_profile").permitAll()
+                        .requestMatchers("/no-page-error/**").permitAll()
 
 						
 						

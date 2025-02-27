@@ -165,7 +165,13 @@ public class CartController {
         HttpSession session = request.getSession();
         Long idUser = (Long) session.getAttribute("userId");
         User user = userService.findById(idUser);
-        Product product = productService.getProductById(productId);
+        Optional <Product> existproduct = productService.getProductById(productId);
+
+        if(!existproduct.isPresent()){
+            return "redirect:/no-page-error";
+        }
+
+        Product product = existproduct.get();
 
         Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
         
