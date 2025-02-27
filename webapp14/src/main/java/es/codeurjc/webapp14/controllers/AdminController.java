@@ -7,7 +7,6 @@ import es.codeurjc.webapp14.services.ReviewService;
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Review;
 import es.codeurjc.webapp14.model.Size;
-import es.codeurjc.webapp14.model.Size.SizeName;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.model.Order;
 
@@ -31,7 +30,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,7 +60,6 @@ public class AdminController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
 
     private List<String> categories = new ArrayList<>(
             Arrays.asList("abrigos", "camisetas", "pantalones", "jerséis"));
@@ -101,7 +98,6 @@ public class AdminController {
     @GetMapping("/profile")
     public String showAdminProfile(Model model, HttpServletRequest request) {
 
-
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("userEmail");
 
@@ -112,7 +108,6 @@ public class AdminController {
         User admin = userService.findByEmail(email);
 
         System.out.println("Roles: " + admin.getRoles());
-
 
         model.addAttribute("admin", admin);
         model.addAttribute("hasImage", admin.getProfileImage() != null);
@@ -153,7 +148,7 @@ public class AdminController {
         Map<String, List<String>> errors = new HashMap<>();
 
         System.out.println("Soy post");
-        System.out.println("admin name: " + existingAdmin.getName() );
+        System.out.println("admin name: " + existingAdmin.getName());
         System.out.println("Soy post");
 
         // Validaciones
@@ -167,15 +162,15 @@ public class AdminController {
             errors.computeIfAbsent("email", k -> new ArrayList<>()).add("El correo electrónico no puede estar vacío");
         }
 
-        System.out.println("admin passow: " + existingAdmin.getName() );
+        System.out.println("admin passow: " + existingAdmin.getName());
 
-
-        if(currentPassword.isEmpty()){
+        if (currentPassword.isEmpty()) {
             System.out.println("Password vacía");
             errors.computeIfAbsent("password", k -> new ArrayList<>()).add("La contraseña no puede estar vacía");
         }
 
-        if (!currentPassword.isEmpty() && (!passwordEncoder.matches(currentPassword, existingAdmin.getEncodedPassword()))) {
+        if (!currentPassword.isEmpty()
+                && (!passwordEncoder.matches(currentPassword, existingAdmin.getEncodedPassword()))) {
             errors.computeIfAbsent("currentPassword", k -> new ArrayList<>()).add("La contraseña actual es incorrecta");
         }
         if (!password.isEmpty() && !password.equals(confirmPassword)) {
@@ -233,26 +228,35 @@ public class AdminController {
     @RequestMapping(value = "/orders", method = { RequestMethod.GET, RequestMethod.POST })
     // To show the orders
     public String showAdminOrders(@RequestParam(value = "orderId", required = false) Long orderId,
-            @RequestParam(value = "state", required = false) Order.State newState, Model model,
+            @RequestParam(value = "state", required = false) Order.State newState,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "0") int reportedPage,
+            Model model,
             HttpServletRequest request) {
         // If the request is GET
         if (request.getMethod().equals("GET")) {
-            List<Order> orders = orderService.getAllOrders();
-            List<Order> paidOrders = orders.stream()
+            Page<Order> orderPage = orderService.getOrdersPaginated(page, size);
+            List<Order> paidOrders = orderPage.getContent().stream()
                     .filter(Order::getIsPaid) // Filter only paid orders
                     .collect(Collectors.toList());
+            List<Order> paid = orderService.getAllOrders().stream()
+                    .filter(Order::getIsPaid)
+                    .collect(Collectors.toList());
             model.addAttribute("orders", paidOrders);
-            model.addAttribute("orderCount", paidOrders.size());
+            model.addAttribute("orderCount", paid.size());
+            model.addAttribute("hasMore", orderPage.hasNext());
+            model.addAttribute("nextPage", page + 1);
             return "admin/admin_orders";
         }
         // If the request is POST
         Optional<Order> optionalOrder = orderService.getOrderById(orderId);
-    
+
         if (!optionalOrder.isPresent()) {
             return "redirect:/no-page-error";
         }
-    
-        Order order = optionalOrder.get();        
+
+        Order order = optionalOrder.get();
         if (order != null) {
             order.setState(newState);
             orderService.saveOrder(order);
@@ -264,9 +268,7 @@ public class AdminController {
     @ResponseBody
     // To show the product image
     public ResponseEntity<byte[]> getProductImage(@PathVariable Long id) {
-        Optional <Product> existproduct = productService.getProductById(id);
-
- 
+        Optional<Product> existproduct = productService.getProductById(id);
 
         Product product = existproduct.get();
         Blob imageBlob = product.getImage();
@@ -304,7 +306,6 @@ public class AdminController {
 
         int totalOutStock = productService.countProductsWithAllSizesOutOfStock();
 
-
         model.addAttribute("totalStock", totalStock);
         model.addAttribute("totalOutStock", totalOutStock);
         model.addAttribute("categories", categories);
@@ -327,15 +328,15 @@ public class AdminController {
         return "admin/moreProductAdmin";
     }
 
-    @RequestMapping(value = "/products/create", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/products/create", method = { RequestMethod.GET, RequestMethod.POST })
     public String addProduct(@ModelAttribute("product") @Valid Product product,
-                            BindingResult result,
-                            @RequestParam(value = "imageUpload", required = false) MultipartFile image,
-                            @RequestParam(value = "stock_S", required = false, defaultValue = "0") int stockS,
-                            @RequestParam(value = "stock_M", required = false, defaultValue = "0") int stockM,
-                            @RequestParam(value = "stock_L", required = false, defaultValue = "0") int stockL,
-                            @RequestParam(value = "stock_XL", required = false, defaultValue = "0") int stockXL,
-                            Model model) throws IOException {
+            BindingResult result,
+            @RequestParam(value = "imageUpload", required = false) MultipartFile image,
+            @RequestParam(value = "stock_S", required = false, defaultValue = "0") int stockS,
+            @RequestParam(value = "stock_M", required = false, defaultValue = "0") int stockM,
+            @RequestParam(value = "stock_L", required = false, defaultValue = "0") int stockL,
+            @RequestParam(value = "stock_XL", required = false, defaultValue = "0") int stockXL,
+            Model model) throws IOException {
 
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getFieldErrors().stream()
@@ -352,22 +353,19 @@ public class AdminController {
         }
 
         List<Size> sizes = List.of(
-            new Size(Size.SizeName.S, stockS, product),
-            new Size(Size.SizeName.M, stockM, product),
-            new Size(Size.SizeName.L, stockL, product),
-            new Size(Size.SizeName.XL, stockXL, product)
-        );
+                new Size(Size.SizeName.S, stockS, product),
+                new Size(Size.SizeName.M, stockM, product),
+                new Size(Size.SizeName.L, stockL, product),
+                new Size(Size.SizeName.XL, stockXL, product));
 
         product.setSizes(sizes);
         product.setStock(stockS + stockM + stockL + stockXL);
         product.setOutOfStock(stockS + stockM + stockL + stockXL == 0);
 
-
         productService.saveProduct(product);
 
         return "redirect:/admin/products";
     }
-
 
     @GetMapping("/products/out-of-stock")
     public String showOutOfStockProducts(Model model) {
@@ -389,14 +387,15 @@ public class AdminController {
 
     @PostMapping("/products/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
-        Optional <Product> existproduct = productService.getProductById(id);
+        Optional<Product> existproduct = productService.getProductById(id);
 
-        if(!existproduct.isPresent()){
+        if (!existproduct.isPresent()) {
             return "redirect:/no-page-error";
         }
         productService.delete(id);
         return "redirect:/admin/products";
     }
+
     @PostMapping("/products/edit/{id}")
     public String updateProduct(@PathVariable Long id,
             @ModelAttribute("product") @Valid Product updatedProduct,
@@ -405,23 +404,23 @@ public class AdminController {
             @RequestParam(value = "image", required = false) MultipartFile imageField,
             @RequestParam Map<String, String> stockParams,
             Model model) throws IOException {
-    
-        Optional <Product> existproduct = productService.getProductById(id);
 
-        if(!existproduct.isPresent()){
+        Optional<Product> existproduct = productService.getProductById(id);
+
+        if (!existproduct.isPresent()) {
             return "redirect:/no-page-error";
         }
-        
-        Product existingProduct= existproduct.get();
-            
+
+        Product existingProduct = existproduct.get();
+
         existingProduct.setName(updatedProduct.getName());
         existingProduct.setDescription(updatedProduct.getDescription());
         existingProduct.setPrice(updatedProduct.getPrice());
         existingProduct.setCategory(updatedProduct.getCategory());
-    
+
         if (existingProduct.getSizes() != null) {
             int totalStock = 0;
-            
+
             for (Size size : existingProduct.getSizes()) {
                 String stockKey = "stock_" + size.getName();
                 if (stockParams.containsKey(stockKey)) {
@@ -430,12 +429,11 @@ public class AdminController {
                 }
                 totalStock += size.getStock();
             }
-        
+
             existingProduct.setStock(totalStock);
             existingProduct.setOutOfStock(totalStock == 0);
         }
-        
-    
+
         if (removeImage) {
             existingProduct.setImage(null);
             existingProduct.setImageBool(false);
@@ -443,12 +441,11 @@ public class AdminController {
             existingProduct.setImage(BlobProxy.generateProxy(imageField.getInputStream(), imageField.getSize()));
             existingProduct.setImageBool(true);
         }
-    
+
         productService.saveProduct(existingProduct);
-    
+
         return "redirect:/admin/products";
     }
-    
 
     @GetMapping("/users")
     public String getUsers(@RequestParam(defaultValue = "0") int page,
@@ -518,11 +515,27 @@ public class AdminController {
         return "admin/moreUsersReviewsAdmin";
     }
 
+    @GetMapping("/moreOrdersAdmin")
+    public String getMoreAdminOrders(
+            @RequestParam int page,
+            @RequestParam int size,
+            Model model) {
+
+        Page<Order> ordersPage = orderService.getOrdersPaginated(page, size);
+        boolean hasMore = page < ordersPage.getTotalPages() - 1;
+
+        model.addAttribute("orders", ordersPage.getContent());
+        model.addAttribute("hasMore", hasMore);
+
+        return "admin/moreOrdersAdmin";
+    }
+
     @PostMapping("/users/accept/{id}")
     public String acceptReview(@PathVariable Long id, Model model) {
-        Optional <Review> existreview = reviewService.getReviewById(id);;
+        Optional<Review> existreview = reviewService.getReviewById(id);
+        ;
 
-        if(!existreview.isPresent()){
+        if (!existreview.isPresent()) {
             return "redirect:/no-page-error";
         }
 
@@ -536,13 +549,13 @@ public class AdminController {
     @PostMapping("/users/delete/{id}")
     public String deleteReview(@PathVariable Long id, Model model) {
 
-        Optional <Review> existreview = reviewService.getReviewById(id);;
+        Optional<Review> existreview = reviewService.getReviewById(id);
+        ;
 
-        if(!existreview.isPresent()){
+        if (!existreview.isPresent()) {
             return "redirect:/no-page-error";
         }
 
-        
         reviewService.delete(id);
         return "redirect:/admin/users";
     }
@@ -564,6 +577,40 @@ public class AdminController {
         userService.saveUser(user);
 
         return "redirect:/admin/users";
+    }
+
+    @PostMapping("/user/delete/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        userService.findById(id);
+        userService.delete(id);
+        return "redirect:/admin/users";
+    }
+
+    @PostMapping("/orders/delete/{id}")
+    public String deleteOrder(@PathVariable Long id) {
+        orderService.getOrderById(id);
+        orderService.delete(id);
+        return "redirect:/admin/orders";
+    }
+
+    @GetMapping("/user/image/{id}")
+    @ResponseBody
+    public ResponseEntity<byte[]> getUserImage(@PathVariable Long id) {
+        User user = userService.findById(id);
+        Blob imageBlob = user.getProfileImage();
+        if (imageBlob != null) {
+            try {
+                byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.IMAGE_JPEG);
+                return ResponseEntity.ok().headers(headers).body(imageBytes);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

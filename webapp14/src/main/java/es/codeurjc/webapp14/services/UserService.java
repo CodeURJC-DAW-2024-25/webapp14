@@ -30,7 +30,7 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {
-        return userRepository.findByRolesContaining("CUSTOMER");
+        return userRepository.findByRolesContaining("USER");
     }
 
     public User saveUser(User user) {
@@ -44,8 +44,6 @@ public class UserService {
     public Optional<User> getAdmin() {
         return userRepository.findByRolesContaining("ADMIN").stream().findFirst();
     }
-
-    
 
     public void saveAdmin(User admin) {
         Optional<User> existing = getAdmin();
@@ -72,7 +70,7 @@ public class UserService {
     }
 
     public List<User> getAllUsersBanned() {
-       return userRepository.findByBannedTrue();
+        return userRepository.findByBannedTrue();
     }
 
     public List<User> getUsersWithReportedReviews() {
@@ -82,12 +80,14 @@ public class UserService {
     public Page<User> getUsersPaginated(int page, int size) {
         return userRepository.findByRolesNotContaining("ADMIN", PageRequest.of(page, size));
     }
-    
 
     public Page<User> getUsersWithReportedReviewsPaginated(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return userRepository.findUsersWithReportedReviews(pageable);
     }
-    
+
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
 
 }
