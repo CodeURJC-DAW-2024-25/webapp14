@@ -30,6 +30,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +39,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -66,22 +71,26 @@ public class AdminController {
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Boolean logged = (Boolean) session.getAttribute("logged");
-        String userName = (String) session.getAttribute("userName");
-        Boolean admin = session.getAttribute("admin") != null && (Boolean) session.getAttribute("admin");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        boolean isLogged = auth != null && auth.isAuthenticated() && !(auth.getPrincipal() instanceof String);
+        
+        model.addAttribute("logged", isLogged);
 
-        if (logged != null && logged) {
-            model.addAttribute("logged", true);
-            model.addAttribute("userName", userName);
-            model.addAttribute("admin", admin);
+        if (isLogged) {
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            User user = userService.findByEmail(userDetails.getUsername()); 
+            
+            model.addAttribute("userName", user.getName());
+            model.addAttribute("userId", user.getId());
+            model.addAttribute("admin", user.getRoles().contains("ADMIN"));
         } else {
-            model.addAttribute("logged", false);
+            model.addAttribute("userName", null);
+            model.addAttribute("userId", null);
             model.addAttribute("admin", false);
-
         }
-
     }
+
 
     @GetMapping("/charts")
     public String showAdminCharts(Model model, HttpServletRequest request) {
@@ -115,24 +124,27 @@ public class AdminController {
     }
 
     @GetMapping("/profile")
-    public String showAdminProfile(Model model, HttpServletRequest request) {
+    public String showAdminProfile(Model model) {
 
-        HttpSession session = request.getSession();
-        String email = (String) session.getAttribute("userEmail");
-
-        if (email == null) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        if (auth == null || !auth.isAuthenticated() || auth.getPrincipal() instanceof String) {
             return "redirect:/login";
         }
 
-        User admin = userService.findByEmail(email);
+        UserDetails userDetails = (UserDetails) auth.getPrincipal();
+        User admin = userService.findByEmail(userDetails.getUsername());
 
-        System.out.println("Roles: " + admin.getRoles());
+        if (admin == null) {
+            return "redirect:/login";
+        }
 
         model.addAttribute("admin", admin);
         model.addAttribute("hasImage", admin.getProfileImage() != null);
+        
         return "admin/admin_profile";
-
     }
+
 
     @RequestMapping(value = "/edit", method = { RequestMethod.GET, RequestMethod.POST })
     public String showAdminProfileEdit(

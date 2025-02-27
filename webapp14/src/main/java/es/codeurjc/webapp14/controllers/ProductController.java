@@ -31,6 +31,9 @@ import es.codeurjc.webapp14.services.ReviewService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,38 +57,34 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    
-
-
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Boolean logged = (Boolean) session.getAttribute("logged");
-        if (logged == null){
-            logged = false;
-        }
-        System.out.println("Logged" + logged);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        boolean isLogged = auth != null && auth.isAuthenticated() && !(auth.getPrincipal() instanceof String);
+        
+        model.addAttribute("logged", isLogged);
 
-        String userName = (String) session.getAttribute("userName");
-        Long sessionUserId = (Long) session.getAttribute("userId");
-        Boolean admin = session.getAttribute("admin") != null && (Boolean) session.getAttribute("admin");
-
-        if (logged != null && logged) {
-            model.addAttribute("logged", true);
-            model.addAttribute("userName", userName);
-            model.addAttribute("admin", admin);
-           
+        if (isLogged) {
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            User user = userService.findByEmail(userDetails.getUsername()); 
+            
+            model.addAttribute("userName", user.getName()); 
+            model.addAttribute("userId", user.getId());
+            model.addAttribute("admin", user.getRoles().contains("ADMIN"));
         } else {
-            model.addAttribute("logged", false);
+            model.addAttribute("userName", null);
+            model.addAttribute("userId", null);
             model.addAttribute("admin", false);
         }
+        
         String query = "";
         List<Product> products = productService.searchProductsByName(query);
         model.addAttribute("productsSearch", products);
         model.addAttribute("query", false);
         model.addAttribute("open", false);
-
     }
+
 
     @GetMapping
     public String listProducts(Model model, HttpServletRequest request) {

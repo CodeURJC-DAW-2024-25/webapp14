@@ -7,17 +7,25 @@ import java.util.stream.Collectors;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 
 import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.model.Order.State;
@@ -27,6 +35,9 @@ import es.codeurjc.webapp14.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Controller
 public class UserController {
@@ -44,27 +55,33 @@ public class UserController {
         this.orderService = orderService;
     }
 
+    @ModelAttribute
+    public void addUserAttributes(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        boolean isLogged = auth != null && auth.isAuthenticated() && !(auth.getPrincipal() instanceof String);
+        model.addAttribute("logged", isLogged);
+
+        if (isLogged) {
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            User user = userService.findByEmail(userDetails.getUsername()); 
+            
+            model.addAttribute("userName", user.getName());
+            model.addAttribute("userId", user.getId()); 
+            model.addAttribute("userEmail", user.getEmail());
+        } else {
+            model.addAttribute("userName", null);
+            model.addAttribute("userId", null);
+            model.addAttribute("userEmail", null);
+        }
+    }
+
+
     @GetMapping
     public String listUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         return "users";
     }
-
-    /*
-     * @GetMapping("/users/image/{id}")
-     * 
-     * @ResponseBody
-     * public ResponseEntity<byte[]> getProfileImage(@PathVariable Long id) {
-     * User user = userService.getUserById(id);
-     * if (user.getProfileImage() != null) {
-     * HttpHeaders headers = new HttpHeaders();
-     * headers.setContentType(MediaType.IMAGE_JPEG);
-     * return ResponseEntity.ok().headers(headers).body(user.getProfileImage());
-     * } else {
-     * return ResponseEntity.notFound().build();
-     * }
-     * }
-     */
 
      @RequestMapping(value = "/register", method = { RequestMethod.GET, RequestMethod.POST })
      // To show the register form and handle user registration
@@ -142,53 +159,10 @@ public class UserController {
      }
      
 
-    @Controller
-    @RequestMapping("/login")
-    public class LoginController {
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
-    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
-    public String loginUser(@RequestParam(value = "email", required = false) String email,
-                            @RequestParam(value = "password", required = false) String password,
-                            Model model, HttpServletRequest request) {
-        Map<String, String> errors = new HashMap<>();
-
-        if (request.getMethod().equals("GET")) {
-            model.addAttribute("user", new User());
-            return "login_register/login";
-        }
-
-        User user = userService.findByEmail(email);
-
-
-        if (user == null) {
-            errors.put("emailError", "El correo electrónico no está registrado");
-        } else if (!passwordEncoder.matches(password, user.getEncodedPassword())) {
-            errors.put("passwordError", "Contraseña incorrecta");
-        }
-
-        if (!errors.isEmpty()) {
-            model.addAttribute("errors", errors);
-            model.addAttribute("email", email);
-            return "login_register/login";
-        }
-
-        request.getSession().invalidate();
-        HttpSession session = request.getSession(true);
-        session.setAttribute("logged", true);
-        session.setAttribute("userName", user.getName());
-        session.setAttribute("userEmail", user.getEmail());
-        session.setAttribute("userId", user.getId());
-        session.setAttribute("admin", user.getRoles().contains("ADMIN"));
-
-        return user.getRoles().contains("ADMIN") ? "redirect:/admin/profile" : "redirect:/index";
-    }
-}
+     @GetMapping("/login")
+     public String showLogin(Model model) {
+        return "login_register/login";
+     }
 
 
     @RequestMapping("/logout")
@@ -198,15 +172,52 @@ public class UserController {
         return "redirect:/index";
     }
 
-    @GetMapping("/edit_profile")
-    public String EditForm(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Long sessionUserId = (Long) session.getAttribute("userId");
-        User user = userService.findById(sessionUserId);
-        model.addAttribute("user", user);
-        return "/user_registered/users_profile";
+    @GetMapping("/user_registered/users_profile")
+    public String EditForm(Model model) {
+        Long userId = (Long) model.getAttribute("userId");
 
+        if (userId == null) {
+            return "redirect:/login";
+        }
+
+        User user = userService.findById(userId);
+        model.addAttribute("user", user);
+        
+        return "/user_registered/users_profile";
     }
+
+    @PostMapping("/editProfile")
+    public String editProfilePost(@ModelAttribute("userId") Long userId, 
+                                @RequestParam(required = false) String name, 
+                                @RequestParam(required = false) String surname, 
+                                @RequestParam(required = false) String email, 
+                                @RequestParam(required = false) String address) {
+
+        if (userId == null) {
+            return "redirect:/login";
+        }
+
+        User user = userService.findById(userId);
+
+        if (name != null) {
+            user.setName(name);
+        }
+        if (surname != null) {
+            user.setSurname(surname);
+        }
+        if (email != null) {
+            user.setEmail(email);
+        }
+        if (address != null) {
+            user.setAddress(address);
+        }
+
+        userService.saveUser(user);
+
+        return "redirect:/index";
+    }
+
+
     
 
 

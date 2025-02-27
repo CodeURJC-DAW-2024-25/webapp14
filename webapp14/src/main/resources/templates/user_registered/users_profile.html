@@ -10,23 +10,23 @@
           <h4>Editar perfil</h4>
         </div>
         <br>
-        <form action="/user_profile/edit/{id}" method="POST" class="user">
+        <form action="/editProfile" method="POST" class="user">
           <div class="form-group">
             <label for="exampleFirstName">Nombre:</label>
-            <input type="text" class="form-control" id="exampleFirstName" placeholder="First Name" value="{{user.name}}">
+            <input type="text" class="form-control" id="exampleFirstName" placeholder="First Name" name="name" value="{{user.name}}">
           </div>
           <div class="form-group">
             <label for="exampleLastName">Apellidos:</label>
-            <input type="text" class="form-control" id="exampleLastName" placeholder="Last Name" value="{{user.surname}}">
+            <input type="text" class="form-control" id="exampleLastName" placeholder="Last Name" name="surname" value="{{user.surname}}">
           </div>
           <div class="form-group">
             <label for="exampleInputEmail">Correo electrónico:</label>
-            <input type="email" class="form-control" id="exampleInputEmail" placeholder="Email Address"
+            <input type="email" class="form-control" id="exampleInputEmail" name="email" placeholder="Email Address"
               value="{{user.email}}">
           </div>
           <div class="form-group">
             <label for="exampleInputAddress">Dirección:</label>
-            <input type="text" class="form-control" id="exampleInputAddress" placeholder="Address"
+            <input type="text" class="form-control" id="exampleInputAddress" name="address" placeholder="Address"
               value="{{user.address}}">
           </div>
           <div class="form-group">

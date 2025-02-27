@@ -10,6 +10,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
+
+
 
 @Configuration
 @EnableWebSecurity
@@ -34,40 +40,42 @@ public class WebSecurityConfig {
 	}
 
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		http.authenticationProvider(authenticationProvider());
+    http.authenticationProvider(authenticationProvider());
 
-		http
-				
-				.authorizeHttpRequests(authorize -> authorize
-				
-						// PUBLIC PAGES
-						.requestMatchers("/index/**").permitAll()
-						.requestMatchers("/css/**", "/js/**", "/images/**", "/vendor/**", "/videos/**").permitAll()
-						.requestMatchers("/register").permitAll()
-						.requestMatchers("/login").permitAll()
-						.requestMatchers("/logout").permitAll()
-						.requestMatchers("/register").permitAll()
-						.requestMatchers("/register-success").permitAll()
-						.requestMatchers("/login_register/**").permitAll()
-						.requestMatchers("/index/*/*/edit").permitAll()
-						.requestMatchers("/access-error").permitAll()
-						.requestMatchers("/cart/**").permitAll()
-						.requestMatchers("/orders/**").permitAll()
-						.requestMatchers("/image/**").permitAll()
-						.requestMatchers("*/users_profile/**").permitAll()
-						.requestMatchers("/edit_profile").permitAll()
-                        .requestMatchers("/no-page-error/**").permitAll()
+    http
+        .authorizeHttpRequests(authorize -> authorize
+            .requestMatchers("/", "/index/**", "/register", "/login", "/logout", "/register-success").permitAll()
+            .requestMatchers("/css/**", "/js/**", "/images/**", "/vendor/**", "/videos/**").permitAll()
+            .requestMatchers("/login_register/**", "/access-error", "/no-page-error/**").permitAll()
+            .requestMatchers("/image/**").permitAll()
+            .requestMatchers("/cart/**", "/orders/**").authenticated()
+            .requestMatchers("/admin/**").hasRole("ADMIN")
+            .anyRequest().authenticated()
+        )
+        .formLogin(formLogin -> formLogin
+            .loginPage("/login")
+            .defaultSuccessUrl("/index", true)
+            .failureUrl("/access-error")
+            .permitAll()
+        )
+        .logout(logout -> logout
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/index")
+            .invalidateHttpSession(true)
+            .deleteCookies("JSESSIONID")
+            .permitAll()
+        )
+        .exceptionHandling(exception -> exception
+            .accessDeniedPage("/access-error")
+        );
 
-						
-						
-						// PRIVATE PAGES
+    return http.build();
+}
 
-						.requestMatchers("/admin/**").permitAll());
 
-						
+	
 
-		return http.build();
-	}
+
 }
