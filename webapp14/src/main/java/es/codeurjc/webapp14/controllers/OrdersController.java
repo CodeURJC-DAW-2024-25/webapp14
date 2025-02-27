@@ -80,14 +80,13 @@ public class OrdersController {
         User user = userService.findById(userId);
 
         if (user != null) {
-            // Obtén los pedidos del usuario
-            List<Order> orders = orderService.getUserOrders(user);
+            List<Order> orders = orderService.getPaidOrders(user);
 
-            // Formatear la fecha para cada pedido antes de pasarlos al modelo
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             orders.forEach(order -> order.setCreatedAtFormatted(order.getCreatedAt().format(formatter)));
 
             model.addAttribute("orders", orders);
+            model.addAttribute("exists", !orders.isEmpty());
         }
 
         return "/user_registered/orders";

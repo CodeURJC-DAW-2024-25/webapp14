@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.sound.midi.SysexMessage;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -59,6 +61,11 @@ public class ProductController {
     public void addAttributes(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Boolean logged = (Boolean) session.getAttribute("logged");
+        if (logged == null){
+            logged = false;
+        }
+        System.out.println("Logged" + logged);
+
         String userName = (String) session.getAttribute("userName");
         Long sessionUserId = (Long) session.getAttribute("userId");
         Boolean admin = session.getAttribute("admin") != null && (Boolean) session.getAttribute("admin");

@@ -18,7 +18,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import es.codeurjc.webapp14.model.Order;
+import es.codeurjc.webapp14.model.Order.State;
 import es.codeurjc.webapp14.model.User;
+import es.codeurjc.webapp14.services.OrderService;
 import es.codeurjc.webapp14.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -30,10 +34,14 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private final OrderService orderService;
+
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, OrderService orderService) {
         this.userService = userService;
+        this.orderService = orderService;
     }
 
     @GetMapping
@@ -126,7 +134,9 @@ public class UserController {
 
          user.setRoles(roles);
          userService.saveUser(user);
-         
+
+         Order order = new Order(user,State.No_pagado,false);
+         orderService.saveOrder(order);
          // Redirect to another page if all is correct
          return "redirect:/login";
      }

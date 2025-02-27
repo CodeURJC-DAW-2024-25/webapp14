@@ -122,18 +122,17 @@ public class CartController {
         System.out.println("Antes");
 
 
+
         BigDecimal subtotal = unpaidOrder.get().getTotalPrice();
 
         System.out.println("Después");
 
-        // Calcular el coste de envío (5 euros si el subtotal es menor a 100)
         BigDecimal shipping = BigDecimal.ZERO;
 
         if (subtotal.compareTo(BigDecimal.valueOf(100)) < 0) {
             shipping = BigDecimal.valueOf(5);
         }
 
-        // Calcular el total (subtotal + envío)
         BigDecimal total = subtotal.add(shipping);
 
         model.addAttribute("subtotal", subtotal);
@@ -168,10 +167,12 @@ public class CartController {
         Optional <Product> existproduct = productService.getProductById(productId);
 
         if(!existproduct.isPresent()){
-            return "redirect:/no-page-error";
+            return "no_page_error";
         }
 
         Product product = existproduct.get();
+
+
 
         Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
         
@@ -197,22 +198,23 @@ public class CartController {
             orderProduct = new OrderProduct(order, product, size, 1);
         }
 
-
         orderProductService.saveOrderProduct(orderProduct);
         orderService.saveOrder(order);
 
+        unpaidOrder.get().setTotalPrice(product.getPrice());
 
         BigDecimal subtotal = unpaidOrder.get().getTotalPrice();
 
-        // Calcular el coste de envío (5 euros si el subtotal es menor a 100)
         BigDecimal shipping = BigDecimal.ZERO;
 
         if (subtotal.compareTo(BigDecimal.valueOf(100)) < 0) {
             shipping = BigDecimal.valueOf(5);
         }
 
-        // Calcular el total (subtotal + envío)
         BigDecimal total = subtotal.add(shipping);
+
+        orderService.saveOrder(order);
+
 
         model.addAttribute("subtotal", subtotal);
         model.addAttribute("shipping", shipping);
@@ -294,6 +296,10 @@ public class CartController {
             Optional<OrderProduct> orderProductToRemove = orderProductService.getOrderProductById(orderProductId);
 
             if (orderProductToRemove.isPresent()) {
+                unpaidOrder.get().setTotalPrice(-1 * orderProductToRemove.get().getQuantity() * orderProductToRemove.get().getProduct().getPrice());
+                orderService.saveOrder(unpaidOrder.get());
+
+
                 orderProductService.deleteOrderProduct(orderProductToRemove.get());
             }
         }

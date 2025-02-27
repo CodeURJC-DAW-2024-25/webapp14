@@ -104,8 +104,12 @@ public class Order {
     }
 
     public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = BigDecimal.valueOf(totalPrice);
+        if (this.totalPrice == null) {
+            this.totalPrice = BigDecimal.ZERO;
+        }
+        this.totalPrice = this.totalPrice.add(BigDecimal.valueOf(totalPrice));
     }
+    
 
     public void calculateTotalPrice() {
         this.totalPrice = orderProducts.stream()

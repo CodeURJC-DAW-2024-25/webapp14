@@ -81,4 +81,8 @@ public class OrderService {
     public Page<Order> getOrdersPaginated(int page, int size) {
         return orderRepository.findAll(PageRequest.of(page, size));
     }
+
+    public List<Order> getPaidOrders(User user) {
+        return orderRepository.findByUserAndIsPaidTrue(user);
+    }
 }

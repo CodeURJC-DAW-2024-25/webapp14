@@ -2,6 +2,20 @@
 
 <section style="margin-top: 8rem;">
   <div class="container">
+
+  {{^exists}}
+  <div class="row justify-content-center text-center">
+    <div class="col-12">
+      <div class="alert alert-info p-5" style="background-color: #f8f9fa; border-radius: 15px; border: 2px solid black;">
+        <h4 class="text-primary mb-3">¡No tienes pedidos realizados!</h4>
+        <p class="text-muted">Parece que aún no has realizado ningún pedido. ¡Empieza a comprar ahora y descubre nuestros productos!</p>
+        <a href="/index" class="btn btn-primary btn-lg">Comienza a comprar</a>
+      </div>
+    </div>
+  </div>
+  {{/exists}}
+
+  {{#exists}}
     <div class="hero-content text-center">
       <h1 class="mb-4" style="font-size: 2rem;">Mis pedidos</h1>
     </div>
@@ -17,20 +31,21 @@
             </tr>
           </thead>
           <tbody class="text-center">
-            {{ #orders }}
+            {{#orders}}
             <tr>
-              <th class="py-4 align-middle">{{ id }}</th>
-              <td class="py-4 align-middle">{{ createdAtFormatted }}</td>
-              <td class="py-4 align-middle">{{ totalPrice }} EUR</td>
+              <th class="py-4 align-middle">{{id}}</th>
+              <td class="py-4 align-middle">{{createdAtFormatted}}</td>
+              <td class="py-4 align-middle">{{totalPrice}} EUR</td>
               <td class="py-4 align-middle">
                 <a class="btn btn-outline-dark btn-sm" href="/orders/{{id}}">Ver detalles</a>
               </td>
             </tr>
-            {{ /orders }}
+            {{/orders}}
           </tbody>
         </table>
       </div>
     </div>
+  {{/exists}}
   </div>
 </section>
 

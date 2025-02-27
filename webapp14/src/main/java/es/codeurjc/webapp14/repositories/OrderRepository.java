@@ -35,4 +35,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Object[]> countOrdersLast30Days();
 
     Optional<Order> findFirstByUserAndIsPaidFalse(User user);
+
+    List<Order> findByUserAndIsPaidTrue(User user);
 }
