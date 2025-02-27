@@ -3,6 +3,7 @@ package es.codeurjc.webapp14.controllers;
 
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.Optional;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,9 @@ public class ImageController {
     public ResponseEntity<byte[]> getProductImage(@PathVariable Long id) {
         System.out.println("Buscando imagen para el producto con ID: " + id);
 
-        Product product = productService.getProductById(id);
+        Optional <Product> existproduct = productService.getProductById(id);
+
+        Product product = existproduct.get();
         if (product == null) {
             System.out.println("Producto no encontrado con ID: " + id);
             return ResponseEntity.notFound().build();

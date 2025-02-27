@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import es.codeurjc.webapp14.model.Order;
@@ -29,8 +32,8 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public Order getOrderById(Long id) {
-        return orderRepository.findById(id).orElse(null);
+    public Optional<Order> getOrderById(Long id) {
+        return orderRepository.findById(id);
     }
 
     public List<Order> getUserOrders(User user) {
@@ -65,5 +68,17 @@ public class OrderService {
         result.put("counts", orderCounts);
 
         return result;
+    }
+
+    public Optional<Order> getUnpaidOrder(User user) {
+        return orderRepository.findFirstByUserAndIsPaidFalse(user);
+    }
+
+    public void delete(Long id) {
+        orderRepository.deleteById(id);
+    }
+
+    public Page<Order> getOrdersPaginated(int page, int size) {
+        return orderRepository.findAll(PageRequest.of(page, size));
     }
 }

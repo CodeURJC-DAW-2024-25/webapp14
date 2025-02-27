@@ -54,6 +54,24 @@ async function loadMoreAdminUsersReviews(button) {
     }
 }
 
+const NUM_ORDERS = 5;
+let currentPage5 = 0;
+
+async function loadMoreAdminOrders(button) {
+    currentPage5++;
+
+    const response = await fetch(`/admin/moreOrdersAdmin?page=${currentPage5}&size=${NUM_ORDERS}`);
+    const data = await response.text();
+
+    const ordersList = document.getElementById("orders");
+    ordersList.innerHTML += data;
+
+    const hasMore = document.getElementById('hasMore').value === "false";
+    if (!hasMore) {
+        document.getElementById('load-more').style.display = 'none';
+    }
+}
+
 //load more products
 async function loadMore(category) {
     currentPage++;

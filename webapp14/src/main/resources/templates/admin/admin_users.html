@@ -19,7 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
-    
+
 
     <link rel="stylesheet" href="/css/custom.css">
 </head>
@@ -73,20 +73,6 @@
                         </div>
 
                         <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <div class="text-xs font-weight-bold text-uppercase mb-1 text-custom-success">
-                                            Usuarios activos
-                                        </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">15.000</div>
-                                    </div>
-                                    <i class="fas fa-user-check fa-2x text-gray-300"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card border-left-warning shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -94,7 +80,8 @@
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Reportes pendientes
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{totalReportedReviews}}</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{totalReportedReviews}}
+                                            </div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-clock fa-2x text-gray-300"></i>
@@ -129,37 +116,53 @@
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-admin-title">Usuarios</h6>
                             </div>
-                
                             <!-- Card Body -->
                             <div class="card-body">
                                 <ul class="list-group" id="users">
                                     {{#users}}
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>{{name}}</span>
-                                        <div>
-                                            <button class="btn btn-sm btn-outline-primary" data-toggle="collapse" data-target="#infoUser{{id}}">
-                                                Ver información
-                                            </button>                                            
+                                        <span>{{name}} {{surname}}</span>
+                                        <div class="d-flex flex-column flex-sm-row mt-2">
+                                            <button class="btn btn-sm btn-outline-primary custom-btn mb-2 mb-sm-0"
+                                                data-toggle="collapse" data-target="#infoUser{{id}}">
+                                                Ver detalles
+                                            </button>
+                                            <form action="/admin/user/delete/{{id}}" method="post">
+                                                <input type="hidden" name="_csrf" value="{{token}}" />
+                                                <button type="submit" class="btn btn-danger btn-rounded btn-sm ml-sm-2">
+                                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                                </button>
+                                            </form>
                                         </div>
                                     </li>
                                     <div class="collapse mt-2 mb-3" id="infoUser{{id}}">
-                                        <div class="card card-body d-flex flex-row flex-column-reverse flex-sm-row align-items-center">
+                                        <div class="card card-body d-flex flex-column flex-sm-row align-items-center">
+                                            <div class="me-3">
+                                                {{^hasImage}}
+                                                <img src="/admin/user/image/{{id}}" class="img-profile rounded-circle"
+                                                    alt="Profile Picture" width="60" height="60"
+                                                    style="margin-right: 15px;" id="profileImage">
+                                                {{/hasImage}}
+                                                {{#hasImage}}
+                                                <img src="/images/noAdminImage.png" class="img-profile rounded-circle"
+                                                    alt="Profile Picture" width="60" height="60"
+                                                    style="margin-right: 15px;" id="profileImage">
+                                                {{/hasImage}}
+                                            </div>
                                             <div class="user-info-div">
-                                                <strong>Nombre:</strong> {{name}}<br>
                                                 <strong>Correo:</strong> {{email}}<br>
                                                 <strong>Dirección:</strong> {{address}}<br>
-                                            </div>
-                                            <div class="mb-3">
                                             </div>
                                         </div>
                                     </div>
                                     {{/users}}
                                 </ul>
 
-                                <button type="button" id="load-more" class="mt-3 ml-3" onclick="loadMoreAdminUsers(this)" data-page="{{nextPage}}">
+                                <button type="button" id="load-more" class="mt-3 ml-3"
+                                    onclick="loadMoreAdminUsers(this)" data-page="{{nextPage}}">
                                     Más resultados
                                 </button>
-                
+
                                 <!--<div class="mt-3 d-flex justify-content-center">
                                     <button class="btn btn-outline-primary mx-1" id="prevPage"
                                         disabled>Anterior</button>
@@ -178,37 +181,46 @@
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-admin-title">Reseñas con reportes de Usuarios</h6>
                             </div>
-                
+
                             <!-- Card Body -->
                             <div class="card-body">
                                 <ul class="list-group" id="usersWithReportedReviews">
-                                    {{#usersWithReportedReviews}}  <!-- Iterar sobre la lista de usuarios con reseñas reportadas -->
+                                    {{#usersWithReportedReviews}}
+                                    <!-- Iterar sobre la lista de usuarios con reseñas reportadas -->
                                     <li class="list-group-item">
-                                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
+                                        <div
+                                            class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
                                             <span>{{name}}</span> <!-- Nombre del usuario -->
-                                            <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center mt-2 mt-sm-0 text-sm-right">
-                                                <span class="badge badge-danger badge-pill mb-2 mb-sm-0 mr-sm-2">{{reports}} Avisos</span>
-                                                <button class="btn btn-sm btn-outline-primary d-block d-sm-inline mb-2 mb-sm-0 mr-sm-2" 
+                                            <div
+                                                class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center mt-2 mt-sm-0 text-sm-right">
+                                                <span
+                                                    class="badge badge-danger badge-pill mb-2 mb-sm-0 mr-sm-2">{{reports}}
+                                                    Avisos</span>
+                                                <button
+                                                    class="btn btn-sm btn-outline-primary d-block d-sm-inline mb-2 mb-sm-0 mr-sm-2"
                                                     data-toggle="collapse" data-target="#report{{name}}">
                                                     Ver reportes
                                                 </button>
                                                 <form action="/admin/users/ban/{{id}}" method="post">
                                                     <input type="hidden" name="_csrf" value="{{token}}" />
-                                                    <button type="submit" class="btn btn-warning btn-rounded btn-sm d-block d-sm-inline">
+                                                    <button type="submit"
+                                                        class="btn btn-warning btn-rounded btn-sm d-block d-sm-inline">
                                                         <i class="fas fa-exclamation-triangle"></i> Banear
                                                     </button>
                                                 </form>
                                             </div>
                                         </div>
                                     </li>
-                                
+
                                     <div class="collapse mt-2 mb-3" id="report{{name}}">
                                         <ul class="list-group ml-3">
                                             {{#reviews}}
                                             {{#reported}}
-                                            <li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                                            <li
+                                                class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
                                                 <span class="report-text span-review text-start w-100">
-                                                    <strong>ID del Producto: <span class="product-id">{{product.id}}</span></strong><br>
+                                                    <strong>ID del Producto: <span
+                                                            class="product-id">{{product.id}}</span></strong><br>
                                                     {{reviewText}}
                                                 </span>
                                                 <div class="report-actions report-btn d-flex mt-2 mt-md-0">
@@ -232,20 +244,21 @@
                                     </div>
                                     {{/usersWithReportedReviews}}
                                 </ul>
-                                <button type="button" id="load-more-user-review" class="mt-3 ml-3" onclick="loadMoreAdminUsersReviews(this)" data-page="{{nextPage}}">
+                                <button type="button" id="load-more-user-review" class="mt-3 ml-3"
+                                    onclick="loadMoreAdminUsersReviews(this)" data-page="{{nextPage}}">
                                     Más resultados
                                 </button>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-xl-12 col-lg-10">
                         <div class="card shadow mb-4">
                             <!-- Card Header -->
                             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 <h6 class="m-0 font-weight-bold text-admin-title">Usuarios baneados</h6>
                             </div>
-                    
+
                             <!-- Card Body -->
                             <div class="card-body">
                                 <ul class="list-group">
@@ -255,7 +268,8 @@
                                         <div>
                                             <form action="/admin/users/unban/{{id}}" method="post">
                                                 <input type="hidden" name="_csrf" value="{{token}}" />
-                                                <button type="submit" class="btn btn-warning btn-rounded btn-sm d-block d-sm-inline">
+                                                <button type="submit"
+                                                    class="btn btn-warning btn-rounded btn-sm d-block d-sm-inline">
                                                     <i class="fas fa-exclamation-triangle"></i> Desbanear
                                                 </button>
                                             </form>
@@ -284,20 +298,20 @@
     <script src="/vendor/jquery/jquery.min.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script defer src="/js/app.js"></script>
-  
+
 </body>
 
 <script>
-    $(document).ready(function() {
-    // Al hacer clic en el botón de toggle de la barra lateral
-    $('#sidebarToggleTop').click(function(e) {
-        e.preventDefault();
-        // Toggle la clase "toggled" a la barra lateral
-        $('#accordionSidebar').toggleClass('toggled');
-        // Ajustar el contenido para no dejar hueco
-        $('#content-wrapper').toggleClass('toggled');
+    $(document).ready(function () {
+        // Al hacer clic en el botón de toggle de la barra lateral
+        $('#sidebarToggleTop').click(function (e) {
+            e.preventDefault();
+            // Toggle la clase "toggled" a la barra lateral
+            $('#accordionSidebar').toggleClass('toggled');
+            // Ajustar el contenido para no dejar hueco
+            $('#content-wrapper').toggleClass('toggled');
+        });
     });
-});
 </script>
 
 {{/admin}}

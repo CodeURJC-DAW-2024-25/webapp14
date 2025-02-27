@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.xhtmlrenderer.pdf.ITextRenderer;
@@ -22,10 +23,13 @@ import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.repositories.OrderRepository;
 import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.model.OrderProduct;
+import es.codeurjc.webapp14.services.EmailService;
 import es.codeurjc.webapp14.services.OrderProductService;
 import es.codeurjc.webapp14.services.OrderService;
 import es.codeurjc.webapp14.services.UserService;
+
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/orders")
@@ -33,6 +37,9 @@ public class OrdersController {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     private final OrderService orderService;
     private final OrderProductService orderProductService;
@@ -43,6 +50,28 @@ public class OrdersController {
         this.orderService = orderService;
         this.orderProductService = orderProductService;
         this.userService = userService;
+    }
+
+    @ModelAttribute
+    public void addAttributes(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Boolean logged = (Boolean) session.getAttribute("logged");
+        String userName = (String) session.getAttribute("userName");
+        Long sessionUserId = (Long) session.getAttribute("userId");
+        Boolean admin = session.getAttribute("admin") != null && (Boolean) session.getAttribute("admin");
+
+        if (logged != null && logged) {
+            model.addAttribute("logged", true);
+            model.addAttribute("userName", userName);
+            model.addAttribute("admin", admin);
+           
+        } else {
+            model.addAttribute("logged", false);
+            model.addAttribute("admin", false);
+        }
+
+        model.addAttribute("query", "");
+
     }
 
     @GetMapping
@@ -66,8 +95,14 @@ public class OrdersController {
 
     @GetMapping("/{id}")
     public String getOrderProductsById(@PathVariable Long id, Model model) {
-        Order order = orderService.getOrderById(id);
 
+    Optional<Order> optionalOrder = orderService.getOrderById(id);
+    
+    if (!optionalOrder.isPresent()) {
+        return "redirect:/no-page-error";
+    }
+
+    Order order = optionalOrder.get();
         if (order != null) {
             BigDecimal subtotal = order.getTotalPrice();
 
@@ -167,6 +202,20 @@ public class OrdersController {
         }
         // Return the generated PDF
         return outputStream.toByteArray();
+    }
+
+    @GetMapping("/email/{id}")
+    // To send an email when doing a purchase
+    public ResponseEntity<String> sendOrderEmail(@PathVariable Long id) {
+        Optional<Order> orderOptional = orderRepository.findById(id);
+        if (orderOptional.isPresent()) {
+            Order order = orderOptional.get();
+            User user = order.getUser();
+            emailService.sendOrderEmail(user, order);
+            return ResponseEntity.ok("El correo se ha enviado exitosamente a " + user.getName());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El pedido no se ha encontrado");
+        }
     }
 
 }

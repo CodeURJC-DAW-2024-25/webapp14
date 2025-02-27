@@ -30,7 +30,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -248,20 +247,35 @@ public class AdminController {
     @RequestMapping(value = "/orders", method = { RequestMethod.GET, RequestMethod.POST })
     // To show the orders
     public String showAdminOrders(@RequestParam(value = "orderId", required = false) Long orderId,
-            @RequestParam(value = "state", required = false) Order.State newState, Model model,
+            @RequestParam(value = "state", required = false) Order.State newState,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "0") int reportedPage,
+            Model model,
             HttpServletRequest request) {
         // If the request is GET
         if (request.getMethod().equals("GET")) {
-            List<Order> orders = orderService.getAllOrders();
-            List<Order> paidOrders = orders.stream()
+            Page<Order> orderPage = orderService.getOrdersPaginated(page, size);
+            List<Order> paidOrders = orderPage.getContent().stream()
                     .filter(Order::getIsPaid) // Filter only paid orders
                     .collect(Collectors.toList());
+            List<Order> paid = orderService.getAllOrders().stream()
+                    .filter(Order::getIsPaid)
+                    .collect(Collectors.toList());
             model.addAttribute("orders", paidOrders);
-            model.addAttribute("orderCount", paidOrders.size());
+            model.addAttribute("orderCount", paid.size());
+            model.addAttribute("hasMore", orderPage.hasNext());
+            model.addAttribute("nextPage", page + 1);
             return "admin/admin_orders";
         }
         // If the request is POST
-        Order order = orderService.getOrderById(orderId);
+        Optional<Order> optionalOrder = orderService.getOrderById(orderId);
+
+        if (!optionalOrder.isPresent()) {
+            return "redirect:/no-page-error";
+        }
+
+        Order order = optionalOrder.get();
         if (order != null) {
             order.setState(newState);
             orderService.saveOrder(order);
@@ -273,7 +287,9 @@ public class AdminController {
     @ResponseBody
     // To show the product image
     public ResponseEntity<byte[]> getProductImage(@PathVariable Long id) {
-        Product product = productService.getProductById(id);
+        Optional<Product> existproduct = productService.getProductById(id);
+
+        Product product = existproduct.get();
         Blob imageBlob = product.getImage();
         if (imageBlob != null) {
             try {
@@ -363,6 +379,7 @@ public class AdminController {
 
         product.setSizes(sizes);
         product.setStock(stockS + stockM + stockL + stockXL);
+        product.setOutOfStock(stockS + stockM + stockL + stockXL == 0);
 
         productService.saveProduct(product);
 
@@ -389,7 +406,11 @@ public class AdminController {
 
     @PostMapping("/products/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
-        productService.getProductById(id);
+        Optional<Product> existproduct = productService.getProductById(id);
+
+        if (!existproduct.isPresent()) {
+            return "redirect:/no-page-error";
+        }
         productService.delete(id);
         return "redirect:/admin/products";
     }
@@ -403,7 +424,13 @@ public class AdminController {
             @RequestParam Map<String, String> stockParams,
             Model model) throws IOException {
 
-        Product existingProduct = productService.getProductById(id);
+        Optional<Product> existproduct = productService.getProductById(id);
+
+        if (!existproduct.isPresent()) {
+            return "redirect:/no-page-error";
+        }
+
+        Product existingProduct = existproduct.get();
 
         existingProduct.setName(updatedProduct.getName());
         existingProduct.setDescription(updatedProduct.getDescription());
@@ -423,6 +450,7 @@ public class AdminController {
             }
 
             existingProduct.setStock(totalStock);
+            existingProduct.setOutOfStock(totalStock == 0);
         }
 
         if (removeImage) {
@@ -506,9 +534,32 @@ public class AdminController {
         return "admin/moreUsersReviewsAdmin";
     }
 
+    @GetMapping("/moreOrdersAdmin")
+    public String getMoreAdminOrders(
+            @RequestParam int page,
+            @RequestParam int size,
+            Model model) {
+
+        Page<Order> ordersPage = orderService.getOrdersPaginated(page, size);
+        boolean hasMore = page < ordersPage.getTotalPages() - 1;
+
+        model.addAttribute("orders", ordersPage.getContent());
+        model.addAttribute("hasMore", hasMore);
+
+        return "admin/moreOrdersAdmin";
+    }
+
     @PostMapping("/users/accept/{id}")
     public String acceptReview(@PathVariable Long id, Model model) {
-        Review review = reviewService.getReviewById(id);
+        Optional<Review> existreview = reviewService.getReviewById(id);
+        ;
+
+        if (!existreview.isPresent()) {
+            return "redirect:/no-page-error";
+        }
+
+        Review review = existreview.get();
+
         review.setReported(false);
         reviewService.saveReview(review);
         return "redirect:/admin/users";
@@ -516,7 +567,14 @@ public class AdminController {
 
     @PostMapping("/users/delete/{id}")
     public String deleteReview(@PathVariable Long id, Model model) {
-        reviewService.getReviewById(id);
+
+        Optional<Review> existreview = reviewService.getReviewById(id);
+        ;
+
+        if (!existreview.isPresent()) {
+            return "redirect:/no-page-error";
+        }
+
         reviewService.delete(id);
         return "redirect:/admin/users";
     }
@@ -538,6 +596,40 @@ public class AdminController {
         userService.saveUser(user);
 
         return "redirect:/admin/users";
+    }
+
+    @PostMapping("/user/delete/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        userService.findById(id);
+        userService.delete(id);
+        return "redirect:/admin/users";
+    }
+
+    @PostMapping("/orders/delete/{id}")
+    public String deleteOrder(@PathVariable Long id) {
+        orderService.getOrderById(id);
+        orderService.delete(id);
+        return "redirect:/admin/orders";
+    }
+
+    @GetMapping("/user/image/{id}")
+    @ResponseBody
+    public ResponseEntity<byte[]> getUserImage(@PathVariable Long id) {
+        User user = userService.findById(id);
+        Blob imageBlob = user.getProfileImage();
+        if (imageBlob != null) {
+            try {
+                byte[] imageBytes = imageBlob.getBytes(1, (int) imageBlob.length());
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.IMAGE_JPEG);
+                return ResponseEntity.ok().headers(headers).body(imageBytes);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

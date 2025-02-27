@@ -2,6 +2,7 @@ package es.codeurjc.webapp14.repositories;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -32,4 +33,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "GROUP BY DATE(created_at) " +
             "ORDER BY DATE(created_at)", nativeQuery = true)
     List<Object[]> countOrdersLast30Days();
+
+    Optional<Order> findFirstByUserAndIsPaidFalse(User user);
 }

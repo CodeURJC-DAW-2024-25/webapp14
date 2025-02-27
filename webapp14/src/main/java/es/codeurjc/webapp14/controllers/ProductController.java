@@ -4,6 +4,7 @@ package es.codeurjc.webapp14.controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Review;
+import es.codeurjc.webapp14.model.Size;
+import es.codeurjc.webapp14.model.Size.SizeName;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.services.ProductService;
 import es.codeurjc.webapp14.services.UserService;
@@ -69,12 +72,19 @@ public class ProductController {
             model.addAttribute("logged", false);
             model.addAttribute("admin", false);
         }
+        String query = "";
+        List<Product> products = productService.searchProductsByName(query);
+        model.addAttribute("productsSearch", products);
+        model.addAttribute("query", false);
+        model.addAttribute("open", false);
+
     }
 
     @GetMapping
     public String listProducts(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Long sessionUserId = (Long) session.getAttribute("userId");
+
 
         if (sessionUserId != null) {
             model.addAttribute("productsRecommended", productService.getRecommendedProductsBasedOnLastOrder(sessionUserId, 0, 2));
@@ -88,7 +98,14 @@ public class ProductController {
     @GetMapping("/elem_detail/{id}")
     public String ProductDetails(Model model, @PathVariable Long id, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Product product = productService.getProductById(id);
+        Optional <Product> existproduct = productService.getProductById(id);
+
+        if(!existproduct.isPresent()){
+            return "redirect:/no-page-error";
+        }
+
+        Product product = existproduct.get();
+
         List<Review> reviews = product.getTwoReviews(0, 2);
     
         String userEmail = (String) session.getAttribute("userEmail");
@@ -108,6 +125,24 @@ public class ProductController {
             review.setRating4(review.getRating() == 4);
             review.setRating5(review.getRating() == 5);
         }
+
+        boolean hasSizeS = false;
+        boolean hasSizeM = false;
+        boolean hasSizeL = false;
+        boolean hasSizeXL = false;
+
+        // Verificar stock en cada talla
+        for (Size size : product.getSizes()) {
+            if (size.getName() == SizeName.S && size.getStock() > 0) hasSizeS = true;
+            if (size.getName() == SizeName.M && size.getStock() > 0) hasSizeM = true;
+            if (size.getName() == SizeName.L && size.getStock() > 0) hasSizeL = true;
+            if (size.getName() == SizeName.XL && size.getStock() > 0) hasSizeXL = true;
+        }
+
+        model.addAttribute("hasSizeS", hasSizeS);
+        model.addAttribute("hasSizeM", hasSizeM);
+        model.addAttribute("hasSizeL", hasSizeL);
+        model.addAttribute("hasSizeXL", hasSizeXL);
     
         model.addAttribute("product", product);
         model.addAttribute("reviews", reviews);
@@ -119,7 +154,13 @@ public class ProductController {
 
     @PostMapping("/{productId}/{reviewId}/report")
     public String reportReview(@PathVariable Long productId, @PathVariable Long reviewId) {
-        Review review = reviewService.getReviewById(reviewId);
+        Optional <Review> existreview = reviewService.getReviewById(reviewId);;
+
+        if(!existreview.isPresent()){
+            return "redirect:/no-page-error";
+        }
+
+        Review review = existreview.get();
 
         review.setReported(true);
         reviewService.saveReview(review);
@@ -145,7 +186,13 @@ public class ProductController {
         HttpSession session = request.getSession();
         String userEmail = (String) session.getAttribute("userEmail");
     
-        Review review = reviewService.getReviewById(reviewId);
+        Optional <Review> existreview = reviewService.getReviewById(reviewId);;
+
+        if(!existreview.isPresent()){
+            return "redirect:/no-page-error";
+        }
+
+        Review review = existreview.get();
     
         if (userEmail == null || !userEmail.equals(review.getUser().getEmail())) {
             return "redirect:/access-error";
@@ -175,7 +222,13 @@ public class ProductController {
         }
 
         User user = userService.findByEmail(userEmail);
-        Product product = productService.getProductById(productId);
+        Optional <Product> existproduct = productService.getProductById(productId);
+
+        if(!existproduct.isPresent()){
+            return "redirect:/no-page-error";
+        }
+
+        Product product = existproduct.get();
 
         Review newReview = new Review(rating, reviewText, false, product, user);
         newReview.updateStars(); 
@@ -238,7 +291,13 @@ public class ProductController {
             @RequestParam int to,
             Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Product product = productService.getProductById(id);
+        Optional <Product> existproduct = productService.getProductById(id);
+
+        if(!existproduct.isPresent()){
+            return "redirect:/no-page-error";
+        }
+
+        Product product = existproduct.get();
         List<Review> reviewsList = product.getTwoReviews(from, to);
         for (Review review : reviewsList){
             String userEmail = (String) session.getAttribute("userEmail");
@@ -264,12 +323,18 @@ public class ProductController {
 
     
     @GetMapping("/search")
-    @ResponseBody
-    public List<Product> searchProducts(@RequestParam(value = "query", required = false) String query) {
-        if (query == null || query.isEmpty()) {
-            return new ArrayList<>();
+    public String searchProducts(@RequestParam(value = "query", required = false) String query, Model model) {
+
+        System.out.println("Busco");
+
+        if (query != null && !query.isEmpty()) {
+            List<Product> products = productService.searchProductsByName(query);
+            model.addAttribute("productsSearch", products);
+            model.addAttribute("query", query);
+            model.addAttribute("open", true);
         }
-        return productService.searchProductsByName(query);
+        return "user/index";
     }
+
 
 }

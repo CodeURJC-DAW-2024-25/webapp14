@@ -86,4 +86,7 @@ public class UserService {
         return userRepository.findUsersWithReportedReviews(pageable);
     }
 
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
 }

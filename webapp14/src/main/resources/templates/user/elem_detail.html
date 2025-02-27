@@ -16,22 +16,42 @@
 
             <h5>Selecciona tu talla:</h5>
             <div class="size-options d-flex gap-2 mt-2">
-              <input type="radio" class="btn-check" name="size" id="sizeS" value="S" autocomplete="off" checked>
-              <label class="btn btn-outline-dark" for="sizeS">S</label>
-
-              <input type="radio" class="btn-check" name="size" id="sizeM" value="M" autocomplete="off">
-              <label class="btn btn-outline-dark" for="sizeM">M</label>
-
-              <input type="radio" class="btn-check" name="size" id="sizeL" value="L" autocomplete="off">
-              <label class="btn btn-outline-dark" for="sizeL">L</label>
-
-              <input type="radio" class="btn-check" name="size" id="sizeXL" value="XL" autocomplete="off">
-              <label class="btn btn-outline-dark" for="sizeXL">XL</label>
+              <input type="radio" class="btn-check" name="size" id="sizeS" value="S" autocomplete="off" {{^hasSizeS}}disabled{{/hasSizeS}} checked>
+              <label class="btn btn-outline-dark {{^hasSizeS}}btn-danger disabled custom-disabled{{/hasSizeS}}" for="sizeS">S</label>
+            
+              <input type="radio" class="btn-check" name="size" id="sizeM" value="M" autocomplete="off" {{^hasSizeM}}disabled{{/hasSizeM}}>
+              <label class="btn btn-outline-dark {{^hasSizeM}}btn-danger disabled custom-disabled{{/hasSizeM}}" for="sizeM">M</label>
+            
+              <input type="radio" class="btn-check" name="size" id="sizeL" value="L" autocomplete="off" {{^hasSizeL}}disabled{{/hasSizeL}}>
+              <label class="btn btn-outline-dark {{^hasSizeL}}btn-danger disabled custom-disabled{{/hasSizeL}}" for="sizeL">L</label>
+            
+              <input type="radio" class="btn-check" name="size" id="sizeXL" value="XL" autocomplete="off" {{^hasSizeXL}}disabled{{/hasSizeXL}}>
+              <label class="btn btn-outline-dark {{^hasSizeXL}}btn-danger disabled custom-disabled{{/hasSizeXL}}" for="sizeXL">XL</label>
             </div>
-            <button class="btn btn-add-to-cart mt-3">Añadir a cesta</button>
+            
+            <form action="/cart/add-to-cart" method="POST" id="add-to-cart-form">
+              <input type="hidden" name="_csrf" value="{{token}}" />
+              <input type="hidden" name="productId" value="{{id}}">
+              <input type="hidden" name="productName" value="{{product.name}}">
+              <input type="hidden" name="productPrice" value="{{product.price}}">
+              <input type="hidden" name="productDescription" value="{{product.description}}">
+              <input type="hidden" name="size" id="selected-size" value="S">
+
+
+              <button type="submit" class="btn btn-add-to-cart mt-3 {{#product.outOfStock}}btn-secondary disabled{{/product.outOfStock}} {{^product.outOfStock}}btn-primary{{/product.outOfStock}}" 
+                {{#product.outOfStock}}disabled{{/product.outOfStock}}>
+                Añadir a cesta
+              </button>
+              {{#product.outOfStock}}
+              <div class="alert alert-danger d-flex align-items-center p-2 mt-4" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <strong>¡Atención!</strong> Este producto se encuentra fuera de stock.
+              </div>              
+              {{/product.outOfStock}}
+
+            </form>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -177,3 +197,12 @@
 
 
 {{> partialsUser/footer }}
+
+
+<script>
+  document.querySelectorAll('input[name="size"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
+      document.getElementById('selected-size').value = this.value;
+    });
+  });
+</script>
