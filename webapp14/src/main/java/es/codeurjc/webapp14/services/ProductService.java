@@ -51,6 +51,10 @@ public class ProductService {
         return productRepository.findTop4ByOrderBySoldDesc();
     }
 
+    public List<Product> getTop5BestSellingProducts() {
+        return productRepository.findTop5ByOrderBySoldDesc();
+    }
+
     public void delete(Long id) {
         productRepository.deleteById(id);
     }
@@ -64,15 +68,14 @@ public class ProductService {
     public List<Product> searchProductsByName(String query) {
         return productRepository.findByNameContainingIgnoreCase(query);
     }
-    
 
     public Page<Product> getRecommendedProductsBasedOnLastOrder(Long userId, int page, int size) {
         Order lastOrder = orderRepository.findFirstByUserIdOrderByCreatedAtDesc(userId);
 
         List<String> categories = lastOrder.getOrderProducts().stream()
-            .map(op -> op.getProduct().getCategory())
-            .distinct()
-            .collect(Collectors.toList());
+                .map(op -> op.getProduct().getCategory())
+                .distinct()
+                .collect(Collectors.toList());
 
         return productRepository.findRecommendedProductsByCategories(categories, userId, PageRequest.of(page, size));
     }

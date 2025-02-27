@@ -15,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmail(String email);
 
-    //User findByRole(User.Role role);
+    // User findByRole(User.Role role);
 
     Optional<User> findById(Long id);
 
@@ -32,7 +32,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByRolesContaining(String role);
 
     Page<User> findByRolesNotContaining(String string, PageRequest of);
-
-    
-    
 }

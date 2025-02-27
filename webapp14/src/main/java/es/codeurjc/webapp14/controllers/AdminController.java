@@ -85,12 +85,31 @@ public class AdminController {
 
     @GetMapping("/charts")
     public String showAdminCharts(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        String email = (String) session.getAttribute("userEmail");
+        model.addAttribute("totalSales", orderService.getTotalSales());
+        model.addAttribute("todaySales", orderService.getTodaySales());
+        model.addAttribute("totalOrders", orderService.getTotalOrders());
+        model.addAttribute("totalUsers", userService.getAllUsers().size());
 
-        if (email == null) {
-            return "redirect:/login";
+        // 1️⃣ OBTENER LOS PRODUCTOS MÁS VENDIDOS
+        List<Product> topProducts = productService.getTop5BestSellingProducts();
+
+        if (topProducts.size() > 5) {
+            topProducts = topProducts.subList(0, 5);
         }
+
+        List<String> productNames = topProducts.stream().map(Product::getName).collect(Collectors.toList());
+        List<Integer> productSales = topProducts.stream().map(Product::getSold).collect(Collectors.toList());
+
+        model.addAttribute("productNames", productNames);
+        model.addAttribute("productSales", productSales);
+
+        // Obtener datos de pedidos en el último mes
+        Map<String, List<?>> ordersData = orderService.getOrdersLast30Days();
+
+        System.out.println(orderService.getOrdersLast30Days());
+
+        model.addAttribute("orderDates", ordersData.get("dates"));
+        model.addAttribute("orderCounts", ordersData.get("counts"));
 
         return "admin/admin_charts";
     }
