@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Email</title>
+
+</head>
+
+<body>
+
+    <h2>Hola {{userName}},</h2>
+    <p>Gracias por confiar en nosotros</p>
+
+    <hr>
+
+    <p>Aquí están los detalles de tu pedido:</p>
+    <p><strong>Fecha del Pedido:</strong> {{orderDate}}</p>
+    <p><strong>Total:</strong> {{totalPrice}}€</p>
+    <p><strong>Productos:</strong></p>
+    <ul>
+        {{#orderProducts}}
+        <li>{{productName}} - Cantidad: {{quantity}} - Precio: {{price}}€ - Subtotal: {{subtotal}}€</li>
+        {{/orderProducts}}
+    </ul>
+
+    <hr>
+
+    <p>Muchas gracias</p>
+    <p><strong>NOIR & BLANC</strong></p>
+
+</body>
+
+</html>

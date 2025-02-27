@@ -22,9 +22,11 @@ import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.repositories.OrderRepository;
 import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.model.OrderProduct;
+import es.codeurjc.webapp14.services.EmailService;
 import es.codeurjc.webapp14.services.OrderProductService;
 import es.codeurjc.webapp14.services.OrderService;
 import es.codeurjc.webapp14.services.UserService;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
@@ -33,6 +35,9 @@ public class OrdersController {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     private final OrderService orderService;
     private final OrderProductService orderProductService;
@@ -167,6 +172,20 @@ public class OrdersController {
         }
         // Return the generated PDF
         return outputStream.toByteArray();
+    }
+
+    @GetMapping("/email/{id}")
+    // To send an email when doing a purchase
+    public ResponseEntity<String> sendOrderEmail(@PathVariable Long id) {
+        Optional<Order> orderOptional = orderRepository.findById(id);
+        if (orderOptional.isPresent()) {
+            Order order = orderOptional.get();
+            User user = order.getUser();
+            emailService.sendOrderEmail(user, order);
+            return ResponseEntity.ok("El correo se ha enviado exitosamente a " + user.getName());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("El pedido no se ha encontrado");
+        }
     }
 
 }
