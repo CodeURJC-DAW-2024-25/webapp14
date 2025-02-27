@@ -71,12 +71,19 @@ public class ProductController {
             model.addAttribute("logged", false);
             model.addAttribute("admin", false);
         }
+        String query = "";
+        List<Product> products = productService.searchProductsByName(query);
+        model.addAttribute("productsSearch", products);
+        model.addAttribute("query", false);
+        model.addAttribute("open", false);
+
     }
 
     @GetMapping
     public String listProducts(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Long sessionUserId = (Long) session.getAttribute("userId");
+
 
         if (sessionUserId != null) {
             model.addAttribute("productsRecommended", productService.getRecommendedProductsBasedOnLastOrder(sessionUserId, 0, 2));
@@ -284,12 +291,18 @@ public class ProductController {
 
     
     @GetMapping("/search")
-    @ResponseBody
-    public List<Product> searchProducts(@RequestParam(value = "query", required = false) String query) {
-        if (query == null || query.isEmpty()) {
-            return new ArrayList<>();
+    public String searchProducts(@RequestParam(value = "query", required = false) String query, Model model) {
+
+        System.out.println("Busco");
+
+        if (query != null && !query.isEmpty()) {
+            List<Product> products = productService.searchProductsByName(query);
+            model.addAttribute("productsSearch", products);
+            model.addAttribute("query", query);
+            model.addAttribute("open", true);
         }
-        return productService.searchProductsByName(query);
+        return "user/index";
     }
+
 
 }

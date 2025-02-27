@@ -32,27 +32,64 @@
 <body class="no-padding">
 
   <header>
-    <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasSearch" aria-labelledby="Search">
+    <div class="offcanvas offcanvas-end {{#open}}show{{/open}}" data-bs-scroll="true" tabindex="-1" id="offcanvasSearch" aria-labelledby="Search">
       <div class="offcanvas-header justify-content-end">
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
         <div class="order-md-last">
-            <h4 class="text-primary text-uppercase mb-3">Search</h4>
-            <div class="search-bar border rounded-2 border-dark-subtle">
-                <form id="search-form" class="text-center d-flex align-items-center">
-                    <input type="text" id="search-input" class="form-control border-0 bg-transparent" placeholder="Search Here" />
-                    <button type="submit" class="border-0 bg-transparent">
-                        <iconify-icon icon="tabler:search" class="fs-4 me-3"></iconify-icon>
-                    </button>
-                </form>
+          <h4 class="text-primary text-uppercase mb-3">Buscar</h4>
+          <div class="search-bar border rounded-2 border-dark-subtle">
+            <form action="/index/search" method="GET" class="text-center d-flex align-items-center">
+              <input type="hidden" name="_csrf" value="{{token}}" />
+              {{#query}}
+              <input type="text" name="query" id="search-input" class="form-control border-0 bg-transparent" placeholder="Buscar aquí" value="{{query}}" required />
+              {{/query}}
+              {{^query}}
+              <input type="text" name="query" id="search-input" class="form-control border-0 bg-transparent" placeholder="Buscar aquí" required />
+              {{/query}}
+              <button type="submit" class="border-0 bg-transparent">
+                <iconify-icon icon="tabler:search" class="fs-4 me-3"></iconify-icon>
+              </button>
+              
+            </form>
+          </div>
+          {{^query}}
+            <div class="mt-3 text-center">
+              <p class="text-muted">¡Parece que aún no has realizado una búsqueda! <strong>Explora lo que quieras encontrar.</strong></p>
+              <small class="text-secondary">Introduce un término de búsqueda para comenzar.</small>
             </div>
+          {{/query}}
         </div>
+    
         <div id="search-results" class="mt-3">
-
+          {{#query}}
+            <h5 class="mt-4 text-dark">Resultados para: "{{query}}"</h5>
+            {{#productsSearch}}
+              <div class="card mb-3">
+                <div class="row g-0">
+                  <div class="col-md-4 d-flex align-items-center">
+                    <img src="/image/{{id}}" class="img-fluid rounded" alt="{{name}}">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{name}}</h5>
+                      <p class="card-text">{{description}}</p>
+                      <p class="card-text"><strong>Precio:</strong> ${{price}}</p>
+                      <a href="/index/elem_detail/{{id}}" class="btn btn-dark btn-sm">Ver producto</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {{/productsSearch}}
+            {{^productsSearch}}
+              <p class="text-danger">No se encontraron productos para "{{query}}".</p>
+            {{/productsSearch}}
+          {{/query}}
         </div>
       </div>
     </div>
+    
 
 
     <nav class="main-menu d-flex navbar fixed-top navbar-expand-lg py-4">
@@ -133,55 +170,3 @@
     </nav>
 
   </header>
-
-  <script>
-    document.getElementById("search-form").addEventListener("submit", function (event) {
-      event.preventDefault();
-
-      let query = document.getElementById("search-input").value.trim();
-      let resultsContainer = document.getElementById("search-results");
-      
-      if (query === "") {
-          resultsContainer.innerHTML = "<p class='text-muted'>Ingrese un término de búsqueda.</p>";
-          return;
-      }
-
-      fetch(`/index/search?query=${query}`)
-          .then(response => response.json())
-          .then(products => {
-              resultsContainer.innerHTML = "";
-
-              if (products.length === 0) {
-                  resultsContainer.innerHTML = "<p class='text-danger'>No se encontraron productos.</p>";
-                  return;
-              }
-
-              products.forEach(product => {
-                  let productHTML = `
-                      <div class="card mb-2">
-                          <div class="row g-0">
-                              <div class="col-md-4 d-flex align-items-center">
-                                  ${product.imageBool ? `<img src="/image/${product.id}" alt="${product.name}" class="img-fluid rounded">` : ""}
-                              </div>
-                              <div class="col-md-8">
-                                  <div class="card-body">
-                                      <h5 class="card-title">${product.name}</h5>
-                                      <p class="card-text">${product.description}</p>
-                                      <p class="card-text"><strong>Precio:</strong> $${product.price}</p>
-                                      <a href="/index/elem_detail/${product.id}" class="btn btn-primary btn-sm">Ver producto</a>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  `;
-                  resultsContainer.innerHTML += productHTML;
-              });
-          })
-          .catch(error => {
-              console.error("Error al buscar productos:", error);
-              resultsContainer.innerHTML = "<p class='text-danger'>Ocurrió un error al buscar productos.</p>";
-          });
-  });
-
-</script>
-    

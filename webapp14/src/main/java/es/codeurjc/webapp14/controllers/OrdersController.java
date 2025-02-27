@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.xhtmlrenderer.pdf.ITextRenderer;
@@ -28,6 +29,7 @@ import es.codeurjc.webapp14.services.OrderService;
 import es.codeurjc.webapp14.services.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/orders")
@@ -48,6 +50,28 @@ public class OrdersController {
         this.orderService = orderService;
         this.orderProductService = orderProductService;
         this.userService = userService;
+    }
+
+    @ModelAttribute
+    public void addAttributes(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Boolean logged = (Boolean) session.getAttribute("logged");
+        String userName = (String) session.getAttribute("userName");
+        Long sessionUserId = (Long) session.getAttribute("userId");
+        Boolean admin = session.getAttribute("admin") != null && (Boolean) session.getAttribute("admin");
+
+        if (logged != null && logged) {
+            model.addAttribute("logged", true);
+            model.addAttribute("userName", userName);
+            model.addAttribute("admin", admin);
+           
+        } else {
+            model.addAttribute("logged", false);
+            model.addAttribute("admin", false);
+        }
+
+        model.addAttribute("query", "");
+
     }
 
     @GetMapping

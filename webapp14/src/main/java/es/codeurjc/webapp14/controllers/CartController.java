@@ -73,6 +73,9 @@ public class CartController {
             model.addAttribute("logged", false);
             model.addAttribute("admin", false);
         }
+
+        model.addAttribute("query", "");
+
     }
 
     @GetMapping
@@ -86,6 +89,8 @@ public class CartController {
 
         if (!unpaidOrder.isPresent()) {
             System.out.println("No hay carrito");
+            Order order = new Order(user,State.No_pagado,false);
+            orderService.saveOrder(order);
 
             return "user_registered/cart";
         }
@@ -114,31 +119,34 @@ public class CartController {
             }
         }
 
-        Double totalPrice = orderProductService.getTotalPriceByOrder(unpaidOrder.get());
-        if (totalPrice == null) {
-            totalPrice = 0.0;
+        System.out.println("Antes");
+
+
+        BigDecimal subtotal = unpaidOrder.get().getTotalPrice();
+
+        System.out.println("Después");
+
+        // Calcular el coste de envío (5 euros si el subtotal es menor a 100)
+        BigDecimal shipping = BigDecimal.ZERO;
+
+        if (subtotal.compareTo(BigDecimal.valueOf(100)) < 0) {
+            shipping = BigDecimal.valueOf(5);
         }
 
-        totalPrice = BigDecimal.valueOf(totalPrice)
-                           .setScale(2, RoundingMode.HALF_UP)
-                           .doubleValue();
+        // Calcular el total (subtotal + envío)
+        BigDecimal total = subtotal.add(shipping);
 
-        model.addAttribute("totalPrice", totalPrice);
-        Double shippingCost;
-        if(totalPrice < 200){
-            shippingCost = 5.00;
-        }
-        else{
-            shippingCost = 0.00;
-        }
-        model.addAttribute("shippingCost", shippingCost);
-        model.addAttribute("finalPrice", shippingCost + totalPrice);
+        model.addAttribute("subtotal", subtotal);
+        model.addAttribute("shipping", shipping);
+        model.addAttribute("total", total);
+
+
 
         model.addAttribute("orderNotProcessed", cannotProcessOrder);
 
         model.addAttribute("products", productService.getAllProductsSold());
         model.addAttribute("orderProducts", unpaidOrder.get().getOrderProducts());
-        model.addAttribute("orderProductsEmpty", unpaidOrder.get().getOrderProducts().isEmpty());
+        model.addAttribute("orderProductsEmpty", unpaidOrder == null || unpaidOrder.get().getOrderProducts().isEmpty());
 
 
         return "user_registered/cart";
@@ -188,26 +196,21 @@ public class CartController {
         orderService.saveOrder(order);
 
 
-        Double totalPrice = orderProductService.getTotalPriceByOrder(unpaidOrder.get());
-        if (totalPrice == null) {
-            totalPrice = 0.0;
+        BigDecimal subtotal = unpaidOrder.get().getTotalPrice();
+
+        // Calcular el coste de envío (5 euros si el subtotal es menor a 100)
+        BigDecimal shipping = BigDecimal.ZERO;
+
+        if (subtotal.compareTo(BigDecimal.valueOf(100)) < 0) {
+            shipping = BigDecimal.valueOf(5);
         }
 
+        // Calcular el total (subtotal + envío)
+        BigDecimal total = subtotal.add(shipping);
 
-        totalPrice = BigDecimal.valueOf(totalPrice)
-                           .setScale(2, RoundingMode.HALF_UP)
-                           .doubleValue();
-
-        model.addAttribute("totalPrice", totalPrice);
-        Double shippingCost;
-        if(totalPrice < 200){
-            shippingCost = 5.00;
-        }
-        else{
-            shippingCost = 0.00;
-        }
-        model.addAttribute("shippingCost", shippingCost);
-        model.addAttribute("finalPrice", shippingCost + totalPrice);
+        model.addAttribute("subtotal", subtotal);
+        model.addAttribute("shipping", shipping);
+        model.addAttribute("total", total);;
 
         model.addAttribute("orderProducts", orderProductService.getOrderProductsByOrderId(order.getId()));
         model.addAttribute("orderProductsEmpty", orderProductService.getOrderProductsByOrderId(order.getId()).isEmpty());
@@ -217,63 +220,63 @@ public class CartController {
     
 
     @PostMapping("/process-order")
-public String procesarPago(HttpSession session, Model model) {
+    public String procesarPago(HttpSession session, Model model) {
 
-    Long idUser = (Long) session.getAttribute("userId");
-    User user = userService.findById(idUser);
+        Long idUser = (Long) session.getAttribute("userId");
+        User user = userService.findById(idUser);
 
-    Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
+        Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
 
-    if (!unpaidOrder.isPresent()) {
-        return "user_registered/cart";
-    }
+        if (!unpaidOrder.isPresent()) {
+            return "user_registered/cart";
+        }
 
-    boolean cannotProcessOrder = false;
+        boolean cannotProcessOrder = false;
 
-    for (OrderProduct orderProduct : unpaidOrder.get().getOrderProducts()) {
-        int quantity = orderProduct.getQuantity();
-        String size = orderProduct.getSize();
-        Product product = orderProduct.getProduct();
+        for (OrderProduct orderProduct : unpaidOrder.get().getOrderProducts()) {
+            int quantity = orderProduct.getQuantity();
+            String size = orderProduct.getSize();
+            Product product = orderProduct.getProduct();
 
-        Optional<Size> productSize = product.getSizes().stream()
-            .filter(s -> s.getName().toString().equals(size))
-            .findFirst();
+            Optional<Size> productSize = product.getSizes().stream()
+                .filter(s -> s.getName().toString().equals(size))
+                .findFirst();
 
-        if (productSize.isPresent()) {
-            Size sizeObj = productSize.get();
-            int availableStock = sizeObj.getStock();
+            if (productSize.isPresent()) {
+                Size sizeObj = productSize.get();
+                int availableStock = sizeObj.getStock();
 
-            // Comprobar si hay suficiente stock
-            if (quantity > availableStock) {
-                cannotProcessOrder = true;  // No se puede procesar la orden si hay productos sin stock
-            } else {
-                // Si hay suficiente stock, actualizar el stock
-                int updatedStock = availableStock - quantity;
-                sizeObj.setStock(updatedStock);
-                sizeService.saveSize(sizeObj);
+                // Comprobar si hay suficiente stock
+                if (quantity > availableStock) {
+                    cannotProcessOrder = true;  // No se puede procesar la orden si hay productos sin stock
+                } else {
+                    // Si hay suficiente stock, actualizar el stock
+                    int updatedStock = availableStock - quantity;
+                    sizeObj.setStock(updatedStock);
+                    sizeService.saveSize(sizeObj);
+                }
             }
         }
+
+        // Si no se puede procesar el pedido, devolver true al modelo
+        if (cannotProcessOrder) {
+            model.addAttribute("orderNotProcessed", true);
+            return "/cart";  // Redirigir al carrito para que el usuario vea el error
+        }
+
+        // Si todo está bien con el stock, procesar el pago
+        Order order = unpaidOrder.get();
+        order.setIsPaid(true);
+        order.setState(State.Pagado);
+
+        orderService.saveOrder(order);
+
+        Order newOrder = new Order(user,State.No_pagado,false);
+        orderService.saveOrder(newOrder);
+
+        // Redirigir a la página de órdenes
+        return "redirect:/orders";
     }
-
-    // Si no se puede procesar el pedido, devolver true al modelo
-    if (cannotProcessOrder) {
-        model.addAttribute("orderNotProcessed", true);
-        return "/cart";  // Redirigir al carrito para que el usuario vea el error
-    }
-
-
-    
-
-    // Si todo está bien con el stock, procesar el pago
-    Order order = unpaidOrder.get();
-    order.setIsPaid(true);
-    order.setState(State.Pagado);
-
-    orderService.saveOrder(order);
-
-    // Redirigir a la página de órdenes
-    return "redirect:/orders";
-}
 
     @PostMapping("/delete/{id}")
     public String removeFromCart(@PathVariable("id") Long orderProductId, HttpSession session, Model model) {
