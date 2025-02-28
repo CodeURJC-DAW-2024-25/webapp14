@@ -223,7 +223,7 @@ public class CartController {
     
 
     @PostMapping("/process-order")
-    public String procesarPago(@ModelAttribute("userId") Long userId, Model model) {
+    public String processPayment(@ModelAttribute("userId") Long userId, Model model) {
 
         if (userId == null) {
             return "redirect:/login"; 
@@ -234,7 +234,7 @@ public class CartController {
         Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
 
         if (!unpaidOrder.isPresent()) {
-            return "user_registered/cart";
+            return "redirect:/cart";
         }
 
         boolean cannotProcessOrder = false;
@@ -252,25 +252,62 @@ public class CartController {
                 Size sizeObj = productSize.get();
                 int availableStock = sizeObj.getStock();
 
-                // Comprobar si hay suficiente stock
                 if (quantity > availableStock) {
-                    cannotProcessOrder = true;  // No se puede procesar la orden si hay productos sin stock
-                } else {
-                    // Si hay suficiente stock, actualizar el stock
-                    int updatedStock = availableStock - quantity;
-                    sizeObj.setStock(updatedStock);
-                    sizeService.saveSize(sizeObj);
+                    cannotProcessOrder = true;
+                    break;
                 }
             }
         }
 
-        // Si no se puede procesar el pedido, devolver true al modelo
         if (cannotProcessOrder) {
             model.addAttribute("orderNotProcessed", true);
-            return "/cart";  // Redirigir al carrito para que el usuario vea el error
+            return "redirect:/cart";
         }
 
-        // Si todo está bien con el stock, procesar el pago
+        for (OrderProduct orderProduct : unpaidOrder.get().getOrderProducts()) {
+            int quantity = orderProduct.getQuantity();
+            String size = orderProduct.getSize();
+            Product product = orderProduct.getProduct();
+
+            Optional<Size> productSize = product.getSizes().stream()
+                .filter(s -> s.getName().toString().equals(size))
+                .findFirst();
+
+            if (productSize.isPresent()) {
+                Size sizeObj = productSize.get();
+                int availableStock = sizeObj.getStock();
+
+                if (quantity > availableStock) {
+                    cannotProcessOrder = true;
+                } else {
+                    int updatedStock = availableStock - quantity;
+                    sizeObj.setStock(updatedStock);
+                    sizeService.saveSize(sizeObj);
+                    product.incrementSold(orderProduct.getQuantity());
+                }
+            }
+        }
+
+        if (cannotProcessOrder) {
+            model.addAttribute("orderNotProcessed", true);
+            return "redirect:/cart";
+        }
+        
+        for (OrderProduct orderProduct : unpaidOrder.get().getOrderProducts()) {
+            Product product = orderProduct.getProduct();
+            boolean allSizesOutOfStock = true;
+            for (Size size : product.getSizes()) {
+                if (size.getStock() > 0) {
+                    allSizesOutOfStock = false;
+                    break;
+                }
+            }
+            if (allSizesOutOfStock) {
+                product.setOutOfStock(true);
+                productService.saveProduct(product);
+            }
+        }
+
         Order order = unpaidOrder.get();
         order.setIsPaid(true);
         order.setState(State.Pagado);
@@ -280,7 +317,6 @@ public class CartController {
         Order newOrder = new Order(user,State.No_pagado,false);
         orderService.saveOrder(newOrder);
 
-        // Redirigir a la página de órdenes
         return "redirect:/orders";
     }
 

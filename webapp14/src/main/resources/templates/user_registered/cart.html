@@ -43,17 +43,25 @@
               {{#orderProducts}}
               <div class="row d-flex align-items-center text-center pt-4">
                 <div class="col-5">
-                  <div class="d-flex align-items-center gap-2">
-                    <a href="/index/elem_detail/{{product.id}}">
-                      <img class="cart-item-img col-6" src="/image/{{product.id}}" alt="...">
-                    </a>
-                    <div class="text-start col-4">
-                      <a href="/index/elem_detail/{{product.id}}l"><strong>{{product.name}}</strong></a>
-                      <br>
-                      <span class="text-muted text-sm">{{size}}</span>
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="image-holder">
+                        <a href="/index/elem_detail/{{product.id}}">
+                          <img class="cart-item-img col-6 img-fluid {{#product.outOfStock}}out-of-stock{{/product.outOfStock}}" 
+                               src="/image/{{product.id}}" 
+                               alt="{{product.name}}">
+                        </a>
+                        {{#product.outOfStock}}
+                        <div class="out-of-stock-overlay-lit">Sin Stock</div>
+                        {{/product.outOfStock}}
+                      </div>
+                     
+                      <div class="text-start col-4">
+                        <a href="/index/elem_detail/{{product.id}}"><strong>{{product.name}}</strong></a>
+                        <br>
+                        <span class="text-muted text-sm">{{size}}</span>
+                      </div>
                     </div>
-                  </div>
-                </div>
+                  </div>  
                 <div class="col-2">{{product.price}} EUR</div>
                 <div class="col-2">{{quantity}}</div>
                 <div class="col-2 text-center">{{subtotalPrice}} EUR</div>
@@ -74,26 +82,32 @@
       
       <div class="col-lg-4">
         <div class="block mb-5">
-          <div class="block-header mb-4">
-            <h6 class="text-uppercase mb-0">Detalles de compra</h6>
-          </div>
-          <div class="block-body bg-light p-4">
-            <p class="text-sm">Los gastos de envío se calculan en función del valor de la compra.</p>
-            <ul class="order-summary mb-0 list-unstyled">
-              <li class="order-summary-item"><span>Subtotal </span><span>{{subtotal}} EUR</span></li>
-              <li class="order-summary-item"><span>Envío </span><span class="text-uppercase">{{shipping}} EUR</span></li>
-              <li class="order-summary-item border-0"><span>Total </span><strong class="order-summary-total">{{total}}
-                  EUR</strong></li>
-            </ul>
-          </div>
-          <div class="my-5 d-flex justify-content-between flex-column flex-lg-row">
-            <form action="/cart/process-order" method="POST">
-              <input type="hidden" name="_csrf" value="{{token}}" />
-              <button type="submit" class="btn btn-dark" {{#orderNotProcessed}}disabled{{/orderNotProcessed}}>Proceder al pago</button>
-            </form>            
-          </div>
+            <div class="block-header mb-4">
+                <h6 class="text-uppercase mb-0">Detalles de compra</h6>
+            </div>
+            <div class="block-body bg-light p-4">
+                <p class="text-sm">Los gastos de envío se calculan en función del valor de la compra.</p>
+                <ul class="order-summary mb-0 list-unstyled">
+                    <li class="order-summary-item"><span>Subtotal </span><span>{{subtotal}} EUR</span></li>
+                    <li class="order-summary-item"><span>Envío </span><span class="text-uppercase">{{shipping}} EUR</span></li>
+                    <li class="order-summary-item border-0"><span>Total </span><strong class="order-summary-total">{{total}} EUR</strong></li>
+                </ul>
+            </div>
+            <div class="my-5 d-flex flex-column justify-content-between">
+                <form action="/cart/process-order" method="POST">
+                    <input type="hidden" name="_csrf" value="{{token}}" />
+                    <button type="submit" class="btn btn-dark" {{#orderNotProcessed}}disabled{{/orderNotProcessed}}>Proceder al pago</button>
+                </form>
+    
+                {{#orderNotProcessed}}
+                <div class="alert alert-danger mt-3">
+                    No podemos procesar tu pedido en este momento debido a la falta de stock de algunos productos. Por favor, verifica la disponibilidad de los productos y vuelve a intentarlo.
+                </div>
+                {{/orderNotProcessed}}
+            </div>
         </div>
-      </div>
+    </div>
+    
     </div>
     {{/orderProductsEmpty}}
   </div>
