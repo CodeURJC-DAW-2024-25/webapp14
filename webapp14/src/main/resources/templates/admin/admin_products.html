@@ -1,468 +1,11 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>NOIR & BLANC ADMIN</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-
-    <!-- Custom styles for this template-->
-    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/custom.css">
-
-</head>
-
-
-
-{{#admin}}
-
-<body id="page-top">
-
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-
-        <!-- Sidebar -->
-        {{> admin/sidebar}}
-        <!-- End of Sidebar -->
-
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
-                {{> admin/topbar}}
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body d-flex align-items-center">
-                                    <div class="col">
-                                        <div class="text-xs font-weight-bold text-uppercase mb-1 text-custom-primary">
-                                            Número de Productos </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                            {{productCount}}
-                                        </div>
-                                    </div>
-                                    <div class="col-auto d-flex align-items-center">
-                                        <i class="fas fa-tshirt fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body d-flex align-items-center justify-content-between">
-                                    <div>
-                                        <div class="text-xs font-weight-bold text-uppercase mb-1 text-custom-success">
-                                            Número de Categorias
-                                        </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                            {{categoriesCount}}
-                                        </div>
-                                    </div>
-                                    <i class="fas fa-th-list fa-2x text-gray-300"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Productos en Stock
-                                            </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                {{totalStock}}
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-boxes fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-danger shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                                Productos sin Stock
-                                            </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                                {{totalOutStock}}
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-exclamation-circle fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex mt-3 mb-3">
-
-                        <!-- Modal Botton -->
-                        <button type="button" class="btn btn-primary mt-3 mb-3 d-flex align-items-center"
-                            data-toggle="modal" data-target="#createModal">
-                            <i class="fas fa-plus-circle mr-2"></i> Crear Producto
-                        </button>
-                        <!-- Modal -->
-                        <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="createModalLabel">Crear Nuevo Producto</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form action="/admin/products/create" method="POST" enctype="multipart/form-data">
-                                            <input type="hidden" name="_csrf" value="{{token}}" />
-                                            <div class="text-center">
-                                                <div class="form-group">
-                                                    <div>
-                                                        <img id="imagePreview" class="img-fluid mb-3" alt="Product Image"
-                                                             style="max-width: 200px;" src="/images/no_image.png">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="imageUpload">Imagen del Producto</label>
-                                                <div class="custom-file">
-                                                    <input type="file" class="form-control" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(event)">
-                                                    <label class="custom-file-label" for="imageUpload">Elegir archivo</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="newProductName">Nombre</label>
-                                                <input type="text" class="form-control" id="newProductName" name="name"
-                                                       placeholder="Ingrese el nombre" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="newProductDescription">Descripción</label>
-                                                <input type="text" class="form-control" id="newProductDescription" name="description"
-                                                       placeholder="Ingrese la descripción" required>
-                                            </div>                                        
-                                            <div class="form-group">
-                                                <label for="newProductPrice">Precio</label>
-                                                <div class="input-group">
-                                                    <input type="number" class="form-control" id="newProductPrice" name="price" placeholder="Ingrese el precio" min="0" step="0.01" required>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">&euro;</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="newProductCategory">Categoría</label>
-                                                <select class="form-control" id="newProductCategory" name="category" required>
-                                                    <option value="" selected disabled>Seleccione la categoría</option>
-                                                    {{#categories}}
-                                                    <option value="{{.}}">{{.}}</option>
-                                                    {{/categories}}
-                                                </select>
-                                            </div>
-                                                                                       
-                                            <div class="form-group">
-                                                <label>Stock Disponible por Talla</label>
-                                                <div class="row">
-                                                    <div class="col-md-3 col-sm-6 mb-2">
-                                                        <label for="stock_S" class="d-block text-center font-weight-bold">S</label>
-                                                        <input type="number" class="form-control text-center" id="stock_S" name="stock_S" value="0" min="0">
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-6 mb-2">
-                                                        <label for="stock_M" class="d-block text-center font-weight-bold">M</label>
-                                                        <input type="number" class="form-control text-center" id="stock_M" name="stock_M" value="0" min="0">
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-6 mb-2">
-                                                        <label for="stock_L" class="d-block text-center font-weight-bold">L</label>
-                                                        <input type="number" class="form-control text-center" id="stock_L" name="stock_L" value="0" min="0">
-                                                    </div>
-                                                    <div class="col-md-3 col-sm-6 mb-2">
-                                                        <label for="stock_XL" class="d-block text-center font-weight-bold">XL</label>
-                                                        <input type="number" class="form-control text-center" id="stock_XL" name="stock_XL" value="0" min="0">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            
-                                            <button type="submit" class="btn btn-primary">Crear Producto</button>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-12 col-lg-10">
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-admin-title">Productos</h6>
-                                <div class="btn-group">
-                                    <button class="btn btn-outline-warning btn-sm" id="filter-out-of-stock" onclick="window.location.href='/admin/products/out-of-stock'">
-                                        <i class="fas fa-filter"></i> Filtrar sin Stock
-                                    </button>
-                                    <button class="btn btn-outline-info btn-sm ml-2" id="show-all-products" onclick="window.location.href='/admin/products'">
-                                        <i class="fas fa-arrow-left"></i> Ver Todos
-                                    </button>
-                                </div>
-                            </div>
-                    
-                            <div class="card-body">
-                                <ul class="list-group" id="products">
-                                    {{#products}}
-                                    <li class="list-group-item d-flex flex-column flex-sm-row justify-content-between align-items-start {{#outOfStock}}out-of-stock-container{{/outOfStock}}">
-                                        <span>
-                                            ID: {{id}}
-                                        </span>
-                                        <div class="d-flex flex-column flex-sm-row mt-2">
-                                            <button class="btn btn-sm btn-outline-primary custom-btn mb-2 mb-sm-0" data-toggle="collapse" data-target="#product{{id}}">
-                                                Ver detalles
-                                            </button>                                            
-                                            <button class="btn btn-primary btn-rounded btn-sm mb-2 mb-sm-0 ml-sm-2" data-toggle="modal" data-target="#editModal{{id}}">
-                                                <i class="fas fa-edit"></i> Editar
-                                            </button>
-                                            <form action="/admin/products/delete/{{id}}" method="post">
-                                                <input type="hidden" name="_csrf" value="{{token}}" />
-                                                <button type="submit" class="btn btn-danger btn-rounded btn-sm ml-sm-2">
-                                                    <i class="fas fa-trash-alt"></i> Eliminar
-                                                </button>
-                                            </form>                             
-                                        </div>
-                                    </li>
-                                    
-                                    <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="product{{id}}">
-                                        <div class="d-flex align-items-center">
-                                            <div class="image-wrapper position-relative">
-                                                {{#imageBool}}
-                                                    <img src="/image/{{id}}" alt="Producto" class="rounded img-admin-products {{#outOfStock}}out-of-stock{{/outOfStock}}">
-                                                    
-                                                    {{#outOfStock}}
-                                                        <div class="out-of-stock-overlay">Sin Stock</div>
-                                                    {{/outOfStock}}
-                                                {{/imageBool}}
-                                            
-                                                {{^imageBool}}
-                                                    <img src="/images/no_image.png" alt="Producto" class="rounded img-admin-products">
-                                                {{/imageBool}}
-                                            </div>
-                                            
-                                            <div class="flex-grow-1 ml-3">
-                                                <h5><strong>{{name}}</strong></h5>
-                                                <p class="mb-1">{{description}}</p>
-                                                <p><strong>Precio:</strong> {{price}}&euro;</p>
-                                                <p><strong>Categoría:</strong> {{category}}</p>
-                                                <p><strong>Stock Disponible:</strong></p>
-                                                <ul>
-                                                    {{#sizes}}
-                                                    <li><strong>{{name}}:</strong> {{stock}} unidades</li>
-                                                    {{/sizes}}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="mt-3">
-                                            <h6><strong>Reseñas de Clientes:</strong></h6>
-                                            <ul class="list-group">
-                                                {{#reviews}}
-                                                <li class="list-group-item">
-                                                    <strong>{{user.name}}:</strong> {{reviewText}}  
-                                                    <span class="text-warning">
-                                                        {{#ratingStars}}
-                                                        <span>&#9733;</span>
-                                                        {{/ratingStars}}
-                                                        {{#emptyStars}}
-                                                        <span>&#9734;</span>
-                                                        {{/emptyStars}}
-                                                    </span>
-                                                </li>
-                                                {{/reviews}}
-                                                {{^reviews}}
-                                                <p class="mb-1">Aún no hay reseñas para este producto</p>
-                                                {{/reviews}}
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Modal Edit Product -->
-                                    <div class="modal fade" id="editModal{{id}}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{id}}" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="editModalLabel{{id}}">Editar Producto - {{name}}</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <form action="/admin/products/edit/{{id}}" method="post" enctype="multipart/form-data">
-                                                        <input type="hidden" name="_csrf" value="{{token}}" />
-                                                        <div class="container">
-                                                            <div class="row justify-content-center">
-                                                                {{#image}}
-                                                                <div class="col-md-5 text-center">
-                                                                    <div class="cardImage shadow-sm p-3 mb-4">
-                                                                        <h6 class="text-muted">Imagen Actual</h6>
-                                                                        <img id="originalImage" class="img-fluid rounded" alt="Imagen Actual" style="max-width: 100%; height: auto;" src="/image/{{id}}">
-                                                                    </div>
-                                                                </div>
-                                                                {{/image}}
-                                                    
-                                                                <div class="col-md-5 text-center">
-                                                                    <div class="cardImage shadow-sm p-3 mb-4">
-                                                                        <h6 class="text-muted">Nueva Imagen</h6>
-                                                                        <img id="newImagePreview{{id}}" class="img-fluid rounded" alt="Nueva Imagen" style="max-width: 100%; height: auto; display: none;">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    
-                                                        <div class="form-group">
-                                                            <label for="updateImage">Actualizar Imagen</label>
-                                                            <div class="custom-file">
-                                                                <input type="file" class="custom-file-input" id="updateImage{{id}}" name="image" accept="image/*" onchange="previewUpdatedImage(event, '{{id}}')">
-                                                                <label class="custom-file-label" for="updateImage">Seleccionar Archivo...</label>
-                                                            </div>
-                                                        </div>
-                                                    
-                                                        {{#image}}
-                                                        <div class="form-check">
-                                                            <input type="checkbox" name="removeImage" class="form-check-input" id="removeImage">
-                                                            <label class="form-check-label" for="removeImage">Eliminar Imagen</label>
-                                                        </div>
-                                                        {{/image}}
-                                                    
-                                                        <div class="form-group">
-                                                            <label for="productName{{id}}">Nombre del Producto</label>
-                                                            <input type="text" class="form-control" id="productName{{id}}" name="name" value="{{name}}">
-                                                        </div>
-                                                    
-                                                        <div class="form-group">
-                                                            <label for="productDescription{{id}}">Descripción</label>
-                                                            <input type="text" class="form-control" id="productDescription{{id}}" name="description" value="{{description}}">
-                                                        </div>
-                                                    
-                                                        <div class="form-group">
-                                                            <label for="productPrice{{id}}">Precio</label>
-                                                            <div class="input-group">
-                                                                <input type="number" class="form-control" id="productPrice{{id}}" name="price" value="{{price}}" min="0" step="0.01">
-                                                                <div class="input-group-append">
-                                                                    <span class="input-group-text">&euro;</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    
-                                                        <div class="form-group">
-                                                            <label for="productCategory{{id}}">Categoría</label>
-                                                            <input type="text" class="form-control" id="productCategory{{id}}" name="category" value="{{category}}">
-                                                        </div>
-                                                    
-                                                        <div class="form-group">
-                                                            <label>Stock Disponible por Talla</label>
-                                                            <div class="row">
-                                                                {{#sizes}}
-                                                                <div class="col-md-3 col-sm-6 mb-2">
-                                                                    <label for="stock{{name}}" class="d-block text-center font-weight-bold">{{name}}</label>
-                                                                    <input type="number" class="form-control text-center" 
-                                                                           id="stock{{name}}" name="stock_{{name}}" 
-                                                                           value="{{stock}}" min="0">
-                                                                </div>
-                                                                {{/sizes}}
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{/products}}
-                                    {{^products}}
-                                    <p class="text-center">No se ha cargado ningún producto.</p>
-                                    {{/products}}
-                                </ul>
-                                <button type="button" id="load-more" class="mt-3 ml-3" onclick="loadMoreAdminProducts(this)" data-page="{{nextPage}}">
-                                    Más resultados
-                                </button>
-                            </div>
-                        </div>
-                    </div> 
-                        
-                  
-                </div>
-                <!-- End of Main Content -->
-            </div>
-            <!-- End of Content Wrapper -->
-
-            <!-- Footer -->
-            {{> admin/footer}}
-            <!-- End of Footer -->
-        </div>
-        <!-- End of Page Wrapper -->
-
-        <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
-
-        <!-- Logout Modal-->
-        {{> admin/logoutModal}}
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script defer src="/js/app.js"></script>
-
-
-
-</body>
+{{> partialsAdmin/header }}
 
 <script>
-    $(document).ready(function() {
-    $('#sidebarToggleTop').click(function(e) {
-        e.preventDefault();
-        $('#accordionSidebar').toggleClass('toggled');
-        $('#content-wrapper').toggleClass('toggled');
-    });
-});
-
     function previewImage(event) {
         const file = event.target.files[0];
         const reader = new FileReader();
-        
-        reader.onload = function() {
+
+        reader.onload = function () {
             const imgPreview = document.getElementById('imagePreview');
             imgPreview.src = reader.result;
         }
@@ -482,9 +25,413 @@
             output.style.display = 'block';
         }
     }
-
 </script>
 
-{{/admin}}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body d-flex align-items-center">
+                    <div class="col">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1 text-custom-primary">
+                            Número de Productos </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{productCount}}
+                        </div>
+                    </div>
+                    <div class="col-auto d-flex align-items-center">
+                        <i class="fas fa-tshirt fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-</html>
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <div class="text-xs font-weight-bold text-uppercase mb-1 text-custom-success">
+                            Número de Categorias
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{categoriesCount}}
+                        </div>
+                    </div>
+                    <i class="fas fa-th-list fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Productos en Stock
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{totalStock}}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-boxes fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                Productos sin Stock
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                {{totalOutStock}}
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-exclamation-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex mt-3 mb-3">
+
+        <!-- Modal Botton -->
+        <button type="button" class="btn btn-primary mt-3 mb-3 d-flex align-items-center" data-toggle="modal"
+            data-target="#createModal">
+            <i class="fas fa-plus-circle mr-2"></i> Crear Producto
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createModalLabel">Crear Nuevo Producto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/admin/products/create" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="_csrf" value="{{token}}" />
+                            <div class="text-center">
+                                <div class="form-group">
+                                    <div>
+                                        <img id="imagePreview" class="img-fluid mb-3" alt="Product Image"
+                                            style="max-width: 200px;" src="/images/no_image.png">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="imageUpload">Imagen del Producto</label>
+                                <div class="custom-file">
+                                    <input type="file" class="form-control" id="imageUpload" name="imageUpload"
+                                        accept="image/*" onchange="previewImage(event)">
+                                    <label class="custom-file-label" for="imageUpload">Elegir archivo</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="newProductName">Nombre</label>
+                                <input type="text" class="form-control" id="newProductName" name="name"
+                                    placeholder="Ingrese el nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newProductDescription">Descripción</label>
+                                <input type="text" class="form-control" id="newProductDescription" name="description"
+                                    placeholder="Ingrese la descripción" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newProductPrice">Precio</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="newProductPrice" name="price"
+                                        placeholder="Ingrese el precio" min="0" step="0.01" required>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">&euro;</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="newProductCategory">Categoría</label>
+                                <select class="form-control" id="newProductCategory" name="category" required>
+                                    <option value="" selected disabled>Seleccione la categoría</option>
+                                    {{#categories}}
+                                    <option value="{{.}}">{{.}}</option>
+                                    {{/categories}}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Stock Disponible por Talla</label>
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-6 mb-2">
+                                        <label for="stock_S" class="d-block text-center font-weight-bold">S</label>
+                                        <input type="number" class="form-control text-center" id="stock_S"
+                                            name="stock_S" value="0" min="0">
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 mb-2">
+                                        <label for="stock_M" class="d-block text-center font-weight-bold">M</label>
+                                        <input type="number" class="form-control text-center" id="stock_M"
+                                            name="stock_M" value="0" min="0">
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 mb-2">
+                                        <label for="stock_L" class="d-block text-center font-weight-bold">L</label>
+                                        <input type="number" class="form-control text-center" id="stock_L"
+                                            name="stock_L" value="0" min="0">
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 mb-2">
+                                        <label for="stock_XL" class="d-block text-center font-weight-bold">XL</label>
+                                        <input type="number" class="form-control text-center" id="stock_XL"
+                                            name="stock_XL" value="0" min="0">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <button type="submit" class="btn btn-primary">Crear Producto</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-12 col-lg-10">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-admin-title">Productos</h6>
+                <div class="btn-group">
+                    <button class="btn btn-outline-warning btn-sm" id="filter-out-of-stock"
+                        onclick="window.location.href='/admin/products/out-of-stock'">
+                        <i class="fas fa-filter"></i> Filtrar sin Stock
+                    </button>
+                    <button class="btn btn-outline-info btn-sm ml-2" id="show-all-products"
+                        onclick="window.location.href='/admin/products'">
+                        <i class="fas fa-arrow-left"></i> Ver Todos
+                    </button>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <ul class="list-group" id="products">
+                    {{#products}}
+                    <li
+                        class="list-group-item d-flex flex-column flex-sm-row justify-content-between align-items-start {{#outOfStock}}out-of-stock-container{{/outOfStock}}">
+                        <span>
+                            ID: {{id}}
+                        </span>
+                        <div class="d-flex flex-column flex-sm-row mt-2">
+                            <button class="btn btn-sm btn-outline-primary custom-btn mb-2 mb-sm-0"
+                                data-toggle="collapse" data-target="#product{{id}}">
+                                Ver detalles
+                            </button>
+                            <button class="btn btn-primary btn-rounded btn-sm mb-2 mb-sm-0 ml-sm-2" data-toggle="modal"
+                                data-target="#editModal{{id}}">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                            <form action="/admin/products/delete/{{id}}" method="post">
+                                <input type="hidden" name="_csrf" value="{{token}}" />
+                                <button type="submit" class="btn btn-danger btn-rounded btn-sm ml-sm-2">
+                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+
+                    <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="product{{id}}">
+                        <div class="d-flex align-items-center">
+                            <div class="image-wrapper position-relative">
+                                {{#imageBool}}
+                                <img src="/image/{{id}}" alt="Producto"
+                                    class="rounded img-admin-products {{#outOfStock}}out-of-stock{{/outOfStock}}">
+
+                                {{#outOfStock}}
+                                <div class="out-of-stock-overlay">Sin Stock</div>
+                                {{/outOfStock}}
+                                {{/imageBool}}
+
+                                {{^imageBool}}
+                                <img src="/images/no_image.png" alt="Producto" class="rounded img-admin-products">
+                                {{/imageBool}}
+                            </div>
+
+                            <div class="flex-grow-1 ml-3">
+                                <h5><strong>{{name}}</strong></h5>
+                                <p class="mb-1">{{description}}</p>
+                                <p><strong>Precio:</strong> {{price}}&euro;</p>
+                                <p><strong>Categoría:</strong> {{category}}</p>
+                                <p><strong>Stock Disponible:</strong></p>
+                                <ul>
+                                    {{#sizes}}
+                                    <li><strong>{{name}}:</strong> {{stock}} unidades</li>
+                                    {{/sizes}}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <h6><strong>Reseñas de Clientes:</strong></h6>
+                            <ul class="list-group">
+                                {{#reviews}}
+                                <li class="list-group-item">
+                                    <strong>{{user.name}}:</strong> {{reviewText}}
+                                    <span class="text-warning">
+                                        {{#ratingStars}}
+                                        <span>&#9733;</span>
+                                        {{/ratingStars}}
+                                        {{#emptyStars}}
+                                        <span>&#9734;</span>
+                                        {{/emptyStars}}
+                                    </span>
+                                </li>
+                                {{/reviews}}
+                                {{^reviews}}
+                                <p class="mb-1">Aún no hay reseñas para este producto</p>
+                                {{/reviews}}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Modal Edit Product -->
+                    <div class="modal fade" id="editModal{{id}}" tabindex="-1" role="dialog"
+                        aria-labelledby="editModalLabel{{id}}" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editModalLabel{{id}}">Editar Producto - {{name}}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/admin/products/edit/{{id}}" method="post"
+                                        enctype="multipart/form-data">
+                                        <input type="hidden" name="_csrf" value="{{token}}" />
+                                        <div class="container">
+                                            <div class="row justify-content-center">
+                                                {{#image}}
+                                                <div class="col-md-5 text-center">
+                                                    <div class="cardImage shadow-sm p-3 mb-4">
+                                                        <h6 class="text-muted">Imagen Actual</h6>
+                                                        <img id="originalImage" class="img-fluid rounded"
+                                                            alt="Imagen Actual" style="max-width: 100%; height: auto;"
+                                                            src="/image/{{id}}">
+                                                    </div>
+                                                </div>
+                                                {{/image}}
+
+                                                <div class="col-md-5 text-center">
+                                                    <div class="cardImage shadow-sm p-3 mb-4">
+                                                        <h6 class="text-muted">Nueva Imagen</h6>
+                                                        <img id="newImagePreview{{id}}" class="img-fluid rounded"
+                                                            alt="Nueva Imagen"
+                                                            style="max-width: 100%; height: auto; display: none;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="updateImage">Actualizar Imagen</label>
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="updateImage{{id}}"
+                                                    name="image" accept="image/*"
+                                                    onchange="previewUpdatedImage(event, '{{id}}')">
+                                                <label class="custom-file-label" for="updateImage">Seleccionar
+                                                    Archivo...</label>
+                                            </div>
+                                        </div>
+
+                                        {{#image}}
+                                        <div class="form-check">
+                                            <input type="checkbox" name="removeImage" class="form-check-input"
+                                                id="removeImage">
+                                            <label class="form-check-label" for="removeImage">Eliminar Imagen</label>
+                                        </div>
+                                        {{/image}}
+
+                                        <div class="form-group">
+                                            <label for="productName{{id}}">Nombre del Producto</label>
+                                            <input type="text" class="form-control" id="productName{{id}}" name="name"
+                                                value="{{name}}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="productDescription{{id}}">Descripción</label>
+                                            <input type="text" class="form-control" id="productDescription{{id}}"
+                                                name="description" value="{{description}}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="productPrice{{id}}">Precio</label>
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" id="productPrice{{id}}"
+                                                    name="price" value="{{price}}" min="0" step="0.01">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">&euro;</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="productCategory{{id}}">Categoría</label>
+                                            <input type="text" class="form-control" id="productCategory{{id}}"
+                                                name="category" value="{{category}}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Stock Disponible por Talla</label>
+                                            <div class="row">
+                                                {{#sizes}}
+                                                <div class="col-md-3 col-sm-6 mb-2">
+                                                    <label for="stock{{name}}"
+                                                        class="d-block text-center font-weight-bold">{{name}}</label>
+                                                    <input type="number" class="form-control text-center"
+                                                        id="stock{{name}}" name="stock_{{name}}" value="{{stock}}"
+                                                        min="0">
+                                                </div>
+                                                {{/sizes}}
+                                            </div>
+                                        </div>
+
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/products}}
+                    {{^products}}
+                    <p class="text-center">No se ha cargado ningún producto.</p>
+                    {{/products}}
+                </ul>
+                <button type="button" id="load-more" class="mt-3 ml-3" onclick="loadMoreAdminProducts(this)"
+                    data-page="{{nextPage}}">
+                    Más resultados
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<!-- End of Main Content -->
+
+{{> partialsAdmin/footer }}

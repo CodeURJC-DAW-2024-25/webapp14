@@ -1,187 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-
-    <title>NOIR & BLANC Admin Orders</title>
-
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <link rel="stylesheet" href="/vendor/fontawesome-free/css/all.min.css" type="text/css">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
-    <link rel="stylesheet" href="/css/sb-admin-2.min.css">
-    <link rel="stylesheet" href="/css/custom.css">
-
-</head>
-
-{{^admin}}
-{{> acces_error}}
-{{/admin}}
-
-{{#admin}}
-
-<body id="page-top">
-
-    <div id="wrapper">
-
-        <!-- Sidebar -->
-        {{> admin/sidebar}}
-
-        <!-- Content wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main content -->
-            <div id="content">
-
-                <!-- Topbar -->
-                {{> admin/topbar}}
-
-                <!-- Begin page content -->
-                <div class="container-fluid">
-
-                    <!-- Orders content -->
-                    <div class="row">
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body d-flex align-items-center">
-                                    <div class="col">
-                                        <div class="text-xs font-weight-bold text-uppercase mb-1 text-custom-primary">
-                                            Número de pedidos
-                                        </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{orderCount}}</div>
-                                    </div>
-                                    <div class="col-auto d-flex align-items-center">
-                                        <i class="fas fa-boxes fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Orders section -->
-                    <div class="col-xl-12 col-lg-10">
-                        <div class="card shadow mb-4">
-                            <!-- Card header -->
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-admin-title">Pedidos</h6>
-                            </div>
-                            <!-- Orders -->
-                            <div class="card-body">
-                                <ul class="list-group" id="orders">
-                                    {{#orders}}
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span><strong>ID: </strong>{{id}}</span>
-                                        <div class="d-flex flex-column flex-sm-row mt-2">
-                                            <button class="btn btn-sm btn-outline-primary custom-btn mb-2 mb-sm-0"
-                                                data-toggle="collapse" data-target="#order{{id}}">
-                                                Ver detalles
-                                            </button>
-                                            <form action="/admin/orders/delete/{{id}}" method="post">
-                                                <input type="hidden" name="_csrf" value="{{token}}" />
-                                                <button type="submit" class="btn btn-danger btn-rounded btn-sm ml-sm-2">
-                                                    <i class="fas fa-trash-alt"></i> Eliminar
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </li>
-                                    <!-- Order details -->
-                                    <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="order{{id}}">
-                                        <h6><strong>Productos en el pedido:</strong></h6>
-                                        <div class="d-flex flex-row overflow-auto">
-                                            {{#orderProducts}}
-                                            <div class="p-2 border rounded bg-white mr-2">
-                                                <img src="/image/{{id}}" alt="Producto"
-                                                    class="rounded img-admin-products"
-                                                    style="width: 120px; display: block; margin: 0 auto;">
-                                                <p><strong>Cantidad: </strong>{{quantity}}</p>
-                                                <p><strong>Precio: </strong>{{product.price}}&euro;</p>
-                                                <hr>
-                                                <p class="product-name"><strong>{{product.name}}</strong></p>
-                                            </div>
-                                            {{/orderProducts}}
-                                        </div>
-                                        <div class="mt-3">
-                                            <h6><strong>Fecha: </strong>{{createdAt}}</h6>
-                                            <h6><strong>Estado del Pedido: </strong><span
-                                                    id="order-state-{{id}}">{{state}}</span></h6>
-                                            <button class="btn btn-sm btn-outline-primary update-btn"
-                                                id="updateBtn{{id}}" data-id="{{id}}">
-                                                Actualizar Estado
-                                            </button>
-                                            <!-- Form to change  to change the order state -->
-                                            <form id="form-update{{id}}" action="/admin/orders" method="post"
-                                                style="display:none; margin-top: 13px">
-                                                <input type="hidden" name="_csrf" value="{{token}}" />
-                                                <input type="hidden" name="orderId" value="{{id}}">
-                                                <select name="state" class="form-control d-inline w-auto">
-                                                    <option value="Pagado" {% if state='Pagado' %}selected{% endif %}>
-                                                        Pagado</option>
-                                                    <option value="Enviado" {% if state='Enviado' %}selected{% endif %}>
-                                                        Enviado</option>
-                                                    <option value="Procesado" {% if state='Procesado' %}selected{% endif
-                                                        %}>
-                                                        Procesado</option>
-                                                </select>
-                                                <button type="submit" class="btn btn-sm btn-primary">Actualizar</button>
-                                            </form>
-                                            <br>
-                                            <hr>
-                                            <h6><strong>Total: </strong>{{totalPrice}}&euro;</h6>
-                                        </div>
-                                    </div>
-                                    {{/orders}}
-                                </ul>
-
-                                <button type="button" id="load-more" class="mt-3 ml-3"
-                                    onclick="loadMoreAdminOrders(this)" data-page="{{nextPage}}">
-                                    Más resultados
-                                </button>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- Footer section -->
-            {{> admin/footer}}
-
-        </div>
-
-        <!-- Scroll to top button-->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
-
-        <!-- Logout modal-->
-        {{> admin/logoutModal}}
-
-    </div>
-
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script defer src="/js/app.js"></script>
-
-</body>
-
-{{/admin}}
+{{> partialsAdmin/header }}
 
 <script>
-
     $(document).ready(function () {
-        $('#sidebarToggleTop').click(function (e) {
-            e.preventDefault();
-            $('#accordionSidebar').toggleClass('toggled');
-            $('#content-wrapper').toggleClass('toggled');
-        });
-
         $('.update-btn').click(function () {
             var orderId = $(this).data('id');
             toggleForm(orderId);
@@ -203,14 +23,110 @@
             button.textContent = "Actualizar Estado";
         }
     }
-    $(document).ready(function () {
-        $('#sidebarToggleTop').click(function (e) {
-            e.preventDefault();
-            $('#accordionSidebar').toggleClass('toggled');
-            $('#content-wrapper').toggleClass('toggled');
-        });
-    });
-
 </script>
 
-</html>
+<!-- Begin page content -->
+<div class="container-fluid">
+
+    <!-- Orders content -->
+    <div class="row">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body d-flex align-items-center">
+                    <div class="col">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1 text-custom-primary">
+                            Número de pedidos
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{orderCount}}</div>
+                    </div>
+                    <div class="col-auto d-flex align-items-center">
+                        <i class="fas fa-boxes fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Orders section -->
+    <div class="col-xl-12 col-lg-10">
+        <div class="card shadow mb-4">
+            <!-- Card header -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-admin-title">Pedidos</h6>
+            </div>
+            <!-- Orders -->
+            <div class="card-body">
+                <ul class="list-group" id="orders">
+                    {{#orders}}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span><strong>ID: </strong>{{id}}</span>
+                        <div class="d-flex flex-column flex-sm-row mt-2">
+                            <button class="btn btn-sm btn-outline-primary custom-btn mb-2 mb-sm-0"
+                                data-toggle="collapse" data-target="#order{{id}}">
+                                Ver detalles
+                            </button>
+                            <form action="/admin/orders/delete/{{id}}" method="post">
+                                <input type="hidden" name="_csrf" value="{{token}}" />
+                                <button type="submit" class="btn btn-danger btn-rounded btn-sm ml-sm-2">
+                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                    <!-- Order details -->
+                    <div class="collapse mt-2 mb-3 p-3 border rounded bg-light" id="order{{id}}">
+                        <h6><strong>Productos en el pedido:</strong></h6>
+                        <div class="d-flex flex-row overflow-auto">
+                            {{#orderProducts}}
+                            <div class="p-2 border rounded bg-white mr-2">
+                                <img src="/image/{{id}}" alt="Producto" class="rounded img-admin-products"
+                                    style="width: 120px; display: block; margin: 0 auto;">
+                                <p><strong>Cantidad: </strong>{{quantity}}</p>
+                                <p><strong>Precio: </strong>{{product.price}}&euro;</p>
+                                <hr>
+                                <p class="product-name"><strong>{{product.name}}</strong></p>
+                            </div>
+                            {{/orderProducts}}
+                        </div>
+                        <div class="mt-3">
+                            <h6><strong>Fecha: </strong>{{createdAt}}</h6>
+                            <h6><strong>Estado del Pedido: </strong><span id="order-state-{{id}}">{{state}}</span></h6>
+                            <button class="btn btn-sm btn-outline-primary update-btn" id="updateBtn{{id}}"
+                                data-id="{{id}}">
+                                Actualizar Estado
+                            </button>
+                            <!-- Form to change  to change the order state -->
+                            <form id="form-update{{id}}" action="/admin/orders" method="post"
+                                style="display:none; margin-top: 13px">
+                                <input type="hidden" name="_csrf" value="{{token}}" />
+                                <input type="hidden" name="orderId" value="{{id}}">
+                                <select name="state" class="form-control d-inline w-auto">
+                                    <option value="Pagado" {% if state='Pagado' %}selected{% endif %}>
+                                        Pagado</option>
+                                    <option value="Enviado" {% if state='Enviado' %}selected{% endif %}>
+                                        Enviado</option>
+                                    <option value="Procesado" {% if state='Procesado' %}selected{% endif %}>
+                                        Procesado</option>
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-primary">Actualizar</button>
+                            </form>
+                            <br>
+                            <hr>
+                            <h6><strong>Total: </strong>{{totalPrice}}&euro;</h6>
+                        </div>
+                    </div>
+                    {{/orders}}
+                </ul>
+
+                <button type="button" id="load-more" class="mt-3 ml-3" onclick="loadMoreAdminOrders(this)"
+                    data-page="{{nextPage}}">
+                    Más resultados
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{{> partialsAdmin/footer }}
