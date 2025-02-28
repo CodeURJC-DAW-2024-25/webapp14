@@ -87,14 +87,12 @@ public class ProductController {
 
 
     @GetMapping
-    public String listProducts(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Long sessionUserId = (Long) session.getAttribute("userId");
-
-        if (sessionUserId != null) {
-            model.addAttribute("productsRecommended", productService.getRecommendedProductsBasedOnLastOrder(sessionUserId, 0, 2));
+    public String listProducts(Model model, @ModelAttribute("userId") Long userId) {
+        if (userId != null) {
+            User user = userService.findById(userId);
+            model.addAttribute("productsRecommended", productService.getRecommendedProductsBasedOnLastOrder(userId, 0, 2));
         }
-        
+
         model.addAttribute("products", productService.getAllProductsSold());
         return "user/index";
     }
@@ -296,8 +294,7 @@ public class ProductController {
         @RequestParam Long id,
             @RequestParam int from,  
             @RequestParam int to,
-            Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
+            Model model, @ModelAttribute("userId") Long userId) {
         Optional <Product> existproduct = productService.getProductById(id);
 
         if(!existproduct.isPresent()){
@@ -307,12 +304,12 @@ public class ProductController {
         Product product = existproduct.get();
         List<Review> reviewsList = product.getTwoReviews(from, to);
         for (Review review : reviewsList){
-            String userEmail = (String) session.getAttribute("userEmail");
-            if (userEmail == null){
+            if (userId == null){
                 review.setOwn(false);
             }
             else{
-                if(userEmail.equals(review.getUser().getEmail())){
+                User user = userService.findById(userId);
+                if(user.getEmail().equals(review.getUser().getEmail())){
                     review.setOwn(true);
                 }
                 else{
