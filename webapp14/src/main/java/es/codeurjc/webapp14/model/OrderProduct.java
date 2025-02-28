@@ -22,13 +22,11 @@ public class OrderProduct {
 
     private int quantity;
 
-    //@ManyToOne
-    //@JoinColumn(name = "size_id", nullable = false)
-    //private Size size;
+    // @ManyToOne
+    // @JoinColumn(name = "size_id", nullable = false)
+    // private Size size;
 
     private String size;
-
-    private Double subtotalPrice;
 
     public OrderProduct() {
     }
@@ -38,7 +36,6 @@ public class OrderProduct {
         this.product = product;
         this.size = size;
         this.quantity = quantity;
-        this.subtotalPrice = 0.00;
     }
 
     // Getters and Setters
@@ -90,13 +87,4 @@ public class OrderProduct {
             return 0.0;
         }
     }
-
-    public void setSubtotalPrice(Double subtotalPrice) {
-        if (product != null) {
-            this.subtotalPrice = product.getPrice() * quantity;
-        } else {
-            this.subtotalPrice = 0.0;
-        }
-    }
-
 }

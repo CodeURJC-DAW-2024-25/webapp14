@@ -45,7 +45,7 @@ public class Product {
     private List<Size> sizes = new ArrayList<>();
 
     public Product() {
-        
+
     }
 
     public Product(String name, String description, double price, Blob image, int stock, CategoryType category) {
@@ -135,6 +135,10 @@ public class Product {
         return this.sold;
     }
 
+    public void incrementSold(int quantity) {
+        this.sold += quantity;
+    }
+
     public List<Review> getReviews() {
         return reviews;
     }
@@ -143,30 +147,28 @@ public class Product {
         this.reviews = reviews;
     }
 
-
     public List<Review> getTwoReviews(int from, int to) {
         if (reviews.isEmpty()) {
-            return List.of(); 
+            return List.of();
         }
-    
-        int validFrom = Math.max(0, from); 
+
+        int validFrom = Math.max(0, from);
         int validTo = Math.min(reviews.size(), to);
-    
+
         if (validFrom >= validTo) {
             return List.of();
         }
-    
+
         return reviews.subList(validFrom, validTo);
     }
-    
-    public boolean getImageBool(){
-		return this.imageBool;
-	}
 
-	public void setImageBool(boolean imageBool){
-		this.imageBool = imageBool;
-	}
+    public boolean getImageBool() {
+        return this.imageBool;
+    }
 
+    public void setImageBool(boolean imageBool) {
+        this.imageBool = imageBool;
+    }
 
     public List<Size> getSizes() {
         return sizes;
