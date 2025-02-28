@@ -139,9 +139,6 @@
         </div>
       </div>
       {{/products}}
-      <div>
-        <button type="button" id="loadMoreTrendingProductsButton" class="btn btn-loadMore" onclick='loadMoreTrendingProducts()'>Cargar más</button>
-      </div>
       {{/logged}}
 
       {{#logged}}
@@ -162,13 +159,11 @@
         </div>
       </div>
       {{/productsRecommended}}
-      
-      {{/logged}}
-      
     </div>
     <div>
       <button type="button" id="loadMoreRecommendedProductsButton" class="btn btn-loadMore" onclick='loadMoreRecommendedProducts()'>Cargar más</button>
     </div>
+    {{/logged}}
 </section>
 
 <section id="service" class="bg-light padding-medium">

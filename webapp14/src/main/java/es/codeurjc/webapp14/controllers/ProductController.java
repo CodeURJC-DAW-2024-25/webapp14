@@ -91,7 +91,6 @@ public class ProductController {
         HttpSession session = request.getSession();
         Long sessionUserId = (Long) session.getAttribute("userId");
 
-
         if (sessionUserId != null) {
             model.addAttribute("productsRecommended", productService.getRecommendedProductsBasedOnLastOrder(sessionUserId, 0, 2));
         }
@@ -137,7 +136,7 @@ public class ProductController {
         boolean hasSizeL = false;
         boolean hasSizeXL = false;
 
-        // Verificar stock en cada talla
+        // Verify stock on each size
         for (Size size : product.getSizes()) {
             if (size.getName() == SizeName.S && size.getStock() > 0) hasSizeS = true;
             if (size.getName() == SizeName.M && size.getStock() > 0) hasSizeM = true;
@@ -187,10 +186,14 @@ public class ProductController {
                              @PathVariable Long reviewId,
                              @RequestParam int rating,
                              @RequestParam String reviewText,
-                             HttpServletRequest request) {
+                             @ModelAttribute("userId") Long userId) {
     
-        HttpSession session = request.getSession();
-        String userEmail = (String) session.getAttribute("userEmail");
+        if (userId == null) {
+            return "redirect:/login"; 
+        }
+
+        User user = userService.findById(userId);
+        String userEmail = user.getEmail();
     
         Optional <Review> existreview = reviewService.getReviewById(reviewId);;
 
@@ -218,16 +221,13 @@ public class ProductController {
     public String addReview(@PathVariable Long productId,
                             @RequestParam int rating,
                             @RequestParam("review-text") String reviewText,
-                            HttpServletRequest request) {
+                            @ModelAttribute("userId") Long userId) {
 
-        HttpSession session = request.getSession();
-        String userEmail = (String) session.getAttribute("userEmail");
-
-        if (userEmail == null) {
-            return "redirect:/login";
+        if (userId == null) {
+            return "redirect:/login"; 
         }
 
-        User user = userService.findByEmail(userEmail);
+        User user = userService.findById(userId);
         Optional <Product> existproduct = productService.getProductById(productId);
 
         if(!existproduct.isPresent()){
@@ -275,12 +275,13 @@ public class ProductController {
             @RequestParam int page,
             @RequestParam int size,
             Model model,
-            HttpServletRequest request) { 
+            @ModelAttribute("userId") Long userId) { 
         
-        HttpSession session = request.getSession();
-        Long sessionUserId = (Long) session.getAttribute("userId");
+        if (userId == null) {
+            return "redirect:/login"; 
+        }
 
-        Page<Product> productsPage = productService.getRecommendedProductsBasedOnLastOrder(sessionUserId, page, size);
+        Page<Product> productsPage = productService.getRecommendedProductsBasedOnLastOrder(userId, page, size);
         boolean hasMore = page < productsPage.getTotalPages() - 1;
 
         model.addAttribute("productsRecommended", productsPage.getContent());

@@ -1,9 +1,18 @@
 {{> partialsUser/header }}
 
+
 <!-- Main Content -->
-<main class="container-fluid pt-5">
-  <section id="category" class="category2">
+<main class="container-fluid">
+  <section style="margin-top: 8rem;">
+    <div class="px-4">
+      <button type="button" id="backButton" class="btn btn-back" onclick="history.back()">
+        ⬅ Volver
+      </button>
+    </div>
     <div class="container-fluid px-md-5">
+      <div>
+        <h2 class="display-5 fw-light text-uppercase text-center">{{category}}</h2>
+      </div>
       <div id="products" class="row gx-4">
         {{#products}}
         <div class="col-md-6 col-lg-3 my-4">

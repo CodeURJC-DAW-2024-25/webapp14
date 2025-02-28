@@ -5,6 +5,8 @@ import java.math.RoundingMode;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.model.Product;
@@ -58,44 +63,42 @@ public class CartController {
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Boolean logged = (Boolean) session.getAttribute("logged");
-        String userName = (String) session.getAttribute("userName");
-        Long sessionUserId = (Long) session.getAttribute("userId");
-        Boolean admin = session.getAttribute("admin") != null && (Boolean) session.getAttribute("admin");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        boolean isLogged = auth != null && auth.isAuthenticated() && !(auth.getPrincipal() instanceof String);
+        model.addAttribute("logged", isLogged);
 
-        if (logged != null && logged) {
-            model.addAttribute("logged", true);
-            model.addAttribute("userName", userName);
-            model.addAttribute("admin", admin);
-           
+        if (isLogged) {
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            User user = userService.findByEmail(userDetails.getUsername()); 
+
+            model.addAttribute("userName", user.getName()); 
+            model.addAttribute("userId", user.getId());
+            model.addAttribute("admin", user.getRoles().contains("ADMIN"));
         } else {
-            model.addAttribute("logged", false);
+            model.addAttribute("userName", null);
+            model.addAttribute("userId", null);
             model.addAttribute("admin", false);
         }
 
         model.addAttribute("query", "");
-
     }
 
-    @GetMapping
-    public String listProducts(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Long idUser = (Long) session.getAttribute("userId");
-        User user = userService.findById(idUser);
 
+    @GetMapping
+    public String listProducts(@ModelAttribute("userId") Long userId, Model model) {
+        if (userId == null) {
+            return "redirect:/login"; 
+        }
+
+        User user = userService.findById(userId);
         Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
 
-
         if (!unpaidOrder.isPresent()) {
-            System.out.println("No hay carrito");
-            Order order = new Order(user,State.No_pagado,false);
+            Order order = new Order(user, State.No_pagado, false);
             orderService.saveOrder(order);
-
             return "user_registered/cart";
         }
-        System.out.println("Hay carrito");
-
 
         boolean cannotProcessOrder = false;
 
@@ -119,16 +122,9 @@ public class CartController {
             }
         }
 
-        System.out.println("Antes");
-
-
-
         BigDecimal subtotal = unpaidOrder.get().getTotalPrice();
 
-        System.out.println("Después");
-
         BigDecimal shipping = BigDecimal.ZERO;
-
         if (subtotal.compareTo(BigDecimal.valueOf(100)) < 0) {
             shipping = BigDecimal.valueOf(5);
         }
@@ -138,18 +134,14 @@ public class CartController {
         model.addAttribute("subtotal", subtotal);
         model.addAttribute("shipping", shipping);
         model.addAttribute("total", total);
-
-
-
         model.addAttribute("orderNotProcessed", cannotProcessOrder);
-
         model.addAttribute("products", productService.getAllProductsSold());
         model.addAttribute("orderProducts", unpaidOrder.get().getOrderProducts());
-        model.addAttribute("orderProductsEmpty", unpaidOrder == null || unpaidOrder.get().getOrderProducts().isEmpty());
-
+        model.addAttribute("orderProductsEmpty", unpaidOrder.get().getOrderProducts().isEmpty());
 
         return "user_registered/cart";
     }
+
 
 
     @PostMapping("/add-to-cart")
@@ -159,11 +151,14 @@ public class CartController {
             @RequestParam("productPrice") String productPrice,
             @RequestParam("productDescription") String productDescription,
             @RequestParam("size") String size,
-            Model model, HttpServletRequest request) {
+            Model model, @ModelAttribute("userId") Long userId) {
         
-        HttpSession session = request.getSession();
-        Long idUser = (Long) session.getAttribute("userId");
-        User user = userService.findById(idUser);
+        
+        if (userId == null) {
+            return "redirect:/login"; 
+        }
+
+        User user = userService.findById(userId);
         Optional <Product> existproduct = productService.getProductById(productId);
 
         if(!existproduct.isPresent()){
@@ -228,10 +223,13 @@ public class CartController {
     
 
     @PostMapping("/process-order")
-    public String procesarPago(HttpSession session, Model model) {
+    public String procesarPago(@ModelAttribute("userId") Long userId, Model model) {
 
-        Long idUser = (Long) session.getAttribute("userId");
-        User user = userService.findById(idUser);
+        if (userId == null) {
+            return "redirect:/login"; 
+        }
+
+        User user = userService.findById(userId);
 
         Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
 
@@ -287,8 +285,11 @@ public class CartController {
     }
 
     @PostMapping("/delete/{id}")
-    public String removeFromCart(@PathVariable("id") Long orderProductId, HttpSession session, Model model) {
-        Long userId = (Long) session.getAttribute("userId");
+    public String removeFromCart(@PathVariable("id") Long orderProductId, @ModelAttribute("userId") Long userId, Model model) {
+        if (userId == null) {
+            return "redirect:/login"; 
+        }
+
         User user = userService.findById(userId);
         Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
 

@@ -40,42 +40,34 @@ public class WebSecurityConfig {
 	}
 
 	@Bean
-public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-    http.authenticationProvider(authenticationProvider());
+        http.authenticationProvider(authenticationProvider());
 
-    http
-        .authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/", "/index/**", "/register", "/login", "/logout", "/register-success").permitAll()
-            .requestMatchers("/css/**", "/js/**", "/images/**", "/vendor/**", "/videos/**").permitAll()
-            .requestMatchers("/login_register/**", "/access-error", "/no-page-error/**").permitAll()
-            .requestMatchers("/image/**").permitAll()
-            .requestMatchers("/cart/**", "/orders/**").authenticated()
-            .requestMatchers("/admin/**").hasRole("ADMIN")
-            .anyRequest().authenticated()
-        )
-        .formLogin(formLogin -> formLogin
-            .loginPage("/login")
-            .defaultSuccessUrl("/index", true)
-            .failureUrl("/access-error")
-            .permitAll()
-        )
-        .logout(logout -> logout
-            .logoutUrl("/logout")
-            .logoutSuccessUrl("/index")
-            .invalidateHttpSession(true)
-            .deleteCookies("JSESSIONID")
-            .permitAll()
-        )
-        .exceptionHandling(exception -> exception
-            .accessDeniedPage("/access-error")
-        );
+        http
+            .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers( "/index/**", "/register", "/login", "/logout", "/register-success").permitAll()
+                .requestMatchers("/css/**", "/js/**", "/images/**", "/vendor/**", "/videos/**").permitAll()
+                .requestMatchers("/login_register/**", "/access-error", "/no-page-error/**").permitAll()
+                .requestMatchers("/image/**").permitAll()
+                .requestMatchers("/cart/**", "/orders/**").authenticated()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            )
+            .formLogin(formLogin -> formLogin
+                .loginPage("/login")
+                .defaultSuccessUrl("/index", true)
+                .failureUrl("/access-error")
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/index")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll()
+            );
 
-    return http.build();
-}
-
-
-	
-
-
+        return http.build();
+    }
 }

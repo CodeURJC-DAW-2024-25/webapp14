@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.springframework.http.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.DefaultMustacheFactory;
@@ -54,29 +57,33 @@ public class OrdersController {
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Boolean logged = (Boolean) session.getAttribute("logged");
-        String userName = (String) session.getAttribute("userName");
-        Long sessionUserId = (Long) session.getAttribute("userId");
-        Boolean admin = session.getAttribute("admin") != null && (Boolean) session.getAttribute("admin");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        boolean isLogged = auth != null && auth.isAuthenticated() && !(auth.getPrincipal() instanceof String);
+        model.addAttribute("logged", isLogged);
 
-        if (logged != null && logged) {
-            model.addAttribute("logged", true);
-            model.addAttribute("userName", userName);
-            model.addAttribute("admin", admin);
-           
+        if (isLogged) {
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            User user = userService.findByEmail(userDetails.getUsername()); 
+
+            model.addAttribute("userName", user.getName()); 
+            model.addAttribute("userId", user.getId());
+            model.addAttribute("admin", user.getRoles().contains("ADMIN"));
         } else {
-            model.addAttribute("logged", false);
+            model.addAttribute("userName", null);
+            model.addAttribute("userId", null);
             model.addAttribute("admin", false);
         }
 
         model.addAttribute("query", "");
-
     }
 
     @GetMapping
-    public String getUserOrders(Model model, HttpServletRequest request) {
-        Long userId = (Long) request.getSession().getAttribute("userId");
+    public String getUserOrders(Model model, @ModelAttribute("userId") Long userId) {
+        if (userId == null) {
+            return "redirect:/login"; 
+        }
+
         User user = userService.findById(userId);
 
         if (user != null) {
