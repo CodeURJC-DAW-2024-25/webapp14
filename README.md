@@ -70,6 +70,9 @@ A set of suggested products is displayed based on the categories of products pre
 
 ![Diagrama_BDEntidades](https://github.com/user-attachments/assets/ce8dfeef-4a3b-4d84-8887-7d775dc1ba18)
 
+### 🗂️ CLASS AND TEMPLATES DIAGRAM
+![image](https://github.com/user-attachments/assets/f22ceb70-2a3e-4610-a0b0-4ebd72856ce7)
+
 # PHASE 1
 
 ## 🤝 PARTICIPATION
@@ -85,14 +88,14 @@ Aaa
 |5|   |   |
 
 ### **Alberto Mayoral Gómez**
-Aaa
+I have been responsible for developing the functions related to the creation and edition of products by the administrator, as well as user management and the control of reviews reported by customers. On the other hand, I have implemented the shopping cart logic on the website, taking into account the addition, removal, and processing of items, considering the available stock and possible concurrency issues, as well as the product search bar on the main page. Additionally, I have collaborated on the security aspect regarding access to certain pages, providing error and authentication pages. Finally, I have also contributed to correcting and improving the website in general.
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1|   |   |
-|2|   |   |
-|3|   |   |
-|4|   |   |
-|5|   |   |
+|1|[Implemented Cart for logged Users](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/451bc92b4f76e17a67edfc6fcfcbd4449d64c9cf)   |AdminController.java|
+|2|[Spring Security (csrf / roles / permissions)](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/a05b59a55c7a317f7c9ca3385f30b18d0bda5452)   |CartController.java|
+|3|[Edition and creation of products in admin_products.html](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/619b3a837053b913216274b51ff8ca5788f9465f)   |OrdersController.java|
+|4|[Report and delete Reviews by Users in elem_detail.html and fixed errors](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/d2320e9950acddc2c049934fe5d5f33fae1b5c6c)   |ProductController.java|
+|5|[Admin_products.html view linked to the database and requests handled by the Controller](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/d8a346a4976d6556baaf967e24e75ad05276d7f7)   |admin_products.hmtl|
 
 ### **Icíar Moreno López**
 I have developed the login and registration screens, managing user authentication and storage. I have also implemented the admin profile management so he/she can update his/her information easily. In addition, I have developed the order management screen, working on the logic of its creation and making sure only paid orders are shown and allowing their status to be updated. I have also implemented the generation of PDFs with order details and the automatic sending of emails to users after making a purchase. Finally, I have corrected errors and improved general aspects of the website
