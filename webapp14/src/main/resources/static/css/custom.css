@@ -1,32 +1,35 @@
 /* Sidebar */
 #accordionSidebar {
+  width: 100vw;
   height: 100vh;
-  /* Ensures it occupies the full screen height */
   overflow: hidden;
   /* Prevent unnecessary scrollbars */
-  width: 250px;
-  /* Width of the expanded sidebar */
   position: fixed;
   /* Fix the sidebar to the left */
   left: 0;
   /* Ensures it sticks to the left */
   top: 0;
   /* Ensures the sidebar is at the top */
-  transition: transform 0.3s ease, width 0.3s ease;
-  /* Smooth transitions */
   background-color: #000001;
   /* Sidebar background */
+  display: none;
+  z-index: 1050;
+  /* Ensure it's above the content */
+  transform: translateX(0);
+  /* Make it visible when expanded */
+  transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+  /* Smooth transition */
+  padding-top: 2px;
+  /* Add space at the top for the button */
 }
 
-#accordionSidebar.toggled {
-  transform: translateX(-250px);
-  /* Moves the sidebar off-screen */
-  width: 0;
-  /* Reduces the width to 0 when collapsed */
+#accordionSidebar.open {
+  display: block;
 }
 
 /* Content should adjust when the sidebar is collapsed */
 #content-wrapper {
+  min-height: 100vh;
   transition: margin-left 0.3s ease;
   margin-left: 220px;
   /* Space occupied by the sidebar when expanded */
@@ -37,12 +40,38 @@
   /* Content occupies the full available space when the sidebar is collapsed */
 }
 
+#sidebarToggleTop:hover {
+  text-decoration: none;
+}
+
 /* Sidebar toggle icon (visible when the sidebar is collapsed) */
 #sidebarToggleTop i {
   color: white;
   /* Icon color */
   font-size: 24px;
   /* Icon size */
+}
+
+.fixMenuButton {
+  position: fixed;
+  z-index: 9999;
+  top: 1.5rem;
+  left: 1.6rem;
+}
+
+/* Style icons and text inside the sidebar */
+#accordionSidebar .nav-link {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  align-items: center;
+  color: #fff;
+  /* White for links */
+  font-size: 16px;
+  /* Larger font size */
+  transition: color 0.3s ease;
+  /* Smooth color transition on hover */
 }
 
 /* Style for the topbar */
@@ -71,61 +100,10 @@
 /* Sidebar on small devices */
 @media (max-width: 768px) {
 
-  /* When the sidebar is expanded on small screens */
-  #accordionSidebar {
-    width: 100vw;
-    /* Full screen width */
-    height: 100vh;
-    /* Full screen height */
-    position: fixed;
-    /* Fix the sidebar */
-    top: 0;
-    left: 0;
-    z-index: 1050;
-    /* Ensure it's above the content */
-    transform: translateX(0);
-    /* Make it visible when expanded */
-    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
-    /* Smooth transition */
-    padding-top: 60px;
-    /* Add space at the top for the button */
-  }
-
-  /* When the sidebar is collapsed */
-  #accordionSidebar.toggled {
-    transform: translateX(-100vw);
-    /* Move the sidebar off-screen */
-    width: 0;
-    height: 0;
-    /* Ensure it takes up 0 space when collapsed */
-  }
-
   /* Adjust content to occupy full available space */
   #content-wrapper {
     margin-left: 0;
     transition: margin-left 0.3s ease;
-  }
-
-  /* Change the toggle icon to be more visible on small screens */
-  #sidebarToggleTop i {
-    font-size: 30px;
-    /* Increase icon size */
-    color: white;
-    /* Make the icon white */
-    position: fixed;
-    /* Fix the button in the top-left */
-    top: 10px;
-    /* Position it slightly from the top */
-    left: 10px;
-    /* Position it slightly from the left */
-    z-index: 1060;
-    /* Ensure it's above the sidebar */
-    background-color: rgba(0, 0, 0, 0.5);
-    /* Subtle background behind the icon */
-    padding: 10px;
-    border-radius: 50%;
-    /* Make it circular */
-    cursor: pointer;
   }
 
   /* Style elements inside the sidebar */
@@ -141,8 +119,6 @@
   /* Style icons and text inside the sidebar */
   #accordionSidebar .nav-link {
     display: flex;
-    align-items: center;
-    justify-content: center;
     color: #fff;
     /* White for links */
     font-size: 16px;
@@ -427,7 +403,7 @@
 }
 
 
-#load-more-user-review{
+#load-more-user-review {
   background-color: #f0f0f0;
   color: #555;
   border-radius: 5px;
@@ -441,4 +417,20 @@
 #load-more-user-review:hover {
   background-color: #e0e0e0;
   border-color: #ccc;
+}
+
+@media (min-width: 768px) {
+  #sidebarToggleTop {
+    display: none !important;
+  }
+
+  #accordionSidebar {
+    display: block;
+    padding-top: 0;
+  }
+
+  /* When the sidebar is collapsed */
+  #accordionSidebar.open {
+    display: block;
+  }
 }
