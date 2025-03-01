@@ -141,7 +141,15 @@
                 </a>
                 <ul class="dropdown-menu p-3 p-lg-0">
                   {{#logged}}
-                  <li><a href="/logout" class="dropdown-item">Cerrar sesión</a></li>
+                  <li>
+                    <form id="logoutForm" action="/logout" method="POST" style="display: none;">
+                      <input type="hidden" name="_csrf" value="{{token}}" />
+                    </form>
+                    <a href="#" class="dropdown-item" onclick="document.getElementById('logoutForm').submit(); return false;">
+                        Cerrar sesión
+                    </a>
+                </li>
+                
                   <li><a href="/user_registered/users_profile" class="dropdown-item">Editar perfil</a></li>
                   <li><a href="/orders" class="dropdown-item">Ver Pedidos</a></li>
                   {{/logged}}

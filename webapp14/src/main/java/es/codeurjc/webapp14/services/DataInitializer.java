@@ -385,7 +385,7 @@ public class DataInitializer implements CommandLineRunner {
             logger.info("Cargando usuarios...");
             try {
                 // Admin
-                User admin = new User("Laura", "Moreno", "laura1@gmail.com", passwordEncoder.encode("Laura.53"), "USER",
+                User admin = new User("Laura", "Moreno", "laura1@gmail.com", passwordEncoder.encode("Laura.53"),
                         "ADMIN");
                 userRepository.save(admin);
 

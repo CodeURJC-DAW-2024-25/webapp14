@@ -165,13 +165,6 @@ public class UserController {
      }
 
 
-    @RequestMapping("/logout")
-    public String logout(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        session.invalidate();
-        return "redirect:/index";
-    }
-
     @GetMapping("/user_registered/users_profile")
     public String EditForm(Model model) {
         Long userId = (Long) model.getAttribute("userId");

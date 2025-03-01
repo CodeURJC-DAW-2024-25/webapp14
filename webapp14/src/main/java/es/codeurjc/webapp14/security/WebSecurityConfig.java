@@ -39,14 +39,14 @@ public class WebSecurityConfig {
 		return authProvider;
 	}
 
-	@Bean
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
+    
         http.authenticationProvider(authenticationProvider());
-
+    
         http
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers( "/index/**", "/register", "/login", "/logout", "/register-success").permitAll()
+                .requestMatchers("/index/**", "/register", "/login", "/logout", "/register-success").permitAll()
                 .requestMatchers("/css/**", "/js/**", "/images/**", "/vendor/**", "/videos/**").permitAll()
                 .requestMatchers("/login_register/**", "/access-error", "/no-page-error/**").permitAll()
                 .requestMatchers("/image/**").permitAll()
@@ -56,18 +56,19 @@ public class WebSecurityConfig {
             )
             .formLogin(formLogin -> formLogin
                 .loginPage("/login")
-                .defaultSuccessUrl("/index", true)
+                .successHandler(new CustomAuthenticationSuccessHandler())
                 .failureUrl("/access-error")
                 .permitAll()
             )
             .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/index")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .permitAll()
-            );
-
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/index")
+            .invalidateHttpSession(true)
+            .deleteCookies("JSESSIONID")
+            .permitAll()
+        );
+    
         return http.build();
     }
+    
 }
