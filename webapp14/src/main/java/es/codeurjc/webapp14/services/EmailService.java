@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.ResponseEntity;
 
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.MustacheFactory;
@@ -17,7 +19,8 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.nio.charset.StandardCharsets;
-import java.io.*;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
 
 import jakarta.mail.internet.MimeMessage;
 
@@ -26,6 +29,9 @@ public class EmailService {
 
     @Autowired
     private JavaMailSender javaMailSender;
+
+    @Autowired
+    private PdfService pdfService;
 
     @Value("${spring.mail.username}") // Retrieves the email from application properties
     private String mailFrom;
@@ -38,7 +44,7 @@ public class EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(message, true, StandardCharsets.UTF_8.name());
             // Set email sender and subject
             helper.setFrom(mailFrom);
-            helper.setTo(user.getEmail());
+            helper.setTo(mailFrom);
             helper.setSubject("Detalles de tu pedido #" + order.getId());
             // Create a model with order details to be used in the email template
             Map<String, Object> model = new HashMap<>();
@@ -66,6 +72,9 @@ public class EmailService {
             String htmlContent = writer.toString();
             // Set the email content as HTML
             helper.setText(htmlContent, true);
+            // Generate the PDF file for the order and attach it to the email
+            ResponseEntity<byte[]> pdf = pdfService.generateOrderPdf(order.getId());
+            helper.addAttachment("order_" + order.getId() + ".pdf", new ByteArrayResource(pdf.getBody()));
             // Send the email
             javaMailSender.send(message);
         } catch (Exception e) {

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.core.Authentication;
 
-
 import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Size;
@@ -28,11 +27,13 @@ import es.codeurjc.webapp14.services.OrderService;
 import es.codeurjc.webapp14.services.ProductService;
 import es.codeurjc.webapp14.services.SizeService;
 import es.codeurjc.webapp14.services.UserService;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/cart")
 public class CartController {
+
     @Autowired
     private final ProductService productService;
 
@@ -48,28 +49,31 @@ public class CartController {
     @Autowired
     private final SizeService sizeService;
 
+    @Autowired
+    private final OrdersController ordersController;
 
-    public CartController(ProductService productService, UserService userService, OrderService orderService, OrderProductService orderProductService, SizeService sizeService) {
+    public CartController(ProductService productService, UserService userService, OrderService orderService,
+            OrderProductService orderProductService, SizeService sizeService, OrdersController ordersController) {
         this.productService = productService;
         this.userService = userService;
         this.orderService = orderService;
         this.orderProductService = orderProductService;
         this.sizeService = sizeService;
+        this.ordersController = ordersController;
     }
-
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        
+
         boolean isLogged = auth != null && auth.isAuthenticated() && !(auth.getPrincipal() instanceof String);
         model.addAttribute("logged", isLogged);
 
         if (isLogged) {
             UserDetails userDetails = (UserDetails) auth.getPrincipal();
-            User user = userService.findByEmail(userDetails.getUsername()); 
+            User user = userService.findByEmail(userDetails.getUsername());
 
-            model.addAttribute("userName", user.getName()); 
+            model.addAttribute("userName", user.getName());
             model.addAttribute("userId", user.getId());
             model.addAttribute("admin", user.getRoles().contains("ADMIN"));
         } else {
@@ -81,11 +85,10 @@ public class CartController {
         model.addAttribute("query", "");
     }
 
-
     @GetMapping
     public String listProducts(@ModelAttribute("userId") Long userId, Model model) {
         if (userId == null) {
-            return "redirect:/login"; 
+            return "redirect:/login";
         }
 
         User user = userService.findById(userId);
@@ -104,13 +107,13 @@ public class CartController {
             String size = orderProduct.getSize();
             Product product = orderProduct.getProduct();
 
-            if(product == null){
+            if (product == null) {
                 return "no_page_error";
             }
 
             Optional<Size> productSize = product.getSizes().stream()
-                .filter(s -> s.getName().toString().equals(size))
-                .findFirst();
+                    .filter(s -> s.getName().toString().equals(size))
+                    .findFirst();
 
             if (productSize.isPresent()) {
                 Size sizeObj = productSize.get();
@@ -143,8 +146,6 @@ public class CartController {
         return "user_registered/cart";
     }
 
-
-
     @PostMapping("/add-to-cart")
     public String addToCart(
             @RequestParam("productId") Long productId,
@@ -153,37 +154,34 @@ public class CartController {
             @RequestParam("productDescription") String productDescription,
             @RequestParam("size") String size,
             Model model, @ModelAttribute("userId") Long userId) {
-        
-        
+
         if (userId == null) {
-            return "redirect:/login"; 
+            return "redirect:/login";
         }
 
         User user = userService.findById(userId);
-        Optional <Product> existproduct = productService.getProductById(productId);
+        Optional<Product> existproduct = productService.getProductById(productId);
 
-        if(!existproduct.isPresent()){
+        if (!existproduct.isPresent()) {
             return "no_page_error";
         }
 
         Product product = existproduct.get();
 
-
-
         Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
-        
+
         Order order;
-        if (!unpaidOrder.isPresent()){
-            order = new Order(user,State.No_pagado,false);
+        if (!unpaidOrder.isPresent()) {
+            order = new Order(user, State.No_pagado, false);
             orderService.saveOrder(order);
             System.out.println("Nueva cesta creada");
-        }
-        else{
+        } else {
             System.out.println("Ya había cesta");
             order = unpaidOrder.get();
         }
 
-        Optional<OrderProduct> existingOrderProduct = orderProductService.getOrderProductByOrderAndProductAndSize(order, product, size);
+        Optional<OrderProduct> existingOrderProduct = orderProductService.getOrderProductByOrderAndProductAndSize(order,
+                product, size);
 
         OrderProduct orderProduct;
 
@@ -211,23 +209,23 @@ public class CartController {
 
         orderService.saveOrder(order);
 
-
         model.addAttribute("subtotal", subtotal);
         model.addAttribute("shipping", shipping);
-        model.addAttribute("total", total);;
+        model.addAttribute("total", total);
+        ;
 
         model.addAttribute("orderProducts", orderProductService.getOrderProductsByOrderId(order.getId()));
-        model.addAttribute("orderProductsEmpty", orderProductService.getOrderProductsByOrderId(order.getId()).isEmpty());
+        model.addAttribute("orderProductsEmpty",
+                orderProductService.getOrderProductsByOrderId(order.getId()).isEmpty());
 
         return "user_registered/cart";
     }
-    
 
     @PostMapping("/process-order")
     public String processPayment(@ModelAttribute("userId") Long userId, Model model) {
 
         if (userId == null) {
-            return "redirect:/login"; 
+            return "redirect:/login";
         }
 
         User user = userService.findById(userId);
@@ -245,13 +243,13 @@ public class CartController {
             String size = orderProduct.getSize();
             Product product = orderProduct.getProduct();
 
-            if(product == null){
+            if (product == null) {
                 return "no_page_error";
             }
 
             Optional<Size> productSize = product.getSizes().stream()
-                .filter(s -> s.getName().toString().equals(size))
-                .findFirst();
+                    .filter(s -> s.getName().toString().equals(size))
+                    .findFirst();
 
             if (productSize.isPresent()) {
                 Size sizeObj = productSize.get();
@@ -275,8 +273,8 @@ public class CartController {
             Product product = orderProduct.getProduct();
 
             Optional<Size> productSize = product.getSizes().stream()
-                .filter(s -> s.getName().toString().equals(size))
-                .findFirst();
+                    .filter(s -> s.getName().toString().equals(size))
+                    .findFirst();
 
             if (productSize.isPresent()) {
                 Size sizeObj = productSize.get();
@@ -297,7 +295,7 @@ public class CartController {
             model.addAttribute("orderNotProcessed", true);
             return "redirect:/cart";
         }
-        
+
         for (OrderProduct orderProduct : unpaidOrder.get().getOrderProducts()) {
             Product product = orderProduct.getProduct();
             boolean allSizesOutOfStock = true;
@@ -317,18 +315,26 @@ public class CartController {
         order.setIsPaid(true);
         order.setState(State.Pagado);
 
+        // For sending the email
+        try {
+            ordersController.sendOrderEmail(order.getId());
+        } catch (Exception e) {
+            System.err.println("Error enviando el correo: " + e.getMessage());
+        }
+
         orderService.saveOrder(order);
 
-        Order newOrder = new Order(user,State.No_pagado,false);
+        Order newOrder = new Order(user, State.No_pagado, false);
         orderService.saveOrder(newOrder);
 
         return "redirect:/orders";
     }
 
     @PostMapping("/delete/{id}")
-    public String removeFromCart(@PathVariable("id") Long orderProductId, @ModelAttribute("userId") Long userId, Model model) {
+    public String removeFromCart(@PathVariable("id") Long orderProductId, @ModelAttribute("userId") Long userId,
+            Model model) {
         if (userId == null) {
-            return "redirect:/login"; 
+            return "redirect:/login";
         }
 
         User user = userService.findById(userId);
@@ -338,9 +344,9 @@ public class CartController {
             Optional<OrderProduct> orderProductToRemove = orderProductService.getOrderProductById(orderProductId);
 
             if (orderProductToRemove.isPresent()) {
-                unpaidOrder.get().setTotalPrice(-1 * orderProductToRemove.get().getQuantity() * orderProductToRemove.get().getProduct().getPrice());
+                unpaidOrder.get().setTotalPrice(-1 * orderProductToRemove.get().getQuantity()
+                        * orderProductToRemove.get().getProduct().getPrice());
                 orderService.saveOrder(unpaidOrder.get());
-
 
                 orderProductService.deleteOrderProduct(orderProductToRemove.get());
             }
@@ -348,7 +354,5 @@ public class CartController {
 
         return "redirect:/cart";
     }
-
-
 
 }
