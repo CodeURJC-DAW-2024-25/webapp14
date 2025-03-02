@@ -1,7 +1,6 @@
 package es.codeurjc.webapp14.controllers;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+
 
 import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.model.Product;
@@ -31,7 +29,6 @@ import es.codeurjc.webapp14.services.ProductService;
 import es.codeurjc.webapp14.services.SizeService;
 import es.codeurjc.webapp14.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/cart")
@@ -106,6 +103,10 @@ public class CartController {
             int quantity = orderProduct.getQuantity();
             String size = orderProduct.getSize();
             Product product = orderProduct.getProduct();
+
+            if(product == null){
+                return "no_page_error";
+            }
 
             Optional<Size> productSize = product.getSizes().stream()
                 .filter(s -> s.getName().toString().equals(size))
@@ -243,6 +244,10 @@ public class CartController {
             int quantity = orderProduct.getQuantity();
             String size = orderProduct.getSize();
             Product product = orderProduct.getProduct();
+
+            if(product == null){
+                return "no_page_error";
+            }
 
             Optional<Size> productSize = product.getSizes().stream()
                 .filter(s -> s.getName().toString().equals(size))

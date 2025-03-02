@@ -32,7 +32,6 @@ import es.codeurjc.webapp14.services.OrderService;
 import es.codeurjc.webapp14.services.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/orders")

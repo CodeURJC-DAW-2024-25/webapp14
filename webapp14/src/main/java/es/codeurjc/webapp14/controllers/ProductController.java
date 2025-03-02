@@ -1,24 +1,18 @@
 package es.codeurjc.webapp14.controllers;
 
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.sound.midi.SysexMessage;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Review;
@@ -29,17 +23,13 @@ import es.codeurjc.webapp14.services.ProductService;
 import es.codeurjc.webapp14.services.UserService;
 import es.codeurjc.webapp14.services.ReviewService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
-import org.springframework.security.web.csrf.CsrfToken;
 
 
 @Controller
@@ -89,7 +79,7 @@ public class ProductController {
     @GetMapping
     public String listProducts(Model model, @ModelAttribute("userId") Long userId) {
         if (userId != null) {
-            User user = userService.findById(userId);
+            userService.findById(userId);
             model.addAttribute("productsRecommended", productService.getRecommendedProductsBasedOnLastOrder(userId, 0, 2));
         }
 
@@ -99,8 +89,9 @@ public class ProductController {
 
 
     @GetMapping("/elem_detail/{id}")
-    public String ProductDetails(Model model, @PathVariable Long id, HttpServletRequest request) {
-        HttpSession session = request.getSession();
+    public String ProductDetails(Model model, @PathVariable Long id, @ModelAttribute("userId") Long userId) {
+ 
+
         Optional <Product> existproduct = productService.getProductById(id);
 
         if(!existproduct.isPresent()){
@@ -110,23 +101,27 @@ public class ProductController {
         Product product = existproduct.get();
 
         List<Review> reviews = product.getTwoReviews(0, 2);
-    
-        String userEmail = (String) session.getAttribute("userEmail");
-    
-        for (Review review : reviews) {
-            if (userEmail == null){
-                review.setOwn(false);
-            } else {
-                review.setOwn(userEmail.equals(review.getUser().getEmail()));
-            }
-            review.updateStars();
-    
-            model.addAttribute("rating" + review.getRating(), true);
-            review.setRating1(review.getRating() == 1);
-            review.setRating2(review.getRating() == 2);
-            review.setRating3(review.getRating() == 3);
-            review.setRating4(review.getRating() == 4);
-            review.setRating5(review.getRating() == 5);
+
+        if(userId != null){
+
+            String userEmail = userService.findById(userId).getEmail();
+            System.out.println("EMAIL: " + userEmail);
+        
+                for (Review review : reviews) {
+                    if (userEmail == null){
+                        review.setOwn(false);
+                    } else {
+                        review.setOwn(userEmail.equals(review.getUser().getEmail()));
+                    }
+                    review.updateStars();
+            
+                    model.addAttribute("rating" + review.getRating(), true);
+                    review.setRating1(review.getRating() == 1);
+                    review.setRating2(review.getRating() == 2);
+                    review.setRating3(review.getRating() == 3);
+                    review.setRating4(review.getRating() == 4);
+                    review.setRating5(review.getRating() == 5);
+                }
         }
 
         boolean hasSizeS = false;
@@ -171,8 +166,14 @@ public class ProductController {
     }
     
     @PostMapping("/{productId}/{reviewId}/delete")
-    public String deleleteReview(@PathVariable Long productId, @PathVariable Long reviewId) {
-        reviewService.getReviewById(reviewId);
+    public String deleleteReview(@PathVariable Long productId, @PathVariable Long reviewId, @ModelAttribute("userId") Long userId) {
+        Optional <Review> review = reviewService.getReviewById(reviewId);
+        Optional <Product> product = productService.getProductById(productId);
+
+        if(!review.isPresent() || !product.isPresent() || !review.get().getUser().getId().equals(userId)){
+            return "no_page_error";
+        }
+
 
         reviewService.delete(reviewId);
         return "redirect:/index/elem_detail/" + productId;
