@@ -21,19 +21,27 @@
 
             <h5>Selecciona tu talla:</h5>
             <div class="size-options d-flex gap-2 mt-2">
-              <input type="radio" class="btn-check" name="size" id="sizeS" value="S" autocomplete="off" {{^hasSizeS}}disabled{{/hasSizeS}} checked>
-              <label class="btn btn-outline-dark {{^hasSizeS}}btn-danger disabled custom-disabled{{/hasSizeS}}" for="sizeS">S</label>
-            
-              <input type="radio" class="btn-check" name="size" id="sizeM" value="M" autocomplete="off" {{^hasSizeM}}disabled{{/hasSizeM}}>
-              <label class="btn btn-outline-dark {{^hasSizeM}}btn-danger disabled custom-disabled{{/hasSizeM}}" for="sizeM">M</label>
-            
-              <input type="radio" class="btn-check" name="size" id="sizeL" value="L" autocomplete="off" {{^hasSizeL}}disabled{{/hasSizeL}}>
-              <label class="btn btn-outline-dark {{^hasSizeL}}btn-danger disabled custom-disabled{{/hasSizeL}}" for="sizeL">L</label>
-            
-              <input type="radio" class="btn-check" name="size" id="sizeXL" value="XL" autocomplete="off" {{^hasSizeXL}}disabled{{/hasSizeXL}}>
-              <label class="btn btn-outline-dark {{^hasSizeXL}}btn-danger disabled custom-disabled{{/hasSizeXL}}" for="sizeXL">XL</label>
+              <input type="radio" class="btn-check" name="size" id="sizeS" value="S" autocomplete="off"
+                {{^hasSizeS}}disabled{{/hasSizeS}} checked>
+              <label class="btn btn-outline-dark {{^hasSizeS}}btn-danger disabled custom-disabled{{/hasSizeS}}"
+                for="sizeS">S</label>
+
+              <input type="radio" class="btn-check" name="size" id="sizeM" value="M" autocomplete="off"
+                {{^hasSizeM}}disabled{{/hasSizeM}}>
+              <label class="btn btn-outline-dark {{^hasSizeM}}btn-danger disabled custom-disabled{{/hasSizeM}}"
+                for="sizeM">M</label>
+
+              <input type="radio" class="btn-check" name="size" id="sizeL" value="L" autocomplete="off"
+                {{^hasSizeL}}disabled{{/hasSizeL}}>
+              <label class="btn btn-outline-dark {{^hasSizeL}}btn-danger disabled custom-disabled{{/hasSizeL}}"
+                for="sizeL">L</label>
+
+              <input type="radio" class="btn-check" name="size" id="sizeXL" value="XL" autocomplete="off"
+                {{^hasSizeXL}}disabled{{/hasSizeXL}}>
+              <label class="btn btn-outline-dark {{^hasSizeXL}}btn-danger disabled custom-disabled{{/hasSizeXL}}"
+                for="sizeXL">XL</label>
             </div>
-            
+
             <form action="/cart/add-to-cart" method="POST" id="add-to-cart-form">
               <input type="hidden" name="_csrf" value="{{token}}" />
               <input type="hidden" name="productId" value="{{id}}">
@@ -43,7 +51,8 @@
               <input type="hidden" name="size" id="selected-size" value="S">
 
               {{#logged}}
-              <button type="submit" class="btn btn-add-to-cart mt-3 {{#product.outOfStock}}btn-secondary disabled{{/product.outOfStock}} {{^product.outOfStock}}btn-primary{{/product.outOfStock}}" 
+              <button type="submit"
+                class="btn btn-add-to-cart mt-3 {{#product.outOfStock}}btn-secondary disabled{{/product.outOfStock}} {{^product.outOfStock}}btn-primary{{/product.outOfStock}}"
                 {{#product.outOfStock}}disabled{{/product.outOfStock}}>
                 Añadir a cesta
               </button>
@@ -51,9 +60,9 @@
 
 
               {{^logged}}
-                  <a href="/login" class="btn btn-add-to-cart mt-3 btn-secondary">
-                      Añadir a cesta
-                  </a>
+              <a href="/login" class="btn btn-add-to-cart mt-3 btn-secondary">
+                Añadir a cesta
+              </a>
               {{/logged}}
 
 
@@ -61,7 +70,7 @@
               <div class="alert alert-danger d-flex align-items-center p-2 mt-4" role="alert">
                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
                 <strong>¡Atención!</strong> Este producto se encuentra fuera de stock.
-              </div>              
+              </div>
               {{/product.outOfStock}}
 
             </form>
@@ -114,50 +123,57 @@
             </div>
           </div>
         </div>
-        <div class="modal fade" id="editModal{{id}}" tabindex="-1" aria-labelledby="editModalLabel{{id}}" aria-hidden="true">
+        <div class="modal fade" id="editModal{{id}}" tabindex="-1" aria-labelledby="editModalLabel{{id}}"
+          aria-hidden="true">
           <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="editModalLabel{{id}}">Editar Reseña</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                      <form action="/index/{{product.id}}/{{id}}/edit" method="post">
-                        <input type="hidden" name="_csrf" value="{{token}}" />
-                        <div class="mb-3">
-                            <label for="edit-rating" class="form-label">Tu Valoración</label>
-                            <div class="star-edit-rating">
-                              <input type="radio" name="rating" id="edit-star5-{{id}}" value="5" {{#rating5}}checked{{/rating5}}>
-                              <label for="edit-star5-{{id}}">&#9733;</label>
-                            
-                              <input type="radio" name="rating" id="edit-star4-{{id}}" value="4" {{#rating4}}checked{{/rating4}}>
-                              <label for="edit-star4-{{id}}">&#9733;</label>
-                            
-                              <input type="radio" name="rating" id="edit-star3-{{id}}" value="3" {{#rating3}}checked{{/rating3}}>
-                              <label for="edit-star3-{{id}}">&#9733;</label>
-                            
-                              <input type="radio" name="rating" id="edit-star2-{{id}}" value="2" {{#rating2}}checked{{/rating2}}>
-                              <label for="edit-star2-{{id}}">&#9733;</label>
-                            
-                              <input type="radio" name="rating" id="edit-star1-{{id}}" value="1" {{#rating1}}checked{{/rating1}}>
-                              <label for="edit-star1-{{id}}">&#9733;</label>
-                            </div>
-                            
-                          </div>
-                          <div class="form-group">
-                              <label for="reviewText{{id}}">Reseña</label>
-                              <input type="text" class="form-control" id="reviewText{{id}}" name="reviewText" value="{{reviewText}}">
-                          </div>
-                          <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary submit-btn">Guardar cambios</button>
-                          </div>
-                      </form>
-                  </div>
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel{{id}}">Editar Reseña</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
+              <div class="modal-body">
+                <form action="/index/{{product.id}}/{{id}}/edit" method="post">
+                  <input type="hidden" name="_csrf" value="{{token}}" />
+                  <div class="mb-3">
+                    <label for="edit-rating" class="form-label">Tu Valoración</label>
+                    <div class="star-edit-rating">
+                      <input type="radio" name="rating" id="edit-star5-{{id}}" value="5"
+                        {{#rating5}}checked{{/rating5}}>
+                      <label for="edit-star5-{{id}}">&#9733;</label>
+
+                      <input type="radio" name="rating" id="edit-star4-{{id}}" value="4"
+                        {{#rating4}}checked{{/rating4}}>
+                      <label for="edit-star4-{{id}}">&#9733;</label>
+
+                      <input type="radio" name="rating" id="edit-star3-{{id}}" value="3"
+                        {{#rating3}}checked{{/rating3}}>
+                      <label for="edit-star3-{{id}}">&#9733;</label>
+
+                      <input type="radio" name="rating" id="edit-star2-{{id}}" value="2"
+                        {{#rating2}}checked{{/rating2}}>
+                      <label for="edit-star2-{{id}}">&#9733;</label>
+
+                      <input type="radio" name="rating" id="edit-star1-{{id}}" value="1"
+                        {{#rating1}}checked{{/rating1}}>
+                      <label for="edit-star1-{{id}}">&#9733;</label>
+                    </div>
+
+                  </div>
+                  <div class="form-group">
+                    <label for="reviewText{{id}}">Reseña</label>
+                    <input type="text" class="form-control" id="reviewText{{id}}" name="reviewText"
+                      value="{{reviewText}}">
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary submit-btn">Guardar cambios</button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
-        
-    
+
+
         {{/reviews}}
 
         {{^reviews}}
@@ -166,11 +182,17 @@
       </div>
 
       <div>
-        <button type="button" id="loadMoreReviewsButton" class="btn btn-loadMore" onclick='loadMoreReviews("{{product.id}}")'>Cargar más</button>
+        <div id="loading-spinner" class="d-none text-center">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Cargando...</span>
+          </div>
+        </div>
+        <button type="button" id="loadMoreReviewsButton" class="btn btn-loadMore"
+          onclick='loadMoreReviews("{{product.id}}")'>Cargar más</button>
       </div>
     </div>
 
-    
+
 
   </section>
 
@@ -179,7 +201,7 @@
   <section class="leave-review-section">
     <div class="container my-5">
       <h2 class="fw-bold text-center mb-4">Deja Tu Reseña</h2>
-  
+
       <form action="/index/{{product.id}}/addReview" method="POST" class="review-form mx-auto">
         <input type="hidden" name="_csrf" value="{{token}}" />
         <div class="mb-3 text-center">
@@ -192,31 +214,31 @@
             <input type="radio" name="rating" id="star1" value="1"><label for="star1">&#9733;</label>
           </div>
         </div>
-  
+
         <div class="mb-3">
           <label for="review-text" class="form-label">Tu Reseña</label>
           <textarea id="review-text" name="review-text" class="form-control" rows="4"
             placeholder="Escribe tu reseña aquí..." required></textarea>
         </div>
-  
+
         <div class="text-center">
           <button type="submit" class="btn btn-dark submit-btn">Enviar Reseña</button>
         </div>
-  
+
       </form>
     </div>
   </section>
 
   {{/logged}}
-</main>  
+</main>
 
 
 {{> partialsUser/footer }}
 
 
 <script>
-  document.querySelectorAll('input[name="size"]').forEach(function(radio) {
-    radio.addEventListener('change', function() {
+  document.querySelectorAll('input[name="size"]').forEach(function (radio) {
+    radio.addEventListener('change', function () {
       document.getElementById('selected-size').value = this.value;
     });
   });

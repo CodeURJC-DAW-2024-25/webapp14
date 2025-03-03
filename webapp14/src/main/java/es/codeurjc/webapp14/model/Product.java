@@ -35,8 +35,6 @@ public class Product {
 
     @JsonIgnore
     @Lob
-    // Conflicts
-    // private byte[] image;
     private Blob image;
     private boolean imageBool;
 
@@ -45,7 +43,6 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderProduct> orderProducts;
-
 
     public Product() {
 

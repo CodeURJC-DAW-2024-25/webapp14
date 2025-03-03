@@ -29,8 +29,6 @@
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       document.querySelector("#sidebarToggleTop").addEventListener("click", (e) => {
-        console.log(document.querySelector("#accordionSidebar"));
-        console.log(document.querySelector("#content-wrapper"));
         document.querySelector("#sidebarToggleTop i").classList.toggle("fixMenuButton");
         document.querySelector("#accordionSidebar").classList.toggle("open");
         document.querySelector("#content-wrapper").classList.toggle("toggled");
@@ -125,8 +123,8 @@
               <!-- Dropdown - User information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="/admin/profile">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Perfil
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Perfil
                 </a>
                 <div class="dropdown-divider"></div>
 
@@ -134,9 +132,10 @@
                   <input type="hidden" name="_csrf" value="{{token}}" />
                 </form>
 
-                <a class="dropdown-item" href="#" onclick="document.getElementById('logoutForm').submit(); return false;">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Cerrar sesión
+                <a class="dropdown-item" href="#"
+                  onclick="document.getElementById('logoutForm').submit(); return false;">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Cerrar sesión
                 </a>
               </div>
 
