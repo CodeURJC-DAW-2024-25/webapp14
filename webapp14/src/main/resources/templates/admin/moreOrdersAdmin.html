@@ -35,7 +35,7 @@
         <button class="btn btn-sm btn-outline-primary update-btn" id="updateBtn{{id}}" data-id="{{id}}">
             Actualizar Estado
         </button>
-        <!-- Form to change  to change the order state -->
+        <!-- Form to change to change the order state -->
         <form id="form-update{{id}}" action="/admin/orders" method="post" style="display:none; margin-top: 13px">
             <input type="hidden" name="_csrf" value="{{token}}" />
             <input type="hidden" name="orderId" value="{{id}}">

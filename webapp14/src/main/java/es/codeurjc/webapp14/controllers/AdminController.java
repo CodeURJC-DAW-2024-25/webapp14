@@ -1,6 +1,7 @@
 package es.codeurjc.webapp14.controllers;
 
 import es.codeurjc.webapp14.services.UserService;
+import es.codeurjc.webapp14.services.OrderProductService;
 import es.codeurjc.webapp14.services.OrderService;
 import es.codeurjc.webapp14.services.ProductService;
 import es.codeurjc.webapp14.services.ReviewService;
@@ -9,6 +10,7 @@ import es.codeurjc.webapp14.model.Review;
 import es.codeurjc.webapp14.model.Size;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.model.Order;
+import es.codeurjc.webapp14.model.OrderProduct;
 
 import java.io.IOException;
 import java.sql.Blob;
@@ -39,10 +41,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.security.core.Authentication;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+
 
 @RequestMapping("/admin")
 @Controller
@@ -62,6 +66,10 @@ public class AdminController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private OrderProductService orderProductService;
+
 
     private List<String> categories = new ArrayList<>(
             Arrays.asList("abrigos", "camisetas", "pantalones", "jerséis"));
@@ -88,6 +96,15 @@ public class AdminController {
         }
     }
 
+    @ModelAttribute
+    public void addProfileImage(Model model) throws SQLException {
+        Optional<User> admin = userService.getAdmin();
+        if (admin.isPresent() && admin.get().getProfileImage() != null) {
+            model.addAttribute("hasImage", true);
+        } else {
+            model.addAttribute("hasImage", false);
+        }
+    }
 
     @GetMapping("/charts")
     public String showAdminCharts(Model model, HttpServletRequest request) {
@@ -312,28 +329,31 @@ public class AdminController {
     @GetMapping("/products")
     public String showProducts(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
+            @RequestParam(value = "deleteTry", required = false) Boolean deleteTry,
             Model model) {
-
+    
         Page<Product> productPage = productService.getProductsPaginated(page, size);
-
+    
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("hasMore", productPage.hasNext());
         model.addAttribute("nextPage", page + 1);
-
+    
         List<Product> products = productService.getAllProducts();
-
+    
         model.addAttribute("productCount", products.size());
         model.addAttribute("categoriesCount", categories.size());
         int totalStock = productService.getTotalStockOfAllProducts();
-
         int totalOutStock = productService.countProductsWithAllSizesOutOfStock();
-
+    
         model.addAttribute("totalStock", totalStock);
         model.addAttribute("totalOutStock", totalOutStock);
-        model.addAttribute("categories", categories);
-
+        model.addAttribute("categories", categories);    
+        model.addAttribute("deleteTry", deleteTry != null ? deleteTry : false);
+    
         return "admin/admin_products";
     }
+    
+
 
     @GetMapping("/moreProductsAdmin")
     public String getMoreAdminProducts(
@@ -408,12 +428,33 @@ public class AdminController {
     }
 
     @PostMapping("/products/delete/{id}")
-    public String deleteProduct(@PathVariable Long id) {
+    public String deleteProduct(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         Optional<Product> existproduct = productService.getProductById(id);
 
-        productService.delete(id);
+        if (!existproduct.isPresent()) {
+            return "no_page_error";
+        }
+
+        Boolean deleteOk = true;
+        List<OrderProduct> orderProducts = orderProductService.getAllOrderProducts();
+        for (OrderProduct orderProduct : orderProducts) {
+            if (orderProduct.getProduct().getId().equals(id)) {
+                deleteOk = false;
+                break;
+            }
+        }
+
+        if (!deleteOk) {
+            redirectAttributes.addAttribute("deleteTry", true);
+        }
+
+        if (deleteOk) {
+            productService.delete(id);
+        }
+
         return "redirect:/admin/products";
     }
+
 
     @PostMapping("/products/edit/{id}")
     public String updateProduct(@PathVariable Long id,
@@ -562,7 +603,9 @@ public class AdminController {
     public String deleteReview(@PathVariable Long id, Model model) {
 
         Optional<Review> existreview = reviewService.getReviewById(id);
-        ;
+        if(!existreview.isPresent()){
+            return "no_page_error";
+        }
 
         reviewService.delete(id);
         return "redirect:/admin/users";
