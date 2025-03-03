@@ -209,6 +209,13 @@
         </div>
     </div>
 
+    {{#deleteTry}}
+    <div class="alert alert-danger text-center mt-2" role="alert">
+        ❌ No se puede eliminar el producto porque está incluido en el pedido de algún cliente.
+    </div>
+    {{/deleteTry}}
+
+
     <div class="col-xl-12 col-lg-10">
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -242,6 +249,7 @@
                                 data-target="#editModal{{id}}">
                                 <i class="fas fa-edit"></i> Editar
                             </button>
+                            
                             <form action="/admin/products/delete/{{id}}" method="post">
                                 <input type="hidden" name="_csrf" value="{{token}}" />
                                 <button type="submit" class="btn btn-danger btn-rounded btn-sm ml-sm-2">
