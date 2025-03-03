@@ -91,12 +91,12 @@ public class CartController {
             return "redirect:/login";
         }
 
-        Optional <User> userConsult = userService.findById(userId);
+        Optional<User> userConsult = userService.findById(userId);
 
         if (!userConsult.isPresent()) {
             return "no_page_error";
         }
-        
+
         User user = userConsult.get();
         Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
 
@@ -165,12 +165,12 @@ public class CartController {
             return "redirect:/login";
         }
 
-        Optional <User> userConsult = userService.findById(userId);
+        Optional<User> userConsult = userService.findById(userId);
 
         if (!userConsult.isPresent()) {
             return "no_page_error";
         }
-        
+
         User user = userConsult.get();
 
         Optional<Product> existproduct = productService.getProductById(productId);
@@ -187,9 +187,7 @@ public class CartController {
         if (!unpaidOrder.isPresent()) {
             order = new Order(user, State.No_pagado, false);
             orderService.saveOrder(order);
-            System.out.println("Nueva cesta creada");
         } else {
-            System.out.println("Ya había cesta");
             order = unpaidOrder.get();
         }
 
@@ -241,12 +239,12 @@ public class CartController {
             return "redirect:/login";
         }
 
-        Optional <User> userConsult = userService.findById(userId);
+        Optional<User> userConsult = userService.findById(userId);
 
         if (!userConsult.isPresent()) {
             return "no_page_error";
         }
-        
+
         User user = userConsult.get();
 
         Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
@@ -355,13 +353,13 @@ public class CartController {
         if (userId == null) {
             return "redirect:/login";
         }
-        
-        Optional <User> userConsult = userService.findById(userId);
+
+        Optional<User> userConsult = userService.findById(userId);
 
         if (!userConsult.isPresent()) {
             return "no_page_error";
         }
-        
+
         User user = userConsult.get();
         Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
 

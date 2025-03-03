@@ -27,22 +27,18 @@ public class ImageController {
         this.productService = productService;
     }
 
-    
     @GetMapping("/{id}")
     @ResponseBody
     public ResponseEntity<byte[]> getProductImage(@PathVariable Long id) {
-        System.out.println("Buscando imagen para el producto con ID: " + id);
-
-        Optional <Product> existproduct = productService.getProductById(id);
+        Optional<Product> existproduct = productService.getProductById(id);
 
         Product product = existproduct.get();
+
         if (product == null) {
-            System.out.println("Producto no encontrado con ID: " + id);
             return ResponseEntity.notFound().build();
         }
 
         if (product.getImage() == null) {
-            System.out.println("El producto con ID " + id + " no tiene imagen.");
             return ResponseEntity.notFound().build();
         }
 
@@ -53,13 +49,10 @@ public class ImageController {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_JPEG);
 
-            System.out.println("Imagen encontrada y enviada.");
             return ResponseEntity.ok().headers(headers).body(imageBytes);
         } catch (SQLException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-
 }
