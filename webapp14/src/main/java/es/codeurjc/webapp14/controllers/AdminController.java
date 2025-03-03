@@ -77,15 +77,15 @@ public class AdminController {
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        
+
         boolean isLogged = auth != null && auth.isAuthenticated() && !(auth.getPrincipal() instanceof String);
-        
+
         model.addAttribute("logged", isLogged);
 
         if (isLogged) {
             UserDetails userDetails = (UserDetails) auth.getPrincipal();
-            User user = userService.findByEmail(userDetails.getUsername()); 
-            
+            User user = userService.findByEmail(userDetails.getUsername());
+
             model.addAttribute("userName", user.getName());
             model.addAttribute("userId", user.getId());
             model.addAttribute("admin", user.getRoles().contains("ADMIN"));
@@ -127,8 +127,6 @@ public class AdminController {
 
         Map<String, List<?>> ordersData = orderService.getOrdersLast30Days();
 
-        System.out.println(orderService.getOrdersLast30Days());
-
         model.addAttribute("orderDates", ordersData.get("dates"));
         model.addAttribute("orderCounts", ordersData.get("counts"));
 
@@ -139,7 +137,7 @@ public class AdminController {
     public String showAdminProfile(Model model) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        
+
         if (auth == null || !auth.isAuthenticated() || auth.getPrincipal() instanceof String) {
             return "redirect:/login";
         }
@@ -153,10 +151,9 @@ public class AdminController {
 
         model.addAttribute("admin", admin);
         model.addAttribute("hasImage", admin.getProfileImage() != null);
-        
+
         return "admin/admin_profile";
     }
-
 
     @RequestMapping(value = "/edit", method = { RequestMethod.GET, RequestMethod.POST })
     public String showAdminProfileEdit(
@@ -170,10 +167,8 @@ public class AdminController {
             Model model,
             HttpServletRequest request) throws Exception {
 
-        System.out.println("Entro");
         Optional<User> existing = userService.getAdmin();
         if (existing.isEmpty()) {
-            System.out.println("User vacío");
 
             return "redirect:/admin/profile";
         }
@@ -181,18 +176,13 @@ public class AdminController {
         User existingAdmin = existing.get();
 
         if ("GET".equals(request.getMethod())) {
-            System.out.println("Soy get");
-
             model.addAttribute("admin", existingAdmin);
             model.addAttribute("hasImage", existingAdmin.getProfileImage() != null);
+
             return "admin/admin_profile_edit";
         }
 
         Map<String, List<String>> errors = new HashMap<>();
-
-        System.out.println("Soy post");
-        System.out.println("admin name: " + existingAdmin.getName());
-        System.out.println("Soy post");
 
         if (name.isEmpty()) {
             errors.computeIfAbsent("name", k -> new ArrayList<>()).add("El nombre no puede estar vacío");
@@ -204,10 +194,7 @@ public class AdminController {
             errors.computeIfAbsent("email", k -> new ArrayList<>()).add("El correo electrónico no puede estar vacío");
         }
 
-        System.out.println("admin passow: " + existingAdmin.getName());
-
         if (currentPassword.isEmpty()) {
-            System.out.println("Password vacía");
             errors.computeIfAbsent("password", k -> new ArrayList<>()).add("La contraseña no puede estar vacía");
         }
 
@@ -220,15 +207,12 @@ public class AdminController {
         }
 
         if (!errors.isEmpty()) {
-            System.out.println("Hay errores");
-
             model.addAttribute("errors", errors);
             model.addAttribute("admin", existingAdmin);
             model.addAttribute("hasImage", existingAdmin.getProfileImage() != null);
+
             return "admin/admin_profile_edit";
         }
-
-        System.out.println("No hay errores");
 
         existingAdmin.setName(name);
         existingAdmin.setSurname(surname);
@@ -293,7 +277,6 @@ public class AdminController {
         }
         // If the request is POST
         Optional<Order> optionalOrder = orderService.getOrderById(orderId);
-
 
         Order order = optionalOrder.get();
         if (order != null) {
@@ -467,7 +450,6 @@ public class AdminController {
 
         Optional<Product> existproduct = productService.getProductById(id);
 
-
         Product existingProduct = existproduct.get();
 
         existingProduct.setName(updatedProduct.getName());
@@ -613,12 +595,12 @@ public class AdminController {
 
     @PostMapping("/users/ban/{id}")
     public String banUser(@PathVariable Long id, Model model) {
-        Optional <User> userConsult = userService.findById(id);
+        Optional<User> userConsult = userService.findById(id);
 
         if (!userConsult.isPresent()) {
             return "no_page_error";
         }
-        
+
         User user = userConsult.get();
         user.setBanned(true);
         user.getReviews().clear();
@@ -629,12 +611,12 @@ public class AdminController {
 
     @PostMapping("/users/unban/{id}")
     public String unbanUser(@PathVariable Long id, Model model) {
-        Optional <User> userConsult = userService.findById(id);
+        Optional<User> userConsult = userService.findById(id);
 
         if (!userConsult.isPresent()) {
             return "no_page_error";
         }
-        
+
         User user = userConsult.get();
         user.setBanned(false);
         userService.saveUser(user);
@@ -659,8 +641,8 @@ public class AdminController {
     @GetMapping("/user/image/{id}")
     @ResponseBody
     public ResponseEntity<byte[]> getUserImage(@PathVariable Long id) {
-        Optional <User> userConsult = userService.findById(id);
-        
+        Optional<User> userConsult = userService.findById(id);
+
         User user = userConsult.get();
         Blob imageBlob = user.getProfileImage();
         if (imageBlob != null) {

@@ -1220,16 +1220,19 @@ public class DataInitializer implements CommandLineRunner {
     public Blob loadImage(String imagePath) {
         try {
             Resource resource = new ClassPathResource(imagePath);
+
             if (!resource.exists()) {
-                System.out.println("Error: No se encontró la imagen en la ruta especificada.");
                 return null;
             }
+
             try (InputStream inputStream = resource.getInputStream()) {
                 byte[] imageBytes = inputStream.readAllBytes();
+
                 return new SerialBlob(imageBytes);
             }
         } catch (IOException | SQLException e) {
             e.printStackTrace();
+
             return null;
         }
     }

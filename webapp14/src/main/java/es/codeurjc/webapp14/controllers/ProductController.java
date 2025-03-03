@@ -1,9 +1,7 @@
 package es.codeurjc.webapp14.controllers;
 
-
 import java.util.List;
 import java.util.Optional;
-
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,16 +28,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
-
-
 @Controller
 @RequestMapping("/index")
-public class ProductController { 
-
+public class ProductController {
 
     @Autowired
     private ReviewService reviewService;
-
 
     @Autowired
     private UserService userService;
@@ -50,16 +44,16 @@ public class ProductController {
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        
+
         boolean isLogged = auth != null && auth.isAuthenticated() && !(auth.getPrincipal() instanceof String);
-        
+
         model.addAttribute("logged", isLogged);
 
         if (isLogged) {
             UserDetails userDetails = (UserDetails) auth.getPrincipal();
-            User user = userService.findByEmail(userDetails.getUsername()); 
-            
-            model.addAttribute("userName", user.getName()); 
+            User user = userService.findByEmail(userDetails.getUsername());
+
+            model.addAttribute("userName", user.getName());
             model.addAttribute("userId", user.getId());
             model.addAttribute("admin", user.getRoles().contains("ADMIN"));
         } else {
@@ -67,7 +61,7 @@ public class ProductController {
             model.addAttribute("userId", null);
             model.addAttribute("admin", false);
         }
-        
+
         String query = "";
         List<Product> products = productService.searchProductsByName(query);
         model.addAttribute("productsSearch", products);
@@ -75,59 +69,54 @@ public class ProductController {
         model.addAttribute("open", false);
     }
 
-
     @GetMapping
     public String listProducts(Model model, @ModelAttribute("userId") Long userId) {
         if (userId != null) {
             userService.findById(userId);
-            model.addAttribute("productsRecommended", productService.getRecommendedProductsBasedOnLastOrder(userId, 0, 2));
+            model.addAttribute("productsRecommended",
+                    productService.getRecommendedProductsBasedOnLastOrder(userId, 0, 2));
         }
 
         model.addAttribute("products", productService.getAllProductsSold());
         return "user/index";
     }
 
-
     @GetMapping("/elem_detail/{id}")
     public String ProductDetails(Model model, @PathVariable Long id, @ModelAttribute("userId") Long userId) {
- 
 
-        Optional <Product> existproduct = productService.getProductById(id);
-
-        
+        Optional<Product> existproduct = productService.getProductById(id);
 
         Product product = existproduct.get();
 
         List<Review> reviews = product.getTwoReviews(0, 2);
 
-        if(userId != null){
+        if (userId != null) {
 
-            Optional <User> userConsult = userService.findById(userId);
+            Optional<User> userConsult = userService.findById(userId);
 
             if (!userConsult.isPresent()) {
                 return "no_page_error";
             }
-            
+
             User user = userConsult.get();
 
             String userEmail = user.getEmail();
-            System.out.println("EMAIL: " + userEmail);
-        
-                for (Review review : reviews) {
-                    if (userEmail == null){
-                        review.setOwn(false);
-                    } else {
-                        review.setOwn(userEmail.equals(review.getUser().getEmail()));
-                    }
-                    review.updateStars();
-            
-                    model.addAttribute("rating" + review.getRating(), true);
-                    review.setRating1(review.getRating() == 1);
-                    review.setRating2(review.getRating() == 2);
-                    review.setRating3(review.getRating() == 3);
-                    review.setRating4(review.getRating() == 4);
-                    review.setRating5(review.getRating() == 5);
+
+            for (Review review : reviews) {
+                if (userEmail == null) {
+                    review.setOwn(false);
+                } else {
+                    review.setOwn(userEmail.equals(review.getUser().getEmail()));
                 }
+                review.updateStars();
+
+                model.addAttribute("rating" + review.getRating(), true);
+                review.setRating1(review.getRating() == 1);
+                review.setRating2(review.getRating() == 2);
+                review.setRating3(review.getRating() == 3);
+                review.setRating4(review.getRating() == 4);
+                review.setRating5(review.getRating() == 5);
+            }
         }
 
         boolean hasSizeS = false;
@@ -137,28 +126,31 @@ public class ProductController {
 
         // Verify stock on each size
         for (Size size : product.getSizes()) {
-            if (size.getName() == SizeName.S && size.getStock() > 0) hasSizeS = true;
-            if (size.getName() == SizeName.M && size.getStock() > 0) hasSizeM = true;
-            if (size.getName() == SizeName.L && size.getStock() > 0) hasSizeL = true;
-            if (size.getName() == SizeName.XL && size.getStock() > 0) hasSizeXL = true;
+            if (size.getName() == SizeName.S && size.getStock() > 0)
+                hasSizeS = true;
+            if (size.getName() == SizeName.M && size.getStock() > 0)
+                hasSizeM = true;
+            if (size.getName() == SizeName.L && size.getStock() > 0)
+                hasSizeL = true;
+            if (size.getName() == SizeName.XL && size.getStock() > 0)
+                hasSizeXL = true;
         }
 
         model.addAttribute("hasSizeS", hasSizeS);
         model.addAttribute("hasSizeM", hasSizeM);
         model.addAttribute("hasSizeL", hasSizeL);
         model.addAttribute("hasSizeXL", hasSizeXL);
-    
+
         model.addAttribute("product", product);
         model.addAttribute("reviews", reviews);
-        
+
         return "user/elem_detail";
     }
-    
-
 
     @PostMapping("/{productId}/{reviewId}/report")
     public String reportReview(@PathVariable Long productId, @PathVariable Long reviewId) {
-        Optional <Review> existreview = reviewService.getReviewById(reviewId);;
+        Optional<Review> existreview = reviewService.getReviewById(reviewId);
+        ;
 
         Review review = existreview.get();
 
@@ -166,93 +158,90 @@ public class ProductController {
         reviewService.saveReview(review);
         return "redirect:/index/elem_detail/" + productId;
     }
-    
-    @PostMapping("/{productId}/{reviewId}/delete")
-    public String deleleteReview(@PathVariable Long productId, @PathVariable Long reviewId, @ModelAttribute("userId") Long userId) {
-        Optional <Review> review = reviewService.getReviewById(reviewId);
-        Optional <Product> product = productService.getProductById(productId);
 
-        if(!review.isPresent() || !product.isPresent() || !review.get().getUser().getId().equals(userId)){
+    @PostMapping("/{productId}/{reviewId}/delete")
+    public String deleleteReview(@PathVariable Long productId, @PathVariable Long reviewId,
+            @ModelAttribute("userId") Long userId) {
+        Optional<Review> review = reviewService.getReviewById(reviewId);
+        Optional<Product> product = productService.getProductById(productId);
+
+        if (!review.isPresent() || !product.isPresent() || !review.get().getUser().getId().equals(userId)) {
             return "no_page_error";
         }
-
 
         reviewService.delete(reviewId);
         return "redirect:/index/elem_detail/" + productId;
     }
-    
 
     @PostMapping("/{productId}/{reviewId}/edit")
     public String editReview(@PathVariable Long productId,
-                             @PathVariable Long reviewId,
-                             @RequestParam int rating,
-                             @RequestParam String reviewText,
-                             @ModelAttribute("userId") Long userId) {
-    
+            @PathVariable Long reviewId,
+            @RequestParam int rating,
+            @RequestParam String reviewText,
+            @ModelAttribute("userId") Long userId) {
+
         if (userId == null) {
-            return "redirect:/login"; 
+            return "redirect:/login";
         }
 
-        Optional <User> userConsult = userService.findById(userId);
+        Optional<User> userConsult = userService.findById(userId);
 
         if (!userConsult.isPresent()) {
             return "no_page_error";
         }
-        
+
         User user = userConsult.get();
         String userEmail = user.getEmail();
-    
-        Optional <Review> existreview = reviewService.getReviewById(reviewId);;
+
+        Optional<Review> existreview = reviewService.getReviewById(reviewId);
+        ;
 
         Review review = existreview.get();
-    
+
         if (userEmail == null || !userEmail.equals(review.getUser().getEmail())) {
             return "redirect:/access-error";
         }
-    
+
         review.setReviewText(reviewText);
         review.setRating(rating);
         review.updateStars();
-    
+
         reviewService.saveReview(review);
         return "redirect:/index/elem_detail/" + productId;
     }
-    
-
 
     @PostMapping("/{productId}/addReview")
     public String addReview(@PathVariable Long productId,
-                            @RequestParam int rating,
-                            @RequestParam("review-text") String reviewText,
-                            @ModelAttribute("userId") Long userId) {
+            @RequestParam int rating,
+            @RequestParam("review-text") String reviewText,
+            @ModelAttribute("userId") Long userId) {
 
         if (userId == null) {
-            return "redirect:/login"; 
+            return "redirect:/login";
         }
 
-        Optional <User> userConsult = userService.findById(userId);
+        Optional<User> userConsult = userService.findById(userId);
 
         if (!userConsult.isPresent()) {
             return "no_page_error";
         }
-        
+
         User user = userConsult.get();
-        Optional <Product> existproduct = productService.getProductById(productId);
+        Optional<Product> existproduct = productService.getProductById(productId);
 
         Product product = existproduct.get();
 
         Review newReview = new Review(rating, reviewText, false, product, user);
-        newReview.updateStars(); 
+        newReview.updateStars();
 
         reviewService.saveReview(newReview);
 
         return "redirect:/index/elem_detail/" + productId;
     }
 
-
-
     @GetMapping("/category/{category}")
-    public String listProductsByCategory(@PathVariable String category, @RequestParam(defaultValue = "0") int page, Model model) {
+    public String listProductsByCategory(@PathVariable String category, @RequestParam(defaultValue = "0") int page,
+            Model model) {
         Page<Product> productsPage = productService.getProductsByCategory(category, page);
 
         model.addAttribute("products", productsPage.getContent());
@@ -260,11 +249,11 @@ public class ProductController {
         return "user/category";
     }
 
-    @GetMapping("/moreProducts") 
+    @GetMapping("/moreProducts")
     public String getMoreProducts(
             @RequestParam String category,
             @RequestParam int page,
-            Model model) { 
+            Model model) {
 
         Page<Product> productsPage = productService.getProductsByCategory(category, page);
         boolean hasMore = page < productsPage.getTotalPages() - 1;
@@ -275,15 +264,15 @@ public class ProductController {
         return "user/moreProducts";
     }
 
-    @GetMapping("/moreRecProducts") 
+    @GetMapping("/moreRecProducts")
     public String getMoreRecProducts(
             @RequestParam int page,
             @RequestParam int size,
             Model model,
-            @ModelAttribute("userId") Long userId) { 
-        
+            @ModelAttribute("userId") Long userId) {
+
         if (userId == null) {
-            return "redirect:/login"; 
+            return "redirect:/login";
         }
 
         Page<Product> productsPage = productService.getRecommendedProductsBasedOnLastOrder(userId, page, size);
@@ -295,33 +284,30 @@ public class ProductController {
         return "user/moreRecProducts";
     }
 
-
     @GetMapping("/moreReviews")
     public String getMoreReviews(
-        @RequestParam Long id,
-            @RequestParam int from,  
+            @RequestParam Long id,
+            @RequestParam int from,
             @RequestParam int to,
             Model model, @ModelAttribute("userId") Long userId) {
-        Optional <Product> existproduct = productService.getProductById(id);
+        Optional<Product> existproduct = productService.getProductById(id);
 
         Product product = existproduct.get();
         List<Review> reviewsList = product.getTwoReviews(from, to);
-        for (Review review : reviewsList){
-            if (userId == null){
+        for (Review review : reviewsList) {
+            if (userId == null) {
                 review.setOwn(false);
-            }
-            else{
-                Optional <User> userConsult = userService.findById(userId);
+            } else {
+                Optional<User> userConsult = userService.findById(userId);
 
                 if (!userConsult.isPresent()) {
                     return "no_page_error";
                 }
-                
+
                 User user = userConsult.get();
-                if(user.getEmail().equals(review.getUser().getEmail())){
+                if (user.getEmail().equals(review.getUser().getEmail())) {
                     review.setOwn(true);
-                }
-                else{
+                } else {
                     review.setOwn(false);
                 }
             }
@@ -334,11 +320,8 @@ public class ProductController {
         return "user/moreReviews";
     }
 
-    
     @GetMapping("/search")
     public String searchProducts(@RequestParam(value = "query", required = false) String query, Model model) {
-
-        System.out.println("Busco");
 
         if (query != null && !query.isEmpty()) {
             List<Product> products = productService.searchProductsByName(query);
@@ -346,8 +329,8 @@ public class ProductController {
             model.addAttribute("query", query);
             model.addAttribute("open", true);
         }
+
         return "user/index";
     }
-
 
 }
