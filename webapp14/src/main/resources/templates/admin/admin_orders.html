@@ -1,18 +1,20 @@
 {{> partialsAdmin/header }}
 
 <script>
-    $(document).ready(function () {
-        $('.update-btn').click(function () {
-            var orderId = $(this).data('id');
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelector('.update-btn').click(function () {
+            let orderId = $(this).data('id');
+
             toggleForm(orderId);
         });
     });
 
     // For order status form
     function toggleForm(orderId) {
-        var form = document.getElementById('form-update' + orderId);
-        var button = document.getElementById('updateBtn' + orderId);
-        var stateText = document.getElementById('order-state-' + orderId);
+        let form = document.getElementById('form-update' + orderId);
+        let button = document.getElementById('updateBtn' + orderId);
+        let stateText = document.getElementById('order-state-' + orderId);
+
         if (form.style.display === "none" || form.style.display === "") {
             form.style.display = "block";
             stateText.style.display = "none";
@@ -117,6 +119,12 @@
                     </div>
                     {{/orders}}
                 </ul>
+
+                <div id="loading-spinner" class="d-none text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Cargando...</span>
+                    </div>
+                </div>
 
                 <button type="button" id="load-more" class="mt-3 ml-3" onclick="loadMoreAdminOrders(this)"
                     data-page="{{nextPage}}">

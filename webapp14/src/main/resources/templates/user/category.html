@@ -37,10 +37,16 @@
         </div>
         {{/products}}
       </div>
-      <div>
-        <button type="button" id="loadMoreButton" class="btn btn-loadMore" onclick='loadMore("{{category}}")'>Cargar más</button>
+      <div id="loading-spinner" class="d-none text-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Cargando...</span>
+        </div>
       </div>
-    </section>
-  </main>
+      <div>
+        <button type="button" id="loadMoreButton" class="btn btn-loadMore" onclick='loadMore("{{category}}")'>Cargar
+          más</button>
+      </div>
+  </section>
+</main>
 
 {{> partialsUser/footer }}

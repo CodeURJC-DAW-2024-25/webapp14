@@ -142,28 +142,34 @@
       {{/logged}}
 
       {{#logged}}
-    <h2 class="display-5 fw-light text-uppercase text-center">PRODUCTOS RECOMENDADOS</h2>
-    <div id="recProducts" class="row justify-content-center py-4">
-      {{#productsRecommended}}
-      <div class="col-md-6 mb-4">
-        <div class="row align-items-center">
-          <div class="col-md-6 text-center">
-            <img src="/image/{{id}}" alt="Pantalones en la silla" class="img-fluid w-75">
-          </div>
+      <h2 class="display-5 fw-light text-uppercase text-center">PRODUCTOS RECOMENDADOS</h2>
+      <div id="recProducts" class="row justify-content-center py-4">
+        {{#productsRecommended}}
+        <div class="col-md-6 mb-4">
+          <div class="row align-items-center">
+            <div class="col-md-6 text-center">
+              <img src="/image/{{id}}" alt="Pantalones en la silla" class="img-fluid w-75">
+            </div>
 
-          <div class="col-md-4 text-md-start text-center mt-3 mt-md-0">
-            <h2 class="fw-bold">{{name}}</h2>
-            <p class="fst-italic">denim collection <br> spring summer 2025</p>
-            <a href="/index/elem_detail/{{id}}" class="btn btn-dark mt-3 px-4 py-2">Ver Detalles</a>
+            <div class="col-md-4 text-md-start text-center mt-3 mt-md-0">
+              <h2 class="fw-bold">{{name}}</h2>
+              <p class="fst-italic">denim collection <br> spring summer 2025</p>
+              <a href="/index/elem_detail/{{id}}" class="btn btn-dark mt-3 px-4 py-2">Ver Detalles</a>
+            </div>
           </div>
         </div>
+        {{/productsRecommended}}
       </div>
-      {{/productsRecommended}}
-    </div>
-    <div>
-      <button type="button" id="loadMoreRecommendedProductsButton" class="btn btn-loadMore" onclick='loadMoreRecommendedProducts()'>Cargar más</button>
-    </div>
-    {{/logged}}
+      <div>
+        <div id="loading-spinner" class="d-none text-center">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Cargando...</span>
+          </div>
+        </div>
+        <button type="button" id="loadMoreRecommendedProductsButton" class="btn btn-loadMore"
+          onclick='loadMoreRecommendedProducts()'>Cargar más</button>
+      </div>
+      {{/logged}}
 </section>
 
 <section id="service" class="bg-light padding-medium">

@@ -108,6 +108,12 @@
                     {{/users}}
                 </ul>
 
+                <div id="loading-spinner-1" class="d-none text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Cargando...</span>
+                    </div>
+                </div>
+
                 <button type="button" id="load-more" class="mt-3 ml-3" onclick="loadMoreAdminUsers(this)"
                     data-page="{{nextPage}}">
                     Más resultados
@@ -191,6 +197,13 @@
                     </div>
                     {{/usersWithReportedReviews}}
                 </ul>
+
+                <div id="loading-spinner-2" class="d-none text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Cargando...</span>
+                    </div>
+                </div>
+
                 <button type="button" id="load-more-user-review" class="mt-3 ml-3"
                     onclick="loadMoreAdminUsersReviews(this)" data-page="{{nextPage}}">
                     Más resultados
