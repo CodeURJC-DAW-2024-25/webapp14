@@ -96,7 +96,6 @@ public class AdminController {
         model.addAttribute("totalOrders", orderService.getTotalOrders());
         model.addAttribute("totalUsers", userService.getAllUsers().size());
 
-        // 1️⃣ OBTENER LOS PRODUCTOS MÁS VENDIDOS
         List<Product> topProducts = productService.getTop5BestSellingProducts();
 
         if (topProducts.size() > 5) {
@@ -109,7 +108,6 @@ public class AdminController {
         model.addAttribute("productNames", productNames);
         model.addAttribute("productSales", productSales);
 
-        // Obtener datos de pedidos en el último mes
         Map<String, List<?>> ordersData = orderService.getOrdersLast30Days();
 
         System.out.println(orderService.getOrdersLast30Days());
@@ -179,7 +177,6 @@ public class AdminController {
         System.out.println("admin name: " + existingAdmin.getName());
         System.out.println("Soy post");
 
-        // Validaciones
         if (name.isEmpty()) {
             errors.computeIfAbsent("name", k -> new ArrayList<>()).add("El nombre no puede estar vacío");
         }
@@ -573,7 +570,13 @@ public class AdminController {
 
     @PostMapping("/users/ban/{id}")
     public String banUser(@PathVariable Long id, Model model) {
-        User user = userService.findById(id);
+        Optional <User> userConsult = userService.findById(id);
+
+        if (!userConsult.isPresent()) {
+            return "no_page_error";
+        }
+        
+        User user = userConsult.get();
         user.setBanned(true);
         user.getReviews().clear();
         userService.saveUser(user);
@@ -583,7 +586,13 @@ public class AdminController {
 
     @PostMapping("/users/unban/{id}")
     public String unbanUser(@PathVariable Long id, Model model) {
-        User user = userService.findById(id);
+        Optional <User> userConsult = userService.findById(id);
+
+        if (!userConsult.isPresent()) {
+            return "no_page_error";
+        }
+        
+        User user = userConsult.get();
         user.setBanned(false);
         userService.saveUser(user);
 
@@ -607,7 +616,9 @@ public class AdminController {
     @GetMapping("/user/image/{id}")
     @ResponseBody
     public ResponseEntity<byte[]> getUserImage(@PathVariable Long id) {
-        User user = userService.findById(id);
+        Optional <User> userConsult = userService.findById(id);
+        
+        User user = userConsult.get();
         Blob imageBlob = user.getProfileImage();
         if (imageBlob != null) {
             try {

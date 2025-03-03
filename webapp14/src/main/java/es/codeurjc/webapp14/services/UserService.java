@@ -24,9 +24,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User findById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
     }
 
     public List<User> getAllUsers() {

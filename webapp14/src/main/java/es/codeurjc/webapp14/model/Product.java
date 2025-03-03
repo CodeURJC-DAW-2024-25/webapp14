@@ -22,7 +22,6 @@ public class Product {
     private Integer stock;
     private boolean outOfStock;
     private int sold;
-    // private List<Review> reviews;
 
     @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)

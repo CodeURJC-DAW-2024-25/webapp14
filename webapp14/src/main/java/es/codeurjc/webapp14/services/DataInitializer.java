@@ -81,7 +81,6 @@ public class DataInitializer implements CommandLineRunner {
             try {
                 logger.info("Cargando productos y tallas...");
 
-                // ABRIGOS
                 Blob imageBytes1 = loadImage("images/abrigos/abrigo1.webp");
                 Product product1 = new Product("Trench tecnico",
                         "Trench técnico con abrigo acolchado interior desmontable.", 79.95, imageBytes1, 10,
@@ -154,7 +153,6 @@ public class DataInitializer implements CommandLineRunner {
                         CategoryType.ABRIGOS);
                 productRepository.save(product12);
 
-                // CAMISETAS
                 Blob imageBytes13 = loadImage("images/camisetas/camiseta1.webp");
                 Product product13 = new Product("Oversize Soft",
                         "Cuello solapa y manga larga acabada con trabilla y botón.", 79.95, imageBytes13, 10,
@@ -216,7 +214,6 @@ public class DataInitializer implements CommandLineRunner {
                         imageBytes24, 10, CategoryType.CAMISETAS);
                 productRepository.save(product24);
 
-                // PANTALONES
                 Blob imageBytes25 = loadImage("images/pantalones/pantalon1.webp");
                 Product product25 = new Product("Retro Vibes", "Pantalón con estampado retro colorido.", 28.99,
                         imageBytes25, 10, CategoryType.PANTALONES);
@@ -277,7 +274,6 @@ public class DataInitializer implements CommandLineRunner {
                         37.99, imageBytes36, 10, CategoryType.PANTALONES);
                 productRepository.save(product36);
 
-                // JERSÉIS
                 Blob imageBytes37 = loadImage("images/jerséis/jersey1.webp");
                 Product product37 = new Product("Relaxed Fit", "Corte relajado para máxima comodidad.", 37.99,
                         imageBytes37, 10, CategoryType.JERSEYS);
@@ -341,30 +337,25 @@ public class DataInitializer implements CommandLineRunner {
 
                 List<Product> savedProducts = productRepository.findAll();
 
-                // Inicializar tallas para cada producto
                 List<Size> sizes = new ArrayList<>();
                 Random random = new Random();
 
                 for (Product product : savedProducts) {
-                    // Crear las tallas con stock
                     Size sizeS = new Size(Size.SizeName.S, random.nextInt(15) + 5, product);
                     Size sizeM = new Size(Size.SizeName.M, random.nextInt(15) + 5, product);
                     Size sizeL = new Size(Size.SizeName.L, random.nextInt(15) + 5, product);
                     Size sizeXL = new Size(Size.SizeName.XL, random.nextInt(15) + 5, product);
 
-                    // Sumar el stock de cada talla al producto
                     product.setStock(product.getStock() + sizeS.getStock());
                     product.setStock(product.getStock() + sizeM.getStock());
                     product.setStock(product.getStock() + sizeL.getStock());
                     product.setStock(product.getStock() + sizeXL.getStock());
 
-                    // Agregar las tallas a la lista
                     sizes.add(sizeS);
                     sizes.add(sizeM);
                     sizes.add(sizeL);
                     sizes.add(sizeXL);
 
-                    // Guardar el producto actualizado con el stock global
                     productRepository.save(product);
                 }
 
@@ -531,24 +522,6 @@ public class DataInitializer implements CommandLineRunner {
                         Review review2 = new Review(3, "Buena calidad, pero un poco caro", false, product1.get(),
                                 user2.get());
                         reviewRepository.save(review2);
-                        Review review3 = new Review(3, "Buena calidad, pero un poco caro", false, product1.get(),
-                                user2.get());
-                        reviewRepository.save(review3);
-                        Review review4 = new Review(3, "Buena calidad, pero un poco caro", false, product1.get(),
-                                user2.get());
-                        reviewRepository.save(review4);
-                        Review review5 = new Review(3, "Buena calidad, pero un poco caro", false, product1.get(),
-                                user2.get());
-                        reviewRepository.save(review5);
-                        Review review6 = new Review(3, "Buena calidad, pero un poco caro", false, product1.get(),
-                                user2.get());
-                        reviewRepository.save(review6);
-                        Review review7 = new Review(3, "Buena calidad, pero un poco caro", false, product1.get(),
-                                user2.get());
-                        reviewRepository.save(review7);
-                        Review review8 = new Review(3, "Buena calidad, pero un poco caro", false, product1.get(),
-                                user2.get());
-                        reviewRepository.save(review8);
                     }
                 }
 
@@ -1166,7 +1139,7 @@ public class DataInitializer implements CommandLineRunner {
                 logger.info("Cargando pedidos...");
 
                 List<User> users = userRepository.findAll().stream()
-                        .limit(10)
+                        .limit(11)
                         .collect(Collectors.toList());
 
                 List<Product> products = productRepository.findAll();

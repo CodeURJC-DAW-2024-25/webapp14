@@ -91,7 +91,13 @@ public class CartController {
             return "redirect:/login";
         }
 
-        User user = userService.findById(userId);
+        Optional <User> userConsult = userService.findById(userId);
+
+        if (!userConsult.isPresent()) {
+            return "no_page_error";
+        }
+        
+        User user = userConsult.get();
         Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
 
         if (!unpaidOrder.isPresent()) {
@@ -159,7 +165,14 @@ public class CartController {
             return "redirect:/login";
         }
 
-        User user = userService.findById(userId);
+        Optional <User> userConsult = userService.findById(userId);
+
+        if (!userConsult.isPresent()) {
+            return "no_page_error";
+        }
+        
+        User user = userConsult.get();
+
         Optional<Product> existproduct = productService.getProductById(productId);
 
         if (!existproduct.isPresent()) {
@@ -228,7 +241,13 @@ public class CartController {
             return "redirect:/login";
         }
 
-        User user = userService.findById(userId);
+        Optional <User> userConsult = userService.findById(userId);
+
+        if (!userConsult.isPresent()) {
+            return "no_page_error";
+        }
+        
+        User user = userConsult.get();
 
         Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
 
@@ -336,8 +355,14 @@ public class CartController {
         if (userId == null) {
             return "redirect:/login";
         }
+        
+        Optional <User> userConsult = userService.findById(userId);
 
-        User user = userService.findById(userId);
+        if (!userConsult.isPresent()) {
+            return "no_page_error";
+        }
+        
+        User user = userConsult.get();
         Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
 
         if (unpaidOrder.isPresent()) {

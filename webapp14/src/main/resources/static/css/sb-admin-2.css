@@ -12624,93 +12624,61 @@ body.sidebar-toggled footer.sticky-footer {
   gap: 5px;
 }
 
-/* Contenedor de cada reporte */
-/* Contenedor del item en la lista */
 .report-item {
   display: flex;
-  /* Disposición horizontal (en fila) */
   width: 100%;
-  /* El contenedor ocupará todo el ancho disponible */
   justify-content: space-between;
-  /* Asegura que los elementos se distribuyan con espacio entre ellos */
 }
 
-/* Primer elemento (ocupa el 60%) */
 .item-1 {
   width: 80%;
-  /* Ocupa el 60% del contenedor */
   padding: 10px;
   border: 1px solid #ccc;
   box-sizing: border-box;
-  /* Asegura que el padding no afecte el tamaño total */
 }
 
-/* Segundo elemento (ocupa el 40%) */
 .item-2 {
   width: 20%;
-  /* Ocupa el 40% del contenedor */
   padding: 10px;
   border: 1px solid #ccc;
   box-sizing: border-box;
-  /* Asegura que el padding no afecte el tamaño total */
 }
 
 
-/* El texto del reporte */
 .report-text-container {
   flex-grow: 1;
-  /* El texto ocupará el espacio restante */
   margin-right: 10px;
-  /* Añade espacio entre el texto y los botones */
   max-width: 60%;
-  /* El texto ocupará un 60% del ancho total */
 }
 
 .report-text {
   word-wrap: break-word;
-  /* Hace que las palabras largas se rompan si es necesario */
   display: block;
   min-height: 40px;
   white-space: normal;
 }
 
-/* Contenedor de los botones */
-/* Contenedor de los botones */
 .report-actions {
   display: flex;
-  /* Disposición horizontal (en fila) */
   gap: 10px;
-  /* Espacio entre los botones */
   width: 40%;
-  /* Los botones ocuparán un 40% del contenedor */
 }
 
-/* Tamaño fijo de los botones */
 .report-actions .btn {
   min-width: 120px;
-  /* Define un ancho mínimo fijo para los botones */
   height: 35px;
-  /* Fija la altura de los botones */
   display: inline-flex;
-  /* Asegura que los botones se alineen correctamente en línea */
   justify-content: center;
-  /* Centra el texto dentro del botón */
   align-items: center;
-  /* Alinea el contenido verticalmente */
 }
 
 
 
-/* Contenedor principal */
-/* Contenedor principal */
 .container {
   display: flex;
-  /* Usamos Flexbox para organizar los elementos en una fila */
   width: 100%;
-  /* El contenedor ocupará todo el ancho disponible */
 }
 
-/* Estilo para los elementos */
 .item {
   padding: 10px;
   border: 1px solid #ccc;
@@ -12718,10 +12686,8 @@ body.sidebar-toggled footer.sticky-footer {
 
 .item-60 {
   width: 60%;
-  /* Ocupa el 60% del contenedor */
 }
 
 .item-40 {
   width: 40%;
-  /* Ocupa el 40% del contenedor */
 }

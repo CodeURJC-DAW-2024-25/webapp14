@@ -2,6 +2,7 @@ package es.codeurjc.webapp14.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -165,7 +166,13 @@ public class UserController {
             return "redirect:/login";
         }
 
-        User user = userService.findById(userId);
+        Optional <User> userConsult = userService.findById(userId);
+
+        if (!userConsult.isPresent()) {
+            return "no_page_error";
+        }
+        
+        User user = userConsult.get();
         model.addAttribute("user", user);
         
         return "/user_registered/users_profile";
@@ -182,7 +189,13 @@ public class UserController {
             return "redirect:/login";
         }
 
-        User user = userService.findById(userId);
+        Optional <User> userConsult = userService.findById(userId);
+
+        if (!userConsult.isPresent()) {
+            return "no_page_error";
+        }
+        
+        User user = userConsult.get();
 
         if (name != null) {
             user.setName(name);

@@ -59,8 +59,8 @@ public class OrderService {
         List<Integer> orderCounts = new ArrayList<>();
 
         for (Object[] row : ordersData) {
-            orderDates.add(row[0].toString()); // Convertir fecha a String
-            orderCounts.add(((Number) row[1]).intValue()); // Convertir cantidad a Integer
+            orderDates.add(row[0].toString());
+            orderCounts.add(((Number) row[1]).intValue());
         }
 
         Map<String, List<?>> result = new HashMap<>();

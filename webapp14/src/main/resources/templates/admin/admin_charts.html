@@ -4,7 +4,6 @@
 <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    // 📊 Gráfica de productos más vendidos
     var ctx1 = document.getElementById('topProductsChart').getContext('2d');
 
     new Chart(ctx1, {
@@ -25,7 +24,6 @@
       }
     });
 
-    // 📊 Gráfica de pedidos por día
     var ctx2 = document.getElementById('weeklyOrdersChart').getContext('2d');
 
     new Chart(ctx2, {

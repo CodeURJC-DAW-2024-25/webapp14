@@ -102,7 +102,15 @@ public class ProductController {
 
         if(userId != null){
 
-            String userEmail = userService.findById(userId).getEmail();
+            Optional <User> userConsult = userService.findById(userId);
+
+            if (!userConsult.isPresent()) {
+                return "no_page_error";
+            }
+            
+            User user = userConsult.get();
+
+            String userEmail = user.getEmail();
             System.out.println("EMAIL: " + userEmail);
         
                 for (Review review : reviews) {
@@ -185,7 +193,13 @@ public class ProductController {
             return "redirect:/login"; 
         }
 
-        User user = userService.findById(userId);
+        Optional <User> userConsult = userService.findById(userId);
+
+        if (!userConsult.isPresent()) {
+            return "no_page_error";
+        }
+        
+        User user = userConsult.get();
         String userEmail = user.getEmail();
     
         Optional <Review> existreview = reviewService.getReviewById(reviewId);;
@@ -216,7 +230,13 @@ public class ProductController {
             return "redirect:/login"; 
         }
 
-        User user = userService.findById(userId);
+        Optional <User> userConsult = userService.findById(userId);
+
+        if (!userConsult.isPresent()) {
+            return "no_page_error";
+        }
+        
+        User user = userConsult.get();
         Optional <Product> existproduct = productService.getProductById(productId);
 
         Product product = existproduct.get();
@@ -291,7 +311,13 @@ public class ProductController {
                 review.setOwn(false);
             }
             else{
-                User user = userService.findById(userId);
+                Optional <User> userConsult = userService.findById(userId);
+
+                if (!userConsult.isPresent()) {
+                    return "no_page_error";
+                }
+                
+                User user = userConsult.get();
                 if(user.getEmail().equals(review.getUser().getEmail())){
                     review.setOwn(true);
                 }

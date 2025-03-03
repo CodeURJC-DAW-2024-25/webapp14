@@ -36,7 +36,7 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private State state;
 
-    @Transient // Esto indica que este campo no se guarda en la base de datos
+    @Transient
     private String createdAtFormatted;
 
     public Order() {

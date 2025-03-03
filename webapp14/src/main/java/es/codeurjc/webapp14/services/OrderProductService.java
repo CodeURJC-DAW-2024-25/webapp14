@@ -47,6 +47,6 @@ public class OrderProductService {
 
     public Double getTotalPriceByOrder(Order order) {
         Double totalPrice = orderProductRepository.getTotalPriceByOrder(order);
-        return (totalPrice != null) ? totalPrice : 0.0; // Maneja posibles valores nulos
+        return (totalPrice != null) ? totalPrice : 0.0;
     }
 }

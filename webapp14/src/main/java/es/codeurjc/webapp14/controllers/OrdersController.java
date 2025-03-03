@@ -76,9 +76,10 @@ public class OrdersController {
             return "redirect:/login";
         }
 
-        User user = userService.findById(userId);
+        Optional <User> userConsult = userService.findById(userId);
 
-        if (user != null) {
+        if (userConsult.isPresent()) {
+            User user = userConsult.get();
             List<Order> orders = orderService.getPaidOrders(user);
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -87,27 +88,38 @@ public class OrdersController {
             model.addAttribute("orders", orders);
             model.addAttribute("exists", !orders.isEmpty());
         }
+        else{
+            return "no_page_error";
+        }
 
         return "/user_registered/orders";
     }
 
     @GetMapping("/{id}")
-    public String getOrderProductsById(@PathVariable Long id, Model model) {
+    public String getOrderProductsById(@PathVariable Long id, Model model, @ModelAttribute("userId") Long userId) {
 
         Optional<Order> optionalOrder = orderService.getOrderById(id);
+
+        Optional <User> user = userService.findById(userId);
+
+        if(!optionalOrder.isPresent()){
+            return "no_page_error";
+        }
+
+        if(userId == null || user == null || !optionalOrder.get().getUser().getId().equals(userId)){
+            return "access_error";
+        }
 
         Order order = optionalOrder.get();
         if (order != null) {
             BigDecimal subtotal = order.getTotalPrice();
 
-            // Calcular el coste de envío (5 euros si el subtotal es menor a 100)
             BigDecimal shipping = BigDecimal.ZERO;
 
             if (subtotal.compareTo(BigDecimal.valueOf(100)) < 0) {
                 shipping = BigDecimal.valueOf(5);
             }
 
-            // Calcular el total (subtotal + envío)
             BigDecimal total = subtotal.add(shipping);
 
             model.addAttribute("order", order);

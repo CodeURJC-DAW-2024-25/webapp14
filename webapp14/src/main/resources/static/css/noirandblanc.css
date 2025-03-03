@@ -154,7 +154,6 @@ body {
 
 body:not(.no-padding) {
   padding-top: 65px;
-  /* Ajusta esto según la altura del navbar */
 }
 
 @media screen and (max-width: 991px) {
@@ -462,19 +461,16 @@ a {
 
 
 
-/* NAVBAR ESTILOS GENERALES */
 .navbar {
   transition: background-color 0.15s ease-in-out;
 }
 
-/* Inicialmente, los textos y los iconos son blancos */
 .navbar .nav-link,
 .navbar iconify-icon,
 .navbar .main-logo a {
   color: white !important;
 }
 
-/* Estilos para el botón del menú (las tres rayas) */
 .navbar-toggler {
   color: white;
 }
@@ -483,21 +479,17 @@ a {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M4 18q-.425 0-.712-.288T3 17q0-.425.288-.712T4 16h16q.425 0 .713.288T21 17q0 .425-.288.713T20 18zm0-5q-.425 0-.712-.288T3 12q0-.425.288-.712T4 11h16q.425 0 .713.288T21 12q0 .425-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7q0-.425.288-.712T4 6h16q.425 0 .713.288T21 7q0 .425-.288.713T20 8z'/%3E%3C/svg%3E");
 }
 
-/* Cuando la página hace scroll, cambia el fondo a blanco */
 .navbar.scrolled {
   background-color: white !important;
   box-shadow: 0px 4px 2px -2px rgba(0, 0, 0, 0.1);
-  /* Línea debajo */
 }
 
-/* Cambiar el color del texto y los iconos a negro al hacer scroll */
 .navbar.scrolled .nav-link,
 .navbar.scrolled iconify-icon,
 .navbar.scrolled .main-logo a {
   color: black !important;
 }
 
-/* Cambiar color del icono del menú hamburguesa cuando se hace scroll */
 .navbar.scrolled .navbar-toggler-icon {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M4 18q-.425 0-.712-.288T3 17q0-.425.288-.712T4 16h16q.425 0 .713.288T21 17q0 .425-.288.713T20 18zm0-5q-.425 0-.712-.288T3 12q0-.425.288-.712T4 11h16q.425 0 .713.288T21 12q0 .425-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7q0-.425.288-.712T4 6h16q.425 0 .713.288T21 7q0 .425-.288.713T20 8z'/%3E%3C/svg%3E");
 }
@@ -535,19 +527,15 @@ a {
 
 
 
-/* Asegurar altura fija para los videos */
 .swiper-slide video {
   width: 100%;
   height: 90vh;
-  /* Mantiene la altura en 90% de la pantalla */
   object-fit: cover;
-  /* Evita deformaciones y llena el contenedor */
 }
 
 @media screen and (max-width: 768px) {
   .swiper-slide video {
     height: 90vh;
-    /* Mantiene la altura en móviles también */
   }
 }
 
@@ -655,7 +643,6 @@ img.logo-image:hover {
 .image-holder {
   position: relative;
   z-index: 1;
-  /* Se coloca por encima del :before */
 }
 
 
@@ -722,13 +709,11 @@ a.footer-link:hover {
 
   .offcanvas-body .nav-item .nav-link {
     color: black !important;
-    /* Hace que los textos de Inicio, Perfil y Cesta sean negros */
   }
 
 
   .offcanvas-body .nav-item.dropdown .nav-link {
     color: black !important;
-    /* Hace que los textos de Inicio, Perfil y Cesta sean negros */
   }
 
   /* dropdown-menu */
