@@ -280,9 +280,6 @@ public class AdminController {
         // If the request is POST
         Optional<Order> optionalOrder = orderService.getOrderById(orderId);
 
-        if (!optionalOrder.isPresent()) {
-            return "redirect:/no-page-error";
-        }
 
         Order order = optionalOrder.get();
         if (order != null) {
@@ -417,9 +414,6 @@ public class AdminController {
     public String deleteProduct(@PathVariable Long id) {
         Optional<Product> existproduct = productService.getProductById(id);
 
-        if (!existproduct.isPresent()) {
-            return "redirect:/no-page-error";
-        }
         productService.delete(id);
         return "redirect:/admin/products";
     }
@@ -435,9 +429,6 @@ public class AdminController {
 
         Optional<Product> existproduct = productService.getProductById(id);
 
-        if (!existproduct.isPresent()) {
-            return "redirect:/no-page-error";
-        }
 
         Product existingProduct = existproduct.get();
 
@@ -563,10 +554,6 @@ public class AdminController {
         Optional<Review> existreview = reviewService.getReviewById(id);
         ;
 
-        if (!existreview.isPresent()) {
-            return "redirect:/no-page-error";
-        }
-
         Review review = existreview.get();
 
         review.setReported(false);
@@ -579,10 +566,6 @@ public class AdminController {
 
         Optional<Review> existreview = reviewService.getReviewById(id);
         ;
-
-        if (!existreview.isPresent()) {
-            return "redirect:/no-page-error";
-        }
 
         reviewService.delete(id);
         return "redirect:/admin/users";

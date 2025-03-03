@@ -94,9 +94,7 @@ public class ProductController {
 
         Optional <Product> existproduct = productService.getProductById(id);
 
-        if(!existproduct.isPresent()){
-            return "redirect:/no-page-error";
-        }
+        
 
         Product product = existproduct.get();
 
@@ -154,10 +152,6 @@ public class ProductController {
     public String reportReview(@PathVariable Long productId, @PathVariable Long reviewId) {
         Optional <Review> existreview = reviewService.getReviewById(reviewId);;
 
-        if(!existreview.isPresent()){
-            return "redirect:/no-page-error";
-        }
-
         Review review = existreview.get();
 
         review.setReported(true);
@@ -196,10 +190,6 @@ public class ProductController {
     
         Optional <Review> existreview = reviewService.getReviewById(reviewId);;
 
-        if(!existreview.isPresent()){
-            return "redirect:/no-page-error";
-        }
-
         Review review = existreview.get();
     
         if (userEmail == null || !userEmail.equals(review.getUser().getEmail())) {
@@ -228,10 +218,6 @@ public class ProductController {
 
         User user = userService.findById(userId);
         Optional <Product> existproduct = productService.getProductById(productId);
-
-        if(!existproduct.isPresent()){
-            return "redirect:/no-page-error";
-        }
 
         Product product = existproduct.get();
 
@@ -297,10 +283,6 @@ public class ProductController {
             @RequestParam int to,
             Model model, @ModelAttribute("userId") Long userId) {
         Optional <Product> existproduct = productService.getProductById(id);
-
-        if(!existproduct.isPresent()){
-            return "redirect:/no-page-error";
-        }
 
         Product product = existproduct.get();
         List<Review> reviewsList = product.getTwoReviews(from, to);

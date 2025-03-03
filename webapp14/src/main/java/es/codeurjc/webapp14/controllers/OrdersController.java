@@ -96,10 +96,6 @@ public class OrdersController {
 
         Optional<Order> optionalOrder = orderService.getOrderById(id);
 
-        if (!optionalOrder.isPresent()) {
-            return "redirect:/no-page-error";
-        }
-
         Order order = optionalOrder.get();
         if (order != null) {
             BigDecimal subtotal = order.getTotalPrice();
