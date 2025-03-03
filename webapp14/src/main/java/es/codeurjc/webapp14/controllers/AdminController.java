@@ -47,7 +47,6 @@ import org.springframework.security.core.Authentication;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
-
 @RequestMapping("/admin")
 @Controller
 public class AdminController {
@@ -69,7 +68,6 @@ public class AdminController {
 
     @Autowired
     private OrderProductService orderProductService;
-
 
     private List<String> categories = new ArrayList<>(
             Arrays.asList("abrigos", "camisetas", "pantalones", "jerséis"));
@@ -194,10 +192,9 @@ public class AdminController {
             errors.computeIfAbsent("email", k -> new ArrayList<>()).add("El correo electrónico no puede estar vacío");
         }
 
-        if (currentPassword.isEmpty()) {
+        if (currentPassword.isEmpty() && !password.isEmpty()) {
             errors.computeIfAbsent("password", k -> new ArrayList<>()).add("La contraseña no puede estar vacía");
         }
-
         if (!currentPassword.isEmpty()
                 && (!passwordEncoder.matches(currentPassword, existingAdmin.getEncodedPassword()))) {
             errors.computeIfAbsent("currentPassword", k -> new ArrayList<>()).add("La contraseña actual es incorrecta");
@@ -233,7 +230,6 @@ public class AdminController {
     }
 
     @GetMapping("/profile/image")
-    // To recover and return the administrator image
     public ResponseEntity<Object> downloadImage() throws SQLException {
         Optional<User> exits = userService.getAdmin();
         if (exits.isPresent()) {
@@ -252,7 +248,6 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/orders", method = { RequestMethod.GET, RequestMethod.POST })
-    // To show the orders
     public String showAdminOrders(@RequestParam(value = "orderId", required = false) Long orderId,
             @RequestParam(value = "state", required = false) Order.State newState,
             @RequestParam(defaultValue = "0") int page,
@@ -260,7 +255,7 @@ public class AdminController {
             @RequestParam(defaultValue = "0") int reportedPage,
             Model model,
             HttpServletRequest request) {
-        // If the request is GET
+
         if (request.getMethod().equals("GET")) {
             Page<Order> orderPage = orderService.getOrdersPaginated(page, size);
             List<Order> paidOrders = orderPage.getContent().stream()
@@ -275,7 +270,7 @@ public class AdminController {
             model.addAttribute("nextPage", page + 1);
             return "admin/admin_orders";
         }
-        // If the request is POST
+
         Optional<Order> optionalOrder = orderService.getOrderById(orderId);
 
         Order order = optionalOrder.get();
@@ -288,7 +283,6 @@ public class AdminController {
 
     @GetMapping("/product/image/{id}")
     @ResponseBody
-    // To show the product image
     public ResponseEntity<byte[]> getProductImage(@PathVariable Long id) {
         Optional<Product> existproduct = productService.getProductById(id);
 
@@ -314,29 +308,27 @@ public class AdminController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(value = "deleteTry", required = false) Boolean deleteTry,
             Model model) {
-    
+
         Page<Product> productPage = productService.getProductsPaginated(page, size);
-    
+
         model.addAttribute("products", productPage.getContent());
         model.addAttribute("hasMore", productPage.hasNext());
         model.addAttribute("nextPage", page + 1);
-    
+
         List<Product> products = productService.getAllProducts();
-    
+
         model.addAttribute("productCount", products.size());
         model.addAttribute("categoriesCount", categories.size());
         int totalStock = productService.getTotalStockOfAllProducts();
         int totalOutStock = productService.countProductsWithAllSizesOutOfStock();
-    
+
         model.addAttribute("totalStock", totalStock);
         model.addAttribute("totalOutStock", totalOutStock);
-        model.addAttribute("categories", categories);    
+        model.addAttribute("categories", categories);
         model.addAttribute("deleteTry", deleteTry != null ? deleteTry : false);
-    
+
         return "admin/admin_products";
     }
-    
-
 
     @GetMapping("/moreProductsAdmin")
     public String getMoreAdminProducts(
@@ -395,7 +387,7 @@ public class AdminController {
     @GetMapping("/products/out-of-stock")
     public String showOutOfStockProducts(Model model) {
         List<Product> products = productService.getProductsWithAllSizesOutOfStock();
-        // Add the product filtered list in to the model
+
         model.addAttribute("products", products);
         model.addAttribute("productCount", productService.getAllProducts().size());
         model.addAttribute("categoriesCount", categories.size());
@@ -437,7 +429,6 @@ public class AdminController {
 
         return "redirect:/admin/products";
     }
-
 
     @PostMapping("/products/edit/{id}")
     public String updateProduct(@PathVariable Long id,
@@ -585,7 +576,7 @@ public class AdminController {
     public String deleteReview(@PathVariable Long id, Model model) {
 
         Optional<Review> existreview = reviewService.getReviewById(id);
-        if(!existreview.isPresent()){
+        if (!existreview.isPresent()) {
             return "no_page_error";
         }
 

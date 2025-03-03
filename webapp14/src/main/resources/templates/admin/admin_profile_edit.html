@@ -1,22 +1,33 @@
 {{> partialsAdmin/header }}
 
 <script>
-    // To handle image upload and update preview
     document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('profileImage').addEventListener('click', function () {
             document.getElementById('imageUpload').click();
         });
         document.getElementById('imageUpload').addEventListener('change', function (event) {
             uploadImage(event);
+            updateNewProfileImage(event);
         });
     });
-
     function uploadImage(event) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = function (e) {
                 document.getElementById('profileImage').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+    function updateNewProfileImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const newProfileImage = document.getElementById("newProfileImage");
+                newProfileImage.src = e.target.result;
+                newProfileImage.style.display = "block";
             };
             reader.readAsDataURL(file);
         }
@@ -36,14 +47,19 @@
                     <div class="text-center">
                         {{#hasImage}}
                         <img src="/admin/profile/image" class="img-profile rounded-circle mb-4" alt="Profile Picture"
-                            width="150" height="150" id="profileImage">
+                            width="150" height="150" id="profileImage"
+                            style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%)">
                         {{/hasImage}}
                         {{^hasImage}}
                         <img src="/images/noAdminImage.png" class="img-profile rounded-circle mb-4"
-                            alt="Profile Picture" width="150" height="150" id="profileImage">
+                            alt="Profile Picture" width="150" height="150" id="profileImage"
+                            style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%)">
                         {{/hasImage}}
+                        <img id="newProfileImage" src="" class="img-profile rounded-circle mb-4" width="150"
+                            height="150"
+                            style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%)">
                         <br>
-                        <label for="imageUpload" class="btn btn-primary btn-user">Seleccionar
+                        <label for="imageUpload" class="btn btn-primary btn-user" style="margin-top: 170px;">Seleccionar
                             Imagen</label>
                         <input type="file" id="imageUpload" name="imageUpload" accept=".jpg, .jpeg, .png"
                             style="display: none;">
