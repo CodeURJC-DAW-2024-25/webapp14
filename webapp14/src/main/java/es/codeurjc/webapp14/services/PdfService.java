@@ -44,16 +44,12 @@ public class PdfService {
 
     // Method to generate HTML content from the Mustache template
     private String generateHtmlFromTemplate(Order order) throws IOException {
-        // Create a MustacheFactory object to compile the template
         MustacheFactory mf = new DefaultMustacheFactory();
-        // Load the order_pdf.html template from the resources folder
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("templates/order_pdf.html");
         if (inputStream == null) {
             throw new IOException("Template not found: order_pdf.html");
         }
-        // Compile the Mustache template
         Mustache mustache = mf.compile(new InputStreamReader(inputStream), "order_pdf");
-        // Create a map to store the data to be used in the template
         Map<String, Object> data = new HashMap<>();
         String formattedTotalPrice = String.format("%.2f", order.getTotalPrice());
         data.put("createdAt", order.getCreatedAt());
@@ -69,18 +65,14 @@ public class PdfService {
             orderProducts.add(productData);
         }
         data.put("orderProducts", orderProducts);
-        // Render the HTML content by executing the template with the data
         StringWriter writer = new StringWriter();
         mustache.execute(writer, data).flush();
-        // Return the rendered HTML
         return writer.toString();
     }
 
     // Method to generate PDF from the given HTML content
     private byte[] generatePdfFromHtml(String htmlContent) throws IOException {
-        // Create an output stream to store the PDF data
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        // Create an ITextRenderer object to render the HTML content into a PDF
         ITextRenderer renderer = new ITextRenderer();
         renderer.setDocumentFromString(htmlContent);
         renderer.layout();
@@ -89,7 +81,6 @@ public class PdfService {
         } catch (com.lowagie.text.DocumentException e) {
             throw new IOException("Error generating PDF", e);
         }
-        // Return the generated PDF
         return outputStream.toByteArray();
     }
 
