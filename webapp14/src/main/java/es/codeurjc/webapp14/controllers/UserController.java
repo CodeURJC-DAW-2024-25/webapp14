@@ -1,10 +1,12 @@
 package es.codeurjc.webapp14.controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +21,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.sql.Blob;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 import es.codeurjc.webapp14.model.Order;
@@ -175,7 +182,12 @@ public class UserController {
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String surname,
             @RequestParam(required = false) String email,
-            @RequestParam(required = false) String address) {
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) String currentPassword,
+            @RequestParam(required = false) String newPassword,
+            @RequestParam(required = false) String confirmPassword,
+            @RequestParam(required = false) MultipartFile newImage,
+            RedirectAttributes redirectAttributes) {
 
         if (userId == null) {
             return "redirect:/login";
@@ -187,23 +199,71 @@ public class UserController {
             return "no_page_error";
         }
 
-        User user = userConsult.get();
 
-        if (name != null) {
+        User user = userConsult.get();
+        
+        boolean hasErrors = false;
+
+        if (newPassword != null && !newPassword.isEmpty()) {
+            if (currentPassword == null || currentPassword.isEmpty()) {
+                redirectAttributes.addFlashAttribute("errorCurrentPassword", "Debe proporcionar su contraseña actual.");
+                hasErrors = true;
+            } else if (!passwordEncoder.matches(currentPassword, user.getEncodedPassword())) {
+                redirectAttributes.addFlashAttribute("errorCurrentPassword", "La contraseña actual es incorrecta.");
+                hasErrors = true;
+            }
+
+            if (!newPassword.equals(confirmPassword)) {
+                redirectAttributes.addFlashAttribute("errorNewPassword", "Las contraseñas no coinciden.");
+                hasErrors = true;
+            }
+        }
+
+        if (email != null && !email.isEmpty()) {
+            if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+                redirectAttributes.addFlashAttribute("errorEmail", "El email ingresado no es válido.");
+                hasErrors = true;
+            }
+        }
+
+        if (hasErrors) {
+            redirectAttributes.addFlashAttribute("name", name);
+            redirectAttributes.addFlashAttribute("surname", surname);
+            redirectAttributes.addFlashAttribute("email", email);
+            redirectAttributes.addFlashAttribute("address", address);
+            return "redirect:/user_registered/users_profile";
+        }
+
+        if (name != null && !name.isEmpty()) {
             user.setName(name);
         }
-        if (surname != null) {
+        if (surname != null && !surname.isEmpty()) {
             user.setSurname(surname);
         }
-        if (email != null) {
+        if (email != null && !email.isEmpty()) {
             user.setEmail(email);
         }
-        if (address != null) {
+        if (address != null && !address.isEmpty()) {
             user.setAddress(address);
+        }
+        if (newPassword != null && !newPassword.isEmpty()) {
+            user.setEncodedPassword(passwordEncoder.encode(newPassword));
+        }
+
+        if (newImage != null && !newImage.isEmpty()) {
+            try {
+                Blob imageBlob = BlobProxy.generateProxy(newImage.getInputStream(), newImage.getSize());
+                user.setProfileImage(imageBlob);
+            } catch (IOException e) {
+                redirectAttributes.addFlashAttribute("errorImage", "Error al procesar la imagen.");
+                hasErrors = true;
+            }
         }
 
         userService.saveUser(user);
+        redirectAttributes.addFlashAttribute("success", "Perfil actualizado correctamente.");
 
         return "redirect:/index";
     }
+
 }

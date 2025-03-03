@@ -1330,6 +1330,22 @@ Styles page style start
   margin-bottom: 50px;
 }
 
+.text-danger {
+  color: #dc3545 !important;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.error-message {
+  display: block;
+  margin-top: 5px;
+  padding: 8px;
+  border-radius: 5px;
+  background-color: #f8d7da;
+  border: 1px solid #dc3545;
+}
+
+
 
 
 

@@ -1,7 +1,7 @@
 {{> partialsUser/header }}
 
 <!-- Main Content -->
-<main class="container d-flex justify-content-center align-items-center vh-100">
+<main class="container d-flex justify-content-center align-items-center vh-100" style="margin-top: 8rem;">
   <section style="margin-top: 8rem;">
     <section id="category" class="category2 w-100" style="max-width: 500px;">
       <div class="card p-4 shadow">
@@ -10,33 +10,42 @@
           <h4>Editar perfil</h4>
         </div>
         <br>
-        <form action="/editProfile" method="POST" class="user">
+        <form action="/editProfile" method="POST" class="user" enctype="multipart/form-data">
           <div class="form-group">
             <label for="exampleFirstName">Nombre:</label>
-            <input type="text" class="form-control" id="exampleFirstName" placeholder="First Name" name="name" value="{{user.name}}">
+            <input type="text" class="form-control" id="exampleFirstName" name="name" value="{{user.name}}">
           </div>
           <div class="form-group">
             <label for="exampleLastName">Apellidos:</label>
-            <input type="text" class="form-control" id="exampleLastName" placeholder="Last Name" name="surname" value="{{user.surname}}">
+            <input type="text" class="form-control" id="exampleLastName" name="surname" value="{{user.surname}}">
           </div>
           <div class="form-group">
             <label for="exampleInputEmail">Correo electrónico:</label>
-            <input type="email" class="form-control" id="exampleInputEmail" name="email" placeholder="Email Address"
-              value="{{user.email}}">
+            <input type="email" class="form-control" id="exampleInputEmail" name="email" value="{{user.email}}">
+            {{#errorEmail}}<small class="text-danger error-message">{{errorEmail}}</small>{{/errorEmail}}
           </div>
           <div class="form-group">
             <label for="exampleInputAddress">Dirección:</label>
-            <input type="text" class="form-control" id="exampleInputAddress" name="address" placeholder="Address"
-              value="{{user.address}}">
+            <input type="text" class="form-control" id="exampleInputAddress" name="address" value="{{user.address}}">
           </div>
           <div class="form-group">
-            <label for="exampleInputPassword">Contraseña:</label>
-            <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password"
-              value="Introduza su contraseña">
+            <label for="exampleInputPassword">Contraseña actual:</label>
+            <input type="password" class="form-control" id="exampleInputPassword" name="currentPassword">
+            {{#errorCurrentPassword}}<small class="text-danger error-message">{{errorCurrentPassword}}</small>{{/errorCurrentPassword}}
           </div>
           <div class="form-group">
-            <label for="inputFile">Seleccionar imagen Perfil:</label>
-            <input type="file" class="form-control" id="inputFile" accept="image/*">
+            <label for="newPassword">Nueva contraseña:</label>
+            <input type="password" class="form-control" id="newPassword" name="newPassword">
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirmar nueva contraseña:</label>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
+            {{#errorNewPassword}}<small class="text-danger error-message">{{errorNewPassword}}</small>{{/errorNewPassword}}
+          </div>
+          <div class="form-group">
+            <label for="inputFile">Seleccionar imagen de perfil:</label>
+            <input type="file" class="form-control" id="inputFile" name="newImage" accept="image/*">
+            {{#errorImage}}<small class="text-danger error-message">{{errorImage}}</small>{{/errorImage}}
           </div>
           <input type="hidden" name="_csrf" value="{{token}}" />
           <br>
