@@ -7,10 +7,10 @@ Noir & Blanc is an online clothing store where users can purchase products and l
 ### 👩‍👩‍👦‍👦 TEAM MEMBERS
 | Name and surname    | URJC mail      | GitHub user      |
 |:------------: |:------------:| :------------:|
-| Ikram El Jauhari Al Jaouhari       | i.eljauhari.2022@alumnos.urjc.es       | ikramej       |
-| Alberto Mayoral Gómez       | a.mayoral.2022@alumnos.urjc.es       | Albermg27       |
-| Icíar Moreno López       | i.morenolo.2022@alumnos.urjc.es       | IciarML       |
-| Jorge Ramírez Gayo       | j.ramirezg.2017@alumnos.urjc.es       | jorgeramirezgayo       |
+| Ikram El Jauhari Al Jaouhari    | i.eljauhari.2022@alumnos.urjc.es      | ikramej          |
+| Alberto Mayoral Gómez           | a.mayoral.2022@alumnos.urjc.es        | Albermg27        |
+| Icíar Moreno López              | i.morenolo.2022@alumnos.urjc.es       | IciarML          |
+| Jorge Ramírez Gayo              | j.ramirezg.2017@alumnos.urjc.es       | jorgeramirezgayo |
 
 ### 📝 ENTITIES
 1. **User**: There are three types of users: Registered users, unregistered users and administrators
@@ -19,10 +19,6 @@ Noir & Blanc is an online clothing store where users can purchase products and l
 4. **Review with score**: Allows registered users to leave a review about a product
    
 ![Image](https://github.com/user-attachments/assets/93a4bfab-4edd-4bb8-b684-b3a9bd4d0027)
-
-### 🧩 CLASS DIAGRAM
-
-![Image](https://github.com/user-attachments/assets/fe62c4fa-7021-4bc3-8a2b-a99d9fca3aea)
 
 ### 🔐 USER PERMISSIONS
 - **Registered users**: They can place orders, access their order history and leave reviews
@@ -46,21 +42,23 @@ A set of suggested products is displayed based on the categories of products pre
 ### 📺 SCREENS
 | Screen name    | Screen image      | Screen description      |
 |:------------: |:------------:| :------------:|
-| ![Image](https://github.com/user-attachments/assets/25b042a9-b51d-4d4b-8c0e-0f0b90c65f65) | Admin charts | Screen where the administrator will be able to view a bar graph with the most purchased products and a line graph displaying the sales of the last month |
-| ![Image](https://github.com/user-attachments/assets/cdcc2834-227d-4be3-9871-8fd3de68786a) | Admin orders | Screen where the administrator can see the orders that all users have made and their details |
-| ![Image](https://github.com/user-attachments/assets/5584c478-3c4c-4b7a-8937-1b5f3e3f9057) | Admin profile | Screen where the administrator can see their personal data |
-| ------------------------------------ | Admin edit profile | Screen where the administrator can edit their personal data (name and surname, email and password) |
-| ![Image](https://github.com/user-attachments/assets/ded15f09-3292-44ab-9c1e-836403ef712d) | Admin products | Screen where the administrator can see all the products, their details, edit and delete them. The administrator can also observe the products that are or are not available |
-| ![Image](https://github.com/user-attachments/assets/4520a856-d820-4c05-ab25-24b432da9281) | Admin users | Screen in which the administrator can see the users of the website, he/she can also see the reports that have been made and the users that are banned |
-| ![Image](https://github.com/user-attachments/assets/cd51105b-2c8e-4f92-94a7-ff5c5b5fc577) | Login | This screen is used by both users and administrators to login using their email and password |
-| ![Image](https://github.com/user-attachments/assets/b0619823-9d74-4dc8-9653-a0af8bbcd062) | Register | This screen is used to register users. Users must indicate their name, their email and create a password |
-| ![Image](https://github.com/user-attachments/assets/d09c31de-a73b-4bd7-8e42-55bd673df736) | Index | Main screen of the website where users view the different product categories |
-| ![Image](https://github.com/user-attachments/assets/b46f73dd-24a1-42ea-ad59-0a5da37da4be) | Users profile | Screen where registered users can edit certain attributes |
-| ![Image](https://github.com/user-attachments/assets/caf08c29-3399-4161-9ba2-cb6c7915b3f9) | Category | Screen where users can view products belonging to a specific category |
-| ![Image)](https://github.com/user-attachments/assets/aaff7dd2-0d46-4a93-87a0-8f838831b050) | Elem detail | Screen where the information of a specific product is displayed |
-| ![Image](https://github.com/user-attachments/assets/34279293-2c28-492c-9d88-1a143c7f3066) | Cart | Screen where the products added to the cart by a user are displayed |
-| ![Image](https://github.com/user-attachments/assets/dd6c566a-f78b-4605-9629-248ab883637b) | Orders | Screen where the previous orders made by a user are displayed |
-| ![Image](https://github.com/user-attachments/assets/e2eb1a38-7ee4-4cc4-9a1d-f806c7e4542a) | Orders detail | Screen where the details of the products belonging to a specific order are displayed |
+| ![Image](https://github.com/user-attachments/assets/d82dfd13-863c-42c9-aa10-6955225cf3f8) | Login | This screen is used by users and administrators to login using their email and password |
+| ![Image](https://github.com/user-attachments/assets/a1c7778a-d507-4234-a23b-a69ec2520b02) | Register | This screen is used to register users. Users must indicate their name and surname, their email and create a password |
+| ![Image](https://github.com/user-attachments/assets/2d827b68-f10e-4422-be38-dfe19b4c7266) | Admin profile | Screen where the administrator can see their personal data |
+| ![Image](https://github.com/user-attachments/assets/8db25f4c-b259-48e9-95f2-4f7a112d6097) | Admin edit profile | Screen where the administrator can edit their personal data (name and surname, email and password) |
+| ![Image](https://github.com/user-attachments/assets/966c5628-2468-4547-928e-f333425ef0a1) | Admin charts | Screen where the administrator will be able to view a bar graph with the most purchased products and a line graph displaying the sales of the last month |
+| ![Image](https://github.com/user-attachments/assets/a93f8d23-948f-492a-8ab1-b2aa8dc9c37a) | Admin users | Screen in which the administrator can see the users of the website, he/she can also see the reports that have been made and the users that are banned |
+| ![Image](https://github.com/user-attachments/assets/18cdb7aa-590d-495f-bdd7-c1a5e844501b) | Admin orders | Screen where the administrator can see the orders that all users have made, their details and delete them |
+| ![Image](https://github.com/user-attachments/assets/49bd1d6a-2e82-487e-9cd5-2a15de2e3817) | Admin products | Screen where the administrator can see all the products, their details, edit and delete them. The administrator can also observe the products that are or are not available |
+| ![Image](https://github.com/user-attachments/assets/2c397c5d-1a7d-49ca-8475-eef11d5d31fd) | Users profile | Screen where registered users can edit certain attributes |
+| ![Image](https://github.com/user-attachments/assets/6d788f7a-37ad-4284-ba56-463d2e89f937) | Index | Main screen of the website where users can view the different product categories |
+| ![Image](https://github.com/user-attachments/assets/b4caf583-4e32-4492-853d-e231f395a18a) | Category | Screen where users can view products belonging to a specific category |
+| ![Image](https://github.com/user-attachments/assets/b42cd2e9-d021-4317-98b9-bccf5453daee) | Elem detail | Screen where the information of a specific product is displayed |
+| ![Image](https://github.com/user-attachments/assets/363d9bb7-5ab6-4e6f-9a93-0c289796d470) | Cart | Screen where the products added to the cart by a user are displayed |
+| ![Image](https://github.com/user-attachments/assets/8daa2fca-96ac-4f7d-8c46-8406ea5497b5) | Orders | Screen where the previous orders made by a user are displayed |
+| ![Image](https://github.com/user-attachments/assets/d191b5eb-82aa-4d7d-9aa5-9ac5e7bfeb48) | Orders detail | Screen where the details of the products belonging to a specific order are displayed |
+| ![Image](https://github.com/user-attachments/assets/2a0228bb-a0ad-4417-9ebc-78dc8d28140a) | Access error | The screen displays an access error, indicating that the user does not have permission to view the content |
+| ![Image](https://github.com/user-attachments/assets/00775d7c-3080-4429-9c2f-33688765dbe6) | No page error | The screen indicates that the requested page does not exist or is not available |
 
 ### 🗺️ NAVIGATION DIAGRAM
 
@@ -75,27 +73,27 @@ A set of suggested products is displayed based on the categories of products pre
 
 # PHASE 1
 
-## 🤝 PARTICIPATION
+### 🤝 PARTICIPATION
 
 ### **Ikram El Jauhari Al Jaouhari**
-I have been mostly responsible for developing the functions related to the index screen for both no resgitered users and registered users including a variety of "load more" buttons with AJAX, the element detail screen, the edit user profile screen and the category screen in which I had to show specific products based on the category. Also, I have been responsible for the functions of creating and editing reviews on the element detail screen. In addition, I have participated in the developing of the security integration with the web. Last but not least, I have developed the advanced algorithm which consisted in showing more products based on the categories of the user last order.
+I have been mostly responsible for developing the functions related to the index screen for both no resgitered users and registered users including a variety of "load more" buttons with AJAX, the element detail screen, the edit user profile screen and the category screen in which I had to show specific products based on the category. Also, I have been responsible for the functions of creating and editing reviews on the element detail screen. In addition, I have participated in the developing of the security integration with the web. Last but not least, I have developed the advanced algorithm which consisted in showing more products based on the categories of the user last order
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1|[Added all products to database and fixed index.html](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/139b29849c94a9bd06c49a3c10b91212d00e6ebe)  |productController.java|
-|2|[updated elem_detail.html and category.html part 1](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/8133c076dbba4c2b561d23bc90ec45bf91365508)  |productController.java|
-|3|[added loadMore button with AJAX](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/b9321ab640e7d64993f68d70f60812f0d1b1d3f3)  |app.js|
-|4|[added Show Recommended Products algorithm](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/5e993f5c790495c36105eb2a972c2dfd003165e1)  |productRepository.java|
-|5|[Spring security (part 2) and added edit_profile form verifications](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/14fa4089f835b7dd7038a745e93b6b1262404964)  |WebSecurityConfig.java|
+|1|[Added all products to database and fixed index.html](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/139b29849c94a9bd06c49a3c10b91212d00e6ebe)|ProductController.java|
+|2|[updated elem_detail.html and category.html part 1](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/8133c076dbba4c2b561d23bc90ec45bf91365508)|ProductController.java|
+|3|[added loadMore button with AJAX](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/b9321ab640e7d64993f68d70f60812f0d1b1d3f3)|app.js|
+|4|[added Show Recommended Products algorithm](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/5e993f5c790495c36105eb2a972c2dfd003165e1)|ProductRepository.java|
+|5|[Spring security (part 2) and added edit_profile form verifications](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/14fa4089f835b7dd7038a745e93b6b1262404964)|WebSecurityConfig.java|
 
 ### **Alberto Mayoral Gómez**
-I have been responsible for developing the functions related to the creation and edition of products by the administrator, as well as user management and the control of reviews reported by customers. On the other hand, I have implemented the shopping cart logic on the website, taking into account the addition, removal, and processing of items, considering the available stock and possible concurrency issues, as well as the product search bar on the main page. Additionally, I have collaborated on the security aspect regarding access to certain pages, providing error and authentication pages. Finally, I have also contributed to correcting and improving the website in general.
+I have been responsible for developing the functions related to the creation and edition of products by the administrator, as well as user management and the control of reviews reported by customers. On the other hand, I have implemented the shopping cart logic on the website, taking into account the addition, removal, and processing of items, considering the available stock and possible concurrency issues, as well as the product search bar on the main page. Additionally, I have collaborated on the security aspect regarding access to certain pages, providing error and authentication pages. Finally, I have also contributed to correcting and improving the website in general
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1|[Implemented Cart for logged Users](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/451bc92b4f76e17a67edfc6fcfcbd4449d64c9cf)   |AdminController.java|
-|2|[Spring Security (csrf / roles / permissions)](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/a05b59a55c7a317f7c9ca3385f30b18d0bda5452)   |CartController.java|
-|3|[Edition and creation of products in admin_products.html](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/619b3a837053b913216274b51ff8ca5788f9465f)   |OrdersController.java|
-|4|[Report and delete Reviews by Users in elem_detail.html and fixed errors](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/d2320e9950acddc2c049934fe5d5f33fae1b5c6c)   |ProductController.java|
-|5|[Admin_products.html view linked to the database and requests handled by the Controller](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/d8a346a4976d6556baaf967e24e75ad05276d7f7)   |admin_products.hmtl|
+|1|[Implemented Cart for logged Users](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/451bc92b4f76e17a67edfc6fcfcbd4449d64c9cf)|AdminController.java|
+|2|[Spring Security (csrf / roles / permissions)](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/a05b59a55c7a317f7c9ca3385f30b18d0bda5452)|CartController.java|
+|3|[Edition and creation of products in admin_products.html](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/619b3a837053b913216274b51ff8ca5788f9465f)|OrdersController.java|
+|4|[Report and delete Reviews by Users in elem_detail.html and fixed errors](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/d2320e9950acddc2c049934fe5d5f33fae1b5c6c)|ProductController.java|
+|5|[Admin_products.html view linked to the database and requests handled by the Controller](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/d8a346a4976d6556baaf967e24e75ad05276d7f7)|admin_products.hmtl|
 
 ### **Icíar Moreno López**
 I have developed the login and registration screens, managing user authentication and storage. I have also implemented the admin profile management so he/she can update his/her information easily. In addition, I have developed the order management screen, working on the logic of its creation and making sure only paid orders are shown and allowing their status to be updated. I have also implemented the generation of PDFs with order details and the automatic sending of emails to users after making a purchase. Finally, I have corrected errors and improved general aspects of the website
@@ -105,7 +103,7 @@ I have developed the login and registration screens, managing user authenticatio
 |2|[Added admin orders view with database support and fixed image saving issues](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/c8f61521d18fc10c3061426a77155bb799ca3cb3)|UserController.java|
 |3|[Added functionality to generate PDFs for orders](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/12cf5378fccbffcc4d93b94f3f8c37037d7351bf)|OrdersController.java|
 |4|[Added functionality to send emails](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/ad0fc2b2cd14adaccdf90b794368c7414b307f44)|EmailService.java|
-|5|[Fixed several errors in admin views](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/eacb1fbc9966ec57a254449c239d0904474849b7)|Admin_orders.html|
+|5|[Fixed several errors in admin views](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/eacb1fbc9966ec57a254449c239d0904474849b7)|admin_orders.html|
 
 ### **Jorge Ramírez Gayo**
 Aaa

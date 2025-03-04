@@ -36,36 +36,43 @@ public class WebSecurityConfig {
 	}
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    
-        http.authenticationProvider(authenticationProvider());
-    
-        http
-            .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/index/**", "/register", "/login", "/logout", "/register-success").permitAll()
-                .requestMatchers("/css/**", "/js/**", "/images/**", "/vendor/**", "/videos/**").permitAll()
-                .requestMatchers("/login_register/**", "/access-error", "/no-page-error/**").permitAll()
-                .requestMatchers("/image/**").permitAll()
-                .requestMatchers("/error", "/error/**").permitAll()
-                .requestMatchers("/cart/**", "/orders/**").authenticated()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-            )
-            .formLogin(formLogin -> formLogin
-                .loginPage("/login")
-                .successHandler(new UserAuthHandler())
-                .failureUrl("/access-error")
-                .permitAll()
-            )
-            .logout(logout -> logout
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+    http.authenticationProvider(authenticationProvider());
+
+    http
+        .authorizeHttpRequests(authorize -> authorize
+            .requestMatchers("/index/**", "/register", "/login", "/logout", "/register-success").permitAll()
+            .requestMatchers("/css/**", "/js/**", "/images/**", "/vendor/**", "/videos/**").permitAll()
+            .requestMatchers("/login_register/**", "/access-error").permitAll()
+            .requestMatchers("/image/**").permitAll()
+            .requestMatchers("/error", "/error/**").permitAll() 
+            .requestMatchers("/no-page-error", "/no-page-error/**").permitAll() 
+            .requestMatchers("/favicon.ico").permitAll()
+            .requestMatchers("/cart/**", "/orders/**").authenticated()
+            .requestMatchers("/user_registered/users_profile", "/editProfile").authenticated()
+            .requestMatchers("/admin/**").hasRole("ADMIN")
+            .anyRequest().permitAll()
+        )
+        .formLogin(formLogin -> formLogin
+            .loginPage("/login")
+            .successHandler(new UserAuthHandler())
+            .failureUrl("/access-error")
+            .permitAll()
+        )
+        .logout(logout -> logout
             .logoutUrl("/logout")
             .logoutSuccessUrl("/index")
             .invalidateHttpSession(true)
             .deleteCookies("JSESSIONID")
             .permitAll()
+        )
+        .exceptionHandling(exception -> exception
+            .accessDeniedPage("/access-error")
         );
-    
-        return http.build();
-    }
+
+    return http.build();
+}
+
     
 }
