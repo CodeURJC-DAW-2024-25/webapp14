@@ -74,7 +74,7 @@ A set of suggested products is displayed based on the categories of products pre
 
 # PHASE 1
 
-🛠️ ### EXECUTION INSTRUCTIONS
+###  🛠️ EXECUTION INSTRUCTIONS
 
 1.  **Download the repository:**
     
@@ -114,7 +114,7 @@ A set of suggested products is displayed based on the categories of products pre
 ### 🤝 PARTICIPATION
 
 ### **Ikram El Jauhari Al Jaouhari**
-I have been mostly responsible for developing the functions related to the index screen for both no resgitered users and registered users including a variety of "load more" buttons with AJAX, the element detail screen, the edit user profile screen and the category screen in which I had to show specific products based on the category. Also, I have been responsible for the functions of creating and editing reviews on the element detail screen. In addition, I have participated in the developing of the security integration with the web. Last but not least, I have developed the advanced algorithm which consisted in showing more products based on the categories of the user last order
+I have been mostly responsible for developing the functions related to the index screen for both non registered users and registered users including a variety of "load more" buttons with AJAX, the element detail screen, the edit user profile screen and the category screen in which I had to show specific products based on the category. Also, I have been responsible for the functions of creating and editing reviews on the element detail screen. In addition, I have participated in the developing of the security integration with the web. Last but not least, I have developed the advanced algorithm which consisted in showing more products based on the categories of the user last order
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
 |1|[Added all products to database and fixed index.html](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/139b29849c94a9bd06c49a3c10b91212d00e6ebe)|[ProductController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/java/es/codeurjc/webapp14/controllers/ProductController.java)|
