@@ -162,6 +162,8 @@ public class CartController {
             @RequestParam("quantity") int quantity,
             Model model, @ModelAttribute("userId") Long userId) {
 
+        System.out.println("Cantidad" + quantity);
+
         if (userId == null) {
             return "redirect:/login";
         }
