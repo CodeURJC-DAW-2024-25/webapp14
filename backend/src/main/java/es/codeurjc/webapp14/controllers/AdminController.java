@@ -251,8 +251,7 @@ public class AdminController {
     public String showAdminOrders(@RequestParam(value = "orderId", required = false) Long orderId,
             @RequestParam(value = "state", required = false) Order.State newState,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size,
-            @RequestParam(defaultValue = "0") int reportedPage,
+            @RequestParam(defaultValue = "10") int size,
             Model model,
             HttpServletRequest request) {
 

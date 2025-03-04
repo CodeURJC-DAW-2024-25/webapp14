@@ -64,7 +64,7 @@ async function loadMoreAdminUsersReviews(button) {
     }
 }
 
-const NUM_ORDERS = 5;
+const NUM_ORDERS = 10;
 let currentPage5 = 0;
 
 async function loadMoreAdminOrders(button) {
