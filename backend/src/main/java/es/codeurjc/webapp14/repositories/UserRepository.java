@@ -15,8 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmail(String email);
 
-    // User findByRole(User.Role role);
-
     Optional<User> findById(Long id);
 
     List<User> findByBannedTrue();

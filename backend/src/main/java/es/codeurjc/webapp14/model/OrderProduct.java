@@ -22,10 +22,6 @@ public class OrderProduct {
 
     private int quantity;
 
-    // @ManyToOne
-    // @JoinColumn(name = "size_id", nullable = false)
-    // private Size size;
-
     private String size;
 
     public OrderProduct() {
