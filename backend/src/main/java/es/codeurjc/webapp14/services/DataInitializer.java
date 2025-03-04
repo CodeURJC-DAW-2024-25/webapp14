@@ -1152,31 +1152,6 @@ public class DataInitializer implements CommandLineRunner {
 
                 Random random = new Random();
 
-                // Order that is not paid
-                if (users.get(1) != null && products.get(1) != null) {
-                    Order order = new Order();
-                    order.setUser(users.get(1));
-                    order.setState(Order.State.No_pagado);
-                    order.setIsPaid(false);
-
-                    List<OrderProduct> orderProducts = new ArrayList<>();
-                    int numProductos = random.nextInt(3) + 1;
-                    Collections.shuffle(products);
-
-                    for (int j = 0; j < numProductos; j++) {
-                        Product product = products.get(j);
-                        Size size = sizes.get(random.nextInt(sizes.size()));
-                        int quantity = random.nextInt(3) + 1;
-
-                        orderProducts.add(new OrderProduct(order, product, size.getName().toString(), quantity));
-                    }
-
-                    order.setOrderProducts(orderProducts);
-
-                    orderRepository.save(order);
-                    orderProductRepository.saveAll(orderProducts);
-                }
-
                 // Orders that are paid
                 for (User user : users) {
                     int numPedidos = random.nextInt(3) + 1;
