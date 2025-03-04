@@ -52,8 +52,8 @@ A set of suggested products is displayed based on the categories of products pre
 | ![Image](https://github.com/user-attachments/assets/49bd1d6a-2e82-487e-9cd5-2a15de2e3817) | Admin products | Screen where the administrator can see all the products, their details, edit and delete them. The administrator can also observe the products that are or are not available |
 | ![Image](https://github.com/user-attachments/assets/2c397c5d-1a7d-49ca-8475-eef11d5d31fd) | Users profile | Screen where registered users can edit certain attributes |
 | ![Image](https://github.com/user-attachments/assets/6d788f7a-37ad-4284-ba56-463d2e89f937) | Index | Main screen of the website where users can view the different product categories |
-| ![Image](https://github.com/user-attachments/assets/b4caf583-4e32-4492-853d-e231f395a18a) | Category | Screen where users can view products belonging to a specific category |
-| ![pantalones](https://github.com/user-attachments/assets/5966cffd-5353-48af-b078-baa9e0207ffc) | Elem detail | Screen where the information of a specific product is displayed |
+| ![Image](https://github.com/user-attachments/assets/d0d0d840-908c-47cb-82c8-780360662375) | Category | Screen where users can view products belonging to a specific category |
+| ![Image](https://github.com/user-attachments/assets/5966cffd-5353-48af-b078-baa9e0207ffc) | Elem detail | Screen where the information of a specific product is displayed |
 | ![Image](https://github.com/user-attachments/assets/363d9bb7-5ab6-4e6f-9a93-0c289796d470) | Cart | Screen where the products added to the cart by a user are displayed |
 | ![Image](https://github.com/user-attachments/assets/8daa2fca-96ac-4f7d-8c46-8406ea5497b5) | Orders | Screen where the previous orders made by a user are displayed |
 | ![Image](https://github.com/user-attachments/assets/d191b5eb-82aa-4d7d-9aa5-9ac5e7bfeb48) | Orders detail | Screen where the details of the products belonging to a specific order are displayed |
