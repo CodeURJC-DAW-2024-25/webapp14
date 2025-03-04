@@ -42,13 +42,6 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
     http
         .authorizeHttpRequests(authorize -> authorize
-            .requestMatchers("/index/**", "/register", "/login", "/logout", "/register-success").permitAll()
-            .requestMatchers("/css/**", "/js/**", "/images/**", "/vendor/**", "/videos/**").permitAll()
-            .requestMatchers("/login_register/**", "/access-error").permitAll()
-            .requestMatchers("/image/**").permitAll()
-            .requestMatchers("/error", "/error/**").permitAll() 
-            .requestMatchers("/no-page-error", "/no-page-error/**").permitAll() 
-            .requestMatchers("/favicon.ico").permitAll()
             .requestMatchers("/cart/**", "/orders/**").authenticated()
             .requestMatchers("/user_registered/users_profile", "/editProfile").authenticated()
             .requestMatchers("/admin/**").hasRole("ADMIN")

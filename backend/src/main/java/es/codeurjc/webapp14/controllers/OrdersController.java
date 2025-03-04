@@ -89,7 +89,7 @@ public class OrdersController {
             model.addAttribute("exists", !orders.isEmpty());
         }
         else{
-            return "no_page_error";
+            return "redirect:/no-page-error";
         }
 
         return "/user_registered/orders";
@@ -103,7 +103,7 @@ public class OrdersController {
         Optional <User> user = userService.findById(userId);
 
         if(!optionalOrder.isPresent()){
-            return "no_page_error";
+            return "redirect:/no-page-error";
         }
 
         if(userId == null || user == null || !optionalOrder.get().getUser().getId().equals(userId)){

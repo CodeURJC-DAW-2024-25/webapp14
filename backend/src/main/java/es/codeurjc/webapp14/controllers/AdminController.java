@@ -406,7 +406,7 @@ public class AdminController {
         Optional<Product> existproduct = productService.getProductById(id);
 
         if (!existproduct.isPresent()) {
-            return "no_page_error";
+            return "redirect:/no-page-error";
         }
 
         Boolean deleteOk = true;
@@ -576,7 +576,7 @@ public class AdminController {
 
         Optional<Review> existreview = reviewService.getReviewById(id);
         if (!existreview.isPresent()) {
-            return "no_page_error";
+            return "redirect:/no-page-error";
         }
 
         reviewService.delete(id);
@@ -588,7 +588,7 @@ public class AdminController {
         Optional<User> userConsult = userService.findById(id);
 
         if (!userConsult.isPresent()) {
-            return "no_page_error";
+            return "redirect:/no-page-error";
         }
 
         User user = userConsult.get();
@@ -604,7 +604,7 @@ public class AdminController {
         Optional<User> userConsult = userService.findById(id);
 
         if (!userConsult.isPresent()) {
-            return "no_page_error";
+            return "redirect:/no-page-error";
         }
 
         User user = userConsult.get();

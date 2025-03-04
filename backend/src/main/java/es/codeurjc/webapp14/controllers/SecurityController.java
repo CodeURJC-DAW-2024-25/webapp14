@@ -44,6 +44,12 @@ public class SecurityController implements ErrorController {
 
         model.addAttribute("isAdmin", isAdmin);
 
+        boolean logged = auth.getAuthorities().stream()
+                            .map(GrantedAuthority::getAuthority)
+                            .anyMatch(role -> role.equals("ROLE_USER"));
+
+        model.addAttribute("logged", logged);
+
         return "no_page_error"; 
     }
 

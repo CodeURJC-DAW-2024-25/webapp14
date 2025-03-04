@@ -94,7 +94,7 @@ public class CartController {
         Optional<User> userConsult = userService.findById(userId);
 
         if (!userConsult.isPresent()) {
-            return "no_page_error";
+            return "redirect:/no-page-error";
         }
 
         User user = userConsult.get();
@@ -114,7 +114,7 @@ public class CartController {
             Product product = orderProduct.getProduct();
 
             if (product == null) {
-                return "no_page_error";
+                return "redirect:/no-page-error";
             }
 
             Optional<Size> productSize = product.getSizes().stream()
@@ -169,7 +169,7 @@ public class CartController {
         Optional<User> userConsult = userService.findById(userId);
 
         if (!userConsult.isPresent()) {
-            return "no_page_error";
+            return "redirect:/no-page-error";
         }
 
         User user = userConsult.get();
@@ -177,7 +177,7 @@ public class CartController {
         Optional<Product> existproduct = productService.getProductById(productId);
 
         if (!existproduct.isPresent()) {
-            return "no_page_error";
+            return "redirect:/no-page-error";
         }
 
         Product product = existproduct.get();
@@ -243,7 +243,7 @@ public class CartController {
         Optional<User> userConsult = userService.findById(userId);
 
         if (!userConsult.isPresent()) {
-            return "no_page_error";
+            return "redirect:/no-page-error";
         }
 
         User user = userConsult.get();
@@ -262,7 +262,7 @@ public class CartController {
             Product product = orderProduct.getProduct();
 
             if (product == null) {
-                return "no_page_error";
+                return "redirect:/no-page-error";
             }
 
             Optional<Size> productSize = product.getSizes().stream()
@@ -358,7 +358,7 @@ public class CartController {
         Optional<User> userConsult = userService.findById(userId);
 
         if (!userConsult.isPresent()) {
-            return "no_page_error";
+            return "redirect:/no-page-error";
         }
 
         User user = userConsult.get();

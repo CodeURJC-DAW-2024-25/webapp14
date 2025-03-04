@@ -168,7 +168,7 @@ public class UserController {
         Optional<User> userConsult = userService.findById(userId);
 
         if (!userConsult.isPresent()) {
-            return "no_page_error";
+            return "redirect:/no-page-error";
         }
 
         User user = userConsult.get();
@@ -196,7 +196,7 @@ public class UserController {
         Optional<User> userConsult = userService.findById(userId);
 
         if (!userConsult.isPresent()) {
-            return "no_page_error";
+            return "redirect:/no-page-error";
         }
 
 

@@ -45,18 +45,13 @@
 							<!-- Buttons -->
 							<div class="form-group">
 								{{#isAdmin}}
-									<a href="/admin/charts" class="form-control btn btn-primary rounded submit px-3">Ir al panel de administración</a>
+									<a href="/admin/products" class="form-control btn btn-primary rounded submit px-3">Ir al panel de administración</a>
 								{{/isAdmin}}
 								{{^isAdmin}}
 									<a href="/index" class="form-control btn btn-primary rounded submit px-3">Volver a la página principal</a>
 								{{/isAdmin}}
 							</div>
-							
-							{{#logged}}
-							<div class="form-group">
-								<a href="/account" class="form-control btn btn-secondary rounded submit px-3">Ir a mi cuenta</a>
-							</div>
-							{{/logged}}
+	
 							{{^logged}}
 							<div class="form-group">
 								<a href="/login" class="form-control btn btn-secondary rounded submit px-3">Iniciar sesión</a>

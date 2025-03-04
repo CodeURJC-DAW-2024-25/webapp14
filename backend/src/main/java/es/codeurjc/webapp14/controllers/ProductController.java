@@ -95,7 +95,7 @@ public class ProductController {
             Optional<User> userConsult = userService.findById(userId);
 
             if (!userConsult.isPresent()) {
-                return "no_page_error";
+                return "redirect:/no-page-error";
             }
 
             User user = userConsult.get();
@@ -166,7 +166,7 @@ public class ProductController {
         Optional<Product> product = productService.getProductById(productId);
 
         if (!review.isPresent() || !product.isPresent() || !review.get().getUser().getId().equals(userId)) {
-            return "no_page_error";
+            return "redirect:/no-page-error";
         }
 
         reviewService.delete(reviewId);
@@ -187,7 +187,7 @@ public class ProductController {
         Optional<User> userConsult = userService.findById(userId);
 
         if (!userConsult.isPresent()) {
-            return "no_page_error";
+            return "redirect:/no-page-error";
         }
 
         User user = userConsult.get();
@@ -223,7 +223,7 @@ public class ProductController {
         Optional<User> userConsult = userService.findById(userId);
 
         if (!userConsult.isPresent()) {
-            return "no_page_error";
+            return "redirect:/no-page-error";
         }
 
         User user = userConsult.get();
@@ -308,7 +308,7 @@ public class ProductController {
                 Optional<User> userConsult = userService.findById(userId);
 
                 if (!userConsult.isPresent()) {
-                    return "no_page_error";
+                    return "redirect:/no-page-error";
                 }
 
                 User user = userConsult.get();
