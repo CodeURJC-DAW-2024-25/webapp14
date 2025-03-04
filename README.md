@@ -70,7 +70,7 @@ A set of suggested products is displayed based on the categories of products pre
 
 ### 🗂️ CLASS AND TEMPLATES DIAGRAM
 
-![Image](https://github.com/user-attachments/assets/f22ceb70-2a3e-4610-a0b0-4ebd72856ce7)
+![image](https://github.com/user-attachments/assets/1806b785-853e-43bd-a312-32ce17661b32)
 
 # PHASE 1
 
