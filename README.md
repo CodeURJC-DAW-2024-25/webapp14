@@ -144,7 +144,7 @@ I have developed the login and registration screens, managing user authenticatio
 |5|[Fixed several errors in admin views](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/eacb1fbc9966ec57a254449c239d0904474849b7)|[admin_orders.html](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/resources/templates/admin/admin_orders.html)|
 
 ### **Jorge Ramírez Gayo**
-Aaa
+I was responsible for implementing the entities, primarily the relationships, as well as the admin dashboard graphs, which include the top-selling products and orders from the last month, and the users' order history. Additionally, I worked on smaller details such as fixing the responsiveness of the admin panel and data initializing.
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
 |1|[Implemented charts](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/22a98d1cb0a5ddd0b0127303f02955d01010cd43)|[AdminController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/java/es/codeurjc/webapp14/controllers/AdminController.java)|
