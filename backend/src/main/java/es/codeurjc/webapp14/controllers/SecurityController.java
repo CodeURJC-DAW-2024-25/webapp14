@@ -3,8 +3,21 @@ package es.codeurjc.webapp14.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.io.IOException;
+
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.ui.Model;
 
 @Controller
 public class SecurityController implements ErrorController {
@@ -20,13 +33,21 @@ public class SecurityController implements ErrorController {
     }
 
     @RequestMapping("/error")
-    public String handleError(HttpServletRequest request) {
-        return "redirect:/no-page-error";
+    public void handleError(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendRedirect("/no-page-error");
     }
 
     @GetMapping("/no-page-error")
-    public String pageDenied() {
-        return "no_page_error";
+    public String nonexistentPage(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        boolean isAdmin = auth.getAuthorities().stream()
+                            .map(GrantedAuthority::getAuthority)
+                            .anyMatch(role -> role.equals("ROLE_ADMIN"));
+
+        model.addAttribute("isAdmin", isAdmin);
+
+        return "no_page_error"; 
     }
 
 }
