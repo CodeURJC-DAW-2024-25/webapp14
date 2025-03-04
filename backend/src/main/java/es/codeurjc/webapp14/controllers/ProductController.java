@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Review;
@@ -27,6 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 
 @Controller
 @RequestMapping("/index")
@@ -241,7 +243,14 @@ public class ProductController {
 
     @GetMapping("/category/{category}")
     public String listProductsByCategory(@PathVariable String category, @RequestParam(defaultValue = "0") int page,
-            Model model) {
+                                        Model model) {
+
+        List<String> validCategories = List.of("camisetas", "pantalones", "abrigos", "jerseys");
+
+        if (!validCategories.contains(category.toLowerCase())) {
+            return "redirect:/error";
+        }
+
         Page<Product> productsPage = productService.getProductsByCategory(category, page);
 
         model.addAttribute("products", productsPage.getContent());

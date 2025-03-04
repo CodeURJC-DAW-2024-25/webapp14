@@ -10,7 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class UserAuthHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -18,20 +18,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
         String redirectUrl = "/index";
 
-        String username = authentication.getName();
-
-        if ("laura".equalsIgnoreCase(username)) {
-            redirectUrl = "/admin/products";
-        } else {
-            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-            for (GrantedAuthority authority : authorities) {
-                if (authority.getAuthority().equals("ROLE_ADMIN")) {
-                    redirectUrl = "/admin/products";
-                    break;
-                }
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        for (GrantedAuthority authority : authorities) {
+            if (authority.getAuthority().equals("ROLE_ADMIN")) {
+                redirectUrl = "/admin/products";
+                break;
             }
         }
-
         response.sendRedirect(redirectUrl);
     }
 }
