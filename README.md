@@ -74,10 +74,47 @@ A set of suggested products is displayed based on the categories of products pre
 
 # PHASE 1
 
+###  🛠️ EXECUTION INSTRUCTIONS
+
+1.  **Download the repository:**
+    
+    -   Clone or download this repository to your local machine.
+2.  **Install Java 21:**
+    
+    -   If you don't have Java 21 installed, you can download it from the following link:  
+        [Download Java 21](https://www.oracle.com/es/java/technologies/downloads/#java21).
+3.  **Set up the database:**
+    
+    -   We are using **XAMPP** for the database, but you can use any SQL editor you prefer.
+    -   Create a database named `shop` and set the password `admin` for the `root` user.
+    
+    In the **SQL Shell**, run the following commands:
+    
+    ```sql
+    CREATE DATABASE shop;
+    ALTER USER 'root'@'localhost' IDENTIFIED BY 'admin';
+    ```
+    
+    -   Then, go to the `config.inc.php` file (located in `xampp/phpMyAdmin`) and set the `root` user password to `admin`.
+4.  **Run the project:**
+    
+    -   **Recommended:** Use **Visual Studio Code** and install the **Java Extension Pack**, **Spring Boot Extension Pack** and **Maven for Java** extensions. After that, simply click the "Run" button.
+        
+    -   Alternatively, you can install **Maven** manually to run the project. Navigate to the **backend** folder and run the following command:
+    
+    ```bash
+    mvn spring-boot:run
+    ```
+    
+5.  **Access the project:**
+    
+    -   Once the project is running, open your browser and go to:  
+        [https://localhost:8443/index](https://localhost:8443/index)
+
 ### 🤝 PARTICIPATION
 
 ### **Ikram El Jauhari Al Jaouhari**
-I have been mostly responsible for developing the functions related to the index screen for both no resgitered users and registered users including a variety of "load more" buttons with AJAX, the element detail screen, the edit user profile screen and the category screen in which I had to show specific products based on the category. Also, I have been responsible for the functions of creating and editing reviews on the element detail screen. In addition, I have participated in the developing of the security integration with the web. Last but not least, I have developed the advanced algorithm which consisted in showing more products based on the categories of the user last order
+I have been mostly responsible for developing the functions related to the index screen for both non registered users and registered users including a variety of "load more" buttons with AJAX, the element detail screen, the edit user profile screen and the category screen in which I had to show specific products based on the category. Also, I have been responsible for the functions of creating and editing reviews on the element detail screen. In addition, I have participated in the developing of the security integration with the web. Last but not least, I have developed the advanced algorithm which consisted in showing more products based on the categories of the user last order
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
 |1|[Added all products to database and fixed index.html](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/139b29849c94a9bd06c49a3c10b91212d00e6ebe)|[ProductController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/java/es/codeurjc/webapp14/controllers/ProductController.java)|
@@ -107,11 +144,11 @@ I have developed the login and registration screens, managing user authenticatio
 |5|[Fixed several errors in admin views](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/eacb1fbc9966ec57a254449c239d0904474849b7)|[admin_orders.html](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/resources/templates/admin/admin_orders.html)|
 
 ### **Jorge Ramírez Gayo**
-Aaa
+I was responsible for implementing the entities, primarily the relationships, as well as the admin dashboard graphs, which include the top-selling products and orders from the last month, and the users' order history. Additionally, I worked on smaller details such as fixing the responsiveness of the admin panel and data initializing.
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1|   |   |
-|2|   |   |
-|3|   |   |
-|4|   |   |
-|5|   |   |
+|1|[Implemented charts](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/22a98d1cb0a5ddd0b0127303f02955d01010cd43)|[AdminController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/java/es/codeurjc/webapp14/controllers/AdminController.java)|
+|2|[Implemented order history and order details for users](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/0864798ca5bdb53958b77732a8efdcbff0395035)|[OrdersController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/java/es/codeurjc/webapp14/controllers/OrdersController.java)|
+|3|[Fixed data initialization](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/4d3a8ab128296c47fc2f5755603a08643951e3a1)|[DataInitializer.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/java/es/codeurjc/webapp14/services/DataInitializer.java)|
+|4|[Implemented basic classes](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/727f043c17ee8b75d28d65189400d50c33a59d8b)|[ProductController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/727f043c17ee8b75d28d65189400d50c33a59d8b)|
+|5|[Added size and order products](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/1ddc7ff92e8d50857654ecf235304806938f2025)|[OrderProduct.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/java/es/codeurjc/webapp14/model/OrderProduct.java)|
