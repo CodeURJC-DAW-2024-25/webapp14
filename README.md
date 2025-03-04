@@ -62,14 +62,15 @@ A set of suggested products is displayed based on the categories of products pre
 
 ### 🗺️ NAVIGATION DIAGRAM
 
-![Image](https://github.com/user-attachments/assets/d030c6fd-b1e1-49f8-b9ea-3604ee3be4da)
+![Image](https://github.com/user-attachments/assets/8a950d47-d962-4fd6-85f4-14a9bb0c6452)
 
 ### 📁 DIAGRAM WITH DATABASE ENTITIES
 
 ![Diagrama_BDEntidades](https://github.com/user-attachments/assets/ce8dfeef-4a3b-4d84-8887-7d775dc1ba18)
 
 ### 🗂️ CLASS AND TEMPLATES DIAGRAM
-![image](https://github.com/user-attachments/assets/f22ceb70-2a3e-4610-a0b0-4ebd72856ce7)
+
+![Image](https://github.com/user-attachments/assets/f22ceb70-2a3e-4610-a0b0-4ebd72856ce7)
 
 # PHASE 1
 
