@@ -19,29 +19,44 @@
             <p class="product-price">{{product.price}} EUR</p>
             <p class="product-description">{{product.description}}</p>
 
-            <h5>Selecciona tu talla:</h5>
-            <div class="size-options d-flex gap-2 mt-2">
-              <input type="radio" class="btn-check" name="size" id="sizeS" value="S" autocomplete="off"
-                {{^hasSizeS}}disabled{{/hasSizeS}} checked>
-              <label class="btn btn-outline-dark {{^hasSizeS}}btn-danger disabled custom-disabled{{/hasSizeS}}"
-                for="sizeS">S</label>
-
-              <input type="radio" class="btn-check" name="size" id="sizeM" value="M" autocomplete="off"
-                {{^hasSizeM}}disabled{{/hasSizeM}}>
-              <label class="btn btn-outline-dark {{^hasSizeM}}btn-danger disabled custom-disabled{{/hasSizeM}}"
-                for="sizeM">M</label>
-
-              <input type="radio" class="btn-check" name="size" id="sizeL" value="L" autocomplete="off"
-                {{^hasSizeL}}disabled{{/hasSizeL}}>
-              <label class="btn btn-outline-dark {{^hasSizeL}}btn-danger disabled custom-disabled{{/hasSizeL}}"
-                for="sizeL">L</label>
-
-              <input type="radio" class="btn-check" name="size" id="sizeXL" value="XL" autocomplete="off"
-                {{^hasSizeXL}}disabled{{/hasSizeXL}}>
-              <label class="btn btn-outline-dark {{^hasSizeXL}}btn-danger disabled custom-disabled{{/hasSizeXL}}"
-                for="sizeXL">XL</label>
+            <h5>Selecciona tu talla y cantidad:</h5>
+            <div class="row align-items-center mt-2">
+              <div class="col-md-6">
+                <div class="size-options d-flex gap-2">
+                  <input type="radio" class="btn-check" name="size" id="sizeS" value="S" autocomplete="off"
+                    {{^hasSizeS}}disabled{{/hasSizeS}} checked>
+                  <label class="btn btn-outline-dark {{^hasSizeS}}btn-danger disabled custom-disabled{{/hasSizeS}}"
+                    for="sizeS">S</label>
+            
+                  <input type="radio" class="btn-check" name="size" id="sizeM" value="M" autocomplete="off"
+                    {{^hasSizeM}}disabled{{/hasSizeM}} >
+                  <label class="btn btn-outline-dark {{^hasSizeM}}btn-danger disabled custom-disabled{{/hasSizeM}}"
+                    for="sizeM">M</label>
+            
+                  <input type="radio" class="btn-check" name="size" id="sizeL" value="L" autocomplete="off"
+                    {{^hasSizeL}}disabled{{/hasSizeL}} >
+                  <label class="btn btn-outline-dark {{^hasSizeL}}btn-danger disabled custom-disabled{{/hasSizeL}}"
+                    for="sizeL">L</label>
+            
+                  <input type="radio" class="btn-check" name="size" id="sizeXL" value="XL" autocomplete="off"
+                    {{^hasSizeXL}}disabled{{/hasSizeXL}} >
+                  <label class="btn btn-outline-dark {{^hasSizeXL}}btn-danger disabled custom-disabled{{/hasSizeXL}}"
+                    for="sizeXL">XL</label>
+                </div>
+              </div>
+            
+              <div class="col-md-6">
+                <div class="input-group">
+                  <span class="input-group-text">Cantidad</span>
+                  <input type="number" class="form-control text-center" id="stock_buy" name="quantity" value="1" min="1" step="1"
+                    style="border-radius: 10px;" {{#product.outOfStock}}disabled{{/product.outOfStock}} required>
+                </div>
+              </div>
+              
+              
+   
             </div>
-
+            
             <form action="/cart/add-to-cart" method="POST" id="add-to-cart-form">
               <input type="hidden" name="_csrf" value="{{token}}" />
               <input type="hidden" name="productId" value="{{id}}">
@@ -49,6 +64,8 @@
               <input type="hidden" name="productPrice" value="{{product.price}}">
               <input type="hidden" name="productDescription" value="{{product.description}}">
               <input type="hidden" name="size" id="selected-size" value="S">
+              <input type="hidden" name="quantity" id="quantity" value="1">
+
 
               {{#logged}}
               <button type="submit"

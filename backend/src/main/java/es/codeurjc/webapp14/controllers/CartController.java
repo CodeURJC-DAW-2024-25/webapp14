@@ -159,6 +159,7 @@ public class CartController {
             @RequestParam("productPrice") String productPrice,
             @RequestParam("productDescription") String productDescription,
             @RequestParam("size") String size,
+            @RequestParam("quantity") int quantity,
             Model model, @ModelAttribute("userId") Long userId) {
 
         if (userId == null) {
@@ -198,15 +199,15 @@ public class CartController {
 
         if (existingOrderProduct.isPresent()) {
             orderProduct = existingOrderProduct.get();
-            orderProduct.setQuantity(orderProduct.getQuantity() + 1);
+            orderProduct.setQuantity(orderProduct.getQuantity() + quantity);
         } else {
-            orderProduct = new OrderProduct(order, product, size, 1);
+            orderProduct = new OrderProduct(order, product, size, quantity);
         }
 
         orderProductService.saveOrderProduct(orderProduct);
         orderService.saveOrder(order);
 
-        unpaidOrder.get().setTotalPrice(product.getPrice());
+        unpaidOrder.get().setTotalPrice(product.getPrice() * quantity);
 
         BigDecimal subtotal = unpaidOrder.get().getTotalPrice();
 
@@ -229,7 +230,7 @@ public class CartController {
         model.addAttribute("orderProductsEmpty",
                 orderProductService.getOrderProductsByOrderId(order.getId()).isEmpty());
 
-        return "user_registered/cart";
+        return "redirect:/cart";
     }
 
     @PostMapping("/process-order")

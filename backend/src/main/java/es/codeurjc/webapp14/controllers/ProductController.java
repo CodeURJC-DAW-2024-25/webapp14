@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.server.ResponseStatusException;
 
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Review;
@@ -28,7 +27,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 
 @Controller
 @RequestMapping("/index")

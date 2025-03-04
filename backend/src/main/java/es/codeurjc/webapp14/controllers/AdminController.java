@@ -70,7 +70,7 @@ public class AdminController {
     private OrderProductService orderProductService;
 
     private List<String> categories = new ArrayList<>(
-            Arrays.asList("abrigos", "camisetas", "pantalones", "jerséis"));
+        Arrays.asList("Abrigos", "Camisetas", "Pantalones", "jerséis"));
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
