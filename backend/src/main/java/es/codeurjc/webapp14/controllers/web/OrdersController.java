@@ -1,4 +1,4 @@
-package es.codeurjc.webapp14.controllers;
+package es.codeurjc.webapp14.controllers.web;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
@@ -76,7 +76,7 @@ public class OrdersController {
             return "redirect:/login";
         }
 
-        Optional <User> userConsult = userService.findById(userId);
+        Optional<User> userConsult = userService.findById(userId);
 
         if (userConsult.isPresent()) {
             User user = userConsult.get();
@@ -87,8 +87,7 @@ public class OrdersController {
 
             model.addAttribute("orders", orders);
             model.addAttribute("exists", !orders.isEmpty());
-        }
-        else{
+        } else {
             return "redirect:/no-page-error";
         }
 
@@ -100,13 +99,13 @@ public class OrdersController {
 
         Optional<Order> optionalOrder = orderService.getOrderById(id);
 
-        Optional <User> user = userService.findById(userId);
+        Optional<User> user = userService.findById(userId);
 
-        if(!optionalOrder.isPresent()){
+        if (!optionalOrder.isPresent()) {
             return "redirect:/no-page-error";
         }
 
-        if(userId == null || user == null || !optionalOrder.get().getUser().getId().equals(userId)){
+        if (userId == null || user == null || !optionalOrder.get().getUser().getId().equals(userId)) {
             return "access_error";
         }
 

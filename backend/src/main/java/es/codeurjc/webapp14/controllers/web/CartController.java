@@ -1,4 +1,4 @@
-package es.codeurjc.webapp14.controllers;
+package es.codeurjc.webapp14.controllers.web;
 
 import java.math.BigDecimal;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package es.codeurjc.webapp14.controllers;
+package es.codeurjc.webapp14.controllers.web;
 
 import java.util.List;
 import java.util.Optional;
@@ -241,7 +241,7 @@ public class ProductController {
 
     @GetMapping("/category/{category}")
     public String listProductsByCategory(@PathVariable String category, @RequestParam(defaultValue = "0") int page,
-                                        Model model) {
+            Model model) {
 
         List<String> validCategories = List.of("camisetas", "pantalones", "abrigos", "jerseys");
 

@@ -67,6 +67,13 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         
+        <!-- Mapper -->
+        <dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>1.6.3</version>
+		</dependency>
+        
         <!-- For the PDF-->
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
@@ -106,6 +113,24 @@
                     <mainClass>es.codeurjc.webapp14.Application</mainClass>
                 </configuration>
             </plugin>
+
+            <!-- Mapper -->
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<source>21</source>
+					<target>21</target>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>1.6.3</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
         </plugins>
     </build>
 

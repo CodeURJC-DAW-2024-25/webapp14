@@ -1,4 +1,4 @@
-package es.codeurjc.webapp14.controllers;
+package es.codeurjc.webapp14.controllers.web;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -199,9 +199,8 @@ public class UserController {
             return "redirect:/no-page-error";
         }
 
-
         User user = userConsult.get();
-        
+
         boolean hasErrors = false;
 
         if (newPassword != null && !newPassword.isEmpty()) {

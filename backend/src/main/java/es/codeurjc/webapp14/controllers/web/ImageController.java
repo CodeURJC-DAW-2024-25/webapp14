@@ -1,5 +1,5 @@
 
-package es.codeurjc.webapp14.controllers;
+package es.codeurjc.webapp14.controllers.web;
 
 import java.sql.Blob;
 import java.sql.SQLException;

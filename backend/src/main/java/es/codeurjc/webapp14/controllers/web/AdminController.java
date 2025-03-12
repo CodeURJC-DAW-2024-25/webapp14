@@ -1,4 +1,4 @@
-package es.codeurjc.webapp14.controllers;
+package es.codeurjc.webapp14.controllers.web;
 
 import es.codeurjc.webapp14.services.UserService;
 import es.codeurjc.webapp14.services.OrderProductService;
@@ -70,7 +70,7 @@ public class AdminController {
     private OrderProductService orderProductService;
 
     private List<String> categories = new ArrayList<>(
-        Arrays.asList("Abrigos", "Camisetas", "Pantalones", "jerséis"));
+            Arrays.asList("Abrigos", "Camisetas", "Pantalones", "jerséis"));
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {

@@ -1,4 +1,4 @@
-package es.codeurjc.webapp14.controllers;
+package es.codeurjc.webapp14.controllers.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,7 @@ public class SecurityController implements ErrorController {
 
     @GetMapping("/access-error")
     public String accessError() {
-        return "access_error"; 
+        return "access_error";
     }
 
     @GetMapping("/access-denied")
@@ -39,18 +39,18 @@ public class SecurityController implements ErrorController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         boolean isAdmin = auth.getAuthorities().stream()
-                            .map(GrantedAuthority::getAuthority)
-                            .anyMatch(role -> role.equals("ROLE_ADMIN"));
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(role -> role.equals("ROLE_ADMIN"));
 
         model.addAttribute("isAdmin", isAdmin);
 
         boolean logged = auth.getAuthorities().stream()
-                            .map(GrantedAuthority::getAuthority)
-                            .anyMatch(role -> role.equals("ROLE_USER"));
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(role -> role.equals("ROLE_USER"));
 
         model.addAttribute("logged", logged);
 
-        return "no_page_error"; 
+        return "no_page_error";
     }
 
 }
