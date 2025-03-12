@@ -90,6 +90,8 @@ public class ProductController {
 
         List<Review> reviews = product.getTwoReviews(0, 2);
 
+        
+
         if (userId != null) {
 
             Optional<User> userConsult = userService.findById(userId);
@@ -99,6 +101,7 @@ public class ProductController {
             }
 
             User user = userConsult.get();
+            model.addAttribute("banned", user.getBanned());
 
             String userEmail = user.getEmail();
 
@@ -117,6 +120,9 @@ public class ProductController {
                 review.setRating4(review.getRating() == 4);
                 review.setRating5(review.getRating() == 5);
             }
+        }
+        else{
+            model.addAttribute("banned", false);
         }
 
         boolean hasSizeS = false;
@@ -143,6 +149,7 @@ public class ProductController {
 
         model.addAttribute("product", product);
         model.addAttribute("reviews", reviews);
+        
 
         return "user/elem_detail";
     }

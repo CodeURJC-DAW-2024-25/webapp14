@@ -102,8 +102,10 @@ public class CartController {
 
         if (!unpaidOrder.isPresent()) {
             Order order = new Order(user, State.No_pagado, false);
+
             orderService.saveOrder(order);
-            return "user_registered/cart";
+            System.out.println("No hay carrito");
+            return "redirect:/cart";
         }
 
         boolean cannotProcessOrder = false;
@@ -162,6 +164,8 @@ public class CartController {
             @RequestParam("quantity") int quantity,
             Model model, @ModelAttribute("userId") Long userId) {
 
+        System.out.println("Cantidad" + quantity);
+
         if (userId == null) {
             return "redirect:/login";
         }
@@ -207,9 +211,9 @@ public class CartController {
         orderProductService.saveOrderProduct(orderProduct);
         orderService.saveOrder(order);
 
-        unpaidOrder.get().setTotalPrice(product.getPrice() * quantity);
+        order.setTotalPrice(product.getPrice() * quantity);
 
-        BigDecimal subtotal = unpaidOrder.get().getTotalPrice();
+        BigDecimal subtotal = order.getTotalPrice();
 
         BigDecimal shipping = BigDecimal.ZERO;
 
@@ -251,6 +255,10 @@ public class CartController {
         Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
 
         if (!unpaidOrder.isPresent()) {
+            return "redirect:/cart";
+        }
+
+        if(unpaidOrder.get().getOrderProducts().isEmpty()){
             return "redirect:/cart";
         }
 
