@@ -1,8 +1,8 @@
-package es.codeurjc.webapp14.services;
+package es.codeurjc.webapp14.service;
 
 import es.codeurjc.webapp14.model.User;
+import es.codeurjc.webapp14.service.EmailService;
 import es.codeurjc.webapp14.model.Order;
-import es.codeurjc.webapp14.services.EmailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

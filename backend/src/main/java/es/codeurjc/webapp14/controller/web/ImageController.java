@@ -1,5 +1,5 @@
 
-package es.codeurjc.webapp14.controllers.web;
+package es.codeurjc.webapp14.controller.web;
 
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.codeurjc.webapp14.model.Product;
-import es.codeurjc.webapp14.services.ProductService;
+import es.codeurjc.webapp14.service.ProductService;
 
 @Controller
 @RequestMapping("/image")

@@ -1,4 +1,4 @@
-package es.codeurjc.webapp14.controllers.web;
+package es.codeurjc.webapp14.controller.web;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,10 +30,9 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.model.Order.State;
+import es.codeurjc.webapp14.service.OrderService;
+import es.codeurjc.webapp14.service.UserService;
 import es.codeurjc.webapp14.model.User;
-import es.codeurjc.webapp14.services.OrderService;
-import es.codeurjc.webapp14.services.UserService;
-
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 

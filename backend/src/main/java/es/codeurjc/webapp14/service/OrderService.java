@@ -1,4 +1,4 @@
-package es.codeurjc.webapp14.services;
+package es.codeurjc.webapp14.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.model.User;
-import es.codeurjc.webapp14.repositories.OrderRepository;
+import es.codeurjc.webapp14.repository.OrderRepository;
 
 @Service
 public class OrderService {

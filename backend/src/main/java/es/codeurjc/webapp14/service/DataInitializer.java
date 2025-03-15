@@ -1,19 +1,19 @@
-package es.codeurjc.webapp14.services;
+package es.codeurjc.webapp14.service;
 
 import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.model.OrderProduct;
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Product.CategoryType;
+import es.codeurjc.webapp14.repository.OrderProductRepository;
+import es.codeurjc.webapp14.repository.OrderRepository;
+import es.codeurjc.webapp14.repository.ProductRepository;
+import es.codeurjc.webapp14.repository.ReviewRepository;
+import es.codeurjc.webapp14.repository.SizeRepository;
+import es.codeurjc.webapp14.repository.UserRepository;
 import es.codeurjc.webapp14.model.Review;
 import es.codeurjc.webapp14.model.Size;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.model.Order.State;
-import es.codeurjc.webapp14.repositories.ProductRepository;
-import es.codeurjc.webapp14.repositories.ReviewRepository;
-import es.codeurjc.webapp14.repositories.SizeRepository;
-import es.codeurjc.webapp14.repositories.UserRepository;
-import es.codeurjc.webapp14.repositories.OrderRepository;
-import es.codeurjc.webapp14.repositories.OrderProductRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

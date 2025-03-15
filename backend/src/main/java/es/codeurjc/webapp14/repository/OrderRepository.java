@@ -1,4 +1,4 @@
-package es.codeurjc.webapp14.repositories;
+package es.codeurjc.webapp14.repository;
 
 import java.math.BigDecimal;
 import java.util.List;

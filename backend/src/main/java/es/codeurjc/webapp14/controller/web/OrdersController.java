@@ -1,4 +1,4 @@
-package es.codeurjc.webapp14.controllers.web;
+package es.codeurjc.webapp14.controller.web;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
@@ -17,13 +17,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import es.codeurjc.webapp14.model.User;
-import es.codeurjc.webapp14.repositories.OrderRepository;
+import es.codeurjc.webapp14.repository.OrderRepository;
+import es.codeurjc.webapp14.service.EmailService;
+import es.codeurjc.webapp14.service.OrderProductService;
+import es.codeurjc.webapp14.service.OrderService;
+import es.codeurjc.webapp14.service.UserService;
 import es.codeurjc.webapp14.model.Order;
-import es.codeurjc.webapp14.services.EmailService;
-import es.codeurjc.webapp14.services.OrderProductService;
-import es.codeurjc.webapp14.services.OrderService;
-import es.codeurjc.webapp14.services.UserService;
-
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller

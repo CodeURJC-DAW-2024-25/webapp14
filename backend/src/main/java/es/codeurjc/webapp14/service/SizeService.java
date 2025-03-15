@@ -1,7 +1,8 @@
-package es.codeurjc.webapp14.services;
+package es.codeurjc.webapp14.service;
 
 import es.codeurjc.webapp14.model.Size;
-import es.codeurjc.webapp14.repositories.SizeRepository;
+import es.codeurjc.webapp14.repository.SizeRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;

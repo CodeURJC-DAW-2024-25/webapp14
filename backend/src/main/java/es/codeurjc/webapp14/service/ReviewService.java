@@ -1,7 +1,8 @@
-package es.codeurjc.webapp14.services;
+package es.codeurjc.webapp14.service;
 
 import es.codeurjc.webapp14.model.Review;
-import es.codeurjc.webapp14.repositories.ReviewRepository;
+import es.codeurjc.webapp14.repository.ReviewRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;

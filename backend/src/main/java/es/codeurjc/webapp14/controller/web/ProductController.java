@@ -1,4 +1,4 @@
-package es.codeurjc.webapp14.controllers.web;
+package es.codeurjc.webapp14.controller.web;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,10 +16,10 @@ import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Review;
 import es.codeurjc.webapp14.model.Size;
 import es.codeurjc.webapp14.model.Size.SizeName;
+import es.codeurjc.webapp14.service.ProductService;
+import es.codeurjc.webapp14.service.ReviewService;
+import es.codeurjc.webapp14.service.UserService;
 import es.codeurjc.webapp14.model.User;
-import es.codeurjc.webapp14.services.ProductService;
-import es.codeurjc.webapp14.services.UserService;
-import es.codeurjc.webapp14.services.ReviewService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -1,8 +1,8 @@
-package es.codeurjc.webapp14.services;
+package es.codeurjc.webapp14.service;
 
 import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.model.OrderProduct;
-import es.codeurjc.webapp14.repositories.OrderRepository;
+import es.codeurjc.webapp14.repository.OrderRepository;
 
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.springframework.beans.factory.annotation.Autowired;

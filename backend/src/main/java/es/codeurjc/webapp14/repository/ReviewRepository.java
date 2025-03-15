@@ -1,4 +1,4 @@
-package es.codeurjc.webapp14.repositories;
+package es.codeurjc.webapp14.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import es.codeurjc.webapp14.model.Review;

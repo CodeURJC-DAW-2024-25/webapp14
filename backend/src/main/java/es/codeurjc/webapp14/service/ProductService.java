@@ -1,10 +1,10 @@
-package es.codeurjc.webapp14.services;
+package es.codeurjc.webapp14.service;
 
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Order;
-import es.codeurjc.webapp14.repositories.OrderRepository;
-import es.codeurjc.webapp14.repositories.ProductRepository;
-import es.codeurjc.webapp14.repositories.SizeRepository;
+import es.codeurjc.webapp14.repository.OrderRepository;
+import es.codeurjc.webapp14.repository.ProductRepository;
+import es.codeurjc.webapp14.repository.SizeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,7 +41,6 @@ public class ProductService {
     public Optional<Product> getProductById(Long id) {
         return productRepository.findById(id);
     }
-    
 
     public List<Product> getAllProductsOutOfStock() {
         return productRepository.findByOutOfStockTrue();
@@ -94,5 +93,21 @@ public class ProductService {
 
     public List<Product> getProductsWithAllSizesOutOfStock() {
         return sizeRepository.findProductsWithAllSizesOutOfStock();
+    }
+
+    public long getTotalProducts() {
+        return productRepository.count();
+    }
+
+    public int getTotalStock() {
+        return productRepository.findAll().stream()
+                .mapToInt(Product::getStock)
+                .sum();
+    }
+
+    public long getOutOfStockProductsCount() {
+        return productRepository.findAll().stream()
+                .filter(product -> product.getStock() == 0)
+                .count();
     }
 }

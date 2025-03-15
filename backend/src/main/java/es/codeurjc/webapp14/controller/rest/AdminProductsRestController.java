@@ -1,20 +1,21 @@
-package es.codeurjc.webapp14.controllers.rest;
+package es.codeurjc.webapp14.controller.rest;
 
 import es.codeurjc.webapp14.dto.ProductDTO;
 import es.codeurjc.webapp14.dto.ProductCreateRequestDTO;
 import es.codeurjc.webapp14.model.Product;
-import es.codeurjc.webapp14.services.ProductService;
+import es.codeurjc.webapp14.service.ProductService;
 import es.codeurjc.webapp14.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 @RestController
-@RequestMapping("/api/products")
-public class ProductRestController {
+@RequestMapping("/api/admin/products")
+public class AdminProductsRestController {
 
     @Autowired
     private ProductService productService;
@@ -22,26 +23,35 @@ public class ProductRestController {
     @Autowired
     private ProductMapper productMapper;
 
-    @GetMapping("/")
-    public List<ProductDTO> getProducts() {
-        List<Product> products = productService.getAllProducts();
-        return products.stream()
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> getAdminProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Map<String, Object> data = new HashMap<>();
+
+        // Get paginated products
+        data.put("products", productService.getProductsPaginated(page, size)
+                .getContent()
+                .stream()
                 .map(productMapper::toDTO)
-                .toList();
+                .toList());
+
+        // Get total pages
+        data.put("totalPages", productService.getProductsPaginated(page, size).getTotalPages());
+
+        // Get total products
+        data.put("totalProducts", productService.getTotalProducts());
+
+        // Get total stock
+        data.put("totalStock", productService.getTotalStock());
+
+        // Get out of stock products count
+        data.put("outOfStockProducts", productService.getOutOfStockProductsCount());
+
+        return ResponseEntity.ok(data);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductDTO> getProduct(@PathVariable Long id) {
-        Product product = productService.getProductById(id).orElse(null);
-
-        if (product == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(productMapper.toDTO(product));
-    }
-
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductCreateRequestDTO productCreateRequestDTO) {
         Product product = productMapper.toEntity(productCreateRequestDTO);
         Product createdProduct = productService.saveProduct(product);

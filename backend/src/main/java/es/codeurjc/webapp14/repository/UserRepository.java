@@ -1,4 +1,4 @@
-package es.codeurjc.webapp14.repositories;
+package es.codeurjc.webapp14.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

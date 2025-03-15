@@ -1,4 +1,4 @@
-package es.codeurjc.webapp14.services;
+package es.codeurjc.webapp14.service;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.codeurjc.webapp14.model.User;
-import es.codeurjc.webapp14.repositories.UserRepository;
+import es.codeurjc.webapp14.repository.UserRepository;
 
 @Service
 public class UserService {
@@ -87,5 +87,18 @@ public class UserService {
 
     public void delete(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public long getTotalUsers() {
+        return userRepository.count();
+    }
+
+    public long getAdminUsersCount() {
+        return userRepository.findByRolesContaining("ADMIN").size();
+    }
+
+    public long getRegularUsersCount() {
+        return userRepository.findByRolesNotContaining("ADMIN", PageRequest.of(0, Integer.MAX_VALUE))
+                .getTotalElements();
     }
 }

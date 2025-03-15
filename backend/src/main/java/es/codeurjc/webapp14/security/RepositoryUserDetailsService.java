@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import es.codeurjc.webapp14.model.User;
-import es.codeurjc.webapp14.services.UserService;
+import es.codeurjc.webapp14.service.UserService;
 
 import java.util.List;
 import java.util.stream.Collectors;

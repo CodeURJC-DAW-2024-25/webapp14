@@ -1,14 +1,14 @@
-package es.codeurjc.webapp14.controllers.web;
+package es.codeurjc.webapp14.controller.web;
 
-import es.codeurjc.webapp14.services.UserService;
-import es.codeurjc.webapp14.services.OrderProductService;
-import es.codeurjc.webapp14.services.OrderService;
-import es.codeurjc.webapp14.services.ProductService;
-import es.codeurjc.webapp14.services.ReviewService;
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Review;
 import es.codeurjc.webapp14.model.Size;
 import es.codeurjc.webapp14.model.User;
+import es.codeurjc.webapp14.service.OrderProductService;
+import es.codeurjc.webapp14.service.OrderService;
+import es.codeurjc.webapp14.service.ProductService;
+import es.codeurjc.webapp14.service.ReviewService;
+import es.codeurjc.webapp14.service.UserService;
 import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.model.OrderProduct;
 

@@ -1,9 +1,10 @@
-package es.codeurjc.webapp14.services;
+package es.codeurjc.webapp14.service;
 
 import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.model.OrderProduct;
 import es.codeurjc.webapp14.model.Product;
-import es.codeurjc.webapp14.repositories.OrderProductRepository;
+import es.codeurjc.webapp14.repository.OrderProductRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;

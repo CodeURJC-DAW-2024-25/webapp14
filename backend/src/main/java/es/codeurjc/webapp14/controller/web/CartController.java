@@ -1,4 +1,4 @@
-package es.codeurjc.webapp14.controllers.web;
+package es.codeurjc.webapp14.controller.web;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -21,13 +21,12 @@ import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Size;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.model.Order.State;
+import es.codeurjc.webapp14.service.OrderProductService;
+import es.codeurjc.webapp14.service.OrderService;
+import es.codeurjc.webapp14.service.ProductService;
+import es.codeurjc.webapp14.service.SizeService;
+import es.codeurjc.webapp14.service.UserService;
 import es.codeurjc.webapp14.model.OrderProduct;
-import es.codeurjc.webapp14.services.OrderProductService;
-import es.codeurjc.webapp14.services.OrderService;
-import es.codeurjc.webapp14.services.ProductService;
-import es.codeurjc.webapp14.services.SizeService;
-import es.codeurjc.webapp14.services.UserService;
-
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
