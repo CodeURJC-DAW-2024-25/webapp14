@@ -1,6 +1,5 @@
 package es.codeurjc.webapp14.security;
 
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,15 +31,14 @@ public class RepositoryUserDetailsService implements UserDetailsService {
         }
 
         List<GrantedAuthority> authorities = user.getRoles().stream()
-            .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
 
-
-            .collect(Collectors.toList());
+                .collect(Collectors.toList());
 
         return org.springframework.security.core.userdetails.User.builder()
-            .username(user.getEmail())
-            .password(user.getEncodedPassword())
-            .authorities(authorities)
-            .build();
+                .username(user.getEmail())
+                .password(user.getEncodedPassword())
+                .authorities(authorities)
+                .build();
     }
 }
