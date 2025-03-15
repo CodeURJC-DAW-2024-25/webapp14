@@ -1,17 +1,22 @@
 package es.codeurjc.webapp14.dto;
 
-public class ProductDTO {
+import java.util.List;
 
+public class ProductDTO {
     private Long id;
     private String name;
     private String description;
+    private String category;
     private Double price;
     private Integer stock;
     private boolean outOfStock;
     private int sold;
-    private String category;
+    private boolean imageBool;
+    private String imageUrl;
+    private List<SizeDTO> sizes;
+    private List<ReviewDTO> reviews;
 
-    // Getters and setters
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -34,6 +39,14 @@ public class ProductDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public Double getPrice() {
@@ -68,11 +81,35 @@ public class ProductDTO {
         this.sold = sold;
     }
 
-    public String getCategory() {
-        return category;
+    public boolean isImageBool() {
+        return imageBool;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setImageBool(boolean imageBool) {
+        this.imageBool = imageBool;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public List<SizeDTO> getSizes() {
+        return sizes;
+    }
+
+    public void setSizes(List<SizeDTO> sizes) {
+        this.sizes = sizes;
+    }
+
+    public List<ReviewDTO> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<ReviewDTO> reviews) {
+        this.reviews = reviews;
     }
 }
