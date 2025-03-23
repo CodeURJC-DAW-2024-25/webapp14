@@ -66,10 +66,18 @@ public class SecurityConfig {
                         .requestMatchers("/api/products/**").permitAll()
                         .requestMatchers("/api/category/**").permitAll()
                         .requestMatchers("/api/index/**").permitAll()
+                        .requestMatchers("/api/search/**").permitAll()
+                        .requestMatchers("/api/user/**").permitAll()
+                        .requestMatchers("api/image/**").permitAll()
+
                         // PRIVATE ENDPOINTS
-                        .requestMatchers("/api/cart/**").authenticated()
-                        .requestMatchers("/api/orders/**").authenticated()
+                        .requestMatchers("/api/cart/**").hasRole("USER")
+                        .requestMatchers("/api/orders/**").hasRole("USER")
+                        .requestMatchers("/api/reviews/**").authenticated()
+                        .requestMatchers("/api/users/**").authenticated()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/orders/**").hasRole("USER")
+
                         .anyRequest().authenticated());
 
         // Disable Form login Authentication
