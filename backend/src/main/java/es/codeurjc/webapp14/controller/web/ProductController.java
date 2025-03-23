@@ -1,7 +1,9 @@
 package es.codeurjc.webapp14.controller.web;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,10 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import es.codeurjc.webapp14.model.Product;
-import es.codeurjc.webapp14.model.Review;
-import es.codeurjc.webapp14.model.Size;
-import es.codeurjc.webapp14.model.Size.SizeName;
+import es.codeurjc.webapp14.dto.ReviewDTO;
+import es.codeurjc.webapp14.dto.BasicProductDTO;
+import es.codeurjc.webapp14.dto.NewReviewRequestDTO;
+import es.codeurjc.webapp14.dto.ProductDTO;
 import es.codeurjc.webapp14.service.ProductService;
 import es.codeurjc.webapp14.service.ReviewService;
 import es.codeurjc.webapp14.service.UserService;
@@ -63,7 +65,7 @@ public class ProductController {
         }
 
         String query = "";
-        List<Product> products = productService.searchProductsByName(query);
+        List<BasicProductDTO> products = productService.searchProductsByName(query);
         model.addAttribute("productsSearch", products);
         model.addAttribute("query", false);
         model.addAttribute("open", false);
@@ -71,7 +73,9 @@ public class ProductController {
 
     @GetMapping
     public String listProducts(Model model, @ModelAttribute("userId") Long userId) {
+
         if (userId != null) {
+
             userService.findById(userId);
             model.addAttribute("productsRecommended",
                     productService.getRecommendedProductsBasedOnLastOrder(userId, 0, 2));
@@ -82,169 +86,101 @@ public class ProductController {
     }
 
     @GetMapping("/elem_detail/{id}")
-    public String ProductDetails(Model model, @PathVariable Long id, @ModelAttribute("userId") Long userId) {
+    public String ProductDetails(@RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "2") int size,
+    Model model, @PathVariable Long id, @ModelAttribute("userId") Long userId) {
 
-        Optional<Product> existproduct = productService.getProductById(id);
+        ProductDTO product = productService.getProductById(id);
 
-        Product product = existproduct.get();
+        Page<ReviewDTO> reviewsPage = productService.getTwoReviews(page, size, product);
+        List<ReviewDTO> reviews = reviewsPage.getContent();
 
-        List<Review> reviews = product.getTwoReviews(0, 2);
-
-        
 
         if (userId != null) {
-
-            Optional<User> userConsult = userService.findById(userId);
-
-            if (!userConsult.isPresent()) {
+            boolean isBanned = reviewService.isUserBanned(userId);
+            model.addAttribute("banned", isBanned);
+        
+            if (isBanned) {
                 return "redirect:/no-page-error";
             }
+            reviewService.processReviews(id, userId);
 
-            User user = userConsult.get();
-            model.addAttribute("banned", user.getBanned());
-
-            String userEmail = user.getEmail();
-
-            for (Review review : reviews) {
-                if (userEmail == null) {
-                    review.setOwn(false);
-                } else {
-                    review.setOwn(userEmail.equals(review.getUser().getEmail()));
-                }
-                review.updateStars();
-
-                model.addAttribute("rating" + review.getRating(), true);
-                review.setRating1(review.getRating() == 1);
-                review.setRating2(review.getRating() == 2);
-                review.setRating3(review.getRating() == 3);
-                review.setRating4(review.getRating() == 4);
-                review.setRating5(review.getRating() == 5);
+            for (ReviewDTO review : reviews) {
+                model.addAttribute("rating" + review.rating(), true);
+                //model.addAttribute("rating5", true);
+                    int rating = review.rating();
+                    model.addAttribute("ratingStars", Collections.nCopies(rating, true));
+                    model.addAttribute("emptyStars" , Collections.nCopies(5 - rating, true));
+                
             }
-        }
-        else{
+
+        } else {
             model.addAttribute("banned", false);
         }
 
-        boolean hasSizeS = false;
-        boolean hasSizeM = false;
-        boolean hasSizeL = false;
-        boolean hasSizeXL = false;
+        reviewsPage = productService.getTwoReviews(page, size, product);
+        reviews = reviewsPage.getContent();
 
-        // Verify stock on each size
-        for (Size size : product.getSizes()) {
-            if (size.getName() == SizeName.S && size.getStock() > 0)
-                hasSizeS = true;
-            if (size.getName() == SizeName.M && size.getStock() > 0)
-                hasSizeM = true;
-            if (size.getName() == SizeName.L && size.getStock() > 0)
-                hasSizeL = true;
-            if (size.getName() == SizeName.XL && size.getStock() > 0)
-                hasSizeXL = true;
-        }
-
-        model.addAttribute("hasSizeS", hasSizeS);
-        model.addAttribute("hasSizeM", hasSizeM);
-        model.addAttribute("hasSizeL", hasSizeL);
-        model.addAttribute("hasSizeXL", hasSizeXL);
-
-        model.addAttribute("product", product);
         model.addAttribute("reviews", reviews);
+        model.addAttribute("hasMore", reviewsPage.hasNext());
+        model.addAttribute("nextPage", page + 1);
         
+        model.addAttribute("hasSizeS", productService.getSize(id,"S"));
+        model.addAttribute("hasSizeM", productService.getSize(id,"M"));
+        model.addAttribute("hasSizeL", productService.getSize(id,"L"));
+        model.addAttribute("hasSizeXL", productService.getSize(id,"XL"));
+        
+        model.addAttribute("product", product);
+        model.addAttribute("productId", product.id());
 
         return "user/elem_detail";
     }
 
     @PostMapping("/{productId}/{reviewId}/report")
     public String reportReview(@PathVariable Long productId, @PathVariable Long reviewId) {
-        Optional<Review> existreview = reviewService.getReviewById(reviewId);
-        ;
 
-        Review review = existreview.get();
+        reviewService.reportReview(reviewId);
 
-        review.setReported(true);
-        reviewService.saveReview(review);
         return "redirect:/index/elem_detail/" + productId;
     }
 
     @PostMapping("/{productId}/{reviewId}/delete")
-    public String deleleteReview(@PathVariable Long productId, @PathVariable Long reviewId,
-            @ModelAttribute("userId") Long userId) {
-        Optional<Review> review = reviewService.getReviewById(reviewId);
-        Optional<Product> product = productService.getProductById(productId);
+    public String deleteReview(@PathVariable Long productId, @ModelAttribute("userId") long userId ,@PathVariable Long reviewId, Model model) {
 
-        if (!review.isPresent() || !product.isPresent() || !review.get().getUser().getId().equals(userId)) {
-            return "redirect:/no-page-error";
-        }
-
-        reviewService.delete(reviewId);
-        return "redirect:/index/elem_detail/" + productId;
+        reviewService.deleteReview(reviewId, userId);
+        return "redirect:/index";
     }
 
-    @PostMapping("/{productId}/{reviewId}/edit")
+    @PostMapping("/{userId}/{productId}/{reviewId}/edit")
     public String editReview(@PathVariable Long productId,
-            @PathVariable Long reviewId,
-            @RequestParam int rating,
-            @RequestParam String reviewText,
-            @ModelAttribute("userId") Long userId) {
-
-        if (userId == null) {
-            return "redirect:/login";
-        }
-
-        Optional<User> userConsult = userService.findById(userId);
-
-        if (!userConsult.isPresent()) {
-            return "redirect:/no-page-error";
-        }
-
-        User user = userConsult.get();
-        String userEmail = user.getEmail();
-
-        Optional<Review> existreview = reviewService.getReviewById(reviewId);
-        ;
-
-        Review review = existreview.get();
-
-        if (userEmail == null || !userEmail.equals(review.getUser().getEmail())) {
-            return "redirect:/access-error";
-        }
-
-        review.setReviewText(reviewText);
-        review.setRating(rating);
-        review.updateStars();
-
-        reviewService.saveReview(review);
-        return "redirect:/index/elem_detail/" + productId;
-    }
-
-    @PostMapping("/{productId}/addReview")
-    public String addReview(@PathVariable Long productId,
-            @RequestParam int rating,
-            @RequestParam("review-text") String reviewText,
-            @ModelAttribute("userId") Long userId) {
-
-        if (userId == null) {
-            return "redirect:/login";
-        }
-
-        Optional<User> userConsult = userService.findById(userId);
-
-        if (!userConsult.isPresent()) {
-            return "redirect:/no-page-error";
-        }
-
-        User user = userConsult.get();
-        Optional<Product> existproduct = productService.getProductById(productId);
-
-        Product product = existproduct.get();
-
-        Review newReview = new Review(rating, reviewText, false, product, user);
-        newReview.updateStars();
-
-        reviewService.saveReview(newReview);
+            NewReviewRequestDTO newReviewRequestDTO,
+            @PathVariable Long userId, @PathVariable Long reviewId) throws IOException, SQLException {
+        
+        createOrReplaceReview(newReviewRequestDTO, reviewId, userId, productId);
 
         return "redirect:/index/elem_detail/" + productId;
     }
+
+    @PostMapping("/{userId}/{productId}/addReview")
+    public String addReview(NewReviewRequestDTO newReviewRequestDTO, @PathVariable Long userId, @PathVariable Long productId) throws IOException, SQLException {
+
+        createOrReplaceReview(newReviewRequestDTO, null, userId, productId);
+
+        return "redirect:/index/elem_detail/" + productId;
+    }
+
+
+    private ReviewDTO createOrReplaceReview(NewReviewRequestDTO newReviewRequestDTO, Long reviewId, Long userId, Long productId)
+			throws SQLException, IOException {
+	
+		ReviewDTO reviewDTO = new ReviewDTO(reviewId, userService.findById(userId).name(), userService.findById(userId),
+            newReviewRequestDTO.rating(),
+            newReviewRequestDTO.reviewText(), false, true, Collections.nCopies(0, true), Collections.nCopies(5, true));
+				
+	    ReviewDTO newReviewDTO = reviewService.createOrReplaceReview(reviewId, reviewDTO, productId, userId);
+
+		return newReviewDTO;
+	}
 
     @GetMapping("/category/{category}")
     public String listProductsByCategory(@PathVariable String category, @RequestParam(defaultValue = "0") int page,
@@ -256,9 +192,9 @@ public class ProductController {
             return "redirect:/error";
         }
 
-        Page<Product> productsPage = productService.getProductsByCategory(category, page);
+        Page<BasicProductDTO> productsPage = productService.getProductsByCategory(category, page);
 
-        model.addAttribute("products", productsPage.getContent());
+        model.addAttribute("products", productsPage);
         model.addAttribute("category", category);
         return "user/category";
     }
@@ -269,10 +205,10 @@ public class ProductController {
             @RequestParam int page,
             Model model) {
 
-        Page<Product> productsPage = productService.getProductsByCategory(category, page);
+        Page<BasicProductDTO> productsPage = productService.getProductsByCategory(category, page);
         boolean hasMore = page < productsPage.getTotalPages() - 1;
 
-        model.addAttribute("products", productsPage.getContent());
+        model.addAttribute("products", productsPage);
         model.addAttribute("hasMore", hasMore);
 
         return "user/moreProducts";
@@ -289,10 +225,10 @@ public class ProductController {
             return "redirect:/login";
         }
 
-        Page<Product> productsPage = productService.getRecommendedProductsBasedOnLastOrder(userId, page, size);
+        Page<BasicProductDTO> productsPage = productService.getRecommendedProductsBasedOnLastOrder(userId, page, size);
         boolean hasMore = page < productsPage.getTotalPages() - 1;
 
-        model.addAttribute("productsRecommended", productsPage.getContent());
+        model.addAttribute("productsRecommended", productsPage);
         model.addAttribute("hasMore", hasMore);
 
         return "user/moreRecProducts";
@@ -301,35 +237,36 @@ public class ProductController {
     @GetMapping("/moreReviews")
     public String getMoreReviews(
             @RequestParam Long id,
-            @RequestParam int from,
-            @RequestParam int to,
+            @RequestParam int page,
+            @RequestParam int size,
             Model model, @ModelAttribute("userId") Long userId) {
-        Optional<Product> existproduct = productService.getProductById(id);
+        ProductDTO product = productService.getProductById(id);
 
-        Product product = existproduct.get();
-        List<Review> reviewsList = product.getTwoReviews(from, to);
-        for (Review review : reviewsList) {
-            if (userId == null) {
-                review.setOwn(false);
-            } else {
-                Optional<User> userConsult = userService.findById(userId);
-
-                if (!userConsult.isPresent()) {
-                    return "redirect:/no-page-error";
-                }
-
-                User user = userConsult.get();
-                if (user.getEmail().equals(review.getUser().getEmail())) {
-                    review.setOwn(true);
-                } else {
-                    review.setOwn(false);
-                }
+        Page<ReviewDTO> reviewsPage = productService.getTwoReviews(page, size, product);
+        List<ReviewDTO> reviews = reviewsPage.getContent();  
+       
+        if (userId != null) {
+            boolean isBanned = reviewService.isUserBanned(userId);
+            model.addAttribute("banned", isBanned);
+        
+            if (isBanned) {
+                return "redirect:/no-page-error";
             }
-        }
-        boolean hasMore = to < product.getReviews().size();
+            reviewService.processReviews(id, userId);
 
-        model.addAttribute("reviews", reviewsList);
-        model.addAttribute("hasMore", hasMore);
+            for (ReviewDTO review : reviews) {
+                model.addAttribute("rating" + review.rating(), true);
+                //model.addAttribute("rating5", true);
+            }
+
+        } else {
+            model.addAttribute("banned", false);
+        }
+
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("hasMore", reviewsPage.hasNext());
+        model.addAttribute("nextPage", page + 1);
+        model.addAttribute("productId", product.id());
 
         return "user/moreReviews";
     }
@@ -338,7 +275,7 @@ public class ProductController {
     public String searchProducts(@RequestParam(value = "query", required = false) String query, Model model) {
 
         if (query != null && !query.isEmpty()) {
-            List<Product> products = productService.searchProductsByName(query);
+            List<BasicProductDTO> products = productService.searchProductsByName(query);
             model.addAttribute("productsSearch", products);
             model.addAttribute("query", query);
             model.addAttribute("open", true);
