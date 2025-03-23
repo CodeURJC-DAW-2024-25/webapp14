@@ -1,5 +1,7 @@
 package es.codeurjc.webapp14.service;
 
+import es.codeurjc.webapp14.dto.OrderProductDTO;
+import es.codeurjc.webapp14.mapper.OrderProductMapper;
 import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.model.OrderProduct;
 import es.codeurjc.webapp14.model.Product;
@@ -13,13 +15,16 @@ import java.util.Optional;
 @Service
 public class OrderProductService {
     private final OrderProductRepository orderProductRepository;
+    
+    private final OrderProductMapper orderProductMapper;
 
-    public OrderProductService(OrderProductRepository orderProductRepository) {
+    public OrderProductService(OrderProductRepository orderProductRepository, OrderProductMapper orderProductMapper) {
         this.orderProductRepository = orderProductRepository;
+        this.orderProductMapper = orderProductMapper;
     }
 
-    public List<OrderProduct> getAllOrderProducts() {
-        return orderProductRepository.findAll();
+    public List<OrderProductDTO> getAllOrderProducts() {
+        return toDTOs(orderProductRepository.findAll());
     }
 
     public List<OrderProduct> getOrderProductsByOrderId(Long orderId) {
@@ -50,4 +55,8 @@ public class OrderProductService {
         Double totalPrice = orderProductRepository.getTotalPriceByOrder(order);
         return (totalPrice != null) ? totalPrice : 0.0;
     }
+
+    private List<OrderProductDTO> toDTOs(List<OrderProduct> orders) {
+		return orderProductMapper.toDTOs(orders);
+	}
 }

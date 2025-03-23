@@ -18,4 +18,6 @@ public interface OrderProductRepository extends JpaRepository<OrderProduct, Long
 
     @Query("SELECT SUM(op.product.price * op.quantity) FROM OrderProduct op WHERE op.order = :order")
     Double getTotalPriceByOrder(@Param("order") Order order);
+
+    List<OrderProduct> findByProductId(Long id);
 }
