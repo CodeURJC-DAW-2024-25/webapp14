@@ -4,8 +4,6 @@ import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import jakarta.persistence.*;
@@ -23,7 +21,6 @@ public class Product {
     private boolean outOfStock;
     private int sold;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
@@ -33,10 +30,11 @@ public class Product {
         PANTALONES, CAMISETAS, ABRIGOS, JERSEYS
     }
 
-    @JsonIgnore
+
     @Lob
     private Blob image;
     private boolean imageBool;
+    private String imageUrl;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Size> sizes = new ArrayList<>();
@@ -59,6 +57,19 @@ public class Product {
         this.category = category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase();
         this.sold = 0;
     }
+
+    public Product(String name, String description, double price, Blob image, int stock, 
+                   CategoryType category, String imageUrl) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.image = image;
+        this.stock = stock;
+        this.category = category.name().substring(0, 1).toUpperCase() + category.name().substring(1).toLowerCase();
+        this.imageUrl = imageUrl;
+    }
+
+
 
     // Getters and Setters
     public Long getId() {
@@ -177,4 +188,13 @@ public class Product {
     public void setSizes(List<Size> sizes) {
         this.sizes = sizes;
     }
+
+
+    public String getImageUrl() {
+        return this.imageUrl;
+    }   
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }   
 }
