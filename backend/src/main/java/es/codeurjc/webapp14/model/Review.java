@@ -120,7 +120,7 @@ public class Review {
 
     public void setReported(boolean reported) {
         this.reported = reported;
-        this.user.setReports(1);
+        System.out.println();
     }
     
     public String getUsername(){
