@@ -33,9 +33,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) {
 		String path = request.getRequestURI();
-		return path.startsWith("/api/auth/") || path.startsWith("/api/products/") || path.startsWith("/api/category/") 
-			|| path.startsWith("/api/index/") || path.startsWith("/api/v1/reviews/**") || path.startsWith("/api/search/")
-			|| path.startsWith("/api/admin/products/**");
+		return path.startsWith("/api/v1/auth/") || path.startsWith("/api/v1/products/") || path.startsWith("/api/v1/category/") 
+			|| path.startsWith("/api/v1/index/") || path.startsWith("/api/v1/reviews/**") || path.startsWith("/api/v1/search/")
+			|| path.startsWith("/api/v1/admin/products/**");
 	}
 
 

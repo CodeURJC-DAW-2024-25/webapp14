@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users/orders")
+@RequestMapping("/api/v1/users/orders")
 public class UserOrdersRestController {
 
     @Autowired

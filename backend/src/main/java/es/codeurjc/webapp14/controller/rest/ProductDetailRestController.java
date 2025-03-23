@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api/v1/products")
 public class ProductDetailRestController {
 
     @Autowired

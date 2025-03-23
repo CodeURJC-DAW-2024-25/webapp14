@@ -30,7 +30,7 @@ import es.codeurjc.webapp14.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/v1/user")
 
 public class RegisterRestController {
 

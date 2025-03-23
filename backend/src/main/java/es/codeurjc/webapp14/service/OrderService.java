@@ -29,6 +29,7 @@ import es.codeurjc.webapp14.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 
 @Service
 public class OrderService {
@@ -216,7 +217,7 @@ public class OrderService {
             }
         }
 
-        return null;
+        throw new AccessDeniedException("You do not have permission to delete this order product");
     }
 
     public List<OrderDTO> getOrdersFromUser(Long userId) {
