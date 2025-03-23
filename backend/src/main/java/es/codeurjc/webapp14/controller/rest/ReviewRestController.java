@@ -28,11 +28,11 @@ import es.codeurjc.webapp14.dto.ReviewDTO;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.service.ReviewService;
 import es.codeurjc.webapp14.service.UserService;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/api/reviews")
-
+@RequestMapping("/api/v1/reviews")
 public class ReviewRestController {
 
     @Autowired
@@ -59,7 +59,7 @@ public class ReviewRestController {
             model.addAttribute("admin", user.getRoles().contains("ADMIN"));
         } else {
             model.addAttribute("userName", null);
-            model.addAttribute("userId", null);
+            model.addAttribute("userId", 0);
             model.addAttribute("admin", false);
         }
     }
@@ -74,25 +74,23 @@ public class ReviewRestController {
         return reviewService.getReviewById(id);
     }
 
+
     @PostMapping("/{productId}")
     public ResponseEntity<ReviewDTO> createReview(@ModelAttribute("userId") long userId, Model model, @RequestBody NewReviewRequestDTO newReviewRequestDTO, @PathVariable Long productId) throws IOException, SQLException {
 
-
         ReviewDTO createdReview = createOrReplaceReview(newReviewRequestDTO, null, userId, productId);
-        
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(createdReview);
-    }
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdReview);
 
+    }
 
     @PatchMapping("/{reviewId}")
-    public ReviewDTO reportReview(@ModelAttribute("userId") long userId, Model model, @PathVariable Long reviewId) throws IOException, SQLException {
+    public ResponseEntity<ReviewDTO> reportReview(@ModelAttribute("userId") long userId, 
+                                                @PathVariable Long reviewId) {
+        ReviewDTO reportedReview = reviewService.reportReview(reviewId);
+        return ResponseEntity.ok(reportedReview);
 
-       
-        ReviewDTO createdReview = reviewService.reportReview(reviewId);
-        
-        return createdReview;
     }
+
 
     private ReviewDTO createOrReplaceReview(NewReviewRequestDTO newReviewRequestDTO, Long reviewId, Long userId, Long productId)
 			throws SQLException, IOException {
