@@ -1,18 +1,18 @@
 package es.codeurjc.webapp14.controller.rest;
 
-import es.codeurjc.webapp14.model.Product;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.service.ProductService;
 import es.codeurjc.webapp14.service.UserService;
-import es.codeurjc.webapp14.mapper.ProductMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/index")
@@ -24,31 +24,46 @@ public class IndexRestController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private ProductMapper productMapper;
+     @ModelAttribute
+    public void addAttributes(Model model, HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        boolean isLogged = auth != null && auth.isAuthenticated() && !(auth.getPrincipal() instanceof String);
+
+        model.addAttribute("logged", isLogged);
+
+        if (isLogged) {
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            User user = userService.findByEmail(userDetails.getUsername());
+
+            model.addAttribute("userName", user.getName());
+            model.addAttribute("userId", user.getId());
+            model.addAttribute("admin", user.getRoles().contains("ADMIN"));
+        } else {
+            model.addAttribute("userName", null);
+            model.addAttribute("userId", 0);
+            model.addAttribute("admin", false);
+        }
+    }
+
 
     @GetMapping
-    public ResponseEntity<Map<String, Object>> getIndexData(@RequestParam(required = false) Long userId) {
+    public Map<String, Object> getIndexData(HttpServletRequest request, @RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "10") int size, @ModelAttribute("userId") long userId) {
         Map<String, Object> data = new HashMap<>();
 
-        // Get best selling products
-        List<Product> bestSellingProducts = productService.getAllProductsSold();
-        data.put("bestSellingProducts", bestSellingProducts.stream()
-                .map(productMapper::toDTO)
-                .toList());
+        System.out.println("USERID:" +userId);
 
-        // Get recommended products if user is logged in
-        if (userId != null) {
-            Optional<User> user = userService.findById(userId);
-            if (user.isPresent()) {
-                data.put("recommendedProducts", productService.getRecommendedProductsBasedOnLastOrder(userId, 0, 2)
-                        .getContent()
-                        .stream()
-                        .map(productMapper::toDTO)
-                        .toList());
-            }
+        if (userId == 0){
+            data.put("bestSellingProducts", productService.getAllProductsSold());
         }
 
-        return ResponseEntity.ok(data);
+        else{
+            userService.findById(userId);
+            data.put("recommendedProducts", productService.getRecommendedProductsBasedOnLastOrder(userId, page, size));
+        }
+
+        return data;
+
     }
 }
