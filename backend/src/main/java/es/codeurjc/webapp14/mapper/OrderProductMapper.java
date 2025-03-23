@@ -1,27 +1,21 @@
 package es.codeurjc.webapp14.mapper;
 
-import org.springframework.stereotype.Component;
+import java.util.List;
+
+import org.mapstruct.Mapper;
+
 import es.codeurjc.webapp14.dto.OrderProductDTO;
+import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.model.OrderProduct;
 
-import java.math.BigDecimal;
+@Mapper(componentModel = "spring")
+public interface OrderProductMapper {
 
-@Component
-public class OrderProductMapper {
+    OrderProductDTO toDTO(OrderProduct order);
 
-    public OrderProductDTO toDTO(OrderProduct orderProduct) {
-        if (orderProduct == null) {
-            return null;
-        }
+    Order toDomain(OrderProductDTO orderProductDTO);
 
-        OrderProductDTO dto = new OrderProductDTO();
-        dto.setId(orderProduct.getId());
-        dto.setProductId(orderProduct.getProduct().getId());
-        dto.setProductName(orderProduct.getProduct().getName());
-        dto.setSize(orderProduct.getSize());
-        dto.setQuantity(orderProduct.getQuantity());
-        dto.setPrice(BigDecimal.valueOf(orderProduct.getSubtotalPrice()));
+    List<OrderProductDTO> toDTOs(List<OrderProduct> orders);
 
-        return dto;
-    }
+
 }
