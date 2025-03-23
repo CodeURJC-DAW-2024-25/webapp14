@@ -85,254 +85,303 @@ public class DataInitializer implements CommandLineRunner {
                 Product product1 = new Product("Trench tecnico",
                         "Trench técnico con abrigo acolchado interior desmontable.", 79.95, imageBytes1, 10,
                         CategoryType.ABRIGOS);
+                product1.setImageUrl("https://localhost:8443/api/products/1/image");
                 productRepository.save(product1);
 
                 Blob imageBytes2 = loadImage("images/abrigos/abrigo2.webp");
                 Product product2 = new Product("Trench tecnico 2 en 1 ",
                         "Trench técnico con abrigo acolchado interior desmontable.", 79.95, imageBytes2, 0,
                         CategoryType.ABRIGOS);
+                product2.setImageUrl("https://localhost:8443/api/products/2/image");
                 productRepository.save(product2);
 
                 Blob imageBytes3 = loadImage("images/abrigos/abrigo3.webp");
                 Product product3 = new Product("Parka Desmonatble Water Repellent",
                         "Parka relaxed fit confeccionada en tejido técnico que repele agua en contacto.", 89.95,
                         imageBytes3, 10, CategoryType.ABRIGOS);
+                product3.setImageUrl("https://localhost:8443/api/products/3/image");
                 productRepository.save(product3);
 
                 Blob imageBytes4 = loadImage("images/abrigos/abrigo4.webp");
                 Product product4 = new Product("Abrigo con lana",
                         "Abrigo straight fit confeccionado en tejido con lana. Cuello con solapas de muesca y manga larga acabada en puño con botones.",
                         69.95, imageBytes4, 10, CategoryType.ABRIGOS);
+                product4.setImageUrl("https://localhost:8443/api/products/4/image");
                 productRepository.save(product4);
 
                 Blob imageBytes5 = loadImage("images/abrigos/abrigo5.webp");
                 Product product5 = new Product("Anorak Water and Wind Protection",
                         "Anorak resistente al agua y al viento con aislamiento térmico para climas fríos.", 69.95,
                         imageBytes5, 10, CategoryType.ABRIGOS);
+                product5.setImageUrl("https://localhost:8443/api/products/5/image");
                 productRepository.save(product5);
 
                 Blob imageBytes6 = loadImage("images/abrigos/abrigo6.webp");
                 Product product6 = new Product("Trench cinturon",
                         "Trench de cuello solapa y manga larga acabada con trabilla y botón.", 59.95, imageBytes6, 0,
                         CategoryType.ABRIGOS);
+                product6.setImageUrl("https://localhost:8443/api/products/6/image");
                 productRepository.save(product6);
 
                 Blob imageBytes7 = loadImage("images/abrigos/abrigo7.webp");
                 Product product7 = new Product("Abrigo acolchado capucha",
                         "Cazadora de cuello subido con capucha ajustable con cordones y manga larga.", 39.95,
                         imageBytes7, 10, CategoryType.ABRIGOS);
+                product7.setImageUrl("https://localhost:8443/api/products/7/image");
                 productRepository.save(product7);
 
                 Blob imageBytes8 = loadImage("images/abrigos/abrigo8.webp");
                 Product product8 = new Product("Abrigo Soft",
                         "Abrigo de cuello solapa y manga larga con hombreras. Bolsillos delanteros.", 39.95,
                         imageBytes8, 10, CategoryType.ABRIGOS);
+                product8.setImageUrl("https://localhost:8443/api/products/8/image");
                 productRepository.save(product8);
 
                 Blob imageBytes9 = loadImage("images/abrigos/abrigo9.webp");
                 Product product9 = new Product("Trench Encerrado Cuello Combinado",
                         "Trench regular fit confeccionado en tejido de algodón con acabado encerado.", 89.95,
                         imageBytes9, 10, CategoryType.ABRIGOS);
+                product9.setImageUrl("https://localhost:8443/api/products/9/image");
+
                 productRepository.save(product9);
 
                 Blob imageBytes10 = loadImage("images/abrigos/abrigo10.webp");
                 Product product10 = new Product("Gabardina Relaxed Fit",
                         "Gabardina relaxed fit confeccionada en tejido técnico.", 79.95, imageBytes10, 0,
                         CategoryType.ABRIGOS);
+                product10.setImageUrl("https://localhost:8443/api/products/10/image");
                 productRepository.save(product10);
 
                 Blob imageBytes11 = loadImage("images/abrigos/abrigo11.webp");
                 Product product11 = new Product("Abrigo Cruzado Mezcla Lana",
                         "Abrigo entallado confeccionado en hilatura con mezcla de lana.", 129.00, imageBytes11, 10,
                         CategoryType.ABRIGOS);
+                        product11.setImageUrl("https://localhost:8443/api/products/11/image");
                 productRepository.save(product11);
 
                 Blob imageBytes12 = loadImage("images/abrigos/abrigo12.webp");
                 Product product12 = new Product("Abrigo Oversize Soft",
                         "Abrigo de cuello solapa y manga larga acabada con trabilla y botón.", 79.95, imageBytes12, 10,
                         CategoryType.ABRIGOS);
+                        product12.setImageUrl("https://localhost:8443/api/products/12/image");
                 productRepository.save(product12);
 
                 Blob imageBytes13 = loadImage("images/camisetas/camiseta1.webp");
                 Product product13 = new Product("Oversize Soft",
                         "Cuello solapa y manga larga acabada con trabilla y botón.", 79.95, imageBytes13, 10,
                         CategoryType.CAMISETAS);
+                        product13.setImageUrl("https://localhost:8443/api/products/13/image");
                 productRepository.save(product13);
 
                 Blob imageBytes14 = loadImage("images/camisetas/camiseta2.webp");
                 Product product14 = new Product("Basic Fit", "Camiseta de algodón con corte ajustado.", 19.99,
                         imageBytes14, 10, CategoryType.CAMISETAS);
+                        product14.setImageUrl("https://localhost:8443/api/products/14/image");
                 productRepository.save(product14);
 
                 Blob imageBytes15 = loadImage("images/camisetas/camiseta3.webp");
                 Product product15 = new Product("Vintage Stripes", "Camiseta con diseño a rayas y ajuste regular.",
                         24.99, imageBytes15, 10, CategoryType.CAMISETAS);
+                        product15.setImageUrl("https://localhost:8443/api/products/15/image");
                 productRepository.save(product15);
 
                 Blob imageBytes16 = loadImage("images/camisetas/camiseta4.webp");
                 Product product16 = new Product("Urban Style", "Camiseta oversized con estampado urbano.", 29.99,
                         imageBytes16, 10, CategoryType.CAMISETAS);
+                        product16.setImageUrl("https://localhost:8443/api/products/16/image");
                 productRepository.save(product16);
 
                 Blob imageBytes17 = loadImage("images/camisetas/camiseta5.webp");
                 Product product17 = new Product("Essential Black", "Camiseta negra de algodón premium.", 21.99,
                         imageBytes17, 10, CategoryType.CAMISETAS);
+                        product17.setImageUrl("https://localhost:8443/api/products/17/image");
                 productRepository.save(product17);
 
                 Blob imageBytes18 = loadImage("images/camisetas/camiseta6.webp");
                 Product product18 = new Product("Soft Touch", "Camiseta de tacto suave y cuello redondo.", 18.99,
                         imageBytes18, 10, CategoryType.CAMISETAS);
+                        product18.setImageUrl("https://localhost:8443/api/products/18/image");
                 productRepository.save(product18);
 
                 Blob imageBytes19 = loadImage("images/camisetas/camiseta7.webp");
                 Product product19 = new Product("Graphic Tee", "Camiseta con estampado gráfico exclusivo.", 27.99,
                         imageBytes19, 10, CategoryType.CAMISETAS);
+                        product19.setImageUrl("https://localhost:8443/api/products/19/image");
                 productRepository.save(product19);
 
                 Blob imageBytes20 = loadImage("images/camisetas/camiseta8.webp");
                 Product product20 = new Product("Loose Fit", "Camiseta de corte suelto, ideal para verano.", 22.99,
                         imageBytes20, 10, CategoryType.CAMISETAS);
+                        product20.setImageUrl("https://localhost:8443/api/products/20/image");
                 productRepository.save(product20);
 
                 Blob imageBytes21 = loadImage("images/camisetas/camiseta9.webp");
                 Product product21 = new Product("Denim Blue", "Camiseta azul denim con detalles en costuras.", 26.99,
                         imageBytes21, 10, CategoryType.CAMISETAS);
+                        product21.setImageUrl("https://localhost:8443/api/products/21/image");
                 productRepository.save(product21);
 
                 Blob imageBytes22 = loadImage("images/camisetas/camiseta10.webp");
                 Product product22 = new Product("Minimalist", "Camiseta minimalista de algodón orgánico.", 23.99,
                         imageBytes22, 10, CategoryType.CAMISETAS);
+                        product22.setImageUrl("https://localhost:8443/api/products/22/image");
                 productRepository.save(product22);
 
                 Blob imageBytes23 = loadImage("images/camisetas/camiseta11.webp");
                 Product product23 = new Product("Classic White", "Camiseta blanca clásica, imprescindible.", 19.99,
                         imageBytes23, 10, CategoryType.CAMISETAS);
+                        product23.setImageUrl("https://localhost:8443/api/products/23/image");
                 productRepository.save(product23);
 
                 Blob imageBytes24 = loadImage("images/camisetas/camiseta12.webp");
                 Product product24 = new Product("Retro Vibes", "Camiseta con estampado retro colorido.", 28.99,
                         imageBytes24, 10, CategoryType.CAMISETAS);
+                        product24.setImageUrl("https://localhost:8443/api/products/24/image");
                 productRepository.save(product24);
 
                 Blob imageBytes25 = loadImage("images/pantalones/pantalon1.webp");
                 Product product25 = new Product("Retro Vibes", "Pantalón con estampado retro colorido.", 28.99,
                         imageBytes25, 10, CategoryType.PANTALONES);
+                        product25.setImageUrl("https://localhost:8443/api/products/25/image");
                 productRepository.save(product25);
 
                 Blob imageBytes26 = loadImage("images/pantalones/pantalon2.webp");
                 Product product26 = new Product("Skinny Jeans", "Pantalón vaquero ajustado con estilo moderno.", 39.99,
                         imageBytes26, 10, CategoryType.PANTALONES);
+                        product26.setImageUrl("https://localhost:8443/api/products/26/image");
                 productRepository.save(product26);
 
                 Blob imageBytes27 = loadImage("images/pantalones/pantalon3.webp");
                 Product product27 = new Product("Cargo Pants", "Pantalón cargo con múltiples bolsillos.", 45.99,
                         imageBytes27, 10, CategoryType.PANTALONES);
+                        product27.setImageUrl("https://localhost:8443/api/products/27/image");
                 productRepository.save(product27);
 
                 Blob imageBytes28 = loadImage("images/pantalones/pantalon4.webp");
                 Product product28 = new Product("Chino Slim", "Pantalón chino de corte slim y tela ligera.", 42.99,
                         imageBytes28, 10, CategoryType.PANTALONES);
+                        product28.setImageUrl("https://localhost:8443/api/products/28/image");
                 productRepository.save(product28);
 
                 Blob imageBytes29 = loadImage("images/pantalones/pantalon5.webp");
                 Product product29 = new Product("Jogger Fit", "Pantalón jogger cómodo para uso diario.", 34.99,
                         imageBytes29, 10, CategoryType.PANTALONES);
+                        product29.setImageUrl("https://localhost:8443/api/products/29/image");
                 productRepository.save(product29);
 
                 Blob imageBytes30 = loadImage("images/pantalones/pantalon6.webp");
                 Product product30 = new Product("Classic Denim", "Pantalón vaquero clásico con ajuste recto.", 49.99,
                         imageBytes30, 10, CategoryType.PANTALONES);
+                        product30.setImageUrl("https://localhost:8443/api/products/30/image");
                 productRepository.save(product30);
 
                 Blob imageBytes31 = loadImage("images/pantalones/pantalon7.webp");
                 Product product31 = new Product("Wide Leg", "Pantalón de pierna ancha con estilo retro.", 46.99,
                         imageBytes31, 10, CategoryType.PANTALONES);
+                        product31.setImageUrl("https://localhost:8443/api/products/31/image");
                 productRepository.save(product31);
 
                 Blob imageBytes32 = loadImage("images/pantalones/pantalon8.webp");
                 Product product32 = new Product("Linen Pants", "Pantalón de lino ligero, ideal para verano.", 38.99,
                         imageBytes32, 10, CategoryType.PANTALONES);
+                        product32.setImageUrl("https://localhost:8443/api/products/32/image");
                 productRepository.save(product32);
 
                 Blob imageBytes33 = loadImage("images/pantalones/pantalon9.webp");
                 Product product33 = new Product("Tailored Fit", "Pantalón de vestir con corte entallado.", 55.99,
                         imageBytes33, 10, CategoryType.PANTALONES);
+                        product33.setImageUrl("https://localhost:8443/api/products/33/image");
                 productRepository.save(product33);
 
                 Blob imageBytes34 = loadImage("images/pantalones/pantalon10.webp");
                 Product product34 = new Product("Baggy Jeans", "Pantalón vaquero ancho de estilo noventero.", 44.99,
                         imageBytes34, 10, CategoryType.PANTALONES);
+                        product34.setImageUrl("https://localhost:8443/api/products/34/image");
                 productRepository.save(product34);
 
                 Blob imageBytes35 = loadImage("images/pantalones/pantalon11.webp");
                 Product product35 = new Product("Straight Cut", "Pantalón recto con diseño clásico.", 41.99,
                         imageBytes35, 10, CategoryType.PANTALONES);
+                        product35.setImageUrl("https://localhost:8443/api/products/35/image");
                 productRepository.save(product35);
 
                 Blob imageBytes36 = loadImage("images/pantalones/pantalon12.webp");
                 Product product36 = new Product("Relaxed Fit", "Pantalón de corte relajado para máxima comodidad.",
                         37.99, imageBytes36, 10, CategoryType.PANTALONES);
+                        product36.setImageUrl("https://localhost:8443/api/products/36/image");
                 productRepository.save(product36);
 
                 Blob imageBytes37 = loadImage("images/jerséis/jersey1.webp");
                 Product product37 = new Product("Relaxed Fit", "Corte relajado para máxima comodidad.", 37.99,
                         imageBytes37, 10, CategoryType.JERSEYS);
+                        product37.setImageUrl("https://localhost:8443/api/products/37/image");
                 productRepository.save(product37);
 
                 Blob imageBytes38 = loadImage("images/jerséis/jersey2.webp");
                 Product product38 = new Product("Classic Knit", "Jersey de punto con diseño clásico y elegante.", 42.99,
                         imageBytes38, 10, CategoryType.JERSEYS);
+                        product38.setImageUrl("https://localhost:8443/api/products/38/image");
                 productRepository.save(product38);
 
                 Blob imageBytes39 = loadImage("images/jerséis/jersey3.webp");
                 Product product39 = new Product("Turtleneck Sweater",
                         "Jersey de cuello alto para un estilo sofisticado.", 49.99, imageBytes39, 10,
                         CategoryType.JERSEYS);
+                        product39.setImageUrl("https://localhost:8443/api/products/39/image");
                 productRepository.save(product39);
 
                 Blob imageBytes40 = loadImage("images/jerséis/jersey4.webp");
                 Product product40 = new Product("Chunky Knit", "Jersey grueso de punto con textura cálida.", 55.99,
                         imageBytes40, 10, CategoryType.JERSEYS);
+                        product40.setImageUrl("https://localhost:8443/api/products/40/image");
                 productRepository.save(product40);
 
                 Blob imageBytes41 = loadImage("images/jerséis/jersey5.webp");
                 Product product41 = new Product("Cable Knit", "Jersey con diseño trenzado en el tejido.", 47.99,
                         imageBytes41, 10, CategoryType.JERSEYS);
+                        product41.setImageUrl("https://localhost:8443/api/products/41/image");
                 productRepository.save(product41);
 
                 Blob imageBytes42 = loadImage("images/jerséis/jersey6.webp");
                 Product product42 = new Product("Slim Fit Sweater", "Jersey ajustado con diseño moderno.", 39.99,
                         imageBytes42, 10, CategoryType.JERSEYS);
+                        product42.setImageUrl("https://localhost:8443/api/products/42/image");
                 productRepository.save(product42);
 
                 Blob imageBytes43 = loadImage("images/jerséis/jersey7.webp");
                 Product product43 = new Product("Oversized Knit", "Jersey oversized para un look relajado.", 50.99,
                         imageBytes43, 10, CategoryType.JERSEYS);
+                        product43.setImageUrl("https://localhost:8443/api/products/43/image");
                 productRepository.save(product43);
 
                 Blob imageBytes44 = loadImage("images/jerséis/jersey8.webp");
                 Product product44 = new Product("Striped Sweater", "Jersey a rayas con diseño casual.", 44.99,
                         imageBytes44, 10, CategoryType.JERSEYS);
+                        product44.setImageUrl("https://localhost:8443/api/products/44/image");
                 productRepository.save(product44);
 
                 Blob imageBytes45 = loadImage("images/jerséis/jersey9.webp");
                 Product product45 = new Product("Wool Blend", "Jersey de lana mezclada para mayor calidez.", 59.99,
                         imageBytes45, 10, CategoryType.JERSEYS);
+                        product45.setImageUrl("https://localhost:8443/api/products/45/image");
                 productRepository.save(product45);
 
                 Blob imageBytes46 = loadImage("images/jerséis/jersey10.webp");
                 Product product46 = new Product("Mock Neck", "Jersey con cuello semi-alto y diseño minimalista.", 41.99,
                         imageBytes46, 10, CategoryType.JERSEYS);
+                        product46.setImageUrl("https://localhost:8443/api/products/46/image");
                 productRepository.save(product46);
 
                 Blob imageBytes47 = loadImage("images/jerséis/jersey11.webp");
                 Product product47 = new Product("V-Neck Sweater", "Jersey de cuello en V, ideal para capas.", 43.99,
                         imageBytes47, 10, CategoryType.JERSEYS);
+                        product47.setImageUrl("https://localhost:8443/api/products/47/image");
                 productRepository.save(product47);
 
                 Blob imageBytes48 = loadImage("images/jerséis/jersey12.webp");
                 Product product48 = new Product("Cozy Fleece", "Jersey de felpa suave para máxima comodidad.", 38.99,
                         imageBytes48, 10, CategoryType.JERSEYS);
+                        product48.setImageUrl("https://localhost:8443/api/products/48/image");
                 productRepository.save(product48);
 
                 List<Product> savedProducts = productRepository.findAll();
@@ -383,60 +432,70 @@ public class DataInitializer implements CommandLineRunner {
                 User user1 = new User("Paco", "García", imageBytes49, "Calle Mirador 12-C", "pacoG@gmail.com",
                         passwordEncoder.encode("12345"),
                         "USER");
+                user1.setImageUrl("https://localhost:8443/api/users/image");
                 userRepository.save(user1);
 
                 Blob imageBytes50 = loadImage("images/users/perfil2.webp");
                 User user2 = new User("Ana", "López", imageBytes50, "Avenida de la Paz 4-B", "anaL@gmail.com",
                         passwordEncoder.encode("54321"),
                         "USER");
+                user2.setImageUrl("https://localhost:8443/api/users/image");
                 userRepository.save(user2);
 
                 Blob imageBytes51 = loadImage("images/users/perfil3.webp");
                 User user3 = new User("Carlos", "Martínez", imageBytes51, "Calle Gran Vía 3-A", "carlosM@gmail.com",
                         passwordEncoder.encode("67890"),
                         "USER");
+                user3.setImageUrl("https://localhost:8443/api/users/image");
                 userRepository.save(user3);
 
                 Blob imageBytes52 = loadImage("images/users/perfil4.webp");
                 User user4 = new User("María", "Fernández", imageBytes52, "Calle Toledo 15", "mariaF@gmail.com",
                         passwordEncoder.encode("11223"),
                         "USER");
+                user4.setImageUrl("https://localhost:8443/api/users/image");
                 userRepository.save(user4);
 
                 Blob imageBytes53 = loadImage("images/users/perfil5.webp");
                 User user5 = new User("Luis", "Sánchez", imageBytes53, "Plaza Mayor 7", "luisS@gmail.com",
                         passwordEncoder.encode("44556"),
                         "USER");
+                user5.setImageUrl("https://localhost:8443/api/users/image");
                 userRepository.save(user5);
 
                 Blob imageBytes54 = loadImage("images/users/perfil6.webp");
                 User user6 = new User("José", "Pérez", imageBytes54, "Calle de la Luna 9", "joseP@gmail.com",
                         passwordEncoder.encode("78901"),
                         "USER");
+                user6.setImageUrl("https://localhost:8443/api/users/image");
                 userRepository.save(user6);
 
                 Blob imageBytes55 = loadImage("images/users/perfil7.webp");
                 User user7 = new User("Laura", "Rodríguez", imageBytes55, "Calle San Juan 10", "lauraR@gmail.com",
                         passwordEncoder.encode("23456"),
                         "USER");
+                user7.setImageUrl("https://localhost:8443/api/users/image");
                 userRepository.save(user7);
 
                 Blob imageBytes56 = loadImage("images/users/perfil8.webp");
                 User user8 = new User("David", "González", imageBytes56, "Avenida de Andalucía 14", "davidG@gmail.com",
                         passwordEncoder.encode("67890"),
                         "USER");
+                user8.setImageUrl("https://localhost:8443/api/users/image");
                 userRepository.save(user8);
 
                 Blob imageBytes57 = loadImage("images/users/perfil9.webp");
                 User user9 = new User("Elena", "Díaz", imageBytes57, "Calle del Sol 21", "elenaD@gmail.com",
                         passwordEncoder.encode("11234"),
                         "USER");
+                user9.setImageUrl("https://localhost:8443/api/users/image");
                 userRepository.save(user9);
 
                 Blob imageBytes58 = loadImage("images/users/perfil10.webp");
                 User user10 = new User("Sergio", "Jiménez", imageBytes58, "Calle del Mar 18", "sergioJ@gmail.com",
                         passwordEncoder.encode("66778"),
                         "USER");
+                user10.setImageUrl("https://localhost:8443/api/users/image");
                 userRepository.save(user10);
 
                 logger.info("Usuarios cargados correctamente.");
