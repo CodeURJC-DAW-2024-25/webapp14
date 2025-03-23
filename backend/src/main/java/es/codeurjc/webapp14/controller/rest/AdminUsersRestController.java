@@ -1,7 +1,7 @@
 package es.codeurjc.webapp14.controller.rest;
 
+import es.codeurjc.webapp14.dto.UserDTO;
 import es.codeurjc.webapp14.service.UserService;
-import es.codeurjc.webapp14.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +16,6 @@ public class AdminUsersRestController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserMapper userMapper;
-
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAdminUsers(
             @RequestParam(defaultValue = "0") int page,
@@ -26,24 +23,46 @@ public class AdminUsersRestController {
         Map<String, Object> data = new HashMap<>();
 
         // Get paginated users
-        data.put("users", userService.getUsersPaginated(page, size)
-                .getContent()
-                .stream()
-                .map(userMapper::toDTO)
-                .toList());
-
-        // Get total pages
-        data.put("totalPages", userService.getUsersPaginated(page, size).getTotalPages());
+        data.put("users", userService.getUsersPaginated(page, size));
 
         // Get total users
         data.put("totalUsers", userService.getTotalUsers());
 
-        // Get admin users count
-        data.put("adminUsers", userService.getAdminUsersCount());
+        // Get pending reports. This function does not exist, we have to look at how its
+        // done on the web controller
+        
+        
+        //data.put("pendingReports", userService.getPendingReports());
 
-        // Get regular users count
-        data.put("regularUsers", userService.getRegularUsersCount());
+        // Get banned users count
+        data.put("bannedUsers", userService.getAllUsersBanned());
 
         return ResponseEntity.ok(data);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
+
+        UserDTO user = userService.findById(id);
+        
+        return ResponseEntity.ok(user);
+    }
+
+
+    @PatchMapping("/{id}/banned")
+    public UserDTO banUser(@PathVariable Long id) {
+
+        UserDTO user = userService.banUser(id);
+
+        return user;
+    }
+
+    @PatchMapping("/{id}/unbanned")
+    public UserDTO unbanUser(@PathVariable Long id) {
+
+        UserDTO user = userService.unbanUser(id);
+
+        return user;
+    }
+
 }
