@@ -70,7 +70,7 @@ A set of suggested products is displayed based on the categories of products pre
 
 ### 🗂️ CLASS AND TEMPLATES DIAGRAM
 
-![image](https://github.com/user-attachments/assets/1806b785-853e-43bd-a312-32ce17661b32)
+![image](https://github.com/user-attachments/assets/3d0a6207-d633-4bef-81c5-bc14667866da)
 
 # PHASE 1
 
@@ -152,3 +152,47 @@ I was responsible for implementing the entities, primarily the relationships, as
 |3|[Fixed data initialization](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/4d3a8ab128296c47fc2f5755603a08643951e3a1)|[DataInitializer.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/java/es/codeurjc/webapp14/services/DataInitializer.java)|
 |4|[Implemented basic classes](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/727f043c17ee8b75d28d65189400d50c33a59d8b)|[ProductController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/727f043c17ee8b75d28d65189400d50c33a59d8b)|
 |5|[Added size and order products](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/1ddc7ff92e8d50857654ecf235304806938f2025)|[OrderProduct.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/java/es/codeurjc/webapp14/model/OrderProduct.java)|
+
+
+# PHASE 2
+### 🤝 PARTICIPATION
+
+### **Ikram El Jauhari Al Jaouhari**
+
+| Nº    | Commits      | Files      |
+|:------------: |:------------:| :------------:|
+|1| | |
+|2| | |
+|3| | |
+|4| | |
+|5| | |
+
+### **Alberto Mayoral Gómez**
+
+| Nº    | Commits      | Files      |
+|:------------: |:------------:| :------------:|
+|1| | |
+|2| | |
+|3| | |
+|4| | |
+|5| | |
+
+### **Icíar Moreno López**
+
+| Nº    | Commits      | Files      |
+|:------------: |:------------:| :------------:|
+|1| | |
+|2| | |
+|3| | |
+|4| | |
+|5| | |
+
+### **Jorge Ramírez Gayo**
+
+| Nº    | Commits      | Files      |
+|:------------: |:------------:| :------------:|
+|1| | |
+|2| | |
+|3| | |
+|4| | |
+|5| | |
