@@ -262,6 +262,10 @@ public class UserService {
     public UserDTO banUser(Long id) {
         UserDTO userConsult = findById(id);
         User user = toDomain(userConsult);
+        User oldUser = findByEmail(user.getEmail());
+        user.setImageUrl(oldUser.getImageUrl());
+        user.setEncodedPassword(oldUser.getEncodedPassword());
+        user.setProfileImage(oldUser.getProfileImage());
         user.setBanned(true);
         user.getReviews().clear();
         saveUser(user);
@@ -272,6 +276,10 @@ public class UserService {
     public UserDTO unbanUser(Long id) {
         UserDTO userConsult = findById(id);
         User user = toDomain(userConsult);
+        User oldUser = findByEmail(user.getEmail());
+        user.setImageUrl(oldUser.getImageUrl());
+        user.setEncodedPassword(oldUser.getEncodedPassword());
+        user.setProfileImage(oldUser.getProfileImage());
         user.setBanned(false);
         saveUser(user);
         
