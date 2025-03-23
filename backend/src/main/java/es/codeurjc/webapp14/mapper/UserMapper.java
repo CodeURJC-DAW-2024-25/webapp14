@@ -1,25 +1,18 @@
 package es.codeurjc.webapp14.mapper;
 
-import org.springframework.stereotype.Component;
+import java.util.List;
+
+import org.mapstruct.Mapper;
+
 import es.codeurjc.webapp14.dto.UserDTO;
 import es.codeurjc.webapp14.model.User;
 
-@Component
-public class UserMapper {
+@Mapper(componentModel = "spring")
+public interface UserMapper {
+    
+    UserDTO toDTO(User user);
 
-    public UserDTO toDTO(User user) {
-        if (user == null) {
-            return null;
-        }
+    User toDomain(UserDTO userDTO);
 
-        UserDTO dto = new UserDTO();
-        dto.setId(user.getId());
-        dto.setName(user.getName());
-        dto.setSurname(user.getSurname());
-        dto.setEmail(user.getEmail());
-        dto.setBanned(user.getBanned());
-        dto.setRoles(user.getRoles());
-
-        return dto;
-    }
+    List<UserDTO> toDTOs(List<User> users);
 }

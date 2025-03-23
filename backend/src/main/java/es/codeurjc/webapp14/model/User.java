@@ -32,6 +32,7 @@ public class User {
 
     @Lob
     private Blob profileImage;
+    String imageUrl;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders = new ArrayList<>();
@@ -64,7 +65,9 @@ public class User {
         this.roles = List.of(roles);
         this.banned = false;
         this.reports = 0;
+        this.imageUrl = null;
     }
+
 
     // Getters y Setters
     public Long getId() {
@@ -163,4 +166,11 @@ public class User {
         this.orders = orders;
     }
 
+    public String getImageUrl() {
+        return this.imageUrl;
+    }   
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }
