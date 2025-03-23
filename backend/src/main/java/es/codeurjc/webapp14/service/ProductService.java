@@ -16,6 +16,7 @@ import es.codeurjc.webapp14.repository.OrderRepository;
 import es.codeurjc.webapp14.repository.ProductRepository;
 import es.codeurjc.webapp14.repository.ReviewRepository;
 import es.codeurjc.webapp14.repository.SizeRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +78,7 @@ public class ProductService {
 
     public ProductDTO getProductById(Long id) {
         Product product = productRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Product not found"));
+            .orElseThrow(() -> new EntityNotFoundException("Product not found"));
         return toDTO(product);
 
     }
@@ -96,7 +97,7 @@ public class ProductService {
 
     public ProductDTO delete(Long id) {
 
-        Product product = productRepository.findById(id).orElseThrow();
+        Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
 		ProductDTO productDTO = toDTO(product);
 
@@ -170,7 +171,7 @@ public class ProductService {
 
     public Resource getProductImage(long id) throws SQLException {
 
-		Product product = productRepository.findById(id).orElseThrow();
+		Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
 		if (product.getImage() != null) {
 			return new InputStreamResource(product.getImage().getBinaryStream());
@@ -195,7 +196,7 @@ public class ProductService {
 
     public Boolean getSize(Long id, String sizeName) {
         Product product = productRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Product not found"));;
+            .orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
         for (Size size : product.getSizes()) {
             if (sizeName == "S" && size.getName() == SizeName.S && size.getStock() > 0)
@@ -245,7 +246,7 @@ public class ProductService {
 
 
     private ProductDTO replaceProduct(Long id, ProductDTO updatedProductDTO, int stock_S, int stock_M, int stock_L, int stock_XL) {
-        Product oldProduct = productRepository.findById(id).orElseThrow();
+        Product oldProduct = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
 		Product updatedProduct = toDomain(updatedProductDTO);
 		updatedProduct.setId(id);
 
@@ -309,7 +310,7 @@ public class ProductService {
     }
 
     public void createProductImageWeb(long id, InputStream inputStream, long size) {
-        Product product = productRepository.findById(id).orElseThrow();
+        Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
         product.setImage(BlobProxy.generateProxy(inputStream, size));
         product.setImageBool(true);
@@ -318,7 +319,7 @@ public class ProductService {
     }
 
     public void createProductImage(long id, URI location, InputStream inputStream, long size) {
-        Product product = productRepository.findById(id).orElseThrow();
+        Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
 
         location = fromCurrentRequest().build().toUri();
@@ -353,7 +354,7 @@ public class ProductService {
     }
 
     public void deleteProductImage(long id) {
-        Product product = productRepository.findById(id).orElseThrow();
+        Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
 		if (product.getImageUrl() == null) {
 			throw new NoSuchElementException();
@@ -371,7 +372,7 @@ public class ProductService {
     }
 
     public void replaceProductImage(long id, InputStream inputStream, long size) {
-        Product product = productRepository.findById(id).orElseThrow();
+        Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
         if(product.getImage() == null){
             throw new NoSuchElementException();
         }

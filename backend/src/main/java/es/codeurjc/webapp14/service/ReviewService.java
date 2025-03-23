@@ -9,9 +9,11 @@ import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.repository.ProductRepository;
 import es.codeurjc.webapp14.repository.ReviewRepository;
 import es.codeurjc.webapp14.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Page;
@@ -46,7 +48,7 @@ public class ReviewService {
     }
 
     public ReviewDTO getReviewById(Long id) {
-        Review review = ReviewRepository.findById(id).orElseThrow(() -> new RuntimeException("Review not found"));
+        Review review = ReviewRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Review not found"));
         return toDTO(review);
     }
     
@@ -63,7 +65,7 @@ public class ReviewService {
 
     public void processReviews(Long id, Long userId) {
         Product product = productRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Product not found"));
+            .orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
         List<Review> reviews = product.getReviews();
 
@@ -104,10 +106,10 @@ public class ReviewService {
 		Review review = toDomain(reviewDTO);
 
 
-        Product product = productRepository.findById(productId).orElseThrow();
+        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Product not found"));
         review.setProduct(product);
 
-        User user = userRepository.findById(userId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         review.setUser(user);
 
         review.updateStars();
@@ -119,18 +121,18 @@ public class ReviewService {
 
     private ReviewDTO replaceReview(Long id, ReviewDTO updatedReviewDTO, Long productId, Long userId) {
 
-        Review oldReview = ReviewRepository.findById(id).orElseThrow();
+        Review oldReview = ReviewRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Review not found"));
         if(!oldReview.getUser().getId().equals(userId)){
-            return null;
+            throw new AccessDeniedException("You do not have permission to modify this review");
         }
 
         Review updatedReview = toDomain(updatedReviewDTO);
 		updatedReview.setId(id);
         
-        Product product = productRepository.findById(productId).orElseThrow();
+        Product product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Product not found"));
         updatedReview.setProduct(product);
 
-        User user = userRepository.findById(userId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
         updatedReview.setUser(user);
 
 	    ReviewRepository.save(updatedReview);
@@ -158,7 +160,7 @@ public class ReviewService {
 
     public ReviewDTO reportReview(Long reviewId) {
 
-        Review review = ReviewRepository.findById(reviewId).orElseThrow(() -> new RuntimeException("Review not found"));
+        Review review = ReviewRepository.findById(reviewId).orElseThrow(() -> new EntityNotFoundException("Review not found"));
         review.setReported(true);
         //this.user.setReports(1);
 
@@ -169,7 +171,7 @@ public class ReviewService {
 
     public ReviewDTO acceptReview(Long id) {
 
-        Review review = ReviewRepository.findById(id).orElseThrow(() -> new RuntimeException("Review not found"));
+        Review review = ReviewRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Review not found"));
 
         review.setReported(false);
         saveReview(review);
@@ -179,12 +181,12 @@ public class ReviewService {
 
     public ReviewDTO deleteReview(Long id, Long userId) {
 
-        Review oldReview = ReviewRepository.findById(id).orElseThrow();
+        Review oldReview = ReviewRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Review not found"));
         if(!oldReview.getUser().getId().equals(userId)){
-            return null;
+            throw new AccessDeniedException("You do not have permission to delete this review");
         }
 
-        Review review = ReviewRepository.findById(id).orElseThrow(() -> new RuntimeException("Review not found"));
+        Review review = ReviewRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Review not found"));
 
         ReviewRepository.delete(review);
 

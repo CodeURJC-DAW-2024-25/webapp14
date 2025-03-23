@@ -2,6 +2,7 @@ package es.codeurjc.webapp14.service;
 
 import es.codeurjc.webapp14.model.Size;
 import es.codeurjc.webapp14.repository.SizeRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class SizeService {
     }
 
     public Size getSizeById(Long id) {
-        return sizeRepository.findById(id).orElse(null);
+        return sizeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Size not found"));
     }
 
     public Size saveSize(Size size) {

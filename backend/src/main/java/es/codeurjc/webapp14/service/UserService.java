@@ -6,6 +6,7 @@ import es.codeurjc.webapp14.dto.UserDTO;
 import es.codeurjc.webapp14.mapper.UserMapper;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 import org.hibernate.engine.jdbc.BlobProxy;
 import org.springframework.core.io.InputStreamResource;
@@ -44,12 +45,12 @@ public class UserService {
     }
 
     public UserDTO findById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
         return toDTO(user);
     }
 
     public User findUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("El usuario no existe"));
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
     public List<User> getAllRegularUsers() {
@@ -278,7 +279,7 @@ public class UserService {
     }
 
     public void createUserImage(long id, URI location, InputStream inputStream, long size) {
-        User user = userRepository.findById(id).orElseThrow();
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
         location = fromCurrentRequest().build().toUri();
 
@@ -295,7 +296,7 @@ public class UserService {
 
     public Resource getUserImage(long id) throws SQLException {
 
-		User user = userRepository.findById(id).orElseThrow();
+		User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
 		if (user.getProfileImage() != null) {
 			return new InputStreamResource(user.getProfileImage().getBinaryStream());
@@ -305,7 +306,7 @@ public class UserService {
 	}
 
     public void replaceUserImage(long id, InputStream inputStream, long size) {
-        User user = userRepository.findById(id).orElseThrow();
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
         if(user.getProfileImage() == null){
             throw new NoSuchElementException();
         }
@@ -315,7 +316,7 @@ public class UserService {
 
 
     public void deleteUserImage(long id) {
-        User user = userRepository.findById(id).orElseThrow();
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
 		if (user.getImageUrl() == null) {
 			throw new NoSuchElementException();

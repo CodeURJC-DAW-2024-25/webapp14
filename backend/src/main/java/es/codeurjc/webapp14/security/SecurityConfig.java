@@ -68,12 +68,12 @@ public class SecurityConfig {
                         .requestMatchers("/api/index/**").permitAll()
                         .requestMatchers("/api/search/**").permitAll()
                         .requestMatchers("/api/user/**").permitAll()
-                        .requestMatchers("api/image/**").permitAll()
+                        .requestMatchers("/api/image/**").permitAll()
 
                         // PRIVATE ENDPOINTS
                         .requestMatchers("/api/cart/**").hasRole("USER")
                         .requestMatchers("/api/orders/**").hasRole("USER")
-                        .requestMatchers("/api/reviews/**").authenticated()
+                        .requestMatchers("/api/v1/reviews/**").authenticated()
                         .requestMatchers("/api/users/**").authenticated()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/orders/**").hasRole("USER")

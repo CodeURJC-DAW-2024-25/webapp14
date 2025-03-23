@@ -26,6 +26,7 @@ import es.codeurjc.webapp14.model.OrderProduct;
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Size;
 import es.codeurjc.webapp14.repository.OrderRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.data.domain.Pageable;
 
@@ -60,7 +61,7 @@ public class OrderService {
 
     public OrderDTO getOrderById(Long id) {
         Order order = orderRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Order not found"));
+            .orElseThrow(() -> new EntityNotFoundException("Order not found"));
         return toDTO(order);
     }
 
