@@ -31,6 +31,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	}
 
 	@Override
+	protected boolean shouldNotFilter(HttpServletRequest request) {
+		String path = request.getRequestURI();
+		return path.startsWith("/api/auth/") || path.startsWith("/api/products/") || path.startsWith("/api/category/") 
+			|| path.startsWith("/api/index/") || path.startsWith("/api/reviews/**") || path.startsWith("/api/search/")
+			|| path.startsWith("/api/admin/products/**");
+	}
+
+
+	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
