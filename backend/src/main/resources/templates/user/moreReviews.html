@@ -16,7 +16,7 @@
               <button data-bs-toggle="modal" data-bs-target="#editModal{{id}}" class="btn btn-outline-primary">
                 <i class="fas fa-pencil-alt"></i>
               </button>
-              <form action="/index/{{product.id}}/{{id}}/delete" method="post">
+              <form action="/index/{{productId}}/{{id}}/delete" method="post">
                 <input type="hidden" name="_csrf" value="{{token}}" />
                 <button type="submit" class="btn btn-outline-danger">
                   <i class="fas fa-trash-alt"></i>
@@ -25,7 +25,7 @@
               {{/own}}
               {{#logged}}
               {{^own}}
-              <form action="/index/{{product.id}}/{{id}}/report" method="post">
+              <form action="/index/{{productId}}/{{id}}/report" method="post">
                 <input type="hidden" name="_csrf" value="{{token}}" />
                 <button type="submit" class="btn btn-outline-warning">
                   <i class="fas fa-exclamation-circle"></i>
@@ -36,6 +36,7 @@
             </div>
           </div>
         </div>
+        {{#logged}}
         <div class="modal fade" id="editModal{{id}}" tabindex="-1" aria-labelledby="editModalLabel{{id}}"
           aria-hidden="true">
           <div class="modal-dialog">
@@ -45,7 +46,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                <form action="/index/{{product.id}}/{{id}}/edit" method="post">
+                <form action="/index/{{userId}}/{{productId}}/{{id}}/edit" method="post">
                   <input type="hidden" name="_csrf" value="{{token}}" />
                   <div class="mb-3">
                     <label for="edit-rating" class="form-label">Tu Valoración</label>
@@ -85,7 +86,7 @@
             </div>
           </div>
         </div>
-
+        {{/logged}}
 
         {{/reviews}}
 

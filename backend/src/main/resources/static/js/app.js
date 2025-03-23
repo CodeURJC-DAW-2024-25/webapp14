@@ -119,22 +119,24 @@ async function loadMoreRecommendedProducts() {
     }
 }
 
+page = 1;
 async function loadMoreReviews(productId) {
-    const from = (loadMoreRequests + 1) * NUM_RESULT_REVIEWS;
-    const to = from + NUM_RESULT_REVIEWS;
-
     document.getElementById("loading-spinner").classList.remove('d-none');
 
-    const response = await fetch(`/index/moreReviews?id=${productId}&from=${from}&to=${to}`);
-    const data = await response.text();
+    try {
+        const response = await fetch(`/index/moreReviews?id=${productId}&page=${page}&size=${NUM_RESULT_REVIEWS}`);
+        const data = await response.text();
 
-    document.getElementById("reviews").innerHTML += data;
+        document.getElementById("reviews").innerHTML += data;
 
-    document.getElementById("loading-spinner").classList.add('d-none');
-
-    if (data.includes("<!-- true -->")) {
-        document.getElementById('loadMoreReviewsButton').classList.add('d-none');
+        if (data.includes("<!-- true -->")) {
+            document.getElementById('loadMoreReviewsButton').classList.add('d-none');
+        } else {
+            page++; // Incrementamos solo si hay más datos
+        }
+    } catch (error) {
+        console.error("Error cargando más reviews:", error);
+    } finally {
+        document.getElementById("loading-spinner").classList.add('d-none');
     }
-
-    loadMoreRequests++;
 }

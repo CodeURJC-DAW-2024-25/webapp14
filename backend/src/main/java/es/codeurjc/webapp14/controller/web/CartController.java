@@ -1,7 +1,6 @@
 package es.codeurjc.webapp14.controller.web;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,17 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.security.core.Authentication;
 
-import es.codeurjc.webapp14.model.Order;
-import es.codeurjc.webapp14.model.Product;
-import es.codeurjc.webapp14.model.Size;
+import es.codeurjc.webapp14.dto.OrderDTO;
+import es.codeurjc.webapp14.dto.ProductDTO;
+import es.codeurjc.webapp14.dto.UserDTO;
 import es.codeurjc.webapp14.model.User;
-import es.codeurjc.webapp14.model.Order.State;
-import es.codeurjc.webapp14.service.OrderProductService;
 import es.codeurjc.webapp14.service.OrderService;
 import es.codeurjc.webapp14.service.ProductService;
-import es.codeurjc.webapp14.service.SizeService;
 import es.codeurjc.webapp14.service.UserService;
-import es.codeurjc.webapp14.model.OrderProduct;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
@@ -42,23 +37,10 @@ public class CartController {
     @Autowired
     private final OrderService orderService;
 
-    @Autowired
-    private final OrderProductService orderProductService;
-
-    @Autowired
-    private final SizeService sizeService;
-
-    @Autowired
-    private final OrdersController ordersController;
-
-    public CartController(ProductService productService, UserService userService, OrderService orderService,
-            OrderProductService orderProductService, SizeService sizeService, OrdersController ordersController) {
+    public CartController(ProductService productService, UserService userService, OrderService orderService) {
         this.productService = productService;
         this.userService = userService;
         this.orderService = orderService;
-        this.orderProductService = orderProductService;
-        this.sizeService = sizeService;
-        this.ordersController = ordersController;
     }
 
     @ModelAttribute
@@ -86,17 +68,13 @@ public class CartController {
 
     @GetMapping
     public String listProducts(@ModelAttribute("userId") Long userId, Model model) {
-        if (userId == null) {
-            return "redirect:/login";
-        }
+  
+        OrderDTO order = orderService.listProducts(userId);
 
-        Optional<User> userConsult = userService.findById(userId);
+        /*
 
-        if (!userConsult.isPresent()) {
-            return "redirect:/no-page-error";
-        }
+        UserDTO user = userService.findById(userId);
 
-        User user = userConsult.get();
         Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
 
         if (!unpaidOrder.isPresent()) {
@@ -133,22 +111,29 @@ public class CartController {
             }
         }
 
-        BigDecimal subtotal = unpaidOrder.get().getTotalPrice();
+        */
 
-        BigDecimal shipping = BigDecimal.ZERO;
-        if (subtotal.compareTo(BigDecimal.valueOf(100)) < 0) {
-            shipping = BigDecimal.valueOf(5);
+        BigDecimal subtotal = orderService.getSubTotal(order);
+        BigDecimal shipping = orderService.getShipping(order);
+        BigDecimal total = subtotal.add(shipping);
+
+        Boolean cannotProcessOrder;
+
+        if (order.orderProducts().isEmpty()){
+            cannotProcessOrder = false;
+        }
+        else{
+            cannotProcessOrder = orderService.getCannotProcessOrder(order);
         }
 
-        BigDecimal total = subtotal.add(shipping);
 
         model.addAttribute("subtotal", subtotal);
         model.addAttribute("shipping", shipping);
         model.addAttribute("total", total);
         model.addAttribute("orderNotProcessed", cannotProcessOrder);
-        model.addAttribute("products", productService.getAllProductsSold());
-        model.addAttribute("orderProducts", unpaidOrder.get().getOrderProducts());
-        model.addAttribute("orderProductsEmpty", unpaidOrder.get().getOrderProducts().isEmpty());
+        //model.addAttribute("products", productService.getAllProductsSold());
+        model.addAttribute("orderProducts", order.orderProducts());
+        model.addAttribute("orderProductsEmpty",  order.orderProducts().isEmpty());
 
         return "user_registered/cart";
     }
@@ -163,29 +148,17 @@ public class CartController {
             @RequestParam("quantity") int quantity,
             Model model, @ModelAttribute("userId") Long userId) {
 
-        System.out.println("Cantidad" + quantity);
+        UserDTO user = userService.findById(userId);
 
-        if (userId == null) {
-            return "redirect:/login";
-        }
+        ProductDTO product = productService.getProductById(productId);
 
-        Optional<User> userConsult = userService.findById(userId);
+        orderService.addToCart(productId,user,product,size,quantity);
 
-        if (!userConsult.isPresent()) {
-            return "redirect:/no-page-error";
-        }
 
-        User user = userConsult.get();
 
-        Optional<Product> existproduct = productService.getProductById(productId);
+        /*
 
-        if (!existproduct.isPresent()) {
-            return "redirect:/no-page-error";
-        }
-
-        Product product = existproduct.get();
-
-        Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
+        OrderDTO unpaidOrder = orderService.getUnpaidOrder(user);
 
         Order order;
         if (!unpaidOrder.isPresent()) {
@@ -233,11 +206,55 @@ public class CartController {
         model.addAttribute("orderProductsEmpty",
                 orderProductService.getOrderProductsByOrderId(order.getId()).isEmpty());
 
+        */
+
+        /*
+        BigDecimal subtotal = orderService.getSubTotal(order);
+        BigDecimal shipping = orderService.getShipping(order);
+        BigDecimal total = subtotal.add(shipping);
+        Boolean cannotProcessOrder = false;
+
+        model.addAttribute("subtotal", subtotal);
+        model.addAttribute("shipping", shipping);
+        model.addAttribute("total", total);
+        ;
+
+        model.addAttribute("orderProducts", order.orderProducts());
+        model.addAttribute("orderProductsEmpty", order.orderProducts().isEmpty());
+
+        */
         return "redirect:/cart";
+
     }
 
     @PostMapping("/process-order")
     public String processPayment(@ModelAttribute("userId") Long userId, Model model) {
+
+        OrderDTO orderNotProcessed = orderService.listProducts(userId);
+
+        Boolean cannotProcessOrder = orderService.getCannotProcessOrder(orderNotProcessed);
+
+        if (cannotProcessOrder) {
+            model.addAttribute("orderNotProcessed", true);
+            return "redirect:/cart";
+        }
+
+        cannotProcessOrder = orderService.procesOrderStock(orderNotProcessed);
+
+        if (cannotProcessOrder) {
+            model.addAttribute("orderNotProcessed", true);
+            return "redirect:/cart";
+        }
+
+        orderService.processOrderSizes(orderNotProcessed);
+
+        orderService.proccesOrder(userId);
+
+
+
+        
+
+        /*
 
         if (userId == null) {
             return "redirect:/login";
@@ -351,6 +368,7 @@ public class CartController {
 
         Order newOrder = new Order(user, State.No_pagado, false);
         orderService.saveOrder(newOrder);
+        */
 
         return "redirect:/orders";
     }
@@ -358,15 +376,13 @@ public class CartController {
     @PostMapping("/delete/{id}")
     public String removeFromCart(@PathVariable("id") Long orderProductId, @ModelAttribute("userId") Long userId,
             Model model) {
-        if (userId == null) {
-            return "redirect:/login";
-        }
 
+
+        orderService.deleteOrderProduct(orderProductId, userId);
+
+        /*
         Optional<User> userConsult = userService.findById(userId);
 
-        if (!userConsult.isPresent()) {
-            return "redirect:/no-page-error";
-        }
 
         User user = userConsult.get();
         Optional<Order> unpaidOrder = orderService.getUnpaidOrder(user);
@@ -382,6 +398,7 @@ public class CartController {
                 orderProductService.deleteOrderProduct(orderProductToRemove.get());
             }
         }
+            */
 
         return "redirect:/cart";
     }

@@ -1,7 +1,6 @@
 package es.codeurjc.webapp14.controller.web;
 
 import java.math.BigDecimal;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,7 @@ import es.codeurjc.webapp14.service.EmailService;
 import es.codeurjc.webapp14.service.OrderProductService;
 import es.codeurjc.webapp14.service.OrderService;
 import es.codeurjc.webapp14.service.UserService;
+import es.codeurjc.webapp14.dto.OrderDTO;
 import es.codeurjc.webapp14.model.Order;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -71,24 +71,11 @@ public class OrdersController {
 
     @GetMapping
     public String getUserOrders(Model model, @ModelAttribute("userId") Long userId) {
-        if (userId == null) {
-            return "redirect:/login";
-        }
 
-        Optional<User> userConsult = userService.findById(userId);
+        List<OrderDTO> orders = orderService.getOrdersFromUser(userId);
 
-        if (userConsult.isPresent()) {
-            User user = userConsult.get();
-            List<Order> orders = orderService.getPaidOrders(user);
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            orders.forEach(order -> order.setCreatedAtFormatted(order.getCreatedAt().format(formatter)));
-
-            model.addAttribute("orders", orders);
-            model.addAttribute("exists", !orders.isEmpty());
-        } else {
-            return "redirect:/no-page-error";
-        }
+        model.addAttribute("orders", orders);
+        model.addAttribute("exists", !orders.isEmpty());
 
         return "/user_registered/orders";
     }
@@ -96,36 +83,25 @@ public class OrdersController {
     @GetMapping("/{id}")
     public String getOrderProductsById(@PathVariable Long id, Model model, @ModelAttribute("userId") Long userId) {
 
-        Optional<Order> optionalOrder = orderService.getOrderById(id);
+        OrderDTO order = orderService.getOrderProductById(id,userId);
 
-        Optional<User> user = userService.findById(userId);
-
-        if (!optionalOrder.isPresent()) {
+        if (!order.isPaid()) {
             return "redirect:/no-page-error";
         }
 
-        if (userId == null || user == null || !optionalOrder.get().getUser().getId().equals(userId)) {
+        if (userId == 0 || !order.userId().equals(userId)) {
             return "access_error";
         }
 
-        Order order = optionalOrder.get();
-        if (order != null) {
-            BigDecimal subtotal = order.getTotalPrice();
+        BigDecimal subtotal = orderService.getSubTotal(order);
+        BigDecimal shipping = orderService.getShipping(order);
+        BigDecimal total = subtotal.add(shipping);
 
-            BigDecimal shipping = BigDecimal.ZERO;
-
-            if (subtotal.compareTo(BigDecimal.valueOf(100)) < 0) {
-                shipping = BigDecimal.valueOf(5);
-            }
-
-            BigDecimal total = subtotal.add(shipping);
-
-            model.addAttribute("order", order);
-            model.addAttribute("orderProducts", orderProductService.getOrderProductsByOrderId(id));
-            model.addAttribute("subtotal", subtotal);
-            model.addAttribute("shipping", shipping);
-            model.addAttribute("total", total);
-        }
+        model.addAttribute("order", order);
+        model.addAttribute("orderProducts", orderProductService.getOrderProductsByOrderId(id));
+        model.addAttribute("subtotal", subtotal);
+        model.addAttribute("shipping", shipping);
+        model.addAttribute("total", total);
 
         return "/user_registered/orders_detail";
     }
