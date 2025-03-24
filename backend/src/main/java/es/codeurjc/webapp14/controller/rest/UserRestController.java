@@ -4,6 +4,8 @@ import es.codeurjc.webapp14.dto.EditUserDTO;
 import es.codeurjc.webapp14.dto.UserDTO;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import es.codeurjc.webapp14.mapper.UserMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/v1/users")
+@Tag(name = "Users", description = "Endpoints for managing Users")
 public class UserRestController {
 
     @Autowired
@@ -69,6 +72,7 @@ public class UserRestController {
         }
     }
 
+    @Operation(summary = "Get User", description = "Return a single User")
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id, @ModelAttribute("userId") long userId) {
 
@@ -81,6 +85,7 @@ public class UserRestController {
         return ResponseEntity.ok(user);
     }
 
+    @Operation(summary = "Get User Image", description = "Return a single User Image")
     @GetMapping("/image")
     public ResponseEntity<Object> getUserImage(@ModelAttribute("userId") long userId) throws SQLException, IOException {
 
@@ -92,6 +97,7 @@ public class UserRestController {
                 .body(userImage);
     }
 
+    @Operation(summary = "Get Admin", description = "Return Admin information")
     @GetMapping("/admin")
     public ResponseEntity<UserDTO> getAdmin(@ModelAttribute("admin") boolean isAdmin) {
 
@@ -106,19 +112,7 @@ public class UserRestController {
         return ResponseEntity.ok(userMapper.toDTO(admin));
     }
 
-    /*
-     * @GetMapping("/email/{email}")
-     * public ResponseEntity<UserDTO> getUserByEmail(@PathVariable String email) {
-     * User user = userService.findByEmail(email);
-     * 
-     * if (user == null) {
-     * return ResponseEntity.notFound().build();
-     * }
-     * 
-     * return ResponseEntity.ok(userMapper.toDTO(user));
-     * }
-     */
-
+    @Operation(summary = "Edit User", description = "Edit the actual User")
     @PutMapping()
     public UserDTO editUser(@ModelAttribute("userId") Long userId,
             @RequestBody EditUserDTO editUserDTO,
@@ -145,6 +139,7 @@ public class UserRestController {
         }
     }
 
+    @Operation(summary = "Edit User Image", description = "Edit the actual User Image")
     @PutMapping("/image")
     public ResponseEntity<Object> replaceUserImage(@ModelAttribute("userId") long userId,
             @RequestParam MultipartFile imageFile) throws IOException {
@@ -155,6 +150,8 @@ public class UserRestController {
 
     }
 
+
+    @Operation(summary = "Delete User", description = "Delete the actual User")
     @DeleteMapping()
     public UserDTO deleteUser(@ModelAttribute("userId") long userId) {
         UserDTO user = userService.findById(userId);
@@ -162,6 +159,7 @@ public class UserRestController {
         return user;
     }
 
+    @Operation(summary = "Delete User Image", description = "Delete the actual User Image")
     @DeleteMapping("/image")
     public ResponseEntity<Object> deleteUserImage(@ModelAttribute("userId") long userId) throws IOException {
 

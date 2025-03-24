@@ -4,6 +4,8 @@ import es.codeurjc.webapp14.dto.OrderDTO;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.service.OrderService;
 import es.codeurjc.webapp14.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,9 +17,11 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/v1/users/orders")
+@Tag(name = "Orders", description = "Endpoints for managing Orders from a User")
 public class UserOrdersRestController {
 
     @Autowired
@@ -49,6 +53,7 @@ public class UserOrdersRestController {
         }
     }
 
+    @Operation(summary = "Get User Orders", description = "Return Orders from the actual User")
     @GetMapping
     public List<OrderDTO> getUserOrders(@ModelAttribute("userId") long userId) {
 
@@ -58,17 +63,18 @@ public class UserOrdersRestController {
 
     }
 
+    @Operation(summary = "Get Order", description = "Return a single Order")
     @GetMapping("/{id}")
     public OrderDTO getOrderById(@PathVariable Long id, @ModelAttribute("userId") long userId) {
 
         OrderDTO order = orderService.getOrderProductById(id,userId);
 
         if (!order.isPaid()) {
-            return null;
+			throw new NoSuchElementException();
         }
 
         if (userId == 0 || !order.userId().equals(userId)) {
-            return null;
+			throw new NoSuchElementException();
         }
 
         return order;

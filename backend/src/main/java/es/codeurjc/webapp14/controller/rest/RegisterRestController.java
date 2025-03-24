@@ -1,7 +1,6 @@
 package es.codeurjc.webapp14.controller.rest;
 
 
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 import java.io.IOException;
 import java.net.URI;
@@ -28,11 +27,13 @@ import es.codeurjc.webapp14.dto.UserDTO;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.service.OrderService;
 import es.codeurjc.webapp14.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/v1/user")
-
+@Tag(name = "User", description = "Endpoints for managing User registration")
 public class RegisterRestController {
 
     @Autowired
@@ -67,7 +68,7 @@ public class RegisterRestController {
     }
 
 
-
+    @Operation(summary = "Register User", description = "Register and save a User in the database")
     @PostMapping
     public ResponseEntity<UserDTO> registerUser(@RequestBody NewUserDTO newUserDTO,
             BindingResult result,
@@ -90,6 +91,7 @@ public class RegisterRestController {
         }
     }
 
+    @Operation(summary = "Add User Image", description = "Save a UserImage in the database")
     @PostMapping("/image")
     public ResponseEntity<Object> createUserImage(@ModelAttribute("userId") long userId,
                                                     @RequestParam MultipartFile imageFile) throws IOException {

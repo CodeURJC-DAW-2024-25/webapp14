@@ -2,6 +2,9 @@ package es.codeurjc.webapp14.controller.rest;
 
 import es.codeurjc.webapp14.dto.UserDTO;
 import es.codeurjc.webapp14.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +14,13 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/v1/admin/users")
+@Tag(name = "Admin_Users", description = "Endpoints for managing Users as an admin")
 public class AdminUsersRestController {
 
     @Autowired
     private UserService userService;
 
+    @Operation(summary = "Get Users", description = "Return all the Users created")
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAdminUsers(
             @RequestParam(defaultValue = "0") int page,
@@ -40,6 +45,7 @@ public class AdminUsersRestController {
         return ResponseEntity.ok(data);
     }
 
+    @Operation(summary = "Get User", description = "Return a single User")
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Long id) {
 
@@ -49,6 +55,7 @@ public class AdminUsersRestController {
     }
 
 
+    @Operation(summary = "Ban User", description = "Update a User to banned")
     @PatchMapping("/{id}/banned")
     public UserDTO banUser(@PathVariable Long id) {
 
@@ -57,6 +64,7 @@ public class AdminUsersRestController {
         return user;
     }
 
+    @Operation(summary = "UnBan User", description = "Update a User to unbanned")
     @PatchMapping("/{id}/unbanned")
     public UserDTO unbanUser(@PathVariable Long id) {
 

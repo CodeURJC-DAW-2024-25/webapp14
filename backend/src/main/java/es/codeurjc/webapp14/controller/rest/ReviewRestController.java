@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,14 +28,14 @@ import es.codeurjc.webapp14.dto.ReviewDTO;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.service.ReviewService;
 import es.codeurjc.webapp14.service.UserService;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
-
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
 
 
 @RestController
 @RequestMapping("/api/v1/reviews")
+@Tag(name = "Reviews", description = "Endpoints for managing reviews")
 public class ReviewRestController {
 
     @Autowired
@@ -68,17 +67,20 @@ public class ReviewRestController {
         }
     }
 
+    @Operation(summary = "Get all the Reviews", description = "Return all the Reviews created")
     @GetMapping("/all")
     public List<ReviewDTO> getReviews() {
         return reviewService.getAllReviews();
     }
 
+    @Operation(summary = "Get Reviews", description = "Return a single review")
     @GetMapping("/{id}")
     public ReviewDTO getReview(@PathVariable Long id) {
         return reviewService.getReviewById(id);
     }
 
 
+    @Operation(summary = "Create Review", description = "Create and save a Review on the databse")
     @PostMapping("/{productId}")
     public ResponseEntity<ReviewDTO> createReview(@ModelAttribute("userId") long userId, Model model, @RequestBody NewReviewRequestDTO newReviewRequestDTO, @PathVariable Long productId) throws IOException, SQLException {
 
@@ -89,6 +91,7 @@ public class ReviewRestController {
 
     }
 
+    @Operation(summary = "Report Review", description = "Report a Review from a User")
     @PatchMapping("/{reviewId}")
     public ResponseEntity<ReviewDTO> reportReview(@ModelAttribute("userId") long userId, 
                                                 @PathVariable Long reviewId) {
@@ -110,6 +113,7 @@ public class ReviewRestController {
 		return newReviewDTO;
 	}
 
+    @Operation(summary = "Edit Review", description = "Edit a created Review")
     @PutMapping("/{reviewId}/{productId}")
     public ReviewDTO replaceReview(@ModelAttribute("userId") long userId, Model model, @RequestBody NewReviewRequestDTO newReviewRequestDTO, @PathVariable Long reviewId, @PathVariable Long productId) throws IOException, SQLException {
 
@@ -117,6 +121,7 @@ public class ReviewRestController {
   
     }
 
+    @Operation(summary = "Delete Review", description = "Delete a created Review")
     @DeleteMapping("/{reviewId}/{productId}")
     public ReviewDTO deleteReview(@ModelAttribute("userId") long userId, Model model, @PathVariable Long reviewId, @PathVariable Long productId) throws IOException, SQLException {
         

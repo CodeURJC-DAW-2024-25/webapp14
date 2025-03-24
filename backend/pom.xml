@@ -206,7 +206,6 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-                            <skipValidateSpec>true</skipValidateSpec>
 							<generatorName>html2</generatorName>
 							<inputSpec>${project.basedir}/api-docs/api-docs.yaml</inputSpec>
 							<output>${project.basedir}/api-docs/</output>

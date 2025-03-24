@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.service.ProductService;
 import es.codeurjc.webapp14.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/index")
+@Tag(name = "Index", description = "Endpoints for managing Products from the Index")
 public class IndexRestController {
 
     @Autowired
@@ -47,6 +50,7 @@ public class IndexRestController {
     }
 
 
+    @Operation(summary = "Get index Products", description = "Return the products based on the implemented algorithm")
     @GetMapping
     public Map<String, Object> getIndexData(HttpServletRequest request, @RequestParam(defaultValue = "0") int page,
     @RequestParam(defaultValue = "10") int size, @ModelAttribute("userId") long userId) {

@@ -4,6 +4,8 @@ import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.service.OrderService;
 import es.codeurjc.webapp14.service.ProductService;
 import es.codeurjc.webapp14.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import es.codeurjc.webapp14.dto.OrderDTO;
 import es.codeurjc.webapp14.dto.ProductDTO;
@@ -12,7 +14,6 @@ import es.codeurjc.webapp14.dto.UserDTO;
 import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/cart")
+@Tag(name = "Cart", description = "Endpoints for managing the cart of a User")
 public class CartRestController {
     @Autowired
     private OrderService orderService;
@@ -56,6 +58,7 @@ public class CartRestController {
         }
     }
 
+    @Operation(summary = "Get Cart", description = "Return the cart of the actual User")
     @GetMapping
     public OrderDTO getCart(@ModelAttribute("userId") long userId) {
 
@@ -64,6 +67,7 @@ public class CartRestController {
         return order;
     }
 
+    @Operation(summary = "Add to Cart", description = "Add a Product to the cart of the actual User")
     @PostMapping("/{id}")
     public ResponseEntity<OrderDTO> addToCart(@ModelAttribute("userId") long userId, @PathVariable("id") Long id,  @RequestParam("size") String size,
     @RequestParam("quantity") int quantity) {
@@ -79,6 +83,7 @@ public class CartRestController {
         return ResponseEntity.created(location).body(createdOrder);
     }
 
+    @Operation(summary = "Remove from Cart", description = "Remove a Product from the cart of the actual User")
     @PatchMapping("/{id}")
     public OrderDTO removeFromCart(@PathVariable("id") Long orderProductId, @ModelAttribute("userId") Long userId) {
 
@@ -88,6 +93,7 @@ public class CartRestController {
     }
 
 
+    @Operation(summary = "Proccess Cart", description = "Update the cart of the actual User to the state paid")
     @PatchMapping
     public OrderDTO proccess(@ModelAttribute("userId") Long userId) {
 

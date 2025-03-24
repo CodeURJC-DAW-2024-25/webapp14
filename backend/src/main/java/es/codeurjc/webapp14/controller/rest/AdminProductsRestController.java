@@ -6,6 +6,9 @@ import es.codeurjc.webapp14.dto.OrderProductDTO;
 
 import es.codeurjc.webapp14.service.OrderProductService;
 import es.codeurjc.webapp14.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
@@ -27,6 +31,7 @@ import static org.springframework.web.servlet.support.ServletUriComponentsBuilde
 
 @RestController
 @RequestMapping("/api/v1/admin/products")
+@Tag(name = "Admin_Products", description = "Endpoints for managing Products as an admin")
 public class AdminProductsRestController {
 
     @Autowired
@@ -38,6 +43,7 @@ public class AdminProductsRestController {
     private List<String> categories = new ArrayList<>(
             Arrays.asList("Abrigos", "Camisetas", "Pantalones", "jerséis"));
 
+    @Operation(summary = "Get Products", description = "Return all the Products created")
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAdminProducts(
             @RequestParam(defaultValue = "0") int page,
@@ -65,6 +71,7 @@ public class AdminProductsRestController {
         return ResponseEntity.ok(data);
     }
 
+    @Operation(summary = "Get out of stock Products", description = "Return all the Products out of stock")
     @GetMapping("/out-of-stock")
     public List<ProductDTO> getOutOfStockProducts(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -73,6 +80,7 @@ public class AdminProductsRestController {
 
     }
 
+    @Operation(summary = "Create Product", description = "Create and save a Product on the database")
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@RequestBody NewProductRequestDTO newProductRequestDTO,
     @RequestParam(value = "stock_S", required = false, defaultValue = "0") int stockS,
@@ -102,6 +110,7 @@ public class AdminProductsRestController {
     }
 
 
+    @Operation(summary = "Create Product Image", description = "Create and save an Image for a Product on the database")
     @PostMapping("/{id}/image")
     public ResponseEntity<Object> createProductImage(@PathVariable long id,
                                                     @RequestParam MultipartFile imageFile) throws IOException {
@@ -112,6 +121,7 @@ public class AdminProductsRestController {
         return ResponseEntity.created(location).build();
     }
 
+    @Operation(summary = "Edit Product Image", description = "Edit a created Produc Image")
     @PutMapping("/{id}/image")
     public ResponseEntity<Object> replaceProdcutImage( @PathVariable long id, @RequestParam MultipartFile imageFile) throws IOException {
 
@@ -121,6 +131,7 @@ public class AdminProductsRestController {
 
     }
 
+    @Operation(summary = "Edit Product", description = "Edit a created Product")
     @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> replaceProduct(@RequestBody ProductDTO ProductDTO,
     @RequestParam(value = "stock_S", required = false, defaultValue = "0") int stockS,
@@ -146,6 +157,8 @@ public class AdminProductsRestController {
         return newProductDTO;
     }
 
+
+    @Operation(summary = "Delete Product Image", description = "Delete a created Product Image")
     @DeleteMapping("/{id}/image")
 	public ResponseEntity<Object> deleteProductImage(@PathVariable long id) throws IOException {
 
@@ -156,6 +169,7 @@ public class AdminProductsRestController {
 
 
 
+    @Operation(summary = "Delete Product", description = "Delete a created Product")
     @DeleteMapping("/{id}")
     public ProductDTO deleteProduct(@PathVariable Long id) {
         ProductDTO product = productService.getProductById(id);
@@ -173,7 +187,7 @@ public class AdminProductsRestController {
         }
 
         if (!deleteOk) {
-            return null;
+            throw new NoSuchElementException();
         }
 
         productService.delete(id);

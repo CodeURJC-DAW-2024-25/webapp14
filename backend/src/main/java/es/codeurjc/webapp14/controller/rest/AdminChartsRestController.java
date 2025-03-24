@@ -3,9 +3,12 @@ package es.codeurjc.webapp14.controller.rest;
 import es.codeurjc.webapp14.service.OrderService;
 import es.codeurjc.webapp14.service.ProductService;
 import es.codeurjc.webapp14.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -13,6 +16,7 @@ import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/v1/admin/charts")
+@Tag(name = "Admin_Charts", description = "Endpoints for admin charts")
 public class AdminChartsRestController {
 
     @Autowired
@@ -24,6 +28,8 @@ public class AdminChartsRestController {
     @Autowired
     private ProductService productService;
 
+    @Operation(summary = "Get Charts", description = "Return the information showed in the charts")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<Map<String, Object>> getChartsData() {
         Map<String, Object> data = new HashMap<>();
