@@ -229,6 +229,16 @@ I was responsible for implementing the entities, primarily the relationships, as
 5.  You can access the application at the following URL:
 
     https://appweb14.dawgis.etsii.urjc.es:8443
+
+    You can also test the application using the following accounts:
+    
+    **Admin**:
+    - username: laura1@gmail.com
+    - password: Laura.53
+  
+    **User**:
+    - username: pacoG@gmail.com
+    - password: 12345
 7.  To stop the deployment execute the following command:
     ```
     docker compose down
