@@ -258,14 +258,15 @@ Here you can find the API REST documentation, generated with OpenAPI and availab
 ### 🤝 PARTICIPATION
 
 ### **Ikram El Jauhari Al Jaouhari**
+I have been responsible for adapting the Product and Admin controllers in the web part so that they only work with DTOs and bringing the logic to the corresponding files in service. In addition, I've been responsible for adapting the Review entity to work in the Rest API, including creating ReviewDTO, NewReviewRequestDTO, and BasicReviewDTO, and adapting ReviewRepository and ReviewService for entity-DTO transformations. On the other hand, I have also been in charge of creating the endpoints for the Rest controllers: Category, ProductDetails and AdminUsers. Finally, I have participated in the objective of maintaining security in the API Rest part by setting the permissions of each path
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| | |
-|2| | |
-|3| | |
-|4| | |
-|5| | |
+|1|[Added REST controllers for index, category and productDetails](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/6703e0683fd0d6dc8cc46db4c9d4534244f1438c)|[ProductDetailRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/java/es/codeurjc/webapp14/controller/rest/ProductDetailRestController.java)|
+|2|[Updated ReviewService and ReviewRepository](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/6816f853a666ba9be340f92eeee77ef8ac80ee71)|[ReviewService.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/java/es/codeurjc/webapp14/service/ReviewService.java)|
+|3|[updated adminController](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/3e13dfa84ae236aa8b713d595a1c7bb007990215)|[AdminController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/java/es/codeurjc/webapp14/controller/web/AdminController.java)|
+|4|[updated ProductController](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/77a834fd4d059aef7871b447aa92cb68adf5d6e0)|[ProductController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/java/es/codeurjc/webapp14/controller/web/ProductController.java)|
+|5|[updated Path permissions](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/9fa5fbfb0ddf261869251ed89c7009e2bc2286e3)|[SecurityConfig.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/java/es/codeurjc/webapp14/security/SecurityConfig.java)|
 
 ### **Alberto Mayoral Gómez**
 I have been responsible for adapting the files related to the Product entity when developing the REST API. This included creating the corresponding DTOs, adapting the ProductService, and modifying the involved Controllers. I also created the endpoints for these requests in the RestController files. Additionally, I took care of part of the security for the REST API and ensured the correct use of response codes. Lastly, I generated a Postman file to verify the correct implementation of the endpoints and the corresponding documentation (apidoc)
