@@ -279,11 +279,11 @@ I have been responsible for the user logic in the backend of the application. Th
 |5|[Added AdminOrdersRestController](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/b77f8d363120496d1f991a2b7f36eb6d01ba62af)|[UserOrdersRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/java/es/codeurjc/webapp14/controller/rest/UserOrdersRestController.java)
 
 ### **Jorge Ramírez Gayo**
-
+I have worked on adapting some services and repositories for the REST API and creating their corresponding DTOs and mappers. I have also implemented the endpoints for graphs, index, searches, and images. Finally, I have also helped deploy the application in Docker with environment variables
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| | |
-|2| | |
-|3| | |
-|4| | |
-|5| | |
+|1|[Updated repositories and services](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/07d0d51d97edd8585815f56401ca1c5a3ef6d13a)|[OrderService.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/07d0d51d97edd8585815f56401ca1c5a3ef6d13a#diff-8ba26ea880e76446fe5c0773c01c1fe78e3a5cf71c93f61f6a65ee31720ebbfb)|
+|2|[Updated charts endpoint](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/3e5ca6faa0d1c460332d623af313cb26cf444ea3)|[AdminChartsRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/3e5ca6faa0d1c460332d623af313cb26cf444ea3#diff-b28d98d2b1f5c72304ba55953e94f01d9134cbcd4b5dcfb60362c648c4541214)|
+|3|[Updated index endpoint](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/b4dc47940c9dd5eddb5bef42672f7096f6e677b9)|[IndexRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/b4dc47940c9dd5eddb5bef42672f7096f6e677b9#diff-31ba910cf314c0efcc869a689bf4308639b1d449b9550b917975658543d41f2d)|
+|4|[Implemented search endpoint](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/97021bf9b27b1819bcb2263eea9d4b24b89f721f)|[SearchRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/97021bf9b27b1819bcb2263eea9d4b24b89f721f#diff-fce8d4f9566b1df790e4fbf59051779236f35c060e708361c2241d353a5b8fcf)|
+|5|[Updated ImageController](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/81e9c41abaff7d76a9969502066b649b8d94aaf9)|[ImageController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/b4dc47940c9dd5eddb5bef42672f7096f6e677b9#diff-31ba910cf314c0efcc869a689bf4308639b1d449b9550b917975658543d41f2d)|
