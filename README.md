@@ -158,6 +158,50 @@ I was responsible for implementing the entities, primarily the relationships, as
 
 ###  🛠️ EXECUTION INSTRUCTIONS
 
+### **Docker execution instructions**
+
+- Docker has to be installed
+
+1.  Clone the repository:
+    ```
+    git clone https://github.com/CodeURJC-DAW-2024-25/webapp14
+    ```
+2.  Go to the directory where the docker-compose.yml file is located:
+    ```
+    cd webapp14/backend/docker
+    ```
+3.  Start the application using Docker Compose with the following command:
+    ```
+    docker compose up -d
+    ```
+4.  You can access the application at the following URL:
+
+    https://localhost:8443/index
+5.  To stop the deployment execute the following command:
+    ```
+    docker compose down
+    ```
+
+### **Building the docker image**    
+
+- Docker has to be installed
+
+1.  Clone the repository:
+    ```
+    git clone https://github.com/CodeURJC-DAW-2024-25/webapp14
+    ```
+2.  Go to the directory where the create_image.sh file is located:
+    ```
+    cd webapp14/backend/docker
+    ```
+3.  Build the Docker image using using these commands:
+    ```
+    chmod +x create_image.sh
+    ```
+    ```
+    ./create_image.sh
+    ```
+
 ### **Deployment Steps**
 
 - You must be connected to the university network. If you access from outside, you must use the Windows or Ubuntu development desktop in MyApps
@@ -176,7 +220,7 @@ I was responsible for implementing the entities, primarily the relationships, as
     ```
 3.  Go to the directory where the docker-compose.yml file is located:
     ```
-    cd webapp04/backend/docker
+    cd webapp14/backend/docker
     ```
 4.  Start the application using Docker Compose with the following command:
     ```
@@ -184,13 +228,13 @@ I was responsible for implementing the entities, primarily the relationships, as
     ```
 5.  You can access the application at the following URL:
 
-    https://appweb14.dawgis.etsii.urjc.es:8443/index
+    https://appweb14.dawgis.etsii.urjc.es:8443
 7.  To stop the deployment execute the following command:
     ```
     docker compose down
     ```
 
-### 📖 API REST Documentation
+### 📖 API REST DOCUMENTATION
 
 Here you can find the API REST documentation, generated with OpenAPI and available in the following formats:
 
