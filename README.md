@@ -244,15 +244,15 @@ I was responsible for implementing the entities, primarily the relationships, as
     docker compose down
     ```
 
-### 📖 API REST DOCUMENTATION
+### 📖 API REST Documentation
 
 Here you can find the API REST documentation, generated with OpenAPI and available in the following formats:
 
 🔹 **OpenAPI Specification (YAML):**  
-[📄 View api-docs.yaml](https://github.com/USER/REPO/blob/main/api-docs/api-docs.yaml)
+[📄 View api-docs.yaml](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/api-docs/api-docs.yaml)
 
 🔹 **Interactive HTML Documentation:**  
-[🌐 View api-docs.html](https://raw.githack.com/USER/REPO/main/api-docs/api-docs.html)
+[🌐 View api-docs.html](https://raw.githack.com/CodeURJC-DAW-2024-25/webapp14/main/backend/api-docs/api-docs.html)
 
 
 ### 🤝 PARTICIPATION
