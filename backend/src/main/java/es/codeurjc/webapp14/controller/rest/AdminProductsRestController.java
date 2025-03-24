@@ -89,7 +89,7 @@ public class AdminProductsRestController {
     @RequestParam(value = "stock_XL", required = false, defaultValue = "0") int stockXL) {
         try {
             ProductDTO product = create(newProductRequestDTO, stockS, stockM, stockL, stockXL);
-            URI location = URI.create("https://localhost:8443/api/v1/products" + product.id());
+            URI location = URI.create("https://localhost:8443/api/v1/products/" + product.id());
             return ResponseEntity.created(location).body(product);
         } catch (SQLException | IOException e) {
             e.printStackTrace();
@@ -133,7 +133,7 @@ public class AdminProductsRestController {
 
     @Operation(summary = "Edit Product", description = "Edit a created Product")
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> replaceProduct(@RequestBody ProductDTO ProductDTO,
+    public ProductDTO replaceProduct(@RequestBody ProductDTO ProductDTO,
     @RequestParam(value = "stock_S", required = false, defaultValue = "0") int stockS,
     @RequestParam(value = "stock_M", required = false, defaultValue = "0") int stockM,
     @RequestParam(value = "stock_L", required = false, defaultValue = "0") int stockL,
@@ -141,11 +141,10 @@ public class AdminProductsRestController {
     @PathVariable Long id) {
         try {
             ProductDTO product = replace(id, ProductDTO, stockS, stockM, stockL, stockXL);
-            URI location = fromCurrentRequest().path("/{id}").buildAndExpand(product.id()).toUri();
-            return ResponseEntity.created(location).body(product);
+            return product;
         } catch (SQLException | IOException e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            throw new NoSuchElementException();
         }
     }
 
