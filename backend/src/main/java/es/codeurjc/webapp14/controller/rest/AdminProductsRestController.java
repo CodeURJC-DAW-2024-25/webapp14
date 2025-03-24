@@ -22,9 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
 
 
 
@@ -68,8 +65,6 @@ public class AdminProductsRestController {
         return ResponseEntity.ok(data);
     }
 
-
-    //MAKE IT PAGINATED
     @GetMapping("/out-of-stock")
     public List<ProductDTO> getOutOfStockProducts(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -77,9 +72,6 @@ public class AdminProductsRestController {
         return productService.getProductsWithAllSizesOutOfStock();
 
     }
-
-
-
 
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct(@RequestBody NewProductRequestDTO newProductRequestDTO,
@@ -89,7 +81,7 @@ public class AdminProductsRestController {
     @RequestParam(value = "stock_XL", required = false, defaultValue = "0") int stockXL) {
         try {
             ProductDTO product = create(newProductRequestDTO, stockS, stockM, stockL, stockXL);
-            URI location = fromCurrentRequest().path("/{id}").buildAndExpand(product.id()).toUri();
+            URI location = URI.create("https://localhost:8443/api/v1/products" + product.id());
             return ResponseEntity.created(location).body(product);
         } catch (SQLException | IOException e) {
             e.printStackTrace();
@@ -114,7 +106,7 @@ public class AdminProductsRestController {
     public ResponseEntity<Object> createProductImage(@PathVariable long id,
                                                     @RequestParam MultipartFile imageFile) throws IOException {
 
-        URI location = fromCurrentRequest().build().toUri();
+        URI location = URI.create("https://localhost:8443/api/v1/products/" + id + "/image");
         productService.createProductImage(id, location, imageFile.getInputStream(), imageFile.getSize());
 
         return ResponseEntity.created(location).build();

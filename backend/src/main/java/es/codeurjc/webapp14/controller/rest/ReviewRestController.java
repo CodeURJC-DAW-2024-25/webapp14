@@ -1,6 +1,7 @@
 package es.codeurjc.webapp14.controller.rest;
 
 import java.io.IOException;
+import java.net.URI;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +31,9 @@ import es.codeurjc.webapp14.service.ReviewService;
 import es.codeurjc.webapp14.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+
+import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
+
 
 @RestController
 @RequestMapping("/api/v1/reviews")
@@ -79,7 +83,9 @@ public class ReviewRestController {
     public ResponseEntity<ReviewDTO> createReview(@ModelAttribute("userId") long userId, Model model, @RequestBody NewReviewRequestDTO newReviewRequestDTO, @PathVariable Long productId) throws IOException, SQLException {
 
         ReviewDTO createdReview = createOrReplaceReview(newReviewRequestDTO, null, userId, productId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdReview);
+        URI location = URI.create("https://localhost:8443/api/v1/reviews/" + createdReview.id());
+
+		return ResponseEntity.created(location).body(createdReview);
 
     }
 

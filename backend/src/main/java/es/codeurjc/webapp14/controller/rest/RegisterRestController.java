@@ -8,6 +8,7 @@ import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -68,23 +69,24 @@ public class RegisterRestController {
 
 
     @PostMapping
-    public UserDTO registerUser(@RequestBody NewUserDTO newUserDTO,
+    public ResponseEntity<UserDTO> registerUser(@RequestBody NewUserDTO newUserDTO,
             BindingResult result,
             Model model) {
 
         userService.validateNewUser(newUserDTO, result);
 
         if (result.hasErrors()) {
-            return null;
+            throw new AccessDeniedException("User invalid");
         }
 
         try {
             String encodedPassword = passwordEncoder.encode(newUserDTO.encodedPassword());
             UserDTO newUser = userService.registerUser(newUserDTO, encodedPassword);
             orderService.listProducts(newUser.id());
-            return newUser;
+            URI location = URI.create("https://localhost:8443/api/v1/users/" + newUser.id());
+            return ResponseEntity.created(location).body(newUser);
         } catch (IllegalArgumentException e) {
-           return null;
+           throw new AccessDeniedException("User invalid");
         }
     }
 
@@ -92,7 +94,8 @@ public class RegisterRestController {
     public ResponseEntity<Object> createUserImage(@ModelAttribute("userId") long userId,
                                                     @RequestParam MultipartFile imageFile) throws IOException {
 
-        URI location = fromCurrentRequest().build().toUri();
+        URI location = URI.create("https://localhost:8443/api/v1/users/image");
+
         userService.createUserImage(userId, location, imageFile.getInputStream(), imageFile.getSize());
 
         return ResponseEntity.created(location).build();

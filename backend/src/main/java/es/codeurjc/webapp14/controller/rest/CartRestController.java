@@ -8,6 +8,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import es.codeurjc.webapp14.dto.OrderDTO;
 import es.codeurjc.webapp14.dto.ProductDTO;
 import es.codeurjc.webapp14.dto.UserDTO;
+
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,8 +74,9 @@ public class CartRestController {
 
         OrderDTO createdOrder = orderService.addToCart(id, user,product,size,quantity);
         
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(createdOrder);
+        URI location = URI.create("https://localhost:8443/api/v1/cart");
+
+        return ResponseEntity.created(location).body(createdOrder);
     }
 
     @PatchMapping("/{id}")
