@@ -5,11 +5,38 @@ info:
 servers:
 - url: http://localhost:8443
   description: Generated server url
+tags:
+- name: Admin_Users
+  description: Endpoints for managing Users as an admin
+- name: Category
+  description: Endpoints for managing Products of a category
+- name: Index
+  description: Endpoints for managing Products from the Index
+- name: Products
+  description: Endpoints for managing Products
+- name: Orders
+  description: Endpoints for managing Orders from a User
+- name: Admin_Charts
+  description: Endpoints for admin charts
+- name: Admin_Orders
+  description: Endpoints for managing Orders as an admin
+- name: Search
+  description: Endpoints for managing search bar
+- name: User
+  description: Endpoints for managing User registration
+- name: Admin_Products
+  description: Endpoints for managing Products as an admin
+- name: Reviews
+  description: Endpoints for managing reviews
+- name: Users
+  description: Endpoints for managing Users
+- name: Cart
+  description: Endpoints for managing the cart of a User
 paths:
   /api/v1/users:
     get:
       tags:
-      - user-rest-controller
+      - Users
       operationId: getUsers
       responses:
         "200":
@@ -22,7 +49,9 @@ paths:
                   $ref: "#/components/schemas/UserDTO"
     put:
       tags:
-      - user-rest-controller
+      - Users
+      summary: Edit User
+      description: Edit the actual User
       operationId: editUser
       parameters:
       - name: userId
@@ -46,7 +75,9 @@ paths:
                 $ref: "#/components/schemas/UserDTO"
     delete:
       tags:
-      - user-rest-controller
+      - Users
+      summary: Delete User
+      description: Delete the actual User
       operationId: deleteUser
       parameters:
       - name: userId
@@ -65,7 +96,9 @@ paths:
   /api/v1/users/image:
     get:
       tags:
-      - user-rest-controller
+      - Users
+      summary: Get User Image
+      description: Return a single User Image
       operationId: getUserImage
       parameters:
       - name: userId
@@ -83,7 +116,9 @@ paths:
                 type: object
     put:
       tags:
-      - user-rest-controller
+      - Users
+      summary: Edit User Image
+      description: Edit the actual User Image
       operationId: replaceUserImage
       parameters:
       - name: userId
@@ -112,7 +147,9 @@ paths:
                 type: object
     delete:
       tags:
-      - user-rest-controller
+      - Users
+      summary: Delete User Image
+      description: Delete the actual User Image
       operationId: deleteUserImage
       parameters:
       - name: userId
@@ -131,7 +168,9 @@ paths:
   /api/v1/reviews/{reviewId}/{productId}:
     put:
       tags:
-      - review-rest-controller
+      - Reviews
+      summary: Edit Review
+      description: Edit a created Review
       operationId: replaceReview
       parameters:
       - name: userId
@@ -167,7 +206,9 @@ paths:
                 $ref: "#/components/schemas/ReviewDTO"
     delete:
       tags:
-      - review-rest-controller
+      - Reviews
+      summary: Delete Review
+      description: Delete a created Review
       operationId: deleteReview
       parameters:
       - name: userId
@@ -198,7 +239,9 @@ paths:
   /api/v1/admin/products/{id}:
     put:
       tags:
-      - admin-products-rest-controller
+      - Admin_Products
+      summary: Edit Product
+      description: Edit a created Product
       operationId: replaceProduct
       parameters:
       - name: stock_S
@@ -250,7 +293,9 @@ paths:
                 $ref: "#/components/schemas/ProductDTO"
     delete:
       tags:
-      - admin-products-rest-controller
+      - Admin_Products
+      summary: Delete Product
+      description: Delete a created Product
       operationId: deleteProduct
       parameters:
       - name: id
@@ -269,7 +314,9 @@ paths:
   /api/v1/admin/products/{id}/image:
     put:
       tags:
-      - admin-products-rest-controller
+      - Admin_Products
+      summary: Edit Product Image
+      description: Edit a created Produc Image
       operationId: replaceProdcutImage
       parameters:
       - name: id
@@ -298,7 +345,9 @@ paths:
                 type: object
     post:
       tags:
-      - admin-products-rest-controller
+      - Admin_Products
+      summary: Create Product Image
+      description: Create and save an Image for a Product on the database
       operationId: createProductImage
       parameters:
       - name: id
@@ -327,7 +376,9 @@ paths:
                 type: object
     delete:
       tags:
-      - admin-products-rest-controller
+      - Admin_Products
+      summary: Delete Product Image
+      description: Delete a created Product Image
       operationId: deleteProductImage
       parameters:
       - name: id
@@ -346,7 +397,9 @@ paths:
   /api/v1/user:
     post:
       tags:
-      - register-rest-controller
+      - User
+      summary: Register User
+      description: Register and save a User in the database
       operationId: registerUser
       requestBody:
         content:
@@ -364,7 +417,9 @@ paths:
   /api/v1/user/image:
     post:
       tags:
-      - register-rest-controller
+      - User
+      summary: Add User Image
+      description: Save a UserImage in the database
       operationId: createUserImage
       parameters:
       - name: userId
@@ -394,7 +449,9 @@ paths:
   /api/v1/reviews/{productId}:
     post:
       tags:
-      - review-rest-controller
+      - Reviews
+      summary: Create Review
+      description: Create and save a Review on the databse
       operationId: createReview
       parameters:
       - name: userId
@@ -425,7 +482,9 @@ paths:
   /api/v1/cart/{id}:
     post:
       tags:
-      - cart-rest-controller
+      - Cart
+      summary: Add to Cart
+      description: Add a Product to the cart of the actual User
       operationId: addToCart
       parameters:
       - name: userId
@@ -460,7 +519,9 @@ paths:
                 $ref: "#/components/schemas/OrderDTO"
     patch:
       tags:
-      - cart-rest-controller
+      - Cart
+      summary: Remove from Cart
+      description: Remove a Product from the cart of the actual User
       operationId: removeFromCart
       parameters:
       - name: id
@@ -533,7 +594,9 @@ paths:
   /api/v1/admin/products:
     get:
       tags:
-      - admin-products-rest-controller
+      - Admin_Products
+      summary: Get Products
+      description: Return all the Products created
       operationId: getAdminProducts
       parameters:
       - name: page
@@ -561,7 +624,9 @@ paths:
                   type: object
     post:
       tags:
-      - admin-products-rest-controller
+      - Admin_Products
+      summary: Create Product
+      description: Create and save a Product on the database
       operationId: createProduct
       parameters:
       - name: stock_S
@@ -608,7 +673,9 @@ paths:
   /api/v1/reviews/{reviewId}:
     patch:
       tags:
-      - review-rest-controller
+      - Reviews
+      summary: Report Review
+      description: Report a Review from a User
       operationId: reportReview
       parameters:
       - name: userId
@@ -633,7 +700,9 @@ paths:
   /api/v1/cart:
     get:
       tags:
-      - cart-rest-controller
+      - Cart
+      summary: Get Cart
+      description: Return the cart of the actual User
       operationId: getCart
       parameters:
       - name: userId
@@ -651,7 +720,9 @@ paths:
                 $ref: "#/components/schemas/OrderDTO"
     patch:
       tags:
-      - cart-rest-controller
+      - Cart
+      summary: Proccess Cart
+      description: Update the cart of the actual User to the state paid
       operationId: proccess
       parameters:
       - name: userId
@@ -670,7 +741,9 @@ paths:
   /api/v1/admin/users/{id}/unbanned:
     patch:
       tags:
-      - admin-users-rest-controller
+      - Admin_Users
+      summary: UnBan User
+      description: Update a User to unbanned
       operationId: unbanUser
       parameters:
       - name: id
@@ -689,7 +762,9 @@ paths:
   /api/v1/admin/users/{id}/banned:
     patch:
       tags:
-      - admin-users-rest-controller
+      - Admin_Users
+      summary: Ban User
+      description: Update a User to banned
       operationId: banUser
       parameters:
       - name: id
@@ -708,7 +783,9 @@ paths:
   /api/v1/users/{id}:
     get:
       tags:
-      - user-rest-controller
+      - Users
+      summary: Get User
+      description: Return a single User
       operationId: getUser
       parameters:
       - name: id
@@ -733,7 +810,9 @@ paths:
   /api/v1/users/orders:
     get:
       tags:
-      - user-orders-rest-controller
+      - Orders
+      summary: Get User Orders
+      description: Return Orders from the actual User
       operationId: getUserOrders
       parameters:
       - name: userId
@@ -754,7 +833,9 @@ paths:
   /api/v1/users/orders/{id}:
     get:
       tags:
-      - user-orders-rest-controller
+      - Orders
+      summary: Get Order
+      description: Return a single Order
       operationId: getOrderById
       parameters:
       - name: id
@@ -779,7 +860,9 @@ paths:
   /api/v1/users/admin:
     get:
       tags:
-      - user-rest-controller
+      - Users
+      summary: Get Admin
+      description: Return Admin information
       operationId: getAdmin
       parameters:
       - name: isAdmin
@@ -797,7 +880,9 @@ paths:
   /api/v1/search:
     get:
       tags:
-      - search-rest-controller
+      - Search
+      summary: Get search Products
+      description: Return Products based on the search information
       operationId: getSearchData
       parameters:
       - name: query
@@ -817,7 +902,9 @@ paths:
   /api/v1/reviews/{id}:
     get:
       tags:
-      - review-rest-controller
+      - Reviews
+      summary: Get Reviews
+      description: Return a single review
       operationId: getReview
       parameters:
       - name: id
@@ -836,7 +923,9 @@ paths:
   /api/v1/reviews/all:
     get:
       tags:
-      - review-rest-controller
+      - Reviews
+      summary: Get all the Reviews
+      description: Return all the Reviews created
       operationId: getReviews
       responses:
         "200":
@@ -850,7 +939,9 @@ paths:
   /api/v1/products/{id}:
     get:
       tags:
-      - product-detail-rest-controller
+      - Products
+      summary: Get Product
+      description: Return a single Product
       operationId: getProductDetail
       parameters:
       - name: id
@@ -875,7 +966,9 @@ paths:
   /api/v1/products/{id}/image:
     get:
       tags:
-      - product-detail-rest-controller
+      - Products
+      summary: Get Product Image
+      description: Return a single Product Image
       operationId: getProductImage
       parameters:
       - name: id
@@ -894,7 +987,9 @@ paths:
   /api/v1/index:
     get:
       tags:
-      - index-rest-controller
+      - Index
+      summary: Get index Products
+      description: Return the products based on the implemented algorithm
       operationId: getIndexData
       parameters:
       - name: page
@@ -929,7 +1024,9 @@ paths:
   /api/v1/category/{category}:
     get:
       tags:
-      - category-rest-controller
+      - Category
+      summary: Get category Products
+      description: Return the products that belongs to the category
       operationId: getCategoryData
       parameters:
       - name: category
@@ -956,7 +1053,9 @@ paths:
   /api/v1/admin/users:
     get:
       tags:
-      - admin-users-rest-controller
+      - Admin_Users
+      summary: Get Users
+      description: Return all the Users created
       operationId: getAdminUsers
       parameters:
       - name: page
@@ -985,7 +1084,9 @@ paths:
   /api/v1/admin/users/{id}:
     get:
       tags:
-      - admin-users-rest-controller
+      - Admin_Users
+      summary: Get User
+      description: Return a single User
       operationId: getUser_1
       parameters:
       - name: id
@@ -1004,7 +1105,9 @@ paths:
   /api/v1/admin/products/out-of-stock:
     get:
       tags:
-      - admin-products-rest-controller
+      - Admin_Products
+      summary: Get out of stock Products
+      description: Return all the Products out of stock
       operationId: getOutOfStockProducts
       parameters:
       - name: page
@@ -1033,7 +1136,9 @@ paths:
   /api/v1/admin/orders:
     get:
       tags:
-      - admin-orders-rest-controller
+      - Admin_Orders
+      summary: Get Orders
+      description: Return all the Orders created
       operationId: getAdminOrders
       parameters:
       - name: page
@@ -1062,7 +1167,9 @@ paths:
   /api/v1/admin/charts:
     get:
       tags:
-      - admin-charts-rest-controller
+      - Admin_Charts
+      summary: Get Charts
+      description: Return the information showed in the charts
       operationId: getChartsData
       responses:
         "200":

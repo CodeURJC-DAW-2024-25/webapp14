@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
+import java.util.NoSuchElementException;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,8 +31,14 @@ public class SecurityController implements ErrorController {
     }
 
     @RequestMapping("/error")
-    public void handleError(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.sendRedirect("/no-page-error");
+    public String handleError(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Object statusCode = request.getAttribute("javax.servlet.error.status_code");
+
+        if (statusCode != null && Integer.valueOf(403).equals(statusCode)) {
+            throw new NoSuchElementException();
+        }
+
+        return "access_error";
     }
 
     @GetMapping("/no-page-error")
