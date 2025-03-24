@@ -155,6 +155,38 @@ I was responsible for implementing the entities, primarily the relationships, as
 
 
 # PHASE 2
+
+###  🛠️ EXECUTION INSTRUCTIONS
+
+### **Deployment Steps**
+
+1.  Open a terminal on your system and run one of the following commands to connect to the virtual machine:
+    ```
+    ssh -i ssh-keys/appWeb14.key vmuser@10.100.139.173
+    ```
+    ```
+    ssh -i ssh-keys/appWeb14.key vmuser@appWeb14.dawgis.etsii.urjc.es
+    ```
+2.  Clone the repository to the virtual machine using the following command:
+    ```
+    git clone https://github.com/CodeURJC-DAW-2024-25/webapp14
+    ```
+3.  Go to the directory where the docker-compose.yml file is located:
+    ```
+    cd webapp04/backend/docker
+    ```
+4.  Start the application using Docker Compose with the following command:
+    ```
+    docker compose up -d
+    ```
+5.  You can access the application at the following URL:
+
+    https://appweb14.dawgis.etsii.urjc.es:8443/index
+7.  To stop the deployment execute the following command:
+    ```
+    docker compose down
+    ```  
+
 ### 🤝 PARTICIPATION
 
 ### **Ikram El Jauhari Al Jaouhari**
