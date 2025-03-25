@@ -228,7 +228,7 @@ I was responsible for implementing the entities, primarily the relationships, as
     ```
 5.  You can access the application at the following URL:
 
-    https://appweb14.dawgis.etsii.urjc.es:8443
+    http://appweb14.dawgis.etsii.urjc.es:8443/index
 
     You can also test the application using the following accounts:
     
