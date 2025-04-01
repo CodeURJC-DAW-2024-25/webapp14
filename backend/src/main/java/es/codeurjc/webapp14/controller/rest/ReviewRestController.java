@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
 import java.util.Collections;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +33,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 
 @RestController
-@RequestMapping("/api/v1/reviews")
+@RequestMapping("/api/v1/products")
 @Tag(name = "Reviews", description = "Endpoints for managing reviews")
 public class ReviewRestController {
 
@@ -67,21 +66,22 @@ public class ReviewRestController {
         }
     }
 
-    @Operation(summary = "Get all the Reviews", description = "Return all the Reviews created")
+    /*@Operation(summary = "Get all the Reviews", description = "Return all the Reviews created")
     @GetMapping("/all")
     public List<ReviewDTO> getReviews() {
         return reviewService.getAllReviews();
     }
+    */
 
     @Operation(summary = "Get Reviews", description = "Return a single review")
-    @GetMapping("/{id}")
+    @GetMapping("/{productId}/reviews/{id}")
     public ReviewDTO getReview(@PathVariable Long id) {
         return reviewService.getReviewById(id);
     }
 
 
     @Operation(summary = "Create Review", description = "Create and save a Review on the databse")
-    @PostMapping("/{productId}")
+    @PostMapping("/{productId}/reviews")
     public ResponseEntity<ReviewDTO> createReview(@ModelAttribute("userId") long userId, Model model, @RequestBody NewReviewRequestDTO newReviewRequestDTO, @PathVariable Long productId) throws IOException, SQLException {
 
         ReviewDTO createdReview = createOrReplaceReview(newReviewRequestDTO, null, userId, productId);
@@ -92,7 +92,7 @@ public class ReviewRestController {
     }
 
     @Operation(summary = "Report Review", description = "Report a Review from a User")
-    @PatchMapping("/{reviewId}")
+    @PatchMapping("/{productId}/reviews/{reviewId}")
     public ResponseEntity<ReviewDTO> reportReview(@ModelAttribute("userId") long userId, 
                                                 @PathVariable Long reviewId) {
         ReviewDTO reportedReview = reviewService.reportReview(reviewId);
@@ -114,7 +114,7 @@ public class ReviewRestController {
 	}
 
     @Operation(summary = "Edit Review", description = "Edit a created Review")
-    @PutMapping("/{reviewId}/{productId}")
+    @PutMapping("/{productId}/reviews/{reviewId}")
     public ReviewDTO replaceReview(@ModelAttribute("userId") long userId, Model model, @RequestBody NewReviewRequestDTO newReviewRequestDTO, @PathVariable Long reviewId, @PathVariable Long productId) throws IOException, SQLException {
 
         return createOrReplaceReview(newReviewRequestDTO, reviewId, userId, productId);
@@ -122,7 +122,7 @@ public class ReviewRestController {
     }
 
     @Operation(summary = "Delete Review", description = "Delete a created Review")
-    @DeleteMapping("/{reviewId}/{productId}")
+    @DeleteMapping("/{productId}/reviews/{reviewId}")
     public ReviewDTO deleteReview(@ModelAttribute("userId") long userId, Model model, @PathVariable Long reviewId, @PathVariable Long productId) throws IOException, SQLException {
         
         return reviewService.deleteReview(reviewId, userId);

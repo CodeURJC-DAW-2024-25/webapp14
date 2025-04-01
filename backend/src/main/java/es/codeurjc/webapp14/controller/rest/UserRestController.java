@@ -24,7 +24,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,12 +43,6 @@ public class UserRestController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @GetMapping
-    public List<UserDTO> getUsers() {
-        List<UserDTO> users = userService.getAllUsers();
-        return users;
-    }
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
@@ -70,6 +65,31 @@ public class UserRestController {
             model.addAttribute("userId", null);
             model.addAttribute("admin", false);
         }
+    }
+
+    @Operation(summary = "Get Users", description = "Return all the Users created")
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> getAdminUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Map<String, Object> data = new HashMap<>();
+
+        // Get paginated users
+        data.put("users", userService.getUsersPaginated(page, size));
+
+        // Get total users
+        data.put("totalUsers", userService.getTotalUsers());
+
+        // Get pending reports. This function does not exist, we have to look at how its
+        // done on the web controller
+        
+        
+        //data.put("pendingReports", userService.getPendingReports());
+
+        // Get banned users count
+        data.put("bannedUsers", userService.getAllUsersBanned());
+
+        return ResponseEntity.ok(data);
     }
 
     @Operation(summary = "Get User", description = "Return a single User")
@@ -166,6 +186,24 @@ public class UserRestController {
         userService.deleteUserImage(userId);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Ban User", description = "Update a User to banned")
+    @PatchMapping("/banned/{id}")
+    public UserDTO banUser(@PathVariable Long id) {
+
+        UserDTO user = userService.banUser(id);
+
+        return user;
+    }
+
+    @Operation(summary = "UnBan User", description = "Update a User to unbanned")
+    @PatchMapping("/unbanned/{id}")
+    public UserDTO unbanUser(@PathVariable Long id) {
+
+        UserDTO user = userService.unbanUser(id);
+
+        return user;
     }
     
 }

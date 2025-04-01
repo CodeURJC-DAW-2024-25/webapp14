@@ -12,9 +12,9 @@ import java.util.Map;
 import java.util.HashMap;
 
 @RestController
-@RequestMapping("/api/v1/admin/orders")
+@RequestMapping("/api/v1/orders")
 @Tag(name = "Admin_Orders", description = "Endpoints for managing Orders as an admin")
-public class AdminOrdersRestController {
+public class OrdersRestController {
 
     @Autowired
     private OrderService orderService;

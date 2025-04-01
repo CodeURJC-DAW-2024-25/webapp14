@@ -4,14 +4,12 @@ import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.Review;
 import es.codeurjc.webapp14.model.Size;
 import es.codeurjc.webapp14.model.Size.SizeName;
-import es.codeurjc.webapp14.repository.OrderProductRepository;
 import es.codeurjc.webapp14.dto.BasicProductDTO;
 import es.codeurjc.webapp14.dto.ProductDTO;
 import es.codeurjc.webapp14.dto.ReviewDTO;
 import es.codeurjc.webapp14.mapper.BasicProductMapper;
 import es.codeurjc.webapp14.mapper.ProductMapper;
 import es.codeurjc.webapp14.model.Order;
-import es.codeurjc.webapp14.model.OrderProduct;
 import es.codeurjc.webapp14.repository.OrderRepository;
 import es.codeurjc.webapp14.repository.ProductRepository;
 import es.codeurjc.webapp14.repository.ReviewRepository;
@@ -41,7 +39,6 @@ import org.springframework.core.io.Resource;
 @Service
 public class ProductService {
 
-    private final OrderProductRepository orderProductRepository;
 
     private final ReviewService reviewService;
 
@@ -60,11 +57,10 @@ public class ProductService {
     @Autowired
     private BasicProductMapper basicProductMapper;
 
-    public ProductService(ProductRepository productRepository, ReviewRepository reviewRepository, ReviewService reviewService, OrderProductRepository orderProductRepository, BasicProductMapper basicProductMapper) {
+    public ProductService(ProductRepository productRepository, ReviewRepository reviewRepository, ReviewService reviewService, BasicProductMapper basicProductMapper) {
         this.productRepository = productRepository;
         this.reviewRepository = reviewRepository;
         this.reviewService = reviewService;
-        this.orderProductRepository = orderProductRepository;
         this.basicProductMapper = basicProductMapper;
     }
 
@@ -297,15 +293,6 @@ public class ProductService {
 
         productRepository.save(updatedProduct);
 
-        List<OrderProduct> orderProducts = orderProductRepository.findByProductId(id);
-
-        for (OrderProduct orderProduct : orderProducts) {
-            orderProduct.setProduct(updatedProduct);
-            orderProductRepository.save(orderProduct);
-        }
-
-
-
 		return toDTO(updatedProduct);
     }
 
@@ -357,7 +344,7 @@ public class ProductService {
         Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
 
 		if (product.getImageUrl() == null) {
-			throw new NoSuchElementException();
+			throw new EntityNotFoundException("Image not found");
 		}
 
 		product.setImage(null);

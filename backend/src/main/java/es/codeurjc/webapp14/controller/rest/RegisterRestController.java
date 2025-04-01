@@ -1,7 +1,5 @@
 package es.codeurjc.webapp14.controller.rest;
 
-
-
 import java.io.IOException;
 import java.net.URI;
 

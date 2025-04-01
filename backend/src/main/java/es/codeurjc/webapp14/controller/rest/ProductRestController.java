@@ -1,22 +1,21 @@
 package es.codeurjc.webapp14.controller.rest;
 
-import es.codeurjc.webapp14.dto.ProductDTO;
-import es.codeurjc.webapp14.dto.NewProductRequestDTO;
-import es.codeurjc.webapp14.dto.OrderProductDTO;
-
 import es.codeurjc.webapp14.service.OrderProductService;
 import es.codeurjc.webapp14.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
+import jakarta.persistence.EntityNotFoundException;
+import es.codeurjc.webapp14.dto.NewProductRequestDTO;
+import es.codeurjc.webapp14.dto.OrderProductDTO;
+import es.codeurjc.webapp14.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Map;
-import java.util.NoSuchElementException;
 import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
@@ -24,21 +23,47 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
-import static org.springframework.web.servlet.support.ServletUriComponentsBuilder.fromCurrentRequest;
-
-
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("/api/v1/admin/products")
-@Tag(name = "Admin_Products", description = "Endpoints for managing Products as an admin")
-public class AdminProductsRestController {
+@RequestMapping("/api/v1/products")
+@Tag(name = "Products", description = "Endpoints for managing Products")
+public class ProductRestController {
 
     @Autowired
     private ProductService productService;
 
     @Autowired
     private OrderProductService orderProductService;
+
+    @Operation(summary = "Get Product", description = "Return a single Product")
+    @GetMapping("/{id}")
+    public ProductDTO getProductDetail(
+            @PathVariable Long id,
+            @RequestParam(required = false) Long userId) {
+
+        return productService.getProductById(id);
+
+    }
+
+    
+    @Operation(summary = "Get Product Image", description = "Return a single Product Image")
+    @GetMapping("/image/{id}")
+	public ResponseEntity<Object> getProductImage(@PathVariable long id) throws SQLException, IOException {
+
+        if(productService.getProductImage(id) == null){
+            throw new EntityNotFoundException("Image not found");
+        }
+
+		Resource productImage = productService.getProductImage(id);
+		return ResponseEntity
+				.ok()
+				.header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+				.body(productImage);
+
+	}
+
 
     private List<String> categories = new ArrayList<>(
             Arrays.asList("Abrigos", "Camisetas", "Pantalones", "jerséis"));
@@ -51,8 +76,7 @@ public class AdminProductsRestController {
         Map<String, Object> data = new HashMap<>();
 
         // Get paginated products
-        // Refactor? products paginated has hasMore and nextPage attributes?. No, but we
-        // can implement it.
+
         data.put("products", productService.getProductsPaginated(page, size));
 
         // Get total products
@@ -109,11 +133,13 @@ public class AdminProductsRestController {
         return newProductDTO;
     }
 
-
     @Operation(summary = "Create Product Image", description = "Create and save an Image for a Product on the database")
-    @PostMapping("/{id}/image")
+    @PostMapping("/image/{id}")
     public ResponseEntity<Object> createProductImage(@PathVariable long id,
                                                     @RequestParam MultipartFile imageFile) throws IOException {
+
+
+        System.out.println("CREAR IMAGEN");
 
         URI location = URI.create("https://localhost:8443/api/v1/products/" + id + "/image");
         productService.createProductImage(id, location, imageFile.getInputStream(), imageFile.getSize());
@@ -122,7 +148,7 @@ public class AdminProductsRestController {
     }
 
     @Operation(summary = "Edit Product Image", description = "Edit a created Produc Image")
-    @PutMapping("/{id}/image")
+    @PutMapping("/image/{id}")
     public ResponseEntity<Object> replaceProdcutImage( @PathVariable long id, @RequestParam MultipartFile imageFile) throws IOException {
 
      productService.replaceProductImage(id, imageFile.getInputStream(), imageFile.getSize());
@@ -156,17 +182,14 @@ public class AdminProductsRestController {
         return newProductDTO;
     }
 
-
     @Operation(summary = "Delete Product Image", description = "Delete a created Product Image")
-    @DeleteMapping("/{id}/image")
+    @DeleteMapping("/image/{id}")
 	public ResponseEntity<Object> deleteProductImage(@PathVariable long id) throws IOException {
 
 		productService.deleteProductImage(id);
 
 		return ResponseEntity.noContent().build();
 	}
-
-
 
     @Operation(summary = "Delete Product", description = "Delete a created Product")
     @DeleteMapping("/{id}")
@@ -176,9 +199,7 @@ public class AdminProductsRestController {
         Boolean deleteOk = true;
         List<OrderProductDTO> orderProducts = orderProductService.getAllOrderProducts();
         for (OrderProductDTO orderProduct : orderProducts) {
-            System.out.println("FOR");
             if (orderProduct.product().id().equals(id)) {
-                System.out.println("INCLUIDO");
 
                 deleteOk = false;
                 break;

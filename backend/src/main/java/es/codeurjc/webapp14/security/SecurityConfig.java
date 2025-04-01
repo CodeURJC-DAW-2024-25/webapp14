@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -63,21 +64,41 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         // PUBLIC ENDPOINTS
                         .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/v1/products/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/products/**").permitAll()
                         .requestMatchers("/api/v1/category/**").permitAll()
-                        .requestMatchers("/api/v1/index/**").permitAll()
                         .requestMatchers("/api/v1/search/**").permitAll()
-                        .requestMatchers("/api/v1/user/**").permitAll()
                         .requestMatchers("/api/v1/image/**").permitAll()
 
                         // PRIVATE ENDPOINTS
+                        
+                        .requestMatchers(HttpMethod.POST, "/api/v1/products/{productId}/reviews").hasRole("USER")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/products/{id}/reviews/{reviewId}").hasRole("USER")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/products/{id}/reviews/{reviewId}").hasRole("USER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/products/{id}/reviews/{reviewId}").hasRole("USER")
+
+                        .requestMatchers(HttpMethod.POST, "/api/v1/products/image/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/products/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/products/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/products/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/products/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/products/image/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/products/image/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/products/image/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/api/v1/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH,"/api/v1/users/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/users/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/v1/cart/**").hasRole("USER")
-                        .requestMatchers("/api/v1/orders/**").hasRole("USER")
+                        .requestMatchers("/api/v1/orders/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/reviews/**").authenticated()
                         .requestMatchers("/api/v1/users/**").authenticated()
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/v1/orders/**").hasRole("USER")
                         .requestMatchers("/v3/api-docs.yaml").permitAll()
+                        .requestMatchers("/api/v1/charts").hasRole("ADMIN")
+
+                        .requestMatchers("/api/v1/**").permitAll()
+
+
+
 
                         .anyRequest().authenticated());
 

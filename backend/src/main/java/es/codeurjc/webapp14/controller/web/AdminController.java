@@ -493,6 +493,11 @@ public class AdminController {
 		}	
         */
 
+
+        /*
+         * CAMBIAR EDITAR
+         */
+
         int stock = stock_S + stock_L + stock_M + stock_XL;
 		ProductDTO productDTO = new ProductDTO(productId,
 			newProductRequestDTO.name(), newProductRequestDTO.description(), 
