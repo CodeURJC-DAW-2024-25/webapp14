@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -141,13 +142,13 @@ public class UserRestController {
         Optional<UserDTO> userConsult = Optional.ofNullable(userService.findById(userId));
 
         if (!userConsult.isPresent()) {
-            return null;
+            throw new EntityNotFoundException("User not found");
         }
 
         User user = userService.findUserById(userId);
 
         if (!userService.validateEditUser(editUserDTO, user, redirectAttributes)) {
-            return null;
+            throw new EntityNotFoundException("User not found");
         }
 
         try {
@@ -155,7 +156,7 @@ public class UserRestController {
             UserDTO editUser = userService.updateUserFromDTO(user, editUserDTO, encodedPassword);
             return editUser;
         } catch (RuntimeException e) {
-            return null;
+            throw new EntityNotFoundException("User not found");
         }
     }
 

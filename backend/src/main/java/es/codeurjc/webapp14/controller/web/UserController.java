@@ -10,6 +10,7 @@ import es.codeurjc.webapp14.dto.EditUserDTO;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @Controller
@@ -165,6 +168,21 @@ public class UserController {
 
         return "redirect:/index";
     }
+
+    @PostMapping("/deleteUser")
+public String deleteUser(@ModelAttribute("userId") long userId, HttpServletRequest request, HttpServletResponse response) {
+    
+    userService.findById(userId);
+    userService.delete(userId);
+
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth != null) {
+        new SecurityContextLogoutHandler().logout(request, response, auth);
+    }
+
+    return "redirect:/index";
+}
+
 
     // ------------------------------ List users ------------------------------
 

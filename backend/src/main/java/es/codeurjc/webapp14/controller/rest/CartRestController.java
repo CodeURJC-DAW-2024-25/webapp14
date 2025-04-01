@@ -102,13 +102,13 @@ public class CartRestController {
         Boolean cannotProcessOrder = orderService.getCannotProcessOrder(orderNotProcessed);
 
         if (cannotProcessOrder) {
-            return null;
+            return orderNotProcessed;
         }
 
         cannotProcessOrder = orderService.procesOrderStock(orderNotProcessed);
 
         if (cannotProcessOrder) {
-            return null;
+            return orderNotProcessed;
         }
 
         orderService.processOrderSizes(orderNotProcessed);

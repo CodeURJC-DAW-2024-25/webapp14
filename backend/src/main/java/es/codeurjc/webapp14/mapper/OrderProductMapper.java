@@ -13,7 +13,7 @@ public interface OrderProductMapper {
 
     OrderProductDTO toDTO(OrderProduct order);
 
-    Order toDomain(OrderProductDTO orderProductDTO);
+    OrderProduct toDomain(OrderProductDTO orderProductDTO);
 
     List<OrderProductDTO> toDTOs(List<OrderProduct> orders);
 

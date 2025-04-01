@@ -59,4 +59,8 @@ public class OrderProductService {
     private List<OrderProductDTO> toDTOs(List<OrderProduct> orders) {
 		return orderProductMapper.toDTOs(orders);
 	}
+
+    public OrderProduct toDomain(OrderProductDTO orderProductDTO) {
+        return orderProductMapper.toDomain(orderProductDTO);
+    }
 }

@@ -59,6 +59,16 @@
             <button type="reset" class="btn btn-secondary" onclick="history.back()">Cancelar</button>
           </div>
         </form>
+        <hr>
+        <!-- Delete User Section -->
+        <div class="text-center mt-3">
+          <h5 class="text-danger">Eliminar cuenta</h5>
+          <p class="text-muted">Esta acción no se puede deshacer.</p>
+          <form action="/deleteUser" method="POST">
+            <input type="hidden" name="_csrf" value="{{token}}" />
+            <button type="submit" class="btn btn-danger">Eliminar cuenta</button>
+          </form>
+        </div>
       </div>
     </section>
   </section>

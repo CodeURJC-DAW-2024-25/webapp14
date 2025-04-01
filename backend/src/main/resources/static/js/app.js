@@ -132,7 +132,7 @@ async function loadMoreReviews(productId) {
         if (data.includes("<!-- true -->")) {
             document.getElementById('loadMoreReviewsButton').classList.add('d-none');
         } else {
-            page++; // Incrementamos solo si hay más datos
+            page++;
         }
     } catch (error) {
         console.error("Error cargando más reviews:", error);
