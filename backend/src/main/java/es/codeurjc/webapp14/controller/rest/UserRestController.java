@@ -189,20 +189,16 @@ public class UserRestController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Ban User", description = "Update a User to banned")
-    @PatchMapping("/banned/{id}")
-    public UserDTO banUser(@PathVariable Long id) {
-
-        UserDTO user = userService.banUser(id);
-
-        return user;
-    }
-
-    @Operation(summary = "UnBan User", description = "Update a User to unbanned")
-    @PatchMapping("/unbanned/{id}")
-    public UserDTO unbanUser(@PathVariable Long id) {
-
-        UserDTO user = userService.unbanUser(id);
+    @Operation(summary = "Ban/Unban User", description = "Update a User to banned/unbanned")
+    @PatchMapping("/{id}")
+    public UserDTO ban_unbanUser(@PathVariable Long id, @RequestParam(value = "ban", required = false, defaultValue = "true") boolean ban) {
+        UserDTO user;
+        if(ban){
+            user = userService.banUser(id);
+        }
+        else{
+            user = userService.unbanUser(id);
+        }
 
         return user;
     }

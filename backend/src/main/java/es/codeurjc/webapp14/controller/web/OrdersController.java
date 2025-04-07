@@ -83,7 +83,14 @@ public class OrdersController {
     @GetMapping("/{id}")
     public String getOrderProductsById(@PathVariable Long id, Model model, @ModelAttribute("userId") Long userId) {
 
-        OrderDTO order = orderService.getOrderProductById(id,userId);
+        
+        Optional<Order> orderWeb = orderService.getOrderByIdWeb(id);
+        if(!orderWeb.isPresent()){
+            return "redirect:/no-page-error";
+        }
+
+        OrderDTO order= orderService.getOrderProductById(id,userId);
+
 
         if (!order.isPaid()) {
             return "redirect:/no-page-error";

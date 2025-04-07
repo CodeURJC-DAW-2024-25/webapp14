@@ -61,6 +61,13 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+
+
+    public Optional<Order> getOrderByIdWeb(Long id) {
+        Optional<Order> order = orderRepository.findById(id);
+        return order;
+    }
+
     public OrderDTO getOrderById(Long id) {
         Order order = orderRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Order not found"));
@@ -309,15 +316,9 @@ public class OrderService {
     }
 
     public Boolean getCannotProcessOrder(OrderDTO order) {
-
-    
-        System.out.println("Estoy dentro");
-
         boolean cannotProcessOrder = false;
     
         for (OrderProductDTO orderProduct : order.orderProducts()) {
-
-            System.out.println("ESTOY DENTRO");
 
             int quantity = orderProduct.quantity();
             String size = orderProduct.size();
@@ -330,14 +331,10 @@ public class OrderService {
 
     
             if (productSize.isPresent()) {
-                System.out.println("ESTOY DENTRO2");
                 SizeDTO sizeObj = productSize.get();
                 int availableStock = sizeObj.stock();
-                System.out.println("Size: " + sizeObj.name());
-                System.out.println("STOCK:" + availableStock);
     
                 if (quantity > availableStock) {
-                    System.out.println("HE LLEGADO DENTRO" + orderProduct.id() + "HE LLEGADO DENTRO SIZE" + productSize.get().name() + "ORDERPRODUCT" + orderProduct.product().name());
                     cannotProcessOrder = true;
                     break;
                 }

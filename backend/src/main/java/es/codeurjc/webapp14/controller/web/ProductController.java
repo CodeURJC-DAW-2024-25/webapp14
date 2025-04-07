@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,8 @@ import es.codeurjc.webapp14.dto.ProductDTO;
 import es.codeurjc.webapp14.service.ProductService;
 import es.codeurjc.webapp14.service.ReviewService;
 import es.codeurjc.webapp14.service.UserService;
+import es.codeurjc.webapp14.model.Order;
+import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
@@ -90,6 +93,11 @@ public class ProductController {
     @RequestParam(defaultValue = "2") int size,
     Model model, @PathVariable Long id, @ModelAttribute("userId") Long userId) {
 
+
+        Optional<Product> productWeb = productService.getProductByIdWeb(id);
+        if(!productWeb.isPresent()){
+            return "redirect:/no-page-error";
+        }
         ProductDTO product = productService.getProductById(id);
 
         Page<ReviewDTO> reviewsPage = productService.getTwoReviews(page, size, product);
@@ -148,7 +156,7 @@ public class ProductController {
     public String deleteReview(@PathVariable Long productId, @ModelAttribute("userId") long userId ,@PathVariable Long reviewId, Model model) {
 
         reviewService.deleteReview(reviewId, userId);
-        return "redirect:/index";
+        return "redirect:/index/elem_detail/" + productId;
     }
 
     @PostMapping("/{userId}/{productId}/{reviewId}/edit")
@@ -189,7 +197,7 @@ public class ProductController {
         List<String> validCategories = List.of("camisetas", "pantalones", "abrigos", "jerseys");
 
         if (!validCategories.contains(category.toLowerCase())) {
-            return "redirect:/error";
+            return "redirect:/no-page-error";
         }
 
         Page<BasicProductDTO> productsPage = productService.getProductsByCategory(category, page);

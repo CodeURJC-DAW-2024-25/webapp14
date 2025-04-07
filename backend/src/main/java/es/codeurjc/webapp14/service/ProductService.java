@@ -32,6 +32,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.core.io.Resource;
@@ -365,6 +366,11 @@ public class ProductService {
         }
         product.setImage(BlobProxy.generateProxy(inputStream, size));
         productRepository.save(product);
+    }
+
+    public Optional<Product> getProductByIdWeb(Long id) {
+        Optional<Product> product = productRepository.findById(id);
+        return product;
     }
     
     

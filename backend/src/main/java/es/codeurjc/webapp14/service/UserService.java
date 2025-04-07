@@ -113,9 +113,9 @@ public class UserService {
         return userRepository.findByRolesNotContaining("ADMIN", PageRequest.of(page, size)).map(userMapper::toDTO);
     }
 
-    public Page<UserDTO> getUsersWithReportedReviewsPaginated(int page, int size) {
+    public Page<User> getUsersWithReportedReviewsPaginated(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return userRepository.findUsersWithReportedReviews(pageable).map(userMapper::toDTO);
+        return userRepository.findUsersWithReportedReviews(pageable);
     }
 
     public void delete(Long id) {

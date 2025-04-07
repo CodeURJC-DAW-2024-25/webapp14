@@ -29,6 +29,7 @@ import es.codeurjc.webapp14.service.ReviewService;
 import es.codeurjc.webapp14.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 
 
@@ -74,9 +75,12 @@ public class ReviewRestController {
     */
 
     @Operation(summary = "Get Reviews", description = "Return a single review")
-    @GetMapping("/{productId}/reviews/{id}")
-    public ReviewDTO getReview(@PathVariable Long id) {
-        return reviewService.getReviewById(id);
+    @GetMapping("/{productId}/reviews/{reviewId}")
+    public ReviewDTO getReview(@PathVariable Long reviewId, @PathVariable Long productId) {
+        if(reviewService.getReviewProduct(reviewId,productId)){
+            throw new EntityNotFoundException("Review not found");
+        }
+        return reviewService.getReviewById(reviewId);
     }
 
 
@@ -94,7 +98,11 @@ public class ReviewRestController {
     @Operation(summary = "Report Review", description = "Report a Review from a User")
     @PatchMapping("/{productId}/reviews/{reviewId}")
     public ResponseEntity<ReviewDTO> reportReview(@ModelAttribute("userId") long userId, 
-                                                @PathVariable Long reviewId) {
+                                                @PathVariable Long reviewId, @PathVariable Long productId) {
+
+        if(reviewService.getReviewProduct(reviewId,productId)){
+            throw new EntityNotFoundException("Review not found");
+        }
         ReviewDTO reportedReview = reviewService.reportReview(reviewId);
         return ResponseEntity.ok(reportedReview);
 
@@ -117,6 +125,9 @@ public class ReviewRestController {
     @PutMapping("/{productId}/reviews/{reviewId}")
     public ReviewDTO replaceReview(@ModelAttribute("userId") long userId, Model model, @RequestBody NewReviewRequestDTO newReviewRequestDTO, @PathVariable Long reviewId, @PathVariable Long productId) throws IOException, SQLException {
 
+        if(reviewService.getReviewProduct(reviewId,productId)){
+            throw new EntityNotFoundException("Review not found");
+        }
         return createOrReplaceReview(newReviewRequestDTO, reviewId, userId, productId);
   
     }
@@ -125,6 +136,9 @@ public class ReviewRestController {
     @DeleteMapping("/{productId}/reviews/{reviewId}")
     public ReviewDTO deleteReview(@ModelAttribute("userId") long userId, Model model, @PathVariable Long reviewId, @PathVariable Long productId) throws IOException, SQLException {
         
+        if(reviewService.getReviewProduct(reviewId,productId)){
+            throw new EntityNotFoundException("Review not found");
+        }
         return reviewService.deleteReview(reviewId, userId);
 
     }

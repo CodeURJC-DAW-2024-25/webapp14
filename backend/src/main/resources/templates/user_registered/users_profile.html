@@ -29,10 +29,18 @@
             <input type="email" class="form-control" id="exampleInputEmail" name="email" value="{{user.email}}">
             {{#errorEmail}}<small class="text-danger error-message">{{errorEmail}}</small>{{/errorEmail}}
           </div>
+          {{#user.addres}}
           <div class="form-group">
             <label for="exampleInputAddress">Dirección:</label>
             <input type="text" class="form-control" id="exampleInputAddress" name="address" value="{{user.address}}">
           </div>
+          {{/user.addres}}
+          {{^user.addres}}
+          <div class="form-group">
+            <label for="exampleInputAddress">Dirección:</label>
+            <input type="text" class="form-control" id="exampleInputAddress" name="address" value="">
+          </div>
+          {{/user.addres}}
           <div class="form-group">
             <label for="exampleInputPassword">Contraseña actual:</label>
             <input type="password" class="form-control" id="exampleInputPassword" name="currentPassword">

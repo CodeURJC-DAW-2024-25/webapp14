@@ -170,18 +170,18 @@ public class UserController {
     }
 
     @PostMapping("/deleteUser")
-public String deleteUser(@ModelAttribute("userId") long userId, HttpServletRequest request, HttpServletResponse response) {
-    
-    userService.findById(userId);
-    userService.delete(userId);
+    public String deleteUser(@ModelAttribute("userId") long userId, HttpServletRequest request, HttpServletResponse response) {
+        
+        userService.findById(userId);
+        userService.delete(userId);
 
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    if (auth != null) {
-        new SecurityContextLogoutHandler().logout(request, response, auth);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+
+        return "redirect:/index";
     }
-
-    return "redirect:/index";
-}
 
 
     // ------------------------------ List users ------------------------------

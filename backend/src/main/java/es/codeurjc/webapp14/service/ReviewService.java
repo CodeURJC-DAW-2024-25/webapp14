@@ -50,6 +50,19 @@ public class ReviewService {
     public ReviewDTO getReviewById(Long id) {
         Review review = ReviewRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Review not found"));
         return toDTO(review);
+        
+    }
+
+    public Review getReviewByIdRest(Long reviewId) {
+        Review review = ReviewRepository.findById(reviewId).orElseThrow(() -> new EntityNotFoundException("Review not found"));
+        return review;
+    }
+
+    public Boolean getReviewProduct(Long reviewId, Long productId) {
+        Review review = getReviewByIdRest(reviewId);
+        System.out.println("PRODUCT ID:" + productId);
+        System.out.println("2. PRODUCT ID: " + review.getProduct().getId());
+        return !review.getProduct().getId().equals(productId);
     }
     
 
@@ -182,7 +195,7 @@ public class ReviewService {
     public ReviewDTO deleteReview(Long id, Long userId) {
 
         Review oldReview = ReviewRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Review not found"));
-        if(!oldReview.getUser().getId().equals(userId)){
+        if(!oldReview.getUser().getId().equals(userId) && !userService.findUserById(userId).getRoles().contains("ADMIN")){
             throw new AccessDeniedException("You do not have permission to delete this review");
         }
 

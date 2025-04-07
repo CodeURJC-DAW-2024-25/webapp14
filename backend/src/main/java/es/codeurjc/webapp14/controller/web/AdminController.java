@@ -535,7 +535,7 @@ public class AdminController {
 
         int totalReportedReviews = 0;
 
-        Page<UserDTO> reportedUsersPage = userService.getUsersWithReportedReviewsPaginated(reportedPage, size);
+        Page<User> reportedUsersPage = userService.getUsersWithReportedReviewsPaginated(reportedPage, size);
 
         model.addAttribute("usersWithReportedReviews", reportedUsersPage.getContent());
         model.addAttribute("reportedHasMore", reportedUsersPage.hasNext());
@@ -573,8 +573,8 @@ public class AdminController {
             @RequestParam int size,
             Model model) {
 
-        Page<UserDTO> reportedUsersPage = userService.getUsersWithReportedReviewsPaginated(reportedPage, size);
-        boolean hasMore = reportedPage < reportedUsersPage.getTotalPages() - 1;
+        Page<User> reportedUsersPage = userService.getUsersWithReportedReviewsPaginated(reportedPage, size);
+        Boolean hasMore = reportedPage < reportedUsersPage.getTotalPages() - 1;
 
         model.addAttribute("usersWithReportedReviews", reportedUsersPage.getContent());
         model.addAttribute("hasMore", hasMore);
