@@ -152,7 +152,7 @@ public class UserController {
 
         User user = userService.findUserById(userId);
 
-        if (!userService.validateEditUser(editUserDTO, user, redirectAttributes)) {
+        if (userService.validateEditUser(editUserDTO, user, redirectAttributes)) {
             redirectAttributes.addFlashAttribute("editProfileDTO", editUserDTO);
             return "redirect:/user_registered/users_profile";
         }

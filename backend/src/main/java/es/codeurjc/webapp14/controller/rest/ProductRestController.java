@@ -49,7 +49,7 @@ public class ProductRestController {
 
     
     @Operation(summary = "Get Product Image", description = "Return a single Product Image")
-    @GetMapping("/image/{id}")
+    @GetMapping("/{id}/image")
 	public ResponseEntity<Object> getProductImage(@PathVariable long id) throws SQLException, IOException {
 
         if(productService.getProductImage(id) == null){
@@ -134,12 +134,11 @@ public class ProductRestController {
     }
 
     @Operation(summary = "Create Product Image", description = "Create and save an Image for a Product on the database")
-    @PostMapping("/image/{id}")
+    @PostMapping("/{id}/image")
     public ResponseEntity<Object> createProductImage(@PathVariable long id,
                                                     @RequestParam MultipartFile imageFile) throws IOException {
 
 
-        System.out.println("CREAR IMAGEN");
 
         URI location = URI.create("https://localhost:8443/api/v1/products/" + id + "/image");
         productService.createProductImage(id, location, imageFile.getInputStream(), imageFile.getSize());
@@ -148,7 +147,7 @@ public class ProductRestController {
     }
 
     @Operation(summary = "Edit Product Image", description = "Edit a created Produc Image")
-    @PutMapping("/image/{id}")
+    @PutMapping("/{id}/image")
     public ResponseEntity<Object> replaceProdcutImage( @PathVariable long id, @RequestParam MultipartFile imageFile) throws IOException {
 
      productService.replaceProductImage(id, imageFile.getInputStream(), imageFile.getSize());
@@ -183,7 +182,7 @@ public class ProductRestController {
     }
 
     @Operation(summary = "Delete Product Image", description = "Delete a created Product Image")
-    @DeleteMapping("/image/{id}")
+    @DeleteMapping("/{id}/image")
 	public ResponseEntity<Object> deleteProductImage(@PathVariable long id) throws IOException {
 
 		productService.deleteProductImage(id);

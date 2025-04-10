@@ -381,20 +381,7 @@ public class AdminController {
 
         return "redirect:/admin/products";
     }
-
-    @GetMapping("/products/out-of-stock")
-    public String showOutOfStockProducts(Model model) {
-
-        model.addAttribute("products", productService.getProductsWithAllSizesOutOfStock());
-        model.addAttribute("productCount", productService.getAllProducts().size());
-        model.addAttribute("categoriesCount", categories.size());
-        model.addAttribute("totalStock", productService.getTotalStockOfAllProducts());
-        model.addAttribute("totalOutStock", productService.countProductsWithAllSizesOutOfStock());
-        model.addAttribute("categories", categories);
-
-        return "admin/admin_products";
-    }
-
+    
     @PostMapping("/products/delete/{id}")
     public String deleteProduct(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         productService.getProductById(id);

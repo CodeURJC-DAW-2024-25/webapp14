@@ -22,7 +22,6 @@ import es.codeurjc.webapp14.dto.ProductDTO;
 import es.codeurjc.webapp14.service.ProductService;
 import es.codeurjc.webapp14.service.ReviewService;
 import es.codeurjc.webapp14.service.UserService;
-import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.model.Product;
 import es.codeurjc.webapp14.model.User;
 import jakarta.servlet.http.HttpServletRequest;

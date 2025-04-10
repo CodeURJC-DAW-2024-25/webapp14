@@ -60,8 +60,6 @@ public class ReviewService {
 
     public Boolean getReviewProduct(Long reviewId, Long productId) {
         Review review = getReviewByIdRest(reviewId);
-        System.out.println("PRODUCT ID:" + productId);
-        System.out.println("2. PRODUCT ID: " + review.getProduct().getId());
         return !review.getProduct().getId().equals(productId);
     }
     

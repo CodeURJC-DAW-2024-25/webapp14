@@ -8,16 +8,17 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/v1/users/orders")
@@ -70,11 +71,11 @@ public class UserOrdersRestController {
         OrderDTO order = orderService.getOrderProductById(id,userId);
 
         if (!order.isPaid()) {
-			throw new NoSuchElementException();
+			throw new EntityNotFoundException("Order not found");
         }
 
         if (userId == 0 || !order.userId().equals(userId)) {
-			throw new NoSuchElementException();
+			throw new AccessDeniedException("You do not have permission access this order");
         }
 
         return order;
