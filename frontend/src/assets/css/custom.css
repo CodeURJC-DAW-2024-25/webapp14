@@ -1,0 +1,436 @@
+/* Sidebar */
+#accordionSidebar {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  /* Prevent unnecessary scrollbars */
+  position: fixed;
+  /* Fix the sidebar to the left */
+  left: 0;
+  /* Ensures it sticks to the left */
+  top: 0;
+  /* Ensures the sidebar is at the top */
+  background-color: #000001;
+  /* Sidebar background */
+  display: none;
+  z-index: 1050;
+  /* Ensure it's above the content */
+  transform: translateX(0);
+  /* Make it visible when expanded */
+  transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+  /* Smooth transition */
+  padding-top: 2px;
+  /* Add space at the top for the button */
+}
+
+#accordionSidebar.open {
+  display: block;
+}
+
+/* Content should adjust when the sidebar is collapsed */
+#content-wrapper {
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+  margin-left: 220px;
+  /* Space occupied by the sidebar when expanded */
+}
+
+#content-wrapper.toggled {
+  margin-left: 0;
+  /* Content occupies the full available space when the sidebar is collapsed */
+}
+
+#sidebarToggleTop:hover {
+  text-decoration: none;
+}
+
+/* Sidebar toggle icon (visible when the sidebar is collapsed) */
+#sidebarToggleTop i {
+  color: white;
+  /* Icon color */
+  font-size: 24px;
+  /* Icon size */
+}
+
+.fixMenuButton {
+  position: fixed;
+  z-index: 9999;
+  top: 1.5rem;
+  left: 1.6rem;
+}
+
+/* Style icons and text inside the sidebar */
+#accordionSidebar .nav-link {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  align-items: center;
+  color: #fff;
+  /* White for links */
+  font-size: 16px;
+  /* Larger font size */
+  transition: color 0.3s ease;
+  /* Smooth color transition on hover */
+}
+
+/* Style for the topbar */
+.topbar {
+  background-color: #000001 !important;
+  color: #ffffff !important;
+}
+
+.topbar .nav-link {
+  color: #000000 !important;
+}
+
+/* Footer adjustments */
+.footer {
+  background-color: #222;
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+  font-size: 14px;
+}
+
+.footer-text {
+  color: #f8b400;
+}
+
+/* Sidebar on small devices */
+@media (max-width: 768px) {
+
+  /* Adjust content to occupy full available space */
+  #content-wrapper {
+    margin-left: 0;
+    transition: margin-left 0.3s ease;
+  }
+
+  /* Style elements inside the sidebar */
+  #accordionSidebar .nav-item {
+    padding: 10px 20px;
+    /* Better spacing between elements */
+    text-align: center;
+    /* Center icons and text */
+    margin-bottom: 15px;
+    /* Spacing between icons */
+  }
+
+  /* Style icons and text inside the sidebar */
+  #accordionSidebar .nav-link {
+    display: flex;
+    color: #fff;
+    /* White for links */
+    font-size: 16px;
+    /* Larger font size */
+    text-transform: uppercase;
+    /* Uppercase text for a modern style */
+    transition: color 0.3s ease;
+    /* Smooth color transition on hover */
+  }
+
+  /* Hover color change for links */
+  #accordionSidebar .nav-link:hover {
+    color: #4e73df;
+    /* Blue hover effect */
+  }
+
+  /* Sidebar title style */
+  .sidebar-brand-text {
+    font-size: 20px;
+    /* Larger font size */
+    font-weight: bold;
+    /* Make the text heavier */
+    color: #fff;
+    text-transform: uppercase;
+    /* Uppercase title */
+  }
+
+  /* Sidebar item hover effect */
+  #accordionSidebar .nav-item:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    /* Subtle background on hover */
+    border-radius: 5px;
+    /* Rounded edges for a more stylish look */
+  }
+}
+
+/* Image adjustments */
+.img-admin-products {
+  width: 150px;
+  height: 200px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid #ddd;
+}
+
+.img-user-admin {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+/* Adjust text and image sizes on small screens */
+@media (max-width: 576px) {
+  .user-info-div {
+    font-size: 0.8rem;
+    /* Reduce text size */
+  }
+
+  .img-user-admin {
+    width: 50px;
+    /* Reduce image size */
+    height: 50px;
+    /* Ensure image remains square */
+  }
+
+  .collapse .d-flex {
+    flex-direction: column;
+    align-items: flex-start;
+    /* Keep text aligned to the left */
+  }
+
+  .collapse img {
+    margin-bottom: 10px;
+    width: 100%;
+    max-width: 200px;
+    /* Adjust as needed */
+  }
+
+  .collapse .flex-grow-1,
+  .collapse .list-group-item {
+    font-size: 14px;
+    /* Reduce general text and review sizes */
+  }
+
+  .collapse h5 {
+    font-size: 16px;
+  }
+
+  .list-group-item .d-flex.flex-column.flex-sm-row.mt-2 {
+    align-items: flex-end;
+    width: 100%;
+  }
+
+  .list-group-item .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .badge.badge-danger.badge-pill {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .card-header.d-flex {
+    flex-direction: column;
+    /* Stack elements vertically */
+    align-items: flex-start;
+    /* Align to the left */
+  }
+
+  #filter-out-of-stock {
+    font-size: 0.75rem;
+    /* Reduce text size */
+    padding: 0.25rem 0.5rem;
+    /* Make the button more compact */
+    margin-top: 5px;
+    /* Add spacing above the button */
+    width: auto;
+    /* Let the width adjust automatically */
+  }
+}
+
+/* Additional adjustments for lists and buttons on small screens */
+@media (max-width: 576px) {
+
+  /* Reduce text size */
+  .list-group-item span {
+    font-size: 0.5rem;
+    /* Smaller text */
+  }
+
+  /* Reduce button size */
+  .list-group-item .btn {
+    font-size: 0.75rem;
+    /* Reduce button text size */
+    padding: 0.25rem 0.5rem;
+    /* Reduce padding for a smaller button */
+  }
+}
+
+@media (max-width: 768px) {
+
+  /* Reduce text size for medium screens */
+  .list-group-item span {
+    font-size: 1rem;
+    /* Slightly smaller text */
+  }
+
+  /* Reduce button size on medium screens */
+  .list-group-item .btn {
+    font-size: 0.5rem;
+    /* Reduce button text size */
+    padding: 0.3rem 0.6rem;
+    /* Adjust padding for button */
+  }
+}
+
+.user-info-div {
+  flex: 1;
+}
+
+.reviews-list {
+  display: flex;
+  align-items: center;
+}
+
+.span-review {
+  flex: 1;
+  min-width: 0;
+}
+
+.report-btn {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Margin button */
+.botton-margin {
+  margin-left: 15px;
+}
+
+.btn-warning:disabled {
+  background-color: #ffd026;
+  border-color: #ffd026;
+  color: white;
+}
+
+.out-of-stock {
+  filter: grayscale(100%);
+  opacity: 0.7;
+}
+
+
+.badge-out-of-stock {
+  display: inline-block;
+  background-color: #ffd026;
+  color: white;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.out-of-stock {
+  filter: grayscale(100%);
+  opacity: 0.6;
+}
+
+.out-of-stock-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 0, 0, 0.7);
+  color: white;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.out-of-stock-container {
+  background-color: #fff3cd !important;
+  border-left: 5px solid #ffc107;
+}
+
+.custom-btn {
+  background-color: #1cc88a !important;
+  color: white !important;
+  border-color: #1cc88a !important;
+}
+
+.custom-btn:hover {
+  background-color: #17a673 !important;
+  border-color: #149065 !important;
+  color: white !important;
+}
+
+
+.cardImage {
+  border-radius: 12px;
+  border: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.cardImage:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.product-name {
+  word-wrap: break-word;
+  white-space: normal;
+  max-width: 110px;
+}
+
+#load-more {
+  background-color: #f0f0f0;
+  color: #555;
+  border-radius: 5px;
+  padding: 8px 20px;
+  font-weight: normal;
+  border: 1px solid #ddd;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+#load-more:hover {
+  background-color: #e0e0e0;
+  border-color: #ccc;
+}
+
+
+#load-more-user-review {
+  background-color: #f0f0f0;
+  color: #555;
+  border-radius: 5px;
+  padding: 8px 20px;
+  font-weight: normal;
+  border: 1px solid #ddd;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+
+#load-more-user-review:hover {
+  background-color: #e0e0e0;
+  border-color: #ccc;
+}
+
+@media (min-width: 768px) {
+  #sidebarToggleTop {
+    display: none !important;
+  }
+
+  #accordionSidebar {
+    display: block;
+    padding-top: 0;
+  }
+
+  /* When the sidebar is collapsed */
+  #accordionSidebar.open {
+    display: block;
+  }
+}
