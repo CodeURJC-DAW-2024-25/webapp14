@@ -1,1 +1,56 @@
-<p>charts works!</p>
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-x ps--active-y">
+  <div class="container-fluid py-2">
+    <div class="row">
+      <div class="ms-3 col-12">
+        <h3 class="mb-0 h4 font-weight-bolder">Panel de control</h3>
+        <p class="mb-4">
+          Consulta información sobre los pedidos, productos y usuarios.
+        </p>
+      </div>
+
+      <!-- Tarjetas -->
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4" *ngFor="let stat of [
+        { label: 'Ventas de hoy', value: todaySales + ' EUR', icon: 'fa-coins', color: 'primary' },
+        { label: 'Ventas totales', value: totalSales + ' EUR', icon: 'fa-money-bill', color: 'success' },
+        { label: 'Pedidos', value: totalOrders, icon: 'fa-boxes', color: 'danger' },
+        { label: 'Clientes totales', value: totalUsers, icon: 'fa-user', color: 'warning' }
+      ]">
+        <div class="card border-left-{{ stat.color }}">
+          <div class="card-header p-2 ps-3">
+            <div class="d-flex justify-content-between">
+              <div>
+                <p class="text-sm mb-0">{{ stat.label }}</p>
+                <h4 class="mb-0">{{ stat.value }}</h4>
+              </div>
+              <div class="col-auto d-flex align-items-center">
+                <i class="fas {{ stat.icon }} fa-2x text-gray-300"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gráficos -->
+      <div class="col-md-6 mt-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h6 class="mb-0">Productos más vendidos</h6>
+            <div class="chart">
+              <canvas id="topProductsChart" width="400" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 mt-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h6 class="mb-0">Pedidos en el último mes</h6>
+            <div class="chart">
+              <canvas id="weeklyOrdersChart" width="400" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

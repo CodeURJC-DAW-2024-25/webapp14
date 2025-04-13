@@ -1,5 +1,7 @@
 package es.codeurjc.webapp14.security;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -70,7 +72,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/image/**").permitAll()
 
                         // PRIVATE ENDPOINTS
-                        
+
                         .requestMatchers(HttpMethod.POST, "/api/v1/products/{productId}/reviews").hasRole("USER")
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/products/{id}/reviews/{reviewId}").hasRole("USER")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/products/{id}/reviews/{reviewId}").hasRole("USER")
@@ -84,8 +86,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/v1/products/image/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/products/image/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/products/image/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/api/v1/users").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PATCH,"/api/v1/users/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/v1/users").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/users/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/users/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/v1/cart/**").hasRole("USER")
                         .requestMatchers("/api/v1/orders/**").hasRole("ADMIN")
@@ -97,9 +99,6 @@ public class SecurityConfig {
 
                         .requestMatchers("/api/v1/**").permitAll()
 
-
-
-
                         .anyRequest().authenticated());
 
         // Disable Form login Authentication
@@ -107,6 +106,16 @@ public class SecurityConfig {
 
         // Disable CSRF protection (it is difficult to implement in REST APIs)
         http.csrf(csrf -> csrf.disable());
+
+        // Enable CORS for Angular frontend
+        http.cors(cors -> cors.configurationSource(request -> {
+            var corsConfig = new org.springframework.web.cors.CorsConfiguration();
+            corsConfig.setAllowedOrigins(List.of("http://localhost:4200")); // Angular dev server
+            corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+            corsConfig.setAllowedHeaders(List.of("*"));
+            corsConfig.setAllowCredentials(true); // Necesario si usas JWT con cookies
+            return corsConfig;
+        }));
 
         // Disable Basic Authentication
         http.httpBasic(httpBasic -> httpBasic.disable());
