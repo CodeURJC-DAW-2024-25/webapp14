@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -33,6 +33,10 @@ import { OrdersDetailComponent } from './user-registered/orders-detail/orders-de
 import { UsersProfileComponent } from './user-registered/users-profile/users-profile.component';
 import { FooterAdminComponent } from './admin/shared/footer-admin/footer-admin.component';
 import { HeaderAdminComponent } from './admin/shared/header-admin/header-admin.component';
+import { StoreLayoutComponent } from './layouts/store-layout/store-layout.component';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { ImportsUserComponent } from './user/shared/imports-user/imports-user.component';
+import { ImportsAdminComponent } from './admin/shared/imports-admin/imports-admin.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +67,11 @@ import { HeaderAdminComponent } from './admin/shared/header-admin/header-admin.c
     OrdersDetailComponent,
     UsersProfileComponent,
     FooterAdminComponent,
-    HeaderAdminComponent
+    HeaderAdminComponent,
+    StoreLayoutComponent,
+    AdminLayoutComponent,
+    ImportsUserComponent,
+    ImportsAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -71,6 +79,7 @@ import { HeaderAdminComponent } from './admin/shared/header-admin/header-admin.c
     HttpClientModule,
     FormsModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],
   bootstrap: [AppComponent]
 })

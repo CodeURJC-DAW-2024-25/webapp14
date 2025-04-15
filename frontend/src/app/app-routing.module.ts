@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+// LAYOUTS
+import { StoreLayoutComponent } from './layouts/store-layout/store-layout.component';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+
 // USER
 import { IndexComponent } from './user/index/index.component';
 import { CategoryComponent } from './user/category/category.component';
@@ -23,22 +27,30 @@ import { ProfileEditComponent } from './admin/profile-edit/profile-edit.componen
 import { UsersComponent } from './admin/users/users.component';
 
 const routes: Routes = [
-  // USER AREA
-  { path: '', component: IndexComponent },
-  { path: 'category', component: CategoryComponent },
-  { path: 'product/:id', component: ElemDetailComponent },
-  { path: 'cart', component: CartComponent },
-  { path: 'orders', component: OrdersComponent },
-  { path: 'orders-detail', component: OrdersDetailComponent },
-  { path: 'users-profile', component: UsersProfileComponent },
+  // LAYOUT TIENDA
+  {
+    path: '',
+    component: StoreLayoutComponent,
+    children: [
+      { path: '', component: IndexComponent },
+      { path: 'index', component: IndexComponent },
+      { path: 'category', component: CategoryComponent },
+      { path: 'product/:id', component: ElemDetailComponent },
+      { path: 'cart', component: CartComponent },
+      { path: 'orders', component: OrdersComponent },
+      { path: 'orders-detail', component: OrdersDetailComponent },
+      { path: 'users-profile', component: UsersProfileComponent },
+    ]
+  },
 
-  // AUTH AREA
+  // LOGIN y REGISTER (sin layout, o con otro si querés)
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
-  // ADMIN AREA
+  // LAYOUT ADMIN
   {
     path: 'admin',
+    component: AdminLayoutComponent,
     children: [
       { path: 'charts', component: ChartsComponent },
       { path: 'orders', component: OrdersAdminComponent },

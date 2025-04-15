@@ -1,25 +1,135 @@
-<div>
-  <link rel="icon" type="image/x-icon" href="/assets/images/favicon.png">
+<header>
+  <div class="offcanvas offcanvas-end" [class.show]="open" data-bs-scroll="true" tabindex="-1" id="offcanvasSearch"
+    aria-labelledby="Search">
+    <div class="offcanvas-header justify-content-end">
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="order-md-last">
+        <h4 class="text-primary text-uppercase mb-3">Buscar</h4>
+        <div class="search-bar border rounded-2 border-dark-subtle">
+          <form (ngSubmit)="onSearch()" class="text-center d-flex align-items-center">
+            <input type="hidden" name="_csrf" [value]="csrfToken" />
+            <input type="text" name="query" [(ngModel)]="query" id="search-input"
+              class="form-control border-0 bg-transparent" placeholder="Buscar aquí" required />
+            <button type="submit" class="border-0 bg-transparent d-flex">
+              <iconify-icon icon="tabler:search" class="fs-4 me-3"></iconify-icon>
+            </button>
+          </form>
+        </div>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="/assets/css/noirandblanc.css">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Marcellus&display=swap"
-    rel="stylesheet">
+        <div *ngIf="!query">
+          <div class="mt-3 text-center">
+            <p class="text-muted">¡Parece que aún no has realizado una búsqueda! <strong>Explora lo que quieras
+                encontrar.</strong></p>
+            <small class="text-secondary">Introduce un término de búsqueda para comenzar.</small>
+          </div>
+        </div>
+      </div>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+      <div id="search-results" class="mt-3">
+        <div *ngIf="query">
+          <h5 class="mt-4 text-dark">Resultados para: "{{query}}"</h5>
+          <div *ngIf="productsSearch && productsSearch.length > 0">
+            <div *ngFor="let product of productsSearch">
+              <div class="card mb-3">
+                <div class="row g-0">
+                  <div class="col-md-4 d-flex align-items-center">
+                    <img [src]=[product.imageUrl] class="img-fluid rounded" [alt]="product.name">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ product.name }}</h5>
+                      <p class="card-text">{{ product.description }}</p>
+                      <p class="card-text"><strong>Precio:</strong> ${{ product.price }}</p>
+                      <a [routerLink]="['/index/elem_detail', product.id]" class="btn btn-dark btn-sm">Ver producto</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="productsSearch.length === 0">
+            <p>No se encontraron productos para "{{query}}".</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <script defer src="/assets/js/jquery-1.11.0.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-    crossorigin="anonymous"></script>
-  <script defer src="/assets/js/plugins.js"></script>
-  <script defer src="/assets/js/script.js"></script>
-  <script defer src="/assets/js/app.js"></script>
-  <script defer src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
-</div>
+  <nav class="main-menu d-flex navbar fixed-top navbar-expand-lg py-4 scrolled">
+    <div class="container-fluid px-md-5">
+      <div class="main-logo">
+        <a [routerLink]="['/index']">NOIR & BLANC</a>
+      </div>
 
-<!-- FALTA HTML -->
+      <button class="navbar-toggler border-0 shadow-none " type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="offcanvas offcanvas-end bg-white" tabindex="-1" id="offcanvasNavbar"
+        aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header justify-content-end">
+          <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+        </div>
+
+        <div class="offcanvas-body justify-content-between align-items-center">
+          <ul *ngIf="logged" class="navbar-nav menu-list list-unstyled d-lg-none d-flex gap-md-3 ps-lg-5 mb-0">
+            <li class="nav-item dropdown">
+              <a class="nav-link mx-2 active dropdown-toggle" role="button" data-bs-toggle="dropdown">Cuenta</a>
+              <ul class="dropdown-menu p-3 p-lg-0">
+                <li><a [routerLink]="['/user_registered/users_profile']" class="dropdown-item">Editar perfil</a></li>
+                <li><a [routerLink]="['/orders']" class="dropdown-item">Ver Pedidos</a></li>
+                <li>
+                  <form (ngSubmit)="logout()" style="display: none;">
+                    <input type="hidden" name="_csrf" [value]="csrfToken" />
+                  </form>
+                  <a href="#" class="dropdown-item" (click)="logout()">Cerrar sesión</a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['/cart']" class="nav-link mx-2 active">Cesta</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="d-none d-lg-flex justify-content-end">
+          <ul class="d-flex justify-content-end list-unstyled m-0">
+            <li *ngIf="logged">{{ userName }}</li>
+            <li class="nav_item dropdown">
+              <a class="nav-link mx-2 dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                <iconify-icon icon="healthicons:person" class="fs-4 text-light"></iconify-icon>
+              </a>
+              <ul class="dropdown-menu p-3 p-lg-0">
+                <li *ngIf="logged">
+                  <form (ngSubmit)="logout()" style="display: none;">
+                    <input type="hidden" name="_csrf" [value]="csrfToken" />
+                  </form>
+                  <a href="#" class="dropdown-item" (click)="logout()">Cerrar sesión</a>
+                </li>
+                <li *ngIf="logged"><a [routerLink]="['/user_registered/users_profile']" class="dropdown-item">Editar
+                    perfil</a></li>
+                <li *ngIf="logged"><a [routerLink]="['/orders']" class="dropdown-item">Ver Pedidos</a></li>
+                <li *ngIf="!logged"><a [routerLink]="['/login']" class="dropdown-item">Iniciar sesión</a></li>
+              </ul>
+            </li>
+            <li class="lh-1">
+              <a [routerLink]="['/cart']" class="mx-3">
+                <iconify-icon icon="mdi:cart" class="fs-4 text-light"></iconify-icon>
+              </a>
+            </li>
+            <li class="lh-1">
+              <a href="#" class="mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSearch"
+                aria-controls="offcanvasSearch">
+                <iconify-icon icon="tabler:search" class="fs-4 text-light"></iconify-icon>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

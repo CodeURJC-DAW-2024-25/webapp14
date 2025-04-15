@@ -128,8 +128,9 @@
                     <form id="logoutForm" action="/logout" method="POST" style="display: none;">
                       <input type="hidden" name="_csrf" value="{{token}}" />
                     </form>
-                    <a href="#" class="dropdown-item" onclick="document.getElementById('logoutForm').submit(); return false;">
-                        Cerrar sesión
+                    <a href="#" class="dropdown-item"
+                      onclick="document.getElementById('logoutForm').submit(); return false;">
+                      Cerrar sesión
                     </a>
                   </li>
                   {{/logged}}
@@ -166,7 +167,7 @@
                       onclick="document.getElementById('logoutForm').submit(); return false;">
                       Cerrar sesión
                     </a>
-                    </li>
+                  </li>
 
                   <li><a href="/user_registered/users_profile" class="dropdown-item">Editar perfil</a></li>
                   <li><a href="/orders" class="dropdown-item">Ver Pedidos</a></li>
