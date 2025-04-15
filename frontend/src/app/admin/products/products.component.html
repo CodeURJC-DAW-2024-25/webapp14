@@ -19,9 +19,93 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-primary mt-3 mb-3 d-flex align-items-center" (click)="openCreateModal()">
-        <i class="fas fa-plus-circle mr-2"></i> Crear Producto
-    </button>
+    <!-- Modal Botton -->
+    <div class="d-flex mt-3 mb-3">
+        <button class="btn btn-primary btn-rounded btn-sm mb-2 mb-sm-0 ml-sm-2" 
+                data-toggle="modal" 
+                data-target="#createModal">
+            <i class="fas fa-plus-circle"></i> Crear Producto
+        </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Crear Nuevo Producto</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form (ngSubmit)="createProduct()" #createProductForm="ngForm">
+
+                        <div class="form-group">
+                            <label for="productName">Nombre</label>
+                            <input type="text" class="form-control" id="productName" [(ngModel)]="newProduct.name" name="name" placeholder="Ingrese el nombre" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productDescription">Descripción</label>
+                            <input type="text" class="form-control" id="productDescription" [(ngModel)]="newProduct.description" name="description" placeholder="Ingrese la descripción" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="productPrice">Precio</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="productPrice" [(ngModel)]="newProduct.price" name="price" placeholder="Ingrese el precio" min="0" step="0.01" required>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">&euro;</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newProductCategory">Categoría</label>
+                            <select class="form-control" id="newProductCategory" [(ngModel)]="newProduct.category" name="category" required>
+                                <option value="" selected disabled>Seleccione la categoría</option>
+                                <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Stock Disponible por Talla</label>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-6 mb-2">
+                                    <label for="stock_S" class="d-block text-center font-weight-bold">S</label>
+                                    <input type="number" class="form-control text-center" id="stock_S"
+                                        [(ngModel)]="newProduct.stock_S" name="stock_S" value="0" min="0">
+                                </div>
+                                <div class="col-md-3 col-sm-6 mb-2">
+                                    <label for="stock_M" class="d-block text-center font-weight-bold">M</label>
+                                    <input type="number" class="form-control text-center" id="stock_M"
+                                        [(ngModel)]="newProduct.stock_M" name="stock_M" value="0" min="0">
+                                </div>
+                                <div class="col-md-3 col-sm-6 mb-2">
+                                    <label for="stock_L" class="d-block text-center font-weight-bold">L</label>
+                                    <input type="number" class="form-control text-center" id="stock_L"
+                                        [(ngModel)]="newProduct.stock_L" name="stock_L" value="0" min="0">
+                                </div>
+                                <div class="col-md-3 col-sm-6 mb-2">
+                                    <label for="stock_XL" class="d-block text-center font-weight-bold">XL</label>
+                                    <input type="number" class="form-control text-center" id="stock_XL"
+                                        [(ngModel)]="newProduct.stock_XL" name="stock_XL" value="0" min="0">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+
+                        
+
+                        <button type="submit" class="btn btn-success" [disabled]="createProductForm.invalid">Crear Producto</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div *ngIf="deleteTry" class="alert alert-danger text-center mt-2" role="alert">
         ❌ No se puede eliminar el producto porque está incluido en el pedido de algún cliente.
@@ -53,11 +137,10 @@
                             <i class="fas fa-edit"></i> Editar
                         </button>
                 
-                        <form [attr.action]="'/admin/products/delete/' + product.id" method="post">
-                            <button type="submit" class="btn btn-danger btn-rounded btn-sm ml-sm-2">
+                        <button type="button" class="btn btn-danger btn-rounded btn-sm ml-sm-2" (click)="deleteProduct(product.id)">
                             <i class="fas fa-trash-alt"></i> Eliminar
-                            </button>
-                        </form>
+                        </button>
+                          
                         </div>
                     </li>
                 
@@ -112,8 +195,120 @@
                             </ng-template>
                           </div>
                     </div>
+
+
+
+                    <div class="modal fade" [id]="'editModal' + product.id" tabindex="-1" role="dialog"
+                        aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel">Editar Producto - {{product.name}}</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form (ngSubmit)="editProduct(product)">
+
+                                    <div class="container">
+                                        <div class="row justify-content-center">
+                                          <div class="col-md-5 text-center" *ngIf="product.imageBool">
+                                            <div class="cardImage shadow-sm p-3 mb-4">
+                                              <h6 class="text-muted">Imagen Actual</h6>
+                                              <img id="originalImage" class="img-fluid rounded"
+                                                   alt="Imagen Actual" style="max-width: 100%; height: auto;"
+                                                   [src]="'/image/' + product.id">
+                                            </div>
+                                          </div>
+                                      
+                                          <div class="col-md-5 text-center">
+                                            <div class="cardImage shadow-sm p-3 mb-4">
+                                              <h6 class="text-muted">Nueva Imagen</h6>
+                                              <img [id]="'newImagePreview' + product.id" class="img-fluid rounded"
+                                                   alt="Nueva Imagen"
+                                                   style="max-width: 100%; height: auto;"
+                                                  >
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      
+                                      <div class="form-group">
+                                        <label for="imageField">Actualizar Imagen</label>
+                                        <div class="custom-file">
+                                          <input type="file" class="custom-file-input" 
+                                                 [id]="'updateImage' + product.id"
+                                                 (change)="onImageSelected($event, product)"
+                                                 accept="image/*">
+                                          <label class="custom-file-label" for="imageField">Seleccionar Archivo...</label>
+                                        </div>
+                                      </div>
+
+                                      
+                                
+                                <div class="form-group">
+                                    <label for="productName">Nombre del producto</label>
+                                    <input type="text" class="form-control" id="productName" [(ngModel)]="product.name" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="productDescription">Descripción</label>
+                                    <input type="text" class="form-control" id="productDescription"
+                                        name="description" [(ngModel)]="product.description" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="productPrice">Precio</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="productPrice"
+                                            name="price" [(ngModel)]="product.price" min="0" step="0.01">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">&euro;</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="productCategory{{ product.id }}">Categoría</label>
+                                    <select class="form-control" id="productCategory{{ product.id }}" name="category" [(ngModel)]="product.category" required>
+                                      <option value="" disabled>Seleccione la categoría</option>
+                                      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Stock Disponible por Talla</label>
+                                    <div class="row">
+                                        <div class="col-md-3 col-sm-6 mb-2" *ngFor="let size of product.sizes">
+                                        <label [for]="'stock' + size.name" class="d-block text-center font-weight-bold">
+                                            {{ size.name }}
+                                        </label>
+                                        <input type="number" class="form-control text-center"
+                                                [id]="'stock' + size.name"
+                                                [(ngModel)]="size.stock"
+                                                [name]="'stock_' + size.name"
+                                                min="0">
+                                        </div>
+                                    </div>
+                                </div>
+                                  
+                                <button type="submit" class="btn btn-success">Guardar</button>
+                                </form>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
                     </ng-container>
                 </ul>
+                <div class="pagination mt-3">
+                    <button class="btn btn-primary btn-sm" (click)="previousPage()" [disabled]="currentPage === 0">
+                      Anterior
+                    </button>
+                    <span class="mx-2">Página {{ currentPage + 1 }} de {{ totalPages }}</span>
+                    <button class="btn btn-primary btn-sm" (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
+                      Siguiente
+                    </button>
+                </div>
             </div>
         </div>
     </div>  

@@ -3,7 +3,7 @@ import { ReviewDTO } from "./review.dto";
 
 
 export interface ProductDTO {
-	id?: number,
+	id: number,
 	name: string,
 	description: string,
     price: number,
