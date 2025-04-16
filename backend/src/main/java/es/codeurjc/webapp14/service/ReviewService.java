@@ -172,10 +172,13 @@ public class ReviewService {
     public ReviewDTO reportReview(Long reviewId) {
 
         Review review = ReviewRepository.findById(reviewId).orElseThrow(() -> new EntityNotFoundException("Review not found"));
+        User user = review.getUser();
+        user.setReports(1);
         review.setReported(true);
         //this.user.setReports(1);
 
         saveReview(review);
+        userService.saveUser(user);
 
         return toDTO(review);
     }

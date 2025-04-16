@@ -1,9 +1,12 @@
+import { ProductDTO } from "./product.dto";
+import { UserDTO } from "./user.dto";
 
 
 export interface ReviewDTO {
     id?: number,
     username: string,
-    //user: UserDTO,
+    user: UserDTO,
+    product: ProductDTO,
     rating: number,
     reviewText: String,
     reported: boolean,

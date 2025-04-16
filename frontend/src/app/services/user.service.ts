@@ -56,4 +56,26 @@ export class UserService {
   logout(): Observable<any> {
     return this.http.post(`${environment.apiUrl}/logout`, {});
   }
+
+  getUsers(page: number, pageSize: number): Observable<any> {
+    const url = `${environment.apiUrl}/users?page=${page}&size=${pageSize}`;
+
+    return this.http.get<any>(url);
+  }
+
+  deleteUser(userId: number): Observable<void> {
+    const url = `${environment.apiUrl}/users/${userId}`;
+    return this.http.delete<void>(url);
+  }
+
+  banUser(userId: number): Observable<void> {
+    const url = `${environment.apiUrl}/users/${userId}?ban=true`;
+    return this.http.patch<void>(url, null);
+  }
+
+  unbanUser(userId: number): Observable<void> {
+    const url = `${environment.apiUrl}/users/${userId}?ban=false`;
+    return this.http.patch<void>(url, null);
+  }
+
 }

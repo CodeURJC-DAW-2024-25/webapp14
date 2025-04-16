@@ -1,1 +1,186 @@
-<p>users works!</p>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-3 col-md-6 mb-4" *ngFor="let card of summaryCards">
+            <div class="card border-left-{{card.color}} shadow h-100 py-2">
+                <div class="card-body d-flex align-items-center">
+                    <div class="col">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1 text-custom-{{card.color}}">
+                            {{ card.title }}
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{ card.value }}
+                        </div>
+                    </div>
+                    <div class="col-auto d-flex align-items-center">
+                        <i class="{{ card.icon }} fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-xl-12 col-lg-10">
+        <div class="card shadow mb-4">
+          <!-- Card Header -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-admin-title">Usuarios</h6>
+          </div>
+      
+          <!-- Card Body -->
+          <div class="card-body">
+            <ul class="list-group" id="users">
+            <ng-container *ngFor="let user of users">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <span>{{ user.name }} {{ user.surname }}</span>
+      
+                    <div class="d-flex flex-column flex-sm-row mt-2">
+                        <button class="btn btn-sm btn-outline-primary custom-btn mb-2 mb-sm-0"
+                            (click)="user.showDetails = !user.showDetails">
+                        Ver detalles
+                        </button>  
+
+                        <button type="button" class="btn btn-danger btn-rounded btn-sm ml-sm-2" (click)="deleteUser(user.id!)">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </button>
+                    </div>
+                </li>
+                <div *ngIf="user.showDetails" class="mt-2 mb-3">
+                    <div class="card card-body d-flex flex-column flex-sm-row align-items-center">
+                        <div class="me-3">
+                          <img *ngIf="user.imageUrl !== null; else defaultImage"
+                              [src]="user.imageUrl"
+                              class="img-profile rounded-circle"
+                              alt="Profile Picture"
+                              width="60"
+                              height="60"
+                              style="margin-right: 15px;"
+                              id="profileImage" />
+                      
+                          <ng-template #defaultImage>
+                            <img src="/images/noAdminImage.png"
+                                class="img-profile rounded-circle"
+                                alt="Profile Picture"
+                                width="60"
+                                height="60"
+                                style="margin-right: 15px;"
+                                id="profileImage" />
+                          </ng-template>
+                        </div>
+                      
+                        <div class="user-info-div">
+                          <strong>Correo:</strong> {{ user.email }}<br />
+                          <strong>Dirección:</strong> {{ user.address }}<br />
+                        </div>
+                      </div>
+                </div>
+            </ng-container>
+            </ul>
+            <div class="pagination mt-3">
+                <button class="btn btn-primary btn-sm" (click)="previousUsersPage()" [disabled]="currentUsersPage === 0">
+                  Anterior
+                </button>
+                <span class="mx-2">Página {{ currentUsersPage + 1 }} de {{ totalUsersPages }}</span>
+                <button class="btn btn-primary btn-sm" (click)="nextUsersPage()" [disabled]="currentUsersPage === totalUsersPages - 1">
+                  Siguiente
+                </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-12 col-lg-10">
+        <div class="card shadow mb-4">
+            <!-- Card Header -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-admin-title">Reseñas con reportes de Usuarios</h6>
+            </div>
+            
+            <div class="card-body">
+              <ul class="list-group" id="usersWithReportedReviews">
+            
+                <li *ngIf="usersReviews.length === 0" class="list-group-item text-center text-muted">
+                  No hay usuarios con reportes.
+                </li>
+                <ng-container *ngFor="let user of usersReviews">
+                  <li class="list-group-item">
+                    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center">
+                      <span>{{ user.name }}</span>
+            
+                      <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center mt-2 mt-sm-0 text-sm-right">
+                        <span class="badge badge-danger badge-pill mb-2 mb-sm-0 mr-sm-2">
+                          {{ user.reports }} Avisos
+                        </span>
+            
+                        <button
+                          class="btn btn-sm btn-outline-primary d-block d-sm-inline mb-2 mb-sm-0 mr-sm-2"
+                          (click)="user.showReports = !user.showReports">
+                          Ver reportes
+                        </button>
+                        
+                        <button type="button" class="btn btn-warning btn-rounded btn-sm d-block d-sm-inline" (click)="banUser(user.id!)">
+                          <i class="fas fa-exclamation-triangle"></i> Banear
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+            
+                  <div class="collapse mt-2 mb-3" [ngClass]="{ show: user.showReports }">
+                    <ul class="list-group ml-3">
+                      <li
+                        *ngFor="let review of user.reportedReviews"
+                        class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+            
+                        <span class="report-text span-review text-start w-100">
+                          <strong>ID del Producto: <span class="product-id"></span></strong><br>
+                          {{ review.reviewText }}
+                        </span>
+            
+                        <div class="report-actions report-btn d-flex mt-2 mt-md-0">
+                          <button type="button" class="btn btn-success btn-sm me-2 " (click)="acceptReview(review.id!, review.product.id!)">
+                            <i class="fas fa-check"></i> Aceptar
+                          </button>
+
+                          <button type="button" class="btn btn-danger btn-sm " (click)="deleteReview(review.id!, review.product.id!)">
+                            <i class="fas fa-trash"></i> Eliminar
+                          </button>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </ng-container>
+              </ul>
+            </div>
+        </div>
+      </div>
+
+      <div class="col-xl-12 col-lg-10">
+        <div class="card shadow mb-4">
+          <!-- Card Header -->
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-admin-title">Usuarios baneados</h6>
+          </div>
+      
+          <!-- Card Body -->
+          <div class="card-body">
+            <ng-container *ngIf="usersBanned.length > 0; else noBannedMessage">
+              <ul class="list-group">
+                <li *ngFor="let user of usersBanned" class="list-group-item d-flex justify-content-between align-items-center">
+                  <span>{{ user.name }}</span>
+                  <div>
+                    <button type="button" class="btn btn-warning btn-rounded btn-sm d-block d-sm-inline" (click)="unbanUser(user.id!)">
+                      <i class="fas fa-exclamation-triangle"></i> Desbanear
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            </ng-container>
+      
+            <ng-template #noBannedMessage>
+              <p class="text-muted text-center mb-0">No hay usuarios baneados</p>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+</div>

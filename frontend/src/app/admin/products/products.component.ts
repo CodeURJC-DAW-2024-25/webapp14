@@ -44,8 +44,6 @@ export class ProductsComponent implements OnInit {
   constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
-    console.log('ngOnInit ejecutado');
-
     this.loadProducts();
   }
 
