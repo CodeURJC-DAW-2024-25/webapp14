@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { OrderProductDTO } from '../../dtos/orderProduct.dto';
-import { orderProductService } from '../../services/orderProduct.service';
+import { OrderProductService } from '../../services/orderProduct.service';
 
 
 @Component({
@@ -17,7 +17,7 @@ export class CartComponent {
   shipping = 0;
   total = 0;
 
-  constructor(private router: Router, private orderProductService: orderProductService) {}
+  constructor(private router: Router, private orderProductService: OrderProductService) {}
 
   ngOnInit(): void {
     this.loadCart();

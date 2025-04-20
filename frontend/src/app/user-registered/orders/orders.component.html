@@ -1,1 +1,51 @@
-<p>orders works!</p>
+<section style="margin-top: 8rem;">
+    <div class="px-4">
+        <button type="button" class="btn btn-back" (click)="goBack()">⬅ Volver</button>
+      </div>
+    <div class="container">
+  
+      <div *ngIf="!exists" class="row justify-content-center text-center">
+        <div class="col-12">
+          <div class="alert alert-info p-5" style="background-color: #f8f9fa; border-radius: 15px; border: 2px solid black;">
+            <h4 class="text-primary mb-3">¡No tienes pedidos realizados!</h4>
+            <p class="text-muted">Parece que aún no has realizado ningún pedido. ¡Empieza a comprar ahora y descubre nuestros productos!</p>
+            <a routerLink="/index" class="btn btn-primary btn-lg">Comienza a comprar</a>
+          </div>
+        </div>
+      </div>
+  
+      <div *ngIf="exists">
+        <div class="hero-content text-center">
+          <h1 class="mb-4" style="font-size: 2rem;">Mis pedidos</h1>
+        </div>
+        <div class="row">
+          <div>
+            <table class="table table-borderless table-hover table-responsive-md">
+              <thead class="bg-light text-center">
+                <tr>
+                  <th class="py-4 text-uppercase text-sm">Pedido</th>
+                  <th class="py-4 text-uppercase text-sm">Fecha</th>
+                  <th class="py-4 text-uppercase text-sm">Total</th>
+                  <th class="py-4 text-uppercase text-sm"></th>
+                </tr>
+              </thead>
+              <tbody class="text-center">
+                <tr *ngFor="let order of orders">
+                  <th class="py-4 align-middle">{{ order.id }}</th>
+                  <td class="py-4 align-middle">{{ order.createdAtFormatted }}</td>
+                  <td class="py-4 align-middle">{{ order.totalPrice }} EUR</td>
+                  <td class="py-4 align-middle">
+                    <button class="btn btn-outline-dark btn-sm" (click)="viewOrderDetails(order.id)">
+                      Ver detalles
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </section>
+  

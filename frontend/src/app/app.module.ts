@@ -29,6 +29,8 @@ import { HeaderUserComponent } from './user/shared/header-user/header-user.compo
 import { AccessErrorComponent } from './access-error/access-error.component';
 import { NoPageErrorComponent } from './no-page-error/no-page-error.component';
 import { CartComponent } from './user-registered/cart/cart.component';
+import { OrdersComponent } from './user-registered/orders/orders.component';
+
 import { OrdersDetailComponent } from './user-registered/orders-detail/orders-detail.component';
 import { UsersProfileComponent } from './user-registered/users-profile/users-profile.component';
 import { FooterAdminComponent } from './admin/shared/footer-admin/footer-admin.component';
@@ -53,6 +55,7 @@ import { ImportsAdminComponent } from './admin/shared/imports-admin/imports-admi
     HeaderUserComponent,
     NavigationBarComponent,
     ChartsComponent,
+    OrdersComponent,
     OrdersAdminComponent,
     ProductsComponent,
     ProfileComponent,

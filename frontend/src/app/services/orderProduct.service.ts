@@ -7,7 +7,7 @@ import { environment } from '../environment';
 @Injectable({
   providedIn: 'root'
 })
-export class orderProductService {
+export class OrderProductService {
 
   private baseUrl = `${environment.apiUrl}/cart`;
 
