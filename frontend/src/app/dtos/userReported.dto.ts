@@ -1,9 +1,9 @@
-import { ReviewDTO } from "./review.dto";
+import { ReviewReportedDTO } from "./reviewReported.dto";
 
 
 
 
-export interface UserDTO {
+export interface UserReportedDTO {
     id?: number,
     name: string,
     surname: string,
@@ -14,5 +14,6 @@ export interface UserDTO {
     imageUrl: String,
     roles: String[],
     showDetails?: boolean,
-    showReports?: boolean
+    showReports?: boolean,
+    reviews: ReviewReportedDTO[],
 }

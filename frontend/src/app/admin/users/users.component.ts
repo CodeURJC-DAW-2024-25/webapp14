@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { UserDTO } from '../../dtos/user.dto';
-import { ReviewDTO } from '../../dtos/review.dto';
+import { UserReportedDTO } from '../../dtos/userReported.dto';
 import { ReviewService } from '../../services/review.service';
 
 
@@ -18,11 +18,15 @@ export class UsersComponent {
   totalReportedReviews: number = 0;
   bannedUserCont: number = 0;
 
+  currentUsersReportedPage: number = 0;
+  pageUsersReportedSize: number = 5;
+
+
   currentUsersPage: number = 0;
   totalUsersPages: number = 0;
   pageUsersSize: number = 5;
   users: UserDTO[] = []
-  usersReviews: UserDTO[] = [];
+  usersReported: UserReportedDTO[] = [];
   usersBanned: UserDTO[] = [];
   summaryCards = [
     { title: 'Usuarios totales', value: this.userCount, color: 'primary', icon: 'fas fa-tshirt' },
@@ -46,17 +50,16 @@ export class UsersComponent {
         this.totalUsersPages = data.users.totalPages;
 
         this.users = data.users.content;
-        this.usersReviews = this.users.filter(user => user.reports > 0);
-        this.usersBanned = this.users.filter(user => user.banned);
+        this.usersBanned = data.bannedUsers;
         this.userCount = data.totalUsers;
 
-        this.reviewService.getReviewReported().subscribe({
-          next: (reviewsData) => {
-            const reportedReviews = reviewsData;
-  
-            this.users.forEach(user => {
-              user.reportedReviews = reportedReviews.filter((review: ReviewDTO) => review.user.id === user.id && review.reported);
-            });
+        this.userService.getUsersReported(this.currentUsersReportedPage, this.pageUsersReportedSize).subscribe({
+          next: (reportedData) => {
+              console.log(reportedData);
+              this.usersReported = reportedData.users.content.map((user: UserReportedDTO) => ({
+                ...user,
+                reviews: user.reviews.filter((review: any) => review.reported === true)
+              }));    
           },
           error: (err) => {
             console.error('Error al cargar las reviews reportadas:', err);
@@ -142,7 +145,7 @@ export class UsersComponent {
   }
 
   banUser(userId: number): void {
-    this.userService.unbanUser(userId).subscribe(
+    this.userService.banUser(userId).subscribe(
       () => {
 
         console.log('Usuario baneado con éxito');

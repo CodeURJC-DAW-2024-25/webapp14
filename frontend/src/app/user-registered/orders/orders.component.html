@@ -35,7 +35,7 @@
                   <td class="py-4 align-middle">{{ order.createdAtFormatted }}</td>
                   <td class="py-4 align-middle">{{ order.totalPrice }} EUR</td>
                   <td class="py-4 align-middle">
-                    <button class="btn btn-outline-dark btn-sm" (click)="viewOrderDetails(order.id)">
+                    <button class="btn btn-outline-dark btn-sm" (click)="viewOrderDetails(order.id!)">
                       Ver detalles
                     </button>
                   </td>

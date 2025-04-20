@@ -78,4 +78,9 @@ export class UserService {
     return this.http.patch<void>(url, null);
   }
 
+  getUsersReported(page: number, pageSize: number): Observable<any> {
+    const url = `${environment.apiUrl}/users/reports?page=${page}&size=${pageSize}`;
+    return this.http.get<any>(url);
+  }
+
 }

@@ -3,7 +3,9 @@ package es.codeurjc.webapp14.service;
 import es.codeurjc.webapp14.dto.EditUserDTO;
 import es.codeurjc.webapp14.dto.NewUserDTO;
 import es.codeurjc.webapp14.dto.UserDTO;
+import es.codeurjc.webapp14.dto.UserReportedDTO;
 import es.codeurjc.webapp14.mapper.UserMapper;
+import es.codeurjc.webapp14.mapper.UserReportedMapper;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -38,10 +40,13 @@ public class UserService {
 
     private final UserMapper userMapper;
 
+    private final UserReportedMapper userReportedMapper;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+
+    public UserService(UserRepository userRepository, UserMapper userMapper, UserReportedMapper userReportedMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.userReportedMapper = userReportedMapper;
     }
 
     public UserDTO findById(Long id) {
@@ -113,9 +118,9 @@ public class UserService {
         return userRepository.findByRolesNotContaining("ADMIN", PageRequest.of(page, size)).map(userMapper::toDTO);
     }
 
-    public Page<User> getUsersWithReportedReviewsPaginated(int page, int size) {
+    public Page<UserReportedDTO> getUsersWithReportedReviewsPaginated(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return userRepository.findUsersWithReportedReviews(pageable);
+        return userRepository.findUsersWithReportedReviews(pageable).map(userReportedMapper::toDTO);
     }
 
     public void delete(Long id) {
@@ -137,6 +142,10 @@ public class UserService {
 
     public UserDTO toDTO(User user) {
         return userMapper.toDTO(user);
+    }
+
+    public UserReportedDTO toDTOReported(User user) {
+        return userReportedMapper.toDTO(user);
     }
 
     public User toDomain(UserDTO userDTO) {
@@ -257,6 +266,10 @@ public class UserService {
         userRepository.save(user);
 
         return toDTO(user);
+    }
+
+    public Page<UserDTO> getUsersWithReportedReviewsPaginatedRest(int page, int size) {
+        return userRepository.findUsersWithReportedReviews(PageRequest.of(page, size)).map(userMapper::toDTO);
     }
 
     public UserDTO banUser(Long id) {

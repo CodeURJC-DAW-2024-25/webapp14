@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -202,5 +203,18 @@ public class UserRestController {
 
         return user;
     }
+
+
+    @Operation(summary = "Get Reported Users", description = "Return all the reported Users")
+    @GetMapping("/reports")
+    public ResponseEntity<Map<String, Object>> getReportedUsers( @RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "10") int size) {
+        Map<String, Object> data = new HashMap<>();
+
+        data.put("users",userService.getUsersWithReportedReviewsPaginated(page,size));
+
+        return ResponseEntity.ok(data);
+    }
+    
     
 }

@@ -150,9 +150,10 @@
                         <div class="d-flex align-items-center">
                         <div class="image-wrapper position-relative">
                             <ng-container *ngIf="product.imageBool; else noImage">
-                                <img [src]="'/image/' + product.id" alt="Producto"
-                                    class="rounded img-admin-products"
-                                    [ngClass]="{'out-of-stock': product.outOfStock}">
+                                <img [src]="'https://localhost:8443/api/v1/products/' + product.id + '/image'" 
+                                alt="Producto"
+                                class="rounded img-admin-products"
+                                [ngClass]="{'out-of-stock': product.outOfStock}">
 
                                 <div *ngIf="product.outOfStock" class="out-of-stock-overlay">Sin Stock</div>
                             </ng-container>
