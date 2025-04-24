@@ -33,21 +33,13 @@ public class JwtTokenProvider {
 		return bearerToken.substring(7);
 	}
 
-	private String tokenStringFromCookies(HttpServletRequest request) {
-		var cookies = request.getCookies();
-		if (cookies == null) {
-			throw new IllegalArgumentException("No cookies found in request");
-		}
-
-		for (Cookie cookie : cookies) {
-			if (TokenType.ACCESS.cookieName.equals(cookie.getName())) {
-				String accessToken = cookie.getValue();
-				if (accessToken == null) {
-					throw new IllegalArgumentException(
-							"Cookie %s has null value".formatted(TokenType.ACCESS.cookieName));
+	public String tokenStringFromCookies(HttpServletRequest request) {
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (TokenType.ACCESS.cookieName.equals(cookie.getName())) {
+					return cookie.getValue();
 				}
-
-				return accessToken;
 			}
 		}
 		throw new IllegalArgumentException("No access token cookie found in request");

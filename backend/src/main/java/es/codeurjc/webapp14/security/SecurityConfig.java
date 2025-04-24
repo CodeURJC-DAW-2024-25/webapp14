@@ -70,6 +70,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/category/**").permitAll()
                         .requestMatchers("/api/v1/search/**").permitAll()
                         .requestMatchers("/api/v1/image/**").permitAll()
+                        .requestMatchers("/api/v1/users/me").permitAll()
 
                         // PRIVATE ENDPOINTS
 
@@ -77,7 +78,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/products/{id}/reviews/{reviewId}").hasRole("USER")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/products/{id}/reviews/{reviewId}").hasRole("USER")
                         .requestMatchers(HttpMethod.DELETE, "/api/v1/products/{id}/reviews/{reviewId}").hasRole("USER")
-
                         .requestMatchers(HttpMethod.POST, "/api/v1/products/image/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/v1/products/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/products/**").hasRole("ADMIN")
@@ -157,4 +157,5 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 }

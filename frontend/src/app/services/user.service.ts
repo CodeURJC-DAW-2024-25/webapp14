@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { environment } from '../environment';
+import { UserDTO } from '../dtos/user.dto';
+
 
 @Injectable({
   providedIn: 'root'
@@ -81,6 +83,18 @@ export class UserService {
   getUsersReported(page: number, pageSize: number): Observable<any> {
     const url = `${environment.apiUrl}/users/reports?page=${page}&size=${pageSize}`;
     return this.http.get<any>(url);
+  }
+
+  login(loginRequest: { email: string; password: string }): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/auth/login`, loginRequest, {
+      withCredentials: true // To make sure the cookie is being sent with the token
+    });
+  }
+
+  getUser(loginRequest: { email: string; password: string }): Observable<UserDTO> {
+    return this.http.post<any>(`${environment.apiUrl}/users/me`, loginRequest, {
+      withCredentials: true
+    });
   }
 
 }

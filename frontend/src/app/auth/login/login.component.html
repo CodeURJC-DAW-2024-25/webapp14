@@ -1,1 +1,89 @@
-<p>login works!</p>
+<!-- Navigation bar -->
+<app-navigation-bar></app-navigation-bar>
+
+<!-- Login section -->
+<section class="ftco-section">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-lg-10">
+                <div class="wrap d-md-flex">
+                    <div class="img" style="background-image: url(../../assets/images/login.jpg);">
+                    </div>
+                    <div class="login-wrap p-4 p-md-5 order-2 order-md-1">
+                        <div class="login-wrap p-4 p-md-5">
+
+                            <div class="d-flex">
+                                <div class="w-100">
+                                    <h3 class="mb-4">Inicia sesión</h3>
+                                </div>
+                            </div>
+
+                            <!-- Login form -->
+                            <form class="signin-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                                <input type="hidden" name="_csrf" value="{{token}}" />
+
+                                <!-- Email -->
+                                <div class="form-group mb-3">
+                                    <div class="label" for="email">E-mail</div>
+                                    <input id="email" type="email" formControlName="email" class="form-control"
+                                        placeholder="E-mail">
+                                    <div *ngIf="email?.invalid && email?.touched" class="text-danger small">
+                                        El e-mail no es válido
+                                    </div>
+                                </div>
+
+                                <!-- Password -->
+                                <div class="form-group mb-3">
+                                    <div class="label" for="password">Contraseña</div>
+                                    <div class="input-group">
+                                        <input [type]="showPassword ? 'text' : 'password'" id="password"
+                                            class="form-control" placeholder="Contraseña" formControlName="password">
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                (click)="togglePassword()">
+                                                <span style="position: relative; display: inline-block;">
+                                                    👁️‍🗨️
+                                                    <span *ngIf="!showPassword"
+                                                        style="position: absolute; top: 50%; left: 0; width: 100%; height: 3px; background-color: black; transform: rotate(-30deg); pointer-events: none;">
+                                                    </span>
+                                                </span>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                    <div *ngIf="password?.invalid && password?.touched" class="text-danger small">
+                                        La contraseña es obligatoria
+                                    </div>
+                                </div>
+                                <br>
+
+                                <!-- Buttons -->
+                                <div class="form-group">
+                                    <button type="submit" class="form-control btn btn-primary rounded submit px-3"
+                                        [disabled]="loginForm.invalid">
+                                        Iniciar sesión
+                                    </button>
+                                </div>
+                                <div class="form-group">
+                                    <a routerLink="/register" class="form-control btn btn-white rounded submit px-3">
+                                        Crear cuenta
+                                    </a>
+                                </div>
+
+                                <!-- Error -->
+                                <div *ngIf="errorMessage" class="text-danger mt-2">{{ errorMessage }}</div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- Footer section -->
+<app-footer-user></app-footer-user>

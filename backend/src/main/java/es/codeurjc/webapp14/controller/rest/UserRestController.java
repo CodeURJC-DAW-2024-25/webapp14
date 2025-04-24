@@ -4,9 +4,11 @@ import es.codeurjc.webapp14.dto.EditUserDTO;
 import es.codeurjc.webapp14.dto.UserDTO;
 import es.codeurjc.webapp14.model.User;
 import es.codeurjc.webapp14.service.UserService;
+import es.codeurjc.webapp14.mapper.UserMapper;
+import es.codeurjc.webapp14.security.jwt.LoginRequest;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import es.codeurjc.webapp14.mapper.UserMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -25,7 +27,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -69,6 +70,21 @@ public class UserRestController {
         }
     }
 
+    @PostMapping("/me")
+    public ResponseEntity<?> getAuthenticatedUser(@RequestBody LoginRequest loginRequest) {
+
+        User user = userService.findByEmail(loginRequest.getEmail());
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+
+        UserDTO userDTO = new UserDTO(user.getId(), user.getName(), user.getSurname(), user.getEmail(),
+                user.getAddress(), user.getBanned(), user.getReports(), user.getImageUrl(), user.getRoles());
+
+        return ResponseEntity.ok(userDTO);
+    }
+
     @Operation(summary = "Get Users", description = "Return all the Users created")
     @GetMapping
     public ResponseEntity<Map<String, Object>> getAdminUsers(
@@ -84,9 +100,8 @@ public class UserRestController {
 
         // Get pending reports. This function does not exist, we have to look at how its
         // done on the web controller
-        
-        
-        //data.put("pendingReports", userService.getPendingReports());
+
+        // data.put("pendingReports", userService.getPendingReports());
 
         // Get banned users count
         data.put("bannedUsers", userService.getAllUsersBanned());
@@ -172,7 +187,6 @@ public class UserRestController {
 
     }
 
-
     @Operation(summary = "Delete User", description = "Delete the actual User")
     @DeleteMapping()
     public UserDTO deleteUser(@ModelAttribute("userId") long userId) {
@@ -192,29 +206,27 @@ public class UserRestController {
 
     @Operation(summary = "Ban/Unban User", description = "Update a User to banned/unbanned")
     @PatchMapping("/{id}")
-    public UserDTO ban_unbanUser(@PathVariable Long id, @RequestParam(value = "ban", required = false, defaultValue = "true") boolean ban) {
+    public UserDTO ban_unbanUser(@PathVariable Long id,
+            @RequestParam(value = "ban", required = false, defaultValue = "true") boolean ban) {
         UserDTO user;
-        if(ban){
+        if (ban) {
             user = userService.banUser(id);
-        }
-        else{
+        } else {
             user = userService.unbanUser(id);
         }
 
         return user;
     }
 
-
     @Operation(summary = "Get Reported Users", description = "Return all the reported Users")
     @GetMapping("/reports")
-    public ResponseEntity<Map<String, Object>> getReportedUsers( @RequestParam(defaultValue = "0") int page,
-    @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<Map<String, Object>> getReportedUsers(@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
         Map<String, Object> data = new HashMap<>();
 
-        data.put("users",userService.getUsersWithReportedReviewsPaginated(page,size));
+        data.put("users", userService.getUsersWithReportedReviewsPaginated(page, size));
 
         return ResponseEntity.ok(data);
     }
-    
-    
+
 }
