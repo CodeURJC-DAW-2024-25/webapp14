@@ -4,6 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { IndexComponent } from './user/index/index.component';
@@ -86,6 +87,7 @@ import { ImportsAdminComponent } from './admin/shared/imports-admin/imports-admi
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [],

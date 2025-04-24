@@ -59,6 +59,11 @@ export class ProductService {
     return this.http.get<any>(url);
   }
 
+  getIndexProducts(page: number, size: number): Observable<any> {
+    const url = `${environment.apiUrl}?page=${page}&size=${size}`;
+    return this.http.get<any>(url);
+  }
+
   getProduct(productId: number): Observable<any> {
     const url = `${environment.apiUrl}/products/${productId}`;
     return this.http.get<any>(url);

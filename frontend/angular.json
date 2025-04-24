@@ -42,6 +42,7 @@
               "src/assets/css/custom.css"
             ],
             "scripts": [
+              "node_modules/@iconify/iconify/dist/iconify.min.js",
               "src/assets/vendor/jquery/jquery.min.js",
               "src/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"
             ]
