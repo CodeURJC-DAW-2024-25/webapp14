@@ -2339,6 +2339,38 @@ textarea.form-control {
   margin-bottom: 0rem;
 }
 
+.form-group-reg {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.form-group-reg label {
+  position: absolute;
+  left: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  pointer-events: none;
+}
+
+input.form-control-reg {
+  width: 100%;
+  padding-left: 40px;
+  border: none !important;
+  border-bottom: 1px solid rgb(133, 133, 133) !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+
+input.form-control-reg:focus {
+  border: none !important;
+  border-bottom: 2px solid rgb(133, 133, 133) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 .form-text {
   display: block;
   margin-top: 0.25rem;

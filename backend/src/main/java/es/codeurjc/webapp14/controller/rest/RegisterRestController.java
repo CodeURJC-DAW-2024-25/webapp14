@@ -65,9 +65,8 @@ public class RegisterRestController {
         }
     }
 
-
     @Operation(summary = "Register User", description = "Register and save a User in the database")
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<UserDTO> registerUser(@RequestBody NewUserDTO newUserDTO,
             BindingResult result,
             Model model) {
@@ -85,14 +84,14 @@ public class RegisterRestController {
             URI location = URI.create("https://localhost:8443/api/v1/users/" + newUser.id());
             return ResponseEntity.created(location).body(newUser);
         } catch (IllegalArgumentException e) {
-           throw new AccessDeniedException("User invalid");
+            throw new AccessDeniedException("User invalid 2");
         }
     }
 
     @Operation(summary = "Add User Image", description = "Save a UserImage in the database")
     @PostMapping("/image")
     public ResponseEntity<Object> createUserImage(@ModelAttribute("userId") long userId,
-                                                    @RequestParam MultipartFile imageFile) throws IOException {
+            @RequestParam MultipartFile imageFile) throws IOException {
 
         URI location = URI.create("https://localhost:8443/api/v1/users/image");
 

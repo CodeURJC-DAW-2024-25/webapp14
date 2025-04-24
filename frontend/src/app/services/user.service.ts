@@ -1,10 +1,12 @@
-// user.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { environment } from '../environment';
 import { UserDTO } from '../dtos/user.dto';
-
+import { HttpErrorResponse } from '@angular/common/http';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { NewUserDTO } from '../dtos/newUser.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -95,6 +97,17 @@ export class UserService {
     return this.http.post<any>(`${environment.apiUrl}/users/me`, loginRequest, {
       withCredentials: true
     });
+  }
+
+  registerUser(newUser: NewUserDTO): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/user/register`, newUser).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.error('Error desde backend:', error);
+    return throwError(() => error);
   }
 
 }

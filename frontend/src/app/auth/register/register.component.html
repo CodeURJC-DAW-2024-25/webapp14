@@ -1,1 +1,112 @@
-<p>register works!</p>
+<head>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+</head>
+
+<section class="ftco-section">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 col-lg-10">
+                <div class="wrap d-md-flex">
+
+                    <!-- Image -->
+                    <div class="img order-1 order-md-2" style="background-image: url(../../assets/images/login.jpg);">
+                    </div>
+
+                    <div class="login-wrap p-4 p-md-5 order-2 order-md-1">
+
+                        <div class="d-flex">
+                            <div class="w-100">
+                                <h3 class="mb-4">Crea tu cuenta</h3>
+                            </div>
+                        </div>
+
+                        <!-- Register form -->
+                        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+                            <!-- Name -->
+                            <div class="form-group-reg">
+                                <label><i class="zmdi zmdi-account material-icons-name"
+                                        style="margin-left: 8px;"></i></label>
+                                <input type="text" class="form-control-reg" placeholder="Nombre"
+                                    formControlName="name" />
+                                <p *ngIf="submitted && registerForm.controls['name'].invalid" class="text-danger small">
+                                    Nombre requerido</p>
+                            </div>
+
+                            <!-- Surname -->
+                            <div class="form-group-reg">
+                                <label for="surname"><i class="zmdi zmdi-account material-icons-name"
+                                        style="margin-left: 8px;"></i></label>
+                                <input type="text" class="form-control-reg" placeholder="Apellidos"
+                                    formControlName="surname" />
+                                <p *ngIf="submitted && registerForm.controls['surname'].invalid"
+                                    class="text-danger small">
+                                    Apellidos requeridos</p>
+                            </div>
+
+                            <!-- Email -->
+                            <div class="form-group-reg">
+                                <label for="email"><i class="zmdi zmdi-email" style="margin-left: 8px;"></i></label>
+                                <input type="email" class="form-control-reg" placeholder="Email"
+                                    formControlName="email" />
+                                <p *ngIf="submitted && registerForm.controls['email'].invalid"
+                                    class="text-danger small">
+                                    Email inválido</p>
+                            </div>
+
+                            <!-- Password -->
+                            <div class="form-group-reg">
+                                <label for="encodedPassword"><i class="zmdi zmdi-lock"
+                                        style="margin-left: 8px;"></i></label>
+                                <input type="password" class="form-control-reg" placeholder="Contraseña"
+                                    formControlName="encodedPassword" />
+                                <p *ngIf="submitted && registerForm.controls['encodedPassword'].errors?.['minlength']"
+                                    class="text-danger small">
+                                    La contraseña debe tener al menos 6 caracteres
+                                </p>
+                            </div>
+
+                            <!-- Confirm password -->
+                            <div class="form-group-reg">
+                                <label for="confirmPassword"><i class="zmdi zmdi-lock-outline"
+                                        style="margin-left: 8px;"></i></label>
+                                <input type="password" class="form-control-reg" placeholder="Confirmar contraseña"
+                                    formControlName="confirmPassword" />
+                                <p *ngIf="errors.confirmPassword" class="text-danger small">{{ errors.confirmPassword }}
+                                </p>
+                            </div>
+
+                            <!-- Privacy policy -->
+                            <div class="form-group-reg">
+                                <input type="checkbox" id="agree-term" class="agree-term" formControlName="agree" />
+                                <label for="agree-term" class="label-agree-term"
+                                    [ngClass]="{'text-danger': submitted && registerForm.controls['agree'].invalid}">
+                                    <a class="form-password" style="margin-left: 19px;">
+                                        He podido leer y entiendo la Política de Privacidad y Cookies
+                                    </a>
+                                </label>
+                            </div>
+
+                            <!-- Button -->
+                            <div class="form-group-reg">
+                                <button class="btn btn-primary form-control" type="submit">Registrarse</button>
+                            </div>
+
+                            <!-- Login -->
+                            <div class="form-group1 mb-3">
+                                <a class="form-count">¿Ya tienes cuenta? </a> <a routerLink="/login"
+                                    class="form-count">Inicia sesión</a>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
