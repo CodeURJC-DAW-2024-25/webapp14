@@ -34,7 +34,7 @@
                       <img
                         class="cart-orderProduct-img col-6 img-fluid"
                         [ngClass]="{'out-of-stock': orderProduct.product.outOfStock}"
-                        [src]="'/image/' + orderProduct.product.id"
+                        [src]="'https://localhost:8443/api/v1/products/' + orderProduct.product.id + '/image'"
                         [alt]="orderProduct.product.name" />
                     </a>
                     <div *ngIf="orderProduct.product.outOfStock" class="out-of-stock-overlay-lit">Sin Stock</div>

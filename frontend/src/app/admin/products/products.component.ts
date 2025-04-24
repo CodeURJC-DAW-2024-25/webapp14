@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductDTO } from '../../dtos/product.dto';
 
+
 import { ProductService } from '../../services/product.service';
 
 @Component({
@@ -103,8 +104,24 @@ export class ProductsComponent implements OnInit {
   }
 
   loadMoreProducts(): void {
-    console.log('Load more products');
+    this.currentPage++;
+    this.loading = true;
+  
+    this.productService.getProducts(this.currentPage, this.pageSize).subscribe({
+      next: (data) => {
+        const newProducts = data.products.content;
+  
+        this.products = this.products.concat(newProducts);
+        this.totalPages = data.products.totalPages;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar más productos:', err);
+        this.loading = false;
+      }
+    });
   }
+  
 
   editProduct(product: any): void {
     this.productService.editProduct(product).subscribe({
@@ -134,28 +151,12 @@ export class ProductsComponent implements OnInit {
   }
   
 
-  nextPage(): void {
-    if (this.currentPage < this.totalPages - 1) {
-      this.currentPage++;
-      this.loadProducts();
-    }
-  }
-
-  previousPage(): void {
-    if (this.currentPage > 0) {
-      this.currentPage--;
-      this.loadProducts();
-    }
-  }
-
-
-
   createProduct(): void {
     const body = {
       name: this.newProduct.name,
       description: this.newProduct.description,
       price: this.newProduct.price,
-      stock: 0, // o puedes eliminarlo si no se usa
+      stock: 0,
       category: this.newProduct.category,
       imageBool: !!this.newProduct.image
     };

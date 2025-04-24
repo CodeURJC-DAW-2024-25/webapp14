@@ -13,6 +13,11 @@ import { ReviewService } from '../../services/review.service';
 })
 export class UsersComponent {
 
+  newReview = {
+    rating: 0,
+    reviewText: '',
+  };
+
 
   userCount: number = 0;
   totalReportedReviews: number = 0;
@@ -78,21 +83,24 @@ export class UsersComponent {
 
   }
 
+  loadMoreUsers(): void {
+    this.currentUsersPage++;
+  
+    this.userService.getUsers(this.currentUsersPage, this.pageUsersSize).subscribe({
+      next: (data) => {
+        const newUsers = data.users.content;
 
-  nextUsersPage(): void {
-    if (this.currentUsersPage < this.totalUsersPages - 1) {
-      this.currentUsersPage++;
-      this.loadData();
-    }
+        console.log(newUsers);
+
+  
+        this.users = this.users.concat(newUsers);
+        this.totalUsersPages = data.users.totalPages;
+      },
+      error: (err) => {
+        console.error('Error al cargar más usuarios:', err);
+      }
+    });
   }
-
-  previousUsersPage(): void {
-    if (this.currentUsersPage > 0) {
-      this.currentUsersPage--;
-      this.loadData();
-    }
-  }
-
 
   deleteUser(userId: number): void {
     this.userService.deleteUser(userId).subscribe(
@@ -113,23 +121,47 @@ export class UsersComponent {
 
 
   acceptReview(reviewId: number, productId: number): void {
-    this.reviewService.acceptReview(reviewId, productId).subscribe(
-      () => {
-        console.log('Review aceptada con éxito');
-        this.loadData();
+
+    const body = {
+      rating: 0,
+      reviewText: ""
+    };
+
+    this.reviewService.getReview(reviewId, productId).subscribe(
+      (data) => {
+        console.log('Review obtenida con éxito');
+        console.log(data);
+        
+        const body = {
+          rating: data.rating,
+          reviewText: data.reviewText
+        };
+    
+        // Ahora llamamos a acceptReview dentro del mismo bloque
+        this.reviewService.acceptReview(reviewId, productId, body).subscribe(
+          () => {
+            console.log('Review aceptada con éxito');
+            this.loadData();
+          },
+          (error) => {
+            console.error('Error al aceptar la review', error);
+            if (error.status === 500) {
+              this.loadData();
+            }
+          }
+        );
       },
       (error) => {
-        console.error('Error al aceptar la review', error);
+        console.error('Error al obtener la review', error);
         if (error.status === 500) {
           this.loadData();
         }
       }
-      
     );
   }
 
   deleteReview(reviewId: number, productId: number): void {
-    this.reviewService.deleteReview(reviewId, productId).subscribe(
+    this.reviewService.deleteReview(reviewId, productId, 1).subscribe(
       () => {
         console.log('Review eliminada con éxito');
         this.loadData();

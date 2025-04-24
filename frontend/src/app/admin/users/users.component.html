@@ -77,15 +77,14 @@
                 </div>
             </ng-container>
             </ul>
-            <div class="pagination mt-3">
-                <button class="btn btn-primary btn-sm" (click)="previousUsersPage()" [disabled]="currentUsersPage === 0">
-                  Anterior
-                </button>
-                <span class="mx-2">Página {{ currentUsersPage + 1 }} de {{ totalUsersPages }}</span>
-                <button class="btn btn-primary btn-sm" (click)="nextUsersPage()" [disabled]="currentUsersPage === totalUsersPages - 1">
-                  Siguiente
-                </button>
-            </div>
+            <div class="pagination mt-3 text-center">
+              <button 
+                  class="btn btn-primary btn-sm" 
+                  *ngIf="currentUsersPage < totalUsersPages - 1"
+                  (click)="loadMoreUsers()">
+                  <i class="fas fa-plus"></i> Cargar más
+              </button>
+          </div>
           </div>
         </div>
       </div>

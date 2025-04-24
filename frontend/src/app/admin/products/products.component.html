@@ -96,13 +96,11 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        
-
-                        
-
-                        <button type="submit" class="btn btn-success" [disabled]="createProductForm.invalid">Crear Producto</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="createProductForm.invalid">Crear Producto</button>
                     </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary">Cancelar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -221,7 +219,7 @@
                                             <h6 class="text-muted">Imagen Actual</h6>
                                             <img id="originalImage" class="img-fluid rounded"
                                                 alt="Imagen Actual" style="max-width: 100%; height: auto;"
-                                                [src]="'/image/' + product.id">
+                                                [src]="'https://localhost:8443/api/v1/products/' + product.id + '/image'" >
                                             </div>
                                         </div>
                                     
@@ -294,8 +292,13 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                </div>
                                 
-                                <button type="submit" class="btn btn-success">Guardar</button>
                                 </form>
                             </div>
                             </div>
@@ -303,15 +306,14 @@
                     </div>
                     </ng-container>
                 </ul>
-                <div class="pagination mt-3">
-                    <button class="btn btn-primary btn-sm" (click)="previousPage()" [disabled]="currentPage === 0">
-                    Anterior
+                <div class="pagination mt-3 text-center">
+                    <button 
+                        class="btn btn-primary btn-sm" 
+                        *ngIf="currentPage < totalPages - 1 && !loading"
+                        (click)="loadMoreProducts()">
+                        <i class="fas fa-plus"></i> Cargar más
                     </button>
-                    <span class="mx-2">Página {{ currentPage + 1 }} de {{ totalPages }}</span>
-                    <button class="btn btn-primary btn-sm" (click)="nextPage()" [disabled]="currentPage === totalPages - 1">
-                    Siguiente
-                    </button>
-                </div>
+                </div> 
             </div>
         </div>
     </div>  
