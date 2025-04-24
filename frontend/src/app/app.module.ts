@@ -25,6 +25,7 @@ import { MoreOrdersComponent } from './admin/more-orders/more-orders.component';
 import { MoreUsersComponent } from './admin/more-users/more-users.component';
 import { MoreUsersReviewsComponent } from './admin/more-users-reviews/more-users-reviews.component';
 import { FooterUserComponent } from './user/shared/footer-user/footer-user.component';
+import { FooterLoginRegisterComponent } from './auth/shared/footer-user/footer-login-register.component';
 import { HeaderUserComponent } from './user/shared/header-user/header-user.component';
 import { AccessErrorComponent } from './access-error/access-error.component';
 import { NoPageErrorComponent } from './no-page-error/no-page-error.component';
@@ -37,6 +38,7 @@ import { FooterAdminComponent } from './admin/shared/footer-admin/footer-admin.c
 import { HeaderAdminComponent } from './admin/shared/header-admin/header-admin.component';
 import { StoreLayoutComponent } from './layouts/store-layout/store-layout.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { LoginRegisterLayoutComponent } from './layouts/login-register-layout/login-register-layout.component';
 import { ImportsUserComponent } from './user/shared/imports-user/imports-user.component';
 import { ImportsAdminComponent } from './admin/shared/imports-admin/imports-admin.component';
 
@@ -70,9 +72,11 @@ import { ImportsAdminComponent } from './admin/shared/imports-admin/imports-admi
     OrdersDetailComponent,
     UsersProfileComponent,
     FooterAdminComponent,
+    FooterLoginRegisterComponent,
     HeaderAdminComponent,
     StoreLayoutComponent,
     AdminLayoutComponent,
+    LoginRegisterLayoutComponent,
     ImportsUserComponent,
     ImportsAdminComponent
   ],

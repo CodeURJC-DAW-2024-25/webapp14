@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 // LAYOUTS
 import { StoreLayoutComponent } from './layouts/store-layout/store-layout.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { LoginRegisterLayoutComponent } from './layouts/login-register-layout/login-register-layout.component';
 
 // USER
 import { IndexComponent } from './user/index/index.component';
@@ -27,7 +28,8 @@ import { ProfileEditComponent } from './admin/profile-edit/profile-edit.componen
 import { UsersComponent } from './admin/users/users.component';
 
 const routes: Routes = [
-  // LAYOUT TIENDA
+
+  // LAYOUT STORE
   {
     path: '',
     component: StoreLayoutComponent,
@@ -43,10 +45,6 @@ const routes: Routes = [
     ]
   },
 
-  // LOGIN y REGISTER (sin layout, o con otro si querés)
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-
   // LAYOUT ADMIN
   {
     path: 'admin',
@@ -58,6 +56,16 @@ const routes: Routes = [
       { path: 'profile', component: ProfileComponent },
       { path: 'profile/edit', component: ProfileEditComponent },
       { path: 'users', component: UsersComponent },
+    ]
+  },
+
+  // LAYOUT LOGIN AND REGISTER
+  {
+    path: '',
+    component: LoginRegisterLayoutComponent,
+    children: [
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
     ]
   },
 

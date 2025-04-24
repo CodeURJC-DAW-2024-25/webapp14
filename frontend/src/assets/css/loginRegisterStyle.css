@@ -4765,6 +4765,10 @@ input[type="button"].btn-block {
   display: block;
 }
 
+.footer {
+  background-color: #000000;
+}
+
 .navbar {
   position: relative;
   display: -webkit-box;
