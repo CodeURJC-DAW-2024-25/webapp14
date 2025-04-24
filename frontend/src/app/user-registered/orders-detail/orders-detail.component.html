@@ -20,7 +20,7 @@
             <div class="col-5">
               <div class="d-flex align-items-center gap-2">
                 <a [routerLink]="['/index/elem_detail', op.product.id]">
-                  <img class="cart-item-img col-6" [src]="'/image/' + op.product.id" alt="...">
+                  <img class="cart-item-img col-6" [src]="'https://localhost:8443/api/v1/products/' + op.product.id + '/image'" alt="...">
                 </a>
                 <div class="text-start col-4">
                   <a [routerLink]="['/index/elem_detail', op.product.id]"><strong>{{ op.product.name }}</strong></a>

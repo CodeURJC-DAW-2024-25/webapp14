@@ -10,8 +10,7 @@ import { environment } from '../environment';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
-  
+export class ProductService {  
 
   constructor(private http: HttpClient) {}
 
@@ -58,5 +57,15 @@ export class ProductService {
   getProducts(page: number, pageSize: number): Observable<any> {
     const url = `${environment.apiUrl}/products?page=${page}&size=${pageSize}`;
     return this.http.get<any>(url);
+  }
+
+  getProduct(productId: number): Observable<any> {
+    const url = `${environment.apiUrl}/products/${productId}`;
+    return this.http.get<any>(url);
+  }
+
+  addToCart(productId: number, userId: number, selectedSize: String, quantity: number): Observable<any> {
+    const url = `${environment.apiUrl}/cart/${productId}?userId=${userId}&size=${selectedSize}&quantity=${quantity}`;
+    return this.http.post<any>(url, null)
   }
 }
