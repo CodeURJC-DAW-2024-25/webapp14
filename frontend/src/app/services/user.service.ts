@@ -110,4 +110,31 @@ export class UserService {
     return throwError(() => error);
   }
 
+  updateUserProfile(editUserDto: any): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/users`, editUserDto, {
+      withCredentials: true
+    });
+  }
+  
+  updateUserImage(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('imageFile', file);
+    return this.http.put(`${environment.apiUrl}/users/image`, formData, {
+      withCredentials: true
+    });
+  }
+  
+  deleteCurrentUser(): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/users`, {
+      withCredentials: true
+    });
+  }
+  
+  getCurrentUser(): Observable<UserDTO> {
+    return this.http.get<UserDTO>(`${environment.apiUrl}/users/me`, {
+      withCredentials: true
+    });
+  }
+  
+
 }

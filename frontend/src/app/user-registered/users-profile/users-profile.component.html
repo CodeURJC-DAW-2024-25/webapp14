@@ -1,1 +1,73 @@
-<p>users-profile works!</p>
+<div class="px-4" style="margin-top: 8rem;">
+    <button type="button" class="btn btn-back" (click)="router.navigate(['/index'])">⬅ Volver</button>
+  </div>
+  
+  <main class="container d-flex justify-content-center align-items-center vh-100" style="margin-bottom: 8rem;">
+    <section style="margin-top: 8rem;">
+      <div class="card p-4 shadow" style="max-width: 500px;">
+        <div class="text-center mb-3">
+          <h4>Editar perfil</h4>
+        </div>
+  
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+          <div class="form-group mb-2">
+            <label>Nombre:</label>
+            <input type="text" class="form-control" formControlName="name">
+          </div>
+  
+          <div class="form-group mb-2">
+            <label>Apellidos:</label>
+            <input type="text" class="form-control" formControlName="surname">
+          </div>
+  
+          <div class="form-group mb-2">
+            <label>Correo electrónico:</label>
+            <input type="email" class="form-control" formControlName="email">
+            <small class="text-danger" *ngIf="errorEmail">{{ errorEmail }}</small>
+          </div>
+  
+          <div class="form-group mb-2">
+            <label>Dirección:</label>
+            <input type="text" class="form-control" formControlName="address">
+          </div>
+  
+          <div class="form-group mb-2">
+            <label>Contraseña actual:</label>
+            <input type="password" class="form-control" formControlName="currentPassword">
+            <small class="text-danger" *ngIf="errorCurrentPassword">{{ errorCurrentPassword }}</small>
+          </div>
+  
+          <div class="form-group mb-2">
+            <label>Nueva contraseña:</label>
+            <input type="password" class="form-control" formControlName="newPassword">
+          </div>
+  
+          <div class="form-group mb-2">
+            <label>Confirmar nueva contraseña:</label>
+            <input type="password" class="form-control" formControlName="confirmPassword">
+            <small class="text-danger" *ngIf="errorNewPassword">{{ errorNewPassword }}</small>
+          </div>
+  
+          <div class="form-group mb-3">
+            <label>Seleccionar imagen de perfil:</label>
+            <input type="file" class="form-control" (change)="onFileChange($event)">
+            <small class="text-danger" *ngIf="errorImage">{{ errorImage }}</small>
+          </div>
+  
+          <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary px-3">Guardar cambios</button>
+            <button type="button" class="btn btn-secondary" (click)="router.navigate(['/index'])">Cancelar</button>
+          </div>
+        </form>
+  
+        <hr>
+  
+        <div class="text-center mt-3">
+          <h5 class="text-danger">Eliminar cuenta</h5>
+          <p class="text-muted">Esta acción no se puede deshacer.</p>
+          <button class="btn btn-danger" (click)="deleteAccount()">Eliminar cuenta</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  

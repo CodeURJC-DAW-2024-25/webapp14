@@ -46,7 +46,7 @@ const routes: Routes = [
       { path: 'cart', component: CartComponent },
       { path: 'orders', component: OrdersComponent },
       { path: 'order/:orderId', component: OrdersDetailComponent },
-      { path: 'users-profile', component: UsersProfileComponent },
+      { path: 'user_registered/users_profile', component: UsersProfileComponent },
     ]
   },
 
