@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { OrderProductDTO } from '../../dtos/orderProduct.dto';
 import { OrderProductService } from '../../services/orderProduct.service';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -9,6 +10,10 @@ import { OrderProductService } from '../../services/orderProduct.service';
   templateUrl: './cart.component.html'
 })
 export class CartComponent {
+  
+
+  //user = this.userService.getCurrentUser();
+  userId = 2;
   orderProducts: OrderProductDTO[] = [];
   orderProductsEmpty = true;
   orderNotProcessed = false;
@@ -17,29 +22,32 @@ export class CartComponent {
   shipping = 0;
   total = 0;
 
-  constructor(private router: Router, private orderProductService: OrderProductService) {}
+  constructor(private router: Router, private orderProductService: OrderProductService, private userService: UserService) {}
 
   ngOnInit(): void {
+
     this.loadCart();
   }
 
 
   loadCart(): void {
-    this.orderProductService.getCart(2).subscribe({
-      next: (data) => {
+    if(this.userId != null){
+      this.orderProductService.getCart(this.userId).subscribe({
+        next: (data) => {
 
-        console.log(data);
+          console.log(data);
 
-        this.orderProducts = data.orderProducts;  
-        this.orderProductsEmpty = this.orderProducts.length === 0;
-        this.total= data.totalPrice;    
-        this.shipping = data.totalPrice > 100 ? 0 : 10;    
-        this.subtotal = this.total - this.shipping;
-      },
-      error: (err) => {
-        console.error('Error al cargar el carrito:', err);
-      }
-    });
+          this.orderProducts = data.orderProducts;  
+          this.orderProductsEmpty = this.orderProducts.length === 0;
+          this.total= data.totalPrice;    
+          this.shipping = data.totalPrice > 100 ? 0 : 10;    
+          this.subtotal = this.total - this.shipping;
+        },
+        error: (err) => {
+          console.error('Error al cargar el carrito:', err);
+        }
+      });
+    }
   } 
 
   goBack(): void {
@@ -47,35 +55,36 @@ export class CartComponent {
   }
 
   deleteOrderProduct(id: number): void {
-    this.orderProductService.deleteOrderProduct(id,2).subscribe({
-      next: (data) => {
+    if(this.userId != null){
+      this.orderProductService.deleteOrderProduct(id,this.userId).subscribe({
+        next: (data) => {
 
-        console.log('OrderProduct eliminado con éxito');
-        this.loadCart();
+          console.log('OrderProduct eliminado con éxito');
+          this.loadCart();
 
 
-      },
-      error: (err) => {
-        console.error('Error al eiminar el orderProduct', err);
-        this.loadCart();
+        },
+        error: (err) => {
+          console.error('Error al eiminar el orderProduct', err);
+          this.loadCart();
 
-      }
-    });
+        }
+      });
+    }
   }
 
   processOrder(): void {
-    this.orderProductService.processOrder(2).subscribe({
+    if(this.userId == null){
+      return;
+    }
+    this.orderProductService.processOrder(this.userId).subscribe({
       next: (data) => {
-
         console.log('Order procesado con éxito');
-        this.loadCart();
-
-
+        this.router.navigate(['/orders']);
       },
       error: (err) => {
         console.error('Error al procesar el order', err);
         this.loadCart();
-
       }
     });
   }

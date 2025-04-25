@@ -13,9 +13,8 @@ import { UserService } from '../../services/user.service';
 })
 export class ElemDetailComponent {
 
-  user = this.userService.getCurrentUser();
-  userId = this.user?.id;
-
+ //user = this.userService.getCurrentUser();
+  userId = 2;
   name: String = "";
   description: String = "";
   price: number = 0;
@@ -61,6 +60,7 @@ export class ElemDetailComponent {
       },
       error: (err) => {
         console.error('Error al cargar el producto:', err);
+        
       }
     });
   }

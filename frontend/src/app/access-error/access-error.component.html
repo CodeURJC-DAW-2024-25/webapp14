@@ -1,1 +1,53 @@
-<p>access-error works!</p>
+<app-navigation-bar></app-navigation-bar>
+
+<section class="ftco-section">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-12 col-lg-10">
+          <div class="wrap d-md-flex">
+            <div class="img" style="background-image: url(assets/images/login.jpg);">
+            </div>
+            <div class="login-wrap p-4 p-md-5 order-2 order-md-1">
+              <div class="d-flex">
+                <div class="w-100">
+                  <h3 class="mb-4">Acceso Denegado</h3>
+                </div>
+              </div>
+  
+              <!-- Error message -->
+              <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">Error: No tienes permisos suficientes</h4>
+                <p>Lo sentimos, pero no tienes los permisos necesarios para acceder a esta sección.</p>
+                <p>Si crees que esto es un error, por favor contacta con el administrador del sistema.</p>
+                <hr>
+                <p class="mb-0">Te recomendamos revisar tu cuenta o
+                  <a routerLink="/contact">contactar con soporte</a> si necesitas ayuda.
+                </p>
+              </div>
+  
+              <!-- Buttons -->
+              <div class="form-group">
+                <a routerLink="/index" class="form-control btn btn-primary rounded submit px-3">
+                  Volver a la página principal
+                </a>
+              </div>
+  
+              <div class="form-group" *ngIf="logged">
+                <a routerLink="/account" class="form-control btn btn-secondary rounded submit px-3">
+                  Ir a mi cuenta
+                </a>
+              </div>
+  
+              <div class="form-group" *ngIf="!logged">
+                <a routerLink="/login" class="form-control btn btn-secondary rounded submit px-3">
+                  Iniciar sesión
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <app-footer-login-register></app-footer-login-register>

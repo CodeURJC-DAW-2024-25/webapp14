@@ -27,6 +27,11 @@ import { ProfileComponent } from './admin/profile/profile.component';
 import { ProfileEditComponent } from './admin/profile-edit/profile-edit.component';
 import { UsersComponent } from './admin/users/users.component';
 
+
+import { NoPageErrorComponent } from './no-page-error/no-page-error.component';
+import { AccessErrorComponent } from './access-error/access-error.component';
+
+
 const routes: Routes = [
 
   // LAYOUT STORE
@@ -37,7 +42,7 @@ const routes: Routes = [
       { path: '', component: IndexComponent },
       { path: 'index', component: IndexComponent },
       { path: 'category', component: CategoryComponent },
-      { path: 'product/:id', component: ElemDetailComponent },
+      { path: 'index/elem_detail/:id', component: ElemDetailComponent },
       { path: 'cart', component: CartComponent },
       { path: 'orders', component: OrdersComponent },
       { path: 'order/:orderId', component: OrdersDetailComponent },
@@ -70,7 +75,10 @@ const routes: Routes = [
   },
 
   // WILDCARD
-  { path: '**', redirectTo: 'error/404' }
+  { path: 'access-error', component: AccessErrorComponent },
+  { path: 'no-page-error', component: NoPageErrorComponent },
+  { path: '**', redirectTo: 'no-page-error' }
+
 ];
 
 @NgModule({
