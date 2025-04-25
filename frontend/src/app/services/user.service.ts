@@ -33,14 +33,12 @@ export class UserService {
     }
   }
 
-  // Método para comprobar si el usuario está logueado
   private isUserLoggedIn(): boolean {
     // Buscar la cookie 'SESSION_ID' (reemplaza con el nombre real de tu cookie)
     const cookies = document.cookie;
     return cookies.includes('SESSION_ID');
   }
 
-  // Método para obtener el nombre de usuario desde la cookie
   private getUserNameFromCookie(): string | null {
     const cookies = document.cookie.split(';');
     for (const cookie of cookies) {
@@ -56,14 +54,8 @@ export class UserService {
     return this.http.get<any>(`${environment.apiUrl}/search?query=${query}`);
   }
 
-  // Método para hacer logout
-  logout(): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/logout`, {});
-  }
-
   getUsers(page: number, pageSize: number): Observable<any> {
     const url = `${environment.apiUrl}/users?page=${page}&size=${pageSize}`;
-
     return this.http.get<any>(url);
   }
 
@@ -115,7 +107,7 @@ export class UserService {
       withCredentials: true
     });
   }
-  
+
   updateUserImage(file: File): Observable<any> {
     const formData = new FormData();
     formData.append('imageFile', file);
@@ -123,18 +115,25 @@ export class UserService {
       withCredentials: true
     });
   }
-  
+
   deleteCurrentUser(): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/users`, {
       withCredentials: true
     });
   }
-  
+
   getCurrentUser(): Observable<UserDTO> {
     return this.http.get<UserDTO>(`${environment.apiUrl}/users/me`, {
       withCredentials: true
     });
   }
-  
+
+  logout(): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/auth/logout`, {});
+  }
+
+  getAdminProfile(): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/users/admin`);
+  }
 
 }

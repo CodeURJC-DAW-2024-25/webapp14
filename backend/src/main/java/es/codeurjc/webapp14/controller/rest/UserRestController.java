@@ -142,8 +142,6 @@ public class UserRestController {
 
         if (admin == null) {
             return ResponseEntity.notFound().build();
-        } else if (!isAdmin) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         return ResponseEntity.ok(userMapper.toDTO(admin));

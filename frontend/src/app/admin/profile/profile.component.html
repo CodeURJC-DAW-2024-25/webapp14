@@ -1,1 +1,33 @@
-<p>profile works!</p>
+<div class="container">
+
+  <div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+      <div class="col-lg-5 d-none d-lg-block bg-profile-image"></div>
+      <div class="p-5">
+
+        <!-- Image -->
+        <div class="text-center">
+          <img [src]="hasImage ? '/api/admin/profile/image' : '/assets/images/noAdminImage.png'"
+            class="img-profile rounded-circle mb-4" alt="Profile Picture" width="200" height="200" id="profileImage" />
+        </div>
+
+        <div class="text-center" *ngIf="admin">
+
+          <!-- Name and surname -->
+          <h1 class="h4 text-gray-900 mb-4">{{ admin.name }} {{ admin.surname }}</h1>
+
+          <!-- Email -->
+          <p class="text-gray-900 mb-4">{{ admin.email }}</p>
+
+          <!-- Edit profile-->
+          <a routerLink="/admin/profile/edit" class="btn btn-primary btn-user btn-block">
+            Editar perfil
+          </a>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
