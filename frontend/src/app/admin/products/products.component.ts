@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductDTO } from '../../dtos/product.dto';
-
-
+import { Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 
 @Component({
@@ -42,7 +41,13 @@ export class ProductsComponent implements OnInit {
     { title: 'Productos sin Stock', value: this.totalOutStock, color: 'danger', icon: 'fas fa-exclamation-circle' }
   ];
 
-  constructor(private productService: ProductService) {}
+  imageFile: File | null = null;
+  imagePreview: string | ArrayBuffer | null = null;
+  selectedImageFile: File | null = null;
+  fileName: string = 'Seleccionar Archivo...';
+
+
+  constructor(private productService: ProductService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -127,6 +132,17 @@ export class ProductsComponent implements OnInit {
     this.productService.editProduct(product).subscribe({
       next: response => {
         console.log("Producto editado correctamente:", response);
+        if (this.imageFile && response.id) {
+          const formData = new FormData();
+          formData.append('imageFile', this.imageFile);
+          this.productService.updateProductImage(response.id, formData).subscribe({
+            next: () => {
+              console.log('Imagen actualizada correctamente');
+            },
+            error: (err) => console.error('Error al subir la imagen:', err)
+          });
+        } else {
+        }
       },
       error: err => {
         console.error("Error al editar producto:", err);
@@ -134,17 +150,16 @@ export class ProductsComponent implements OnInit {
     });
   }
   
+  
 
-
-  onImageSelected(event: Event, product: any): void {
-    const fileInput = event.target as HTMLInputElement;
-    if (fileInput.files && fileInput.files[0]) {
-      const file = fileInput.files[0];
-      product.selectedImage = file;
+  onImageSelected(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.imageFile = file;
   
       const reader = new FileReader();
-      reader.onload = (e: any) => {
-        product.newImagePreviewUrl = e.target.result;
+      reader.onload = () => {
+        this.imagePreview = reader.result;
       };
       reader.readAsDataURL(file);
     }
@@ -158,7 +173,7 @@ export class ProductsComponent implements OnInit {
       price: this.newProduct.price,
       stock: 0,
       category: this.newProduct.category,
-      imageBool: !!this.newProduct.image
+      imageBool: !!this.imageFile
     };
   
     const params = {
@@ -171,12 +186,31 @@ export class ProductsComponent implements OnInit {
     this.productService.createProduct(body, params).subscribe({
       next: (response) => {
         console.log('Producto creado correctamente', response);
-        this.loadProducts();
+        if (this.imageFile && response.id) {
+          const formData = new FormData();
+          formData.append('imageFile', this.imageFile);
+          this.productService.uploadProductImage(response.id, formData).subscribe({
+            next: () => {
+              console.log('Imagen subida correctamente');
+              this.loadProducts();
+            },
+            error: (err) => console.error('Error al subir la imagen:', err)
+          });
+        } else {
+          this.loadProducts();
+        }
       },
       error: (error) => {
         console.error('Error al crear el producto:', error);
       }
     });
+  }
+
+  saveChanges(event: MouseEvent,product: ProductDTO): void {
+    event.preventDefault();
+    event.stopPropagation();
+  
+    this.editProduct(product);
   }
   
   

@@ -43,6 +43,24 @@
                 <div class="modal-body">
                     <form (ngSubmit)="createProduct()" #createProductForm="ngForm">
 
+                        <div class="text-center">
+                            <div class="form-group">
+                              <div>
+                                <img [src]="imagePreview || 'assets/images/no_image.png'" class="img-fluid mb-3" alt="Product Image" style="max-width: 200px;">
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div class="form-group">
+                            <label for="imageField">Imagen del Producto</label>
+                            <div class="custom-file">
+                              <input type="file" class="custom-file-input" id="imageField" (change)="onImageSelected($event)" accept="image/*">
+                              <label class="custom-file-label" for="imageField">Elegir archivo</label>
+                            </div>
+                          </div>
+                          
+                          
+
                         <div class="form-group">
                             <label for="productName">Nombre</label>
                             <input type="text" class="form-control" id="productName" [(ngModel)]="newProduct.name" name="name" placeholder="Ingrese el nombre" required>
@@ -214,40 +232,30 @@
 
                                     <div class="container">
                                         <div class="row justify-content-center">
-                                        <div class="col-md-5 text-center" *ngIf="product.imageBool">
-                                            <div class="cardImage shadow-sm p-3 mb-4">
-                                            <h6 class="text-muted">Imagen Actual</h6>
-                                            <img id="originalImage" class="img-fluid rounded"
-                                                alt="Imagen Actual" style="max-width: 100%; height: auto;"
-                                                [src]="'https://localhost:8443/api/v1/products/' + product.id + '/image'" >
+                                            <div class="col-md-5 text-center">
+                                                <div class="cardImage shadow-sm p-3 mb-4">
+                                                <h6 class="text-muted">Nueva Imagen</h6>
+                                                <img *ngIf="imagePreview" [src]="imagePreview" class="img-fluid rounded"
+                                                    alt="Nueva Imagen"
+                                                    style="max-width: 100%; height: auto;">
+                                                </div>
                                             </div>
-                                        </div>
-                                    
-                                        <div class="col-md-5 text-center">
-                                            <div class="cardImage shadow-sm p-3 mb-4">
-                                            <h6 class="text-muted">Nueva Imagen</h6>
-                                            <img [id]="'newImagePreview' + product.id" class="img-fluid rounded"
-                                                alt="Nueva Imagen"
-                                                style="max-width: 100%; height: auto;"
-                                                >
-                                            </div>
-                                        </div>
                                         </div>
                                     </div>
                                     
+                                    <!-- Input de imagen -->
                                     <div class="form-group">
                                         <label for="imageField">Actualizar Imagen</label>
                                         <div class="custom-file">
-                                        <input type="file" class="custom-file-input" 
-                                                [id]="'updateImage' + product.id"
-                                                (change)="onImageSelected($event, product)"
+                                        <input type="file" class="custom-file-input"
+                                                id="imageField"
+                                                (change)="onImageSelected($event)"
                                                 accept="image/*">
-                                        <label class="custom-file-label" for="imageField">Seleccionar Archivo...</label>
+                                        <label class="custom-file-label" for="imageField">{{ fileName }}</label>
                                         </div>
                                     </div>
-
                                     
-                                
+
                                 <div class="form-group">
                                     <label for="productName">Nombre del producto</label>
                                     <input type="text" class="form-control" id="productName" [(ngModel)]="product.name" name="name" required>
@@ -294,11 +302,12 @@
                                 </div>
 
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-dismiss="modal">Cancelar</button>
-                                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary submit-btn" (click)="saveChanges($event,product)">
+                                        Guardar cambios
+                                    </button>
                                 </div>
-                                
+
                                 </form>
                             </div>
                             </div>

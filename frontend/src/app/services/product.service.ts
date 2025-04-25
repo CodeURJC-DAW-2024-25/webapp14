@@ -60,6 +60,17 @@ export class ProductService {
     });
   }
   
+  uploadProductImage(productId: number, formData: FormData): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/products/${productId}/image`, formData, {
+      withCredentials: true
+    });
+  }
+
+  updateProductImage(productId: number, formData: FormData): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/products/${productId}/image`, formData, {
+      withCredentials: true
+    });
+  }
 
 
   getProducts(page: number, pageSize: number): Observable<any> {
