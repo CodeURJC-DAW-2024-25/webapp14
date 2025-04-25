@@ -10,7 +10,15 @@ import { environment } from '../environment';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {  
+export class ProductService {
+  getProductsByCategory(category: string, page: number): Observable<{ products: ProductDTO[], category: string }> {
+    const params = new HttpParams().set('page', page.toString());
+
+    return this.http.get<{ products: ProductDTO[], category: string }>(
+      `${environment.apiUrl}/${category}`,
+      { params }
+    );
+  } 
 
   constructor(private http: HttpClient) {}
 

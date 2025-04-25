@@ -41,7 +41,7 @@ const routes: Routes = [
     children: [
       { path: '', component: IndexComponent },
       { path: 'index', component: IndexComponent },
-      { path: 'category', component: CategoryComponent },
+      { path: 'index/category/:category', component: CategoryComponent },
       { path: 'index/elem_detail/:id', component: ElemDetailComponent },
       { path: 'cart', component: CartComponent },
       { path: 'orders', component: OrdersComponent },
