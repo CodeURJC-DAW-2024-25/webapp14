@@ -39,28 +39,25 @@ export class UsersProfileComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const formData = new FormData();
-    const data = this.form.value;
-
-    formData.append('name', data.name);
-    formData.append('surname', data.surname);
-    formData.append('email', data.email);
-    formData.append('address', data.address);
-    formData.append('currentPassword', data.currentPassword);
-    formData.append('newPassword', data.newPassword);
-    formData.append('confirmPassword', data.confirmPassword);
-    if (this.imageFile) {
-      formData.append('newImage', this.imageFile);
-    }
-
-    this.userService.updateUserProfile(formData).subscribe({
-      next: () => this.router.navigate(['/user/profile']),
+    const dto = this.form.value;
+  
+    this.userService.updateUserProfile(dto).subscribe({
+      next: () => {
+        if (this.imageFile) {
+          this.userService.updateUserImage(this.imageFile).subscribe({
+            next: () => this.router.navigate(['/user/profile']),
+            error: (err) => console.error('Error subiendo imagen', err)
+          });
+        } else {
+          this.router.navigate(['/user/profile']);
+        }
+      },
       error: (err) => {
-        console.error(err);
-        // Aquí podrías mapear errores específicos
+        console.error('Error actualizando perfil:', err);
       }
     });
   }
+  
 
   deleteAccount(): void {
     this.userService.deleteCurrentUser().subscribe(() => {
