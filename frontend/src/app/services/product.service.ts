@@ -75,7 +75,7 @@ export class ProductService {
 
   getProducts(page: number, pageSize: number): Observable<any> {
     const url = `${environment.apiUrl}/products?page=${page}&size=${pageSize}`;
-    return this.http.get<any>(url, {
+    return this.http.get<any>(url, { 
       withCredentials: true
     });
   }

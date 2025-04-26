@@ -14,6 +14,8 @@ export class ChartService {
   constructor(private http: HttpClient) { }
 
   getChartsData(): Observable<any> {
-    return this.http.get<any>(this.baseUrl);
+    return this.http.get<any>(this.baseUrl, {
+      withCredentials: true
+    });
   }
 }

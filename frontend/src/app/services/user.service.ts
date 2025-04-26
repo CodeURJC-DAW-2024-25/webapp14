@@ -136,7 +136,9 @@ export class UserService {
   }
 
   getAdminProfile(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/users/admin`);
+    return this.http.get<any>(`${environment.apiUrl}/users/admin`, {
+      withCredentials: true
+    });
   }
 
 
