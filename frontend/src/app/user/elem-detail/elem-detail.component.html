@@ -1,165 +1,175 @@
 <main class="container-fluid">
-    <section style="margin-top: 8rem;">
-      <div class="px-4">
-        <button type="button" class="btn btn-back" (click)="goBack()">⬅ Volver</button>
-      </div>
-      <div class="container product-container">
-        <div class="row">
-          <div class="col-md-6">
-            <img [src]="'https://localhost:8443/api/v1/products/' + productId + '/image'"  alt="Producto" class="col-md-6 img-fluid w-75" />
-          </div>
-          <div class="col-md-6">
-            <div class="product-info">
-              <h1 class="product-name">{{ name }}</h1>
-              <p class="product-price">{{ price }} EUR</p>
-              <p class="product-description">{{ description }}</p>
-  
-              <h5>Selecciona tu talla y cantidad:</h5>
-              <div class="row align-items-center mt-2">
-                <div class="col-md-6">
-                  <div class="size-options d-flex gap-2">
-                    <ng-container *ngFor="let size of sizes">
-                      <input type="radio" class="btn-check" name="size" [id]="'size' + size.name" [value]="size.name" [(ngModel)]="selectedSize" [disabled]="size.stock === 0" autocomplete="off"/>
-                      <label class="btn btn-outline-dark" [class.btn-danger]="size.stock === 0" [class.disabled]="size.stock === 0"[class.custom-disabled]="size.stock === 0" [attr.for]="'size' + size.name">
-                        {{ size.name }}
-                      </label>
-                    </ng-container>
-                  </div>
-                </div>
-  
-                <div class="col-md-6">
-                  <div class="input-group">
-                    <span class="input-group-text">Cantidad</span>
-                    <input type="number" class="form-control text-center" id="stock_buy" [(ngModel)]="quantity" min="1" step="1" [disabled]="outOfStock" style="border-radius: 10px;"/>
-                  </div>
+  <section style="margin-top: 8rem;">
+    <div class="px-4">
+      <button type="button" class="btn btn-back" (click)="goBack()">⬅ Volver</button>
+    </div>
+    <div class="container product-container">
+      <div class="row">
+        <div class="col-md-6">
+          <img [src]="'https://localhost:8443/api/v1/products/' + productId + '/image'" alt="Producto"
+            class="col-md-6 img-fluid w-75" />
+        </div>
+        <div class="col-md-6">
+          <div class="product-info">
+            <h1>{{ name }}</h1>
+            <p class="product-price">{{ price }} EUR</p>
+            <p class="product-description">{{ description }}</p>
+
+            <h5>Selecciona tu talla y cantidad:</h5>
+            <div class="row align-items-center mt-2">
+              <div class="col-md-6">
+                <div class="size-options d-flex gap-2">
+                  <ng-container *ngFor="let size of sizes">
+                    <input type="radio" class="btn-check" name="size" [id]="'size' + size.name" [value]="size.name"
+                      [(ngModel)]="selectedSize" [disabled]="size.stock === 0" autocomplete="off" />
+                    <label class="btn btn-outline-dark" [class.btn-danger]="size.stock === 0"
+                      [class.disabled]="size.stock === 0" [class.custom-disabled]="size.stock === 0"
+                      [attr.for]="'size' + size.name">
+                      {{ size.name }}
+                    </label>
+                  </ng-container>
                 </div>
               </div>
-  
-              <button class="btn btn-add-to-cart mt-3" [ngClass]="{'btn-secondary disabled': outOfStock, 'btn-primary': !outOfStock}" [disabled]="outOfStock" (click)="addToCart(productId, selectedSize, quantity)">
-                Añadir a cesta
-              </button>
-  
-              <div *ngIf="outOfStock" class="alert alert-danger d-flex align-items-center p-2 mt-4" role="alert">
-                <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                <strong>¡Atención!</strong> Este producto se encuentra fuera de stock.
+
+              <div class="col-md-6">
+                <div class="input-group">
+                  <span class="input-group-text">Cantidad</span>
+                  <input type="number" class="form-control text-center" id="stock_buy" [(ngModel)]="quantity" min="1"
+                    step="1" [disabled]="outOfStock" style="border-radius: 10px;" />
+                </div>
               </div>
+            </div>
+
+            <button class="btn btn-add-to-cart mt-3"
+              [ngClass]="{'btn-secondary disabled': outOfStock, 'btn-primary': !outOfStock}" [disabled]="outOfStock"
+              (click)="addToCart(productId, selectedSize, quantity)">
+              Añadir a cesta
+            </button>
+
+            <div *ngIf="outOfStock" class="alert alert-danger d-flex align-items-center p-2 mt-4" role="alert">
+              <i class="bi bi-exclamation-triangle-fill me-2"></i>
+              <strong>¡Atención!</strong> Este producto se encuentra fuera de stock.
             </div>
           </div>
         </div>
       </div>
-    </section>
-  
-    <section class="reviews-section" *ngIf="reviews.length > 0">
-      <div class="container my-5">
-        <h2 class="fw-bold text-center mb-4">Reseñas de Clientes</h2>
-        <div class="row">
-          <div class="col-12" *ngFor="let review of reviews">
-            <div class="review-card">
-              <h5 class="username">{{ review.user.name }} {{ review.user.surname }}</h5>
-              <div class="stars">
-                <span *ngFor="let _ of [].constructor(review.rating)">&#9733;</span>
-                <span *ngFor="let _ of [].constructor(5 - review.rating)">&#9734;</span>
-              </div>
-              <p class="review-text">{{ review.reviewText }}</p>
-              <div class="review-actions">
+    </div>
+  </section>
 
-                <ng-container *ngIf="review.user.id === userId">
-                  <button
-                    class="btn btn-outline-primary" data-bs-toggle="modal" [attr.data-bs-target]="'#editModal' + review.id">
-                    <i class="fas fa-pencil-alt"></i>
-                  </button>
-                    <button type="button" class="btn btn-outline-danger" (click)="deleteReview(review.id!,productId)">
-                      <i class="fas fa-trash-alt"></i>
-                    </button>
-                </ng-container>
-    
-                <ng-container *ngIf="logged && review.user.id !== userId">
-                    <button type="button" class="btn btn-outline-warning" (click)="reportReview(review.id!,productId)">
-                      <i class="fas fa-exclamation-circle"></i>
-                    </button>
-                </ng-container>
-              </div>
+  <section class="reviews-section" *ngIf="reviews.length > 0">
+    <div class="container my-5">
+      <h2 class="fw-bold text-center mb-4">Reseñas de Clientes</h2>
+      <div class="row">
+        <div class="col-12" *ngFor="let review of reviews">
+          <div class="review-card">
+            <h5 class="username">{{ review.user.name }} {{ review.user.surname }}</h5>
+            <div class="stars">
+              <span *ngFor="let _ of [].constructor(review.rating)">&#9733;</span>
+              <span *ngFor="let _ of [].constructor(5 - review.rating)">&#9734;</span>
             </div>
+            <p class="review-text">{{ review.reviewText }}</p>
+            <div class="review-actions">
 
-            <div class="modal fade" [id]="'editModal' + review.id" tabindex="-1" aria-labelledby="'editModalLabel' + review.id" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" [id]="'editModalLabel' + review.id">Editar Reseña</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                  </div>
-                  <div class="modal-body">
-                    <form (ngSubmit)="submitEditReview(review.id!)">
-                      <div class="mb-3">
-                        <label class="form-label">Tu Valoración</label>
-                        <div class="star-edit-rating">
-                          <ng-container *ngFor="let star of [5,4,3,2,1]">
-                            <input type="radio" [id]="'edit-star' + star + '-' + review.id" name="rating" [value]="star" [(ngModel)]="review.rating" [ngModelOptions]="{standalone: true}"/>
-                            <label [for]="'edit-star' + star + '-' + review.id">&#9733;</label>
-                          </ng-container>
-                        </div>
+              <ng-container *ngIf="review.user.id === userId">
+                <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                  [attr.data-bs-target]="'#editModal' + review.id">
+                  <i class="fas fa-pencil-alt"></i>
+                </button>
+                <button type="button" class="btn btn-outline-danger" (click)="deleteReview(review.id!,productId)">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </ng-container>
+
+              <ng-container *ngIf="logged && review.user.id !== userId">
+                <button type="button" class="btn btn-outline-warning" (click)="reportReview(review.id!,productId)">
+                  <i class="fas fa-exclamation-circle"></i>
+                </button>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="modal fade" [id]="'editModal' + review.id" tabindex="-1"
+            aria-labelledby="'editModalLabel' + review.id" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" [id]="'editModalLabel' + review.id">Editar Reseña</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                  <form (ngSubmit)="submitEditReview(review.id!)">
+                    <div class="mb-3">
+                      <label class="form-label">Tu Valoración</label>
+                      <div class="star-edit-rating">
+                        <ng-container *ngFor="let star of [5,4,3,2,1]">
+                          <input type="radio" [id]="'edit-star' + star + '-' + review.id" name="rating" [value]="star"
+                            [(ngModel)]="review.rating" [ngModelOptions]="{standalone: true}" />
+                          <label [for]="'edit-star' + star + '-' + review.id">&#9733;</label>
+                        </ng-container>
                       </div>
-                      <div class="form-group">
-                        <label [for]="'reviewText' + review.id">Reseña</label>
-                        <input type="text" class="form-control" [id]="'reviewText' + review.id" name="reviewText" [(ngModel)]="review.reviewText" [ngModelOptions]="{standalone: true}"/>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary submit-btn" data-bs-dismiss="modal">
-                          Guardar cambios
-                        </button>
-                      </div>
-                    </form>
-                  </div>
+                    </div>
+                    <div class="form-group">
+                      <label [for]="'reviewText' + review.id">Reseña</label>
+                      <input type="text" class="form-control" [id]="'reviewText' + review.id" name="reviewText"
+                        [(ngModel)]="review.reviewText" [ngModelOptions]="{standalone: true}" />
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary submit-btn" data-bs-dismiss="modal">
+                        Guardar cambios
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
-
           </div>
+
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    
-  
-    <section class="reviews-section" *ngIf="reviews.length === 0">
-      <div class="container my-5 text-center">
-        <p>Aún no hay reseñas para este producto.</p>
-      </div>
-    </section>
 
-    <section class="leave-review-section" *ngIf="logged && !banned">
-      <div class="container my-5">
-        <h2 class="fw-bold text-center mb-4">Deja Tu Reseña</h2>
-    
-        <form (ngSubmit)="submitReview()" #reviewForm="ngForm" class="review-form mx-auto">
-          <div class="mb-3 text-center">
-            <label class="form-label">Tu Valoración</label>
-            <div class="star-rating">
-              <input type="radio" name="rating" id="star5" value="5" [(ngModel)]="newReview.rating" required>
-              <label for="star5">&#9733;</label>
-              <input type="radio" name="rating" id="star4" value="4" [(ngModel)]="newReview.rating">
-              <label for="star4">&#9733;</label>
-              <input type="radio" name="rating" id="star3" value="3" [(ngModel)]="newReview.rating">
-              <label for="star3">&#9733;</label>
-              <input type="radio" name="rating" id="star2" value="2" [(ngModel)]="newReview.rating">
-              <label for="star2">&#9733;</label>
-              <input type="radio" name="rating" id="star1" value="1" [(ngModel)]="newReview.rating">
-              <label for="star1">&#9733;</label>
-            </div>
+
+  <section class="reviews-section" *ngIf="reviews.length === 0">
+    <div class="container my-5 text-center">
+      <p>Aún no hay reseñas para este producto.</p>
+    </div>
+  </section>
+
+  <section class="leave-review-section" *ngIf="logged && !banned">
+    <div class="container my-5">
+      <h2 class="fw-bold text-center mb-4">Deja Tu Reseña</h2>
+
+      <form (ngSubmit)="submitReview()" #reviewForm="ngForm" class="review-form mx-auto">
+        <div class="mb-3 text-center">
+          <label class="form-label">Tu Valoración</label>
+          <div class="star-rating">
+            <input type="radio" name="rating" id="star5" value="5" [(ngModel)]="newReview.rating" required>
+            <label for="star5">&#9733;</label>
+            <input type="radio" name="rating" id="star4" value="4" [(ngModel)]="newReview.rating">
+            <label for="star4">&#9733;</label>
+            <input type="radio" name="rating" id="star3" value="3" [(ngModel)]="newReview.rating">
+            <label for="star3">&#9733;</label>
+            <input type="radio" name="rating" id="star2" value="2" [(ngModel)]="newReview.rating">
+            <label for="star2">&#9733;</label>
+            <input type="radio" name="rating" id="star1" value="1" [(ngModel)]="newReview.rating">
+            <label for="star1">&#9733;</label>
           </div>
-    
-          <div class="mb-3">
-            <label for="reviewText" class="form-label">Tu Reseña</label>
-            <textarea id="reviewText" name="reviewText" class="form-control" rows="4" placeholder="Escribe tu reseña aquí..." [(ngModel)]="newReview.reviewText" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="reviewText" class="form-label">Tu Reseña</label>
+          <textarea id="reviewText" name="reviewText" class="form-control" rows="4"
+            placeholder="Escribe tu reseña aquí..." [(ngModel)]="newReview.reviewText" required>
             </textarea>
-          </div>
-    
-          <div class="text-center">
-            <button type="submit" class="btn btn-dark submit-btn" [disabled]="!reviewForm.valid">Enviar Reseña</button>
-          </div>
-        </form>
-      </div>
-    </section>
-    
-  </main>
-  
+        </div>
+
+        <div class="text-center">
+          <button type="submit" class="btn btn-dark submit-btn" [disabled]="!reviewForm.valid">Enviar Reseña</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>

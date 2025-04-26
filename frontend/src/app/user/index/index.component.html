@@ -29,7 +29,8 @@
                 <img [src]="cat.image" class="img-fluid w-100" style="max-height: 600px; object-fit: cover;">
                 <div class="position-absolute top-50 start-50 translate-middle text-center text-white">
                   <h3 class="text-light text-uppercase">{{ cat.name }}</h3>
-                  <a [routerLink]="['/index/category', cat.name.toUpperCase()]" class="btn btn-light mt-3">Descubrir más</a>
+                  <a [routerLink]="['/index/category', cat.name.toUpperCase()]" class="btn btn-light mt-3">Descubrir
+                    más</a>
                 </div>
               </div>
             </div>
@@ -50,7 +51,8 @@
       <div *ngFor="let product of products" class="col-md-6 mb-4">
         <div class="row align-items-center">
           <div class="col-md-6 text-center">
-            <img [src]="'https://localhost:8443/api/v1/products/' + product.id + '/image'" [alt]="product.name" class="img-fluid w-75">
+            <img [src]="'https://localhost:8443/api/v1/products/' + product.id + '/image'" [alt]="product.name"
+              class="img-fluid w-75">
           </div>
           <div class="col-md-4 text-md-start text-center mt-3 mt-md-0">
             <h2 class="fw-bold">{{ product.name }}</h2>
@@ -75,7 +77,8 @@
     <div class="row g-md-5 pt-4">
       <div class="col-md-3 my-3" *ngFor="let service of services">
         <div class="card text-center">
-          <iconify-icon class="service-icon text-black display-4" [icon]="service.icon"></iconify-icon>
+          <iconify-icon class="service-icon text-black display-4 d-flex justify-content-center"
+            [icon]="service.icon"></iconify-icon>
           <h4 class="text-uppercase py-3 m-0">{{ service.title }}</h4>
           <div class="card-text">
             <p class="blog-paragraph fs-6">{{ service.description }}</p>
