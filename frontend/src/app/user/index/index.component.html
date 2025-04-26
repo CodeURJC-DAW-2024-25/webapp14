@@ -44,7 +44,7 @@
 <section id="new-arrival" class="product-store">
   <div class="container-fluid px-3 px-md-5 padding-medium">
     <h2 class="display-5 fw-light text-uppercase text-center">
-      {{ loggedIn ? 'PRODUCTOS RECOMENDADOS' : 'TENDENCIAS' }}
+      {{ logged ? 'PRODUCTOS RECOMENDADOS' : 'TENDENCIAS' }}
     </h2>
 
     <div class="row justify-content-center py-4">
@@ -62,7 +62,7 @@
       </div>
     </div>
 
-    <div *ngIf="loggedIn" class="text-center">
+    <div *ngIf="logged && userId != null" class="text-center">
       <div *ngIf="loading" class="spinner-border" role="status">
         <span class="sr-only">Cargando...</span>
       </div>
