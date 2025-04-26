@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductDTO } from '../../dtos/product.dto';
 import { Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-products',
@@ -9,6 +10,11 @@ import { ProductService } from '../../services/product.service';
   //styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
+
+  user = this.userService.getCurrentUserData();
+  userId = this.userService.getCurrentUserId();
+  logged: boolean = this.userId != null;
+  isAdmin: boolean = this.userService.getIsAdminUser();
 
   newProduct = {
     name: '',
@@ -47,9 +53,12 @@ export class ProductsComponent implements OnInit {
   fileName: string = 'Seleccionar Archivo...';
 
 
-  constructor(private productService: ProductService, private router: Router) {}
+  constructor(private productService: ProductService, private router: Router, private userService: UserService) {}
 
   ngOnInit(): void {
+    if(!this.isAdmin){
+      this.router.navigate(["/access-error"]);
+    }
     this.loadProducts();
   }
 

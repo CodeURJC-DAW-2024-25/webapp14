@@ -14,7 +14,8 @@ export class OrdersDetailComponent {
 
   user = this.userService.getCurrentUserData();
   userId = this.userService.getCurrentUserId();
-
+  logged: boolean = this.userId != null;
+  isAdmin: boolean = this.userService.getIsAdminUser();
   orderProducts: OrderProductDTO[] = [];
   orderProductsEmpty = true;
   orderNotProcessed = false;
@@ -28,6 +29,9 @@ export class OrdersDetailComponent {
   constructor(private router: Router, private orderService: OrderService, private route: ActivatedRoute, private userService: UserService) {}
 
   ngOnInit(): void {
+    if(!this.logged){
+      this.router.navigate(["/access-error"]);
+    }
     this.orderId = Number(this.route.snapshot.paramMap.get('orderId'));
     this.loadOrder();
   }

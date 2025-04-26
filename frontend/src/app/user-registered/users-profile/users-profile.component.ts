@@ -9,8 +9,12 @@ import { Router } from '@angular/router';
   templateUrl: './users-profile.component.html'
 })
 export class UsersProfileComponent implements OnInit {
+
   form!: FormGroup;
-  user!: UserDTO;
+  user = this.userService.getCurrentUserData();
+  userId = this.userService.getCurrentUserId();
+  logged: boolean = this.userId != null;
+  isAdmin: boolean = this.userService.getIsAdminUser();
   imageFile?: File;
   errorEmail = '';
   errorCurrentPassword = ''; 
@@ -20,6 +24,9 @@ export class UsersProfileComponent implements OnInit {
   constructor(private fb: FormBuilder, private userService: UserService, public router: Router) {}
 
   ngOnInit(): void {
+    if(!this.logged){
+      this.router.navigate(["/login"]);
+    }
     this.userService.getCurrentUser().subscribe(user => {
       this.user = user;
       this.form = this.fb.group({

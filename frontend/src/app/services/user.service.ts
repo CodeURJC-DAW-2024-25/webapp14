@@ -63,27 +63,37 @@ export class UserService {
 
   getUsers(page: number, pageSize: number): Observable<any> {
     const url = `${environment.apiUrl}/users?page=${page}&size=${pageSize}`;
-    return this.http.get<any>(url);
+    return this.http.get<any>(url,{
+      withCredentials: true
+    });
   }
 
   deleteUser(userId: number): Observable<void> {
     const url = `${environment.apiUrl}/users/${userId}`;
-    return this.http.delete<void>(url);
+    return this.http.delete<void>(url,{
+      withCredentials: true
+    });
   }
 
   banUser(userId: number): Observable<void> {
     const url = `${environment.apiUrl}/users/${userId}?ban=true`;
-    return this.http.patch<void>(url, null);
+    return this.http.patch<void>(url, null,{
+      withCredentials: true
+    });
   }
 
   unbanUser(userId: number): Observable<void> {
     const url = `${environment.apiUrl}/users/${userId}?ban=false`;
-    return this.http.patch<void>(url, null);
+    return this.http.patch<void>(url, null,{
+      withCredentials: true
+    });
   }
 
   getUsersReported(page: number, pageSize: number): Observable<any> {
     const url = `${environment.apiUrl}/users/reports?page=${page}&size=${pageSize}`;
-    return this.http.get<any>(url);
+    return this.http.get<any>(url,{
+      withCredentials: true
+    });
   }
 
   login(loginRequest: { email: string; password: string }): Observable<any> {
@@ -187,6 +197,11 @@ export class UserService {
     this.isLoggedIn = false;
     this.isAdmin = false;
     this.userId = null;
+    console.log('User logged out');
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('userId');
     return this.http.post(`${environment.apiUrl}/auth/logout`, {});
     
   }

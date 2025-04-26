@@ -16,7 +16,9 @@ export class ReviewService {
 
   getReviewReported(): Observable<any> {
 
-    return this.http.get<any>(this.baseUrl);
+    return this.http.get<any>(this.baseUrl,{
+      withCredentials: true
+    });
   }
 
   getReview(reviewId: number, productId: number): Observable<any> {
@@ -26,27 +28,37 @@ export class ReviewService {
 
   acceptReview(reviewId: number, productId: number, body: NewReviewRequestDTO): Observable<void>  {
     const url = `${environment.apiUrl}/products/${productId}/reviews/${reviewId}`;
-    return this.http.put<void>(url,body);
+    return this.http.put<void>(url,body,{
+      withCredentials: true
+    });
   }
 
   deleteReview(reviewId: number, productId: number, userId: number): Observable<void>  {
     const url = `${environment.apiUrl}/products/${productId}/reviews/${reviewId}?userId=${userId}`;
-    return this.http.delete<void>(url);
+    return this.http.delete<void>(url,{
+      withCredentials: true
+    });
   }
 
   reportReview(reviewId: number, productId: number): Observable<void>  {
     const url = `${environment.apiUrl}/products/${productId}/reviews/${reviewId}`;
-    return this.http.patch<void>(url,null);
+    return this.http.patch<void>(url,null,{
+      withCredentials: true
+    });
   }
 
   addReview(body: NewReviewRequestDTO, userId: number, productId: number) {
     const url = `${environment.apiUrl}/products/${productId}/reviews?userId=${userId}`;
-    return this.http.post<void>(url,body);
+    return this.http.post<void>(url,body,{
+      withCredentials: true
+    });
   }
 
   editReview(body: NewReviewRequestDTO, userId: number, productId: number, reviewId: number): Observable<void> {
     const url = `${environment.apiUrl}/products/${productId}/reviews/${reviewId}?userId=${userId}`;
-    return this.http.put<void>(url, body);
+    return this.http.put<void>(url, body,{
+      withCredentials: true
+    });
   }
   
 

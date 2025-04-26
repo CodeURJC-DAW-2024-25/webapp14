@@ -27,7 +27,9 @@ export class ProductService {
 
   deleteProduct(productId: number): Observable<void> {
     const url = `${environment.apiUrl}/products/${productId}`;
-    return this.http.delete<void>(url);
+    return this.http.delete<void>(url,{
+      withCredentials: true
+    });
   }
 
   editProduct(product: any): Observable<any> {
@@ -48,7 +50,7 @@ export class ProductService {
       outOfStock: product.outOfStock,
     };
   
-    return this.http.put<any>(url, productDTO, { params });
+    return this.http.put<any>(url, productDTO, { params, withCredentials: true });
   }
 
   createProduct(body: NewProductRequestDTO, params: any): Observable<ProductDTO> {
@@ -56,7 +58,7 @@ export class ProductService {
   
     return this.http.post<ProductDTO>(url, body, {
       params: params,
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json', }, withCredentials: true
     });
   }
   

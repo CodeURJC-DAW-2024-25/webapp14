@@ -13,8 +13,10 @@ import { UserService } from '../../services/user.service';
 })
 export class ElemDetailComponent {
 
- //user = this.userService.getCurrentUser();
-  userId = 2;
+  user = this.userService.getCurrentUserData();
+  userId = this.userService.getCurrentUserId();
+  logged: boolean = this.userId != null;
+  isAdmin: boolean = this.userService.getIsAdminUser();
   name: String = "";
   description: String = "";
   price: number = 0;
@@ -27,7 +29,6 @@ export class ElemDetailComponent {
 
   reviews: ReviewDTO[] = [];
   
-  logged = false;
   productId!: number;
 
   banned: boolean = false;
@@ -148,6 +149,7 @@ export class ElemDetailComponent {
 
   addToCart(productId: number, selectedSize: String, quantity: number): void {
     if(this.userId == null) {
+      this.router.navigate(['/login']);
       return;
     }
     this.productService.addToCart(productId, this.userId, selectedSize, quantity).subscribe(

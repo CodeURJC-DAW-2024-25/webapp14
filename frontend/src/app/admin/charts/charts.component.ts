@@ -4,12 +4,19 @@ import {
   registerables
 } from 'chart.js';
 import { ChartService } from '../../services/chart.service';
+import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.component.html'
 })
 export class ChartsComponent implements OnInit {
+
+  user = this.userService.getCurrentUserData();
+  userId = this.userService.getCurrentUserId();
+  logged: boolean = this.userId != null;
+  isAdmin: boolean = this.userService.getIsAdminUser();
 
   todaySales: number = 0;
   totalSales: number = 0;
@@ -21,11 +28,14 @@ export class ChartsComponent implements OnInit {
   orderDates: string[] = [];
   orderCounts: number[] = [];
 
-  constructor(private chartService: ChartService) {
+  constructor(private chartService: ChartService, private router: Router, private userService: UserService) {
     Chart.register(...registerables);
   }
 
   ngOnInit(): void {
+    if(!this.isAdmin){
+      this.router.navigate(["/access-error"]);
+    }
     this.chartService.getChartsData().subscribe(data => {
       this.todaySales = data.todaySales;
       this.totalSales = data.totalSales;

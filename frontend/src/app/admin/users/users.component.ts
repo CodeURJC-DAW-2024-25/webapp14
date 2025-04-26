@@ -3,7 +3,7 @@ import { UserService } from '../../services/user.service';
 import { UserDTO } from '../../dtos/user.dto';
 import { UserReportedDTO } from '../../dtos/userReported.dto';
 import { ReviewService } from '../../services/review.service';
-
+import { Router } from '@angular/router';
 
 
 
@@ -12,6 +12,11 @@ import { ReviewService } from '../../services/review.service';
   templateUrl: './users.component.html'
 })
 export class UsersComponent {
+
+  user = this.userService.getCurrentUserData();
+  userId = this.userService.getCurrentUserId();
+  logged: boolean = this.userId != null;
+  isAdmin: boolean = this.userService.getIsAdminUser();
 
   newReview = {
     rating: 0,
@@ -38,10 +43,13 @@ export class UsersComponent {
     { title: 'Usuarios baneados', value: this.bannedUserCont, color: 'warning', icon: 'fas fa-boxes' },
   ];
 
-  constructor(private userService: UserService, private reviewService: ReviewService) {}
+  constructor(private router: Router, private userService: UserService, private reviewService: ReviewService) {}
   
 
   ngOnInit(): void {
+    if(!this.isAdmin){
+      this.router.navigate(["/access-error"]);
+    }
     this.loadData();
   }
 

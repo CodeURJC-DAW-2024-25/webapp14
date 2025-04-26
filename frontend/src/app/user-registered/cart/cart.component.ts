@@ -14,6 +14,8 @@ export class CartComponent {
 
   user = this.userService.getCurrentUserData();
   userId = this.userService.getCurrentUserId();
+  logged: boolean = this.userId != null;
+  isAdmin: boolean = this.userService.getIsAdminUser();
   orderProducts: OrderProductDTO[] = [];
   orderProductsEmpty = true;
   orderNotProcessed = false;
@@ -25,7 +27,9 @@ export class CartComponent {
   constructor(private router: Router, private orderProductService: OrderProductService, private userService: UserService) {}
 
   ngOnInit(): void {
-
+    if(!this.logged){
+      this.router.navigate(["/login"]);
+    }
     this.loadCart();
   }
 

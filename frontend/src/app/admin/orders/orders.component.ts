@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../../services/order.service';
 import { OrderDTO } from '../../dtos/order.dto';
+import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 
 @Component({
@@ -8,6 +10,11 @@ import { OrderDTO } from '../../dtos/order.dto';
   templateUrl: './orders.component.html'
 })
 export class OrdersAdminComponent implements OnInit {
+
+  user = this.userService.getCurrentUserData();
+  userId = this.userService.getCurrentUserId();
+  logged: boolean = this.userId != null;
+  isAdmin: boolean = this.userService.getIsAdminUser();
 
   orders: { id: number, [key: string]: any }[] = [];
 
@@ -19,9 +26,12 @@ export class OrdersAdminComponent implements OnInit {
   totalPages: number = 0;
   pageSize: number = 10;
 
-  constructor(private orderService: OrderService) { }
+  constructor(private orderService: OrderService, private router: Router, private userService: UserService) { }
 
   ngOnInit(): void {
+    if(!this.isAdmin){
+      this.router.navigate(["/access-error"]);
+    }
     this.loadOrders();
   }
 

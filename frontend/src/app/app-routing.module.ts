@@ -45,7 +45,7 @@ const routes: Routes = [
       { path: 'index/elem_detail/:id', component: ElemDetailComponent },
       { path: 'cart', component: CartComponent },
       { path: 'orders', component: OrdersComponent },
-      { path: 'order/:orderId', component: OrdersDetailComponent },
+      { path: 'orders/:orderId', component: OrdersDetailComponent },
       { path: 'user_registered/users_profile', component: UsersProfileComponent },
     ]
   },

@@ -16,6 +16,8 @@ export class OrdersComponent {
 
   user = this.userService.getCurrentUserData();
   userId = this.userService.getCurrentUserId();
+  logged: boolean = this.userId != null;
+  isAdmin: boolean = this.userService.getIsAdminUser();
 
   exists: boolean = false;
   orders: OrderDTO[] = [];
@@ -25,6 +27,9 @@ export class OrdersComponent {
   
 
   ngOnInit(): void {
+    if(!this.logged){
+      this.router.navigate(["/login"]);
+    }
     this.loadOrders();
   }
 
@@ -55,7 +60,7 @@ export class OrdersComponent {
   }
 
   viewOrderDetails(orderId: number): void {
-    this.router.navigate(['/order', orderId]);
+    this.router.navigate(['/orders', orderId]);
   }
 
 }
