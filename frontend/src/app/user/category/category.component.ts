@@ -12,7 +12,7 @@ export class CategoryComponent implements OnInit {
   category!: string;
   products: ProductDTO[] = [];
   loading = false;
-  totalPages: number = 1;
+  totalPages: number = 1; 
 
   page = 0;
   readonly size = 4;

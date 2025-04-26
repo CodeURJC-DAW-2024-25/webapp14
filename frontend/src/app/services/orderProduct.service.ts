@@ -14,18 +14,21 @@ export class OrderProductService {
   constructor(private http: HttpClient) { }
 
   getCart(userId: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}?userId=${userId}`);
+    return this.http.get<any>(`${this.baseUrl}?userId=${userId}`, {
+      withCredentials: true
+    });
   }
   
-  deleteOrderProduct(orderProductId : number, userId: number): Observable<any> {
+  deleteOrderProduct(orderProductId: number, userId: number): Observable<any> {
     const url = `${environment.apiUrl}/cart/${orderProductId}`;
-
-    return this.http.patch<any>(`${url}?userId=${userId}`,null);
-
+    return this.http.patch<any>(`${url}?userId=${userId}`, null, {
+      withCredentials: true
+    });
   }
 
   processOrder(userId: number): Observable<any> {
-    return this.http.patch<any>(`${this.baseUrl}?userId=${userId}`,null);
+    return this.http.patch<any>(`${this.baseUrl}?userId=${userId}`, null, {
+      withCredentials: true
+    });
   }
-  
 }

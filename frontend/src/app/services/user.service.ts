@@ -13,7 +13,14 @@ import { NewUserDTO } from '../dtos/newUser.dto';
 })
 export class UserService {
 
-  constructor(private http: HttpClient) { }
+  private currentUser: UserDTO | null = null;
+  private userId: number | null = null;
+  private token: string | null = null;
+  private isLoggedIn: boolean = false;
+  private isAdmin: boolean = false;
+
+  constructor(private http: HttpClient, ) {  this.loadCurrentUser();
+  }
 
   loadUserData(): Observable<any> {
     // Comprobar si la cookie de sesión está presente
@@ -128,12 +135,58 @@ export class UserService {
     });
   }
 
-  logout(): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/auth/logout`, {});
-  }
-
   getAdminProfile(): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/users/admin`);
+  }
+
+
+  setCurrentUser(user: UserDTO): UserDTO {
+    this.currentUser = user;
+    this.userId = user.id || null;
+    this.isLoggedIn = true;
+    this.isAdmin = user.roles.includes('ADMIN');
+
+    localStorage.setItem('currentUser', JSON.stringify(user));
+
+    return user;
+  }
+
+  loadCurrentUser(): void {
+    const userJson = localStorage.getItem('currentUser');
+    if (userJson) {
+      const user = JSON.parse(userJson) as UserDTO;
+      this.currentUser = user;
+      this.userId = user.id || null;
+      this.isLoggedIn = true;
+      this.isAdmin = user.roles.includes('ADMIN');
+    }
+  }
+
+
+
+  getCurrentUserId(): number | null {
+    return this.userId;
+  }
+
+  getCurrentUserData(): UserDTO | null {
+    return this.currentUser;
+  }
+
+  getIsLoggedInUser(): boolean {
+    return this.isLoggedIn;
+  }
+
+  getIsAdminUser(): boolean {
+    return this.isAdmin;
+  }
+
+  logout(): Observable<any> {
+    this.currentUser = null;
+    this.isLoggedIn = false;
+    this.isAdmin = false;
+    this.userId = null;
+    return this.http.post(`${environment.apiUrl}/auth/logout`, {});
+    
   }
 
 }

@@ -13,7 +13,7 @@ export class UsersProfileComponent implements OnInit {
   user!: UserDTO;
   imageFile?: File;
   errorEmail = '';
-  errorCurrentPassword = '';
+  errorCurrentPassword = ''; 
   errorNewPassword = '';
   errorImage = '';
 

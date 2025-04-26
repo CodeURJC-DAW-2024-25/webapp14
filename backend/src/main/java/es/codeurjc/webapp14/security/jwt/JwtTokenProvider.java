@@ -73,5 +73,6 @@ public class JwtTokenProvider {
 				.setIssuedAt(currentDate)
 				.setExpiration(expiryDate)
 				.signWith(jwtSecret);
+				
 	}
 }

@@ -75,7 +75,9 @@ export class ProductService {
 
   getProducts(page: number, pageSize: number): Observable<any> {
     const url = `${environment.apiUrl}/products?page=${page}&size=${pageSize}`;
-    return this.http.get<any>(url);
+    return this.http.get<any>(url, {
+      withCredentials: true
+    });
   }
 
   getIndexProducts(page: number, size: number): Observable<any> {
@@ -89,7 +91,10 @@ export class ProductService {
   }
 
   addToCart(productId: number, userId: number, selectedSize: String, quantity: number): Observable<any> {
-    const url = `${environment.apiUrl}/cart/${productId}?userId=${userId}&size=${selectedSize}&quantity=${quantity}`;
-    return this.http.post<any>(url, null)
-  }
+  const url = `${environment.apiUrl}/cart/${productId}?userId=${userId}&size=${selectedSize}&quantity=${quantity}`;
+  return this.http.post<any>(url, null, {
+    withCredentials: true
+  });
+}
+
 }

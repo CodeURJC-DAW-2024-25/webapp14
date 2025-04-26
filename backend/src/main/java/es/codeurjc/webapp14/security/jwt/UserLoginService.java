@@ -45,8 +45,11 @@ public class UserLoginService {
 		var newAccessToken = jwtTokenProvider.generateAccessToken(user);
 		var newRefreshToken = jwtTokenProvider.generateRefreshToken(user);
 
-		response.addCookie(buildTokenCookie(TokenType.ACCESS, newAccessToken));
-		response.addCookie(buildTokenCookie(TokenType.REFRESH, newRefreshToken));
+		addSameSiteCookie(response, buildTokenCookie(TokenType.ACCESS, newAccessToken));
+    	addSameSiteCookie(response, buildTokenCookie(TokenType.REFRESH, newRefreshToken));
+
+		addTokenCookie(response, TokenType.ACCESS, newAccessToken);
+    	addTokenCookie(response, TokenType.REFRESH, newRefreshToken);
 
 		AuthResponse loginResponse = new AuthResponse(AuthResponse.Status.SUCCESS,
 				"Auth successful. Tokens are created in cookie.");
@@ -85,9 +88,22 @@ public class UserLoginService {
 		Cookie cookie = new Cookie(type.cookieName, token);
 		cookie.setMaxAge((int) type.duration.getSeconds());
 		cookie.setHttpOnly(true);
+		cookie.setSecure(true);
 		cookie.setPath("/");
+	
 		return cookie;
 	}
+	
+	private void addSameSiteCookie(HttpServletResponse response, Cookie cookie) {
+		// Añade manualmente SameSite=None al header
+		String cookieHeader = String.format(
+			"%s=%s; Max-Age=%d; Path=%s; Secure; HttpOnly; SameSite=None",
+			cookie.getName(), cookie.getValue(), cookie.getMaxAge(), cookie.getPath()
+		);
+		response.addHeader("Set-Cookie", cookieHeader);
+	}
+	
+	
 
 	private Cookie removeTokenCookie(TokenType type) {
 		Cookie cookie = new Cookie(type.cookieName, "");
@@ -96,4 +112,11 @@ public class UserLoginService {
 		cookie.setPath("/");
 		return cookie;
 	}
+
+	private void addTokenCookie(HttpServletResponse response, TokenType type, String token) {
+		response.addHeader("Set-Cookie", type.cookieName + "=" + token +
+				"; Max-Age=" + type.duration.getSeconds() +
+				"; Path=/; HttpOnly; Secure; SameSite=None");
+	}
+	
 }

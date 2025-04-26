@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
         this.userService.getUser(loginRequest).subscribe({
           next: (user) => {
             console.log("Usuario logueado:", user);
+            this.userService.setCurrentUser(user);
             if (user.roles.includes('ADMIN')) {
               this.router.navigate(['/admin/charts']);
             } else {

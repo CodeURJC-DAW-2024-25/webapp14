@@ -14,8 +14,8 @@ import { UserService } from '../../services/user.service';
 })
 export class OrdersComponent {
 
-  //user = this.userService.getCurrentUser();
-  userId = 2;
+  user = this.userService.getCurrentUserData();
+  userId = this.userService.getCurrentUserId();
 
   exists: boolean = false;
   orders: OrderDTO[] = [];

@@ -8,10 +8,12 @@ import { UserService } from '../../../services/user.service';
   templateUrl: './header-user.component.html'
 })
 export class HeaderUserComponent implements OnInit {
+  user = this.userService.getCurrentUserData();
+  userId = this.userService.getCurrentUserId();
   query: string = '';
   productsSearch: any[] = [];
-  logged: boolean = false;
-  userName: string | null = null;
+  logged: boolean = this.userId != null;
+  userName: String = this.user?.name || '';
   csrfToken: string = '';
   open: boolean = false;
 
@@ -23,10 +25,6 @@ export class HeaderUserComponent implements OnInit {
 
   loadInitialData() {
     this.userService.loadUserData().subscribe((response) => {
-      this.logged = response.logged;
-      this.userName = response.userName;
-      this.csrfToken = response.csrfToken;
-      // Otros datos de la sesión
     });
   }
 
