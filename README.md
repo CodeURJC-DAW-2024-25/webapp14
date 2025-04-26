@@ -299,3 +299,55 @@ I have worked on adapting some services and repositories for the REST API and cr
 |3|[Updated index endpoint](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/b4dc47940c9dd5eddb5bef42672f7096f6e677b9)|[IndexRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/b4dc47940c9dd5eddb5bef42672f7096f6e677b9#diff-31ba910cf314c0efcc869a689bf4308639b1d449b9550b917975658543d41f2d)|
 |4|[Implemented search endpoint](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/97021bf9b27b1819bcb2263eea9d4b24b89f721f)|[SearchRestController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/97021bf9b27b1819bcb2263eea9d4b24b89f721f#diff-fce8d4f9566b1df790e4fbf59051779236f35c060e708361c2241d353a5b8fcf)|
 |5|[Updated ImageController](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/81e9c41abaff7d76a9969502066b649b8d94aaf9)|[ImageController.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/b4dc47940c9dd5eddb5bef42672f7096f6e677b9#diff-31ba910cf314c0efcc869a689bf4308639b1d449b9550b917975658543d41f2d)|
+
+# PHASE 3
+
+###  🛠️ EXECUTION INSTRUCTIONS
+
+### 🗂️ CLASS DIAGRAM AND TEMPLATES OF THE SPA
+
+![image](https://github.com/user-attachments/assets/a489b409-aa26-466d-8aea-222af15d983d)
+
+### 📹 VIDEO
+
+### 🤝 PARTICIPATION
+
+### **IKRAM EL JAUHARI AL JAOUHARI**
+
+| Nº    | Commits      | Files      |
+|:------------: |:------------:| :------------:|
+|1| | |
+|2| | |
+|3| | |
+|4| | |
+|5| | |
+
+### **ALBERTO MAYORAL GÓMEZ**
+
+| Nº    | Commits      | Files      |
+|:------------: |:------------:| :------------:|
+|1| | |
+|2| | |
+|3| | |
+|4| | |
+|5| | |
+
+### **ICÍAR MORENO LÓPEZ**
+
+| Nº    | Commits      | Files      |
+|:------------: |:------------:| :------------:|
+|1| | |
+|2| | |
+|3| | |
+|4| | |
+|5| | |
+
+### **JORGE RAMÍREZ GAYO**
+
+| Nº    | Commits      | Files      |
+|:------------: |:------------:| :------------:|
+|1| | |
+|2| | |
+|3| | |
+|4| | |
+|5| | |
