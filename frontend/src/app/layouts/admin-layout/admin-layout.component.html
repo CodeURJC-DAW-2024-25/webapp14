@@ -7,7 +7,7 @@
   <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin/charts">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" [href]="chartsUrl">
       <div class="sidebar-brand-text mx-3 d-block">
         <p class="m-0">NOIR & BLANC</p>
       </div>
@@ -18,7 +18,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item">
-      <a class="nav-link" href="/admin/charts">
+      <a class="nav-link" [href]="chartsUrl">
         <i class="fas fa-chart-line"></i>
         <span>Estadísticas</span></a>
     </li>
@@ -32,21 +32,21 @@
     </div>
 
     <li class="nav-item">
-      <a class="nav-link" href="/admin/users">
+      <a class="nav-link" [href]="usersUrl">
         <i class="fas fa-user"></i>
         <span>Usuarios</span>
       </a>
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="/admin/orders">
+      <a class="nav-link" [href]="ordersUrl">
         <i class="fas fa-box"></i>
         <span>Pedidos</span>
       </a>
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="/admin/products">
+      <a class="nav-link" [href]="productsUrl">
         <i class="fas fa-tshirt"></i>
         <span>Productos</span>
       </a>
@@ -95,7 +95,7 @@
       <div class="modal-body">Selecciona "Aceptar" si estás preparado para cerrar la sesión activa.</div>
       <div class="modal-footer">
         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-        <a class="btn btn-primary" href="/login">Aceptar</a>
+        <a class="btn btn-primary" [href]="loginUrl">Aceptar</a>
       </div>
     </div>
   </div>

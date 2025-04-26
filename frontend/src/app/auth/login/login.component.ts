@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 
+import { environment } from '../../../environments/environment';
+
 
 @Component({
   selector: 'app-login',
@@ -15,6 +17,9 @@ export class LoginComponent implements OnInit {
   errorMessage: string | null = null;
   showPassword: boolean = false;
   token: string = '';
+
+  registerUrl: string = '';
+
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
@@ -22,6 +27,8 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.registerUrl = `${environment.baseUrl}index`;
+
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -40,6 +47,7 @@ export class LoginComponent implements OnInit {
       email: this.email?.value,
       password: this.password?.value
     };
+
     this.userService.login(loginRequest).subscribe({
       next: (response) => {
         this.userService.getUser(loginRequest).subscribe({
@@ -47,9 +55,9 @@ export class LoginComponent implements OnInit {
             console.log("Usuario logueado:", user);
             this.userService.setCurrentUser(user);
             if (user.roles.includes('ADMIN')) {
-              this.router.navigate(['/admin/charts']);
+              this.router.navigate([`${environment.baseUrl}admin/charts`]);
             } else {
-              this.router.navigate(['/index']);
+              this.router.navigate([`${environment.baseUrl}index`]);
             }
           },
           error: (error) => {

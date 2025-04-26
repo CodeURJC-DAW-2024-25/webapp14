@@ -1,5 +1,6 @@
 package es.codeurjc.webapp14.security;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import es.codeurjc.webapp14.security.jwt.JwtRequestFilter;
 import es.codeurjc.webapp14.security.jwt.UnauthorizedHandlerJwt;
@@ -33,6 +36,21 @@ public class SecurityConfig {
 
     @Autowired
     private UnauthorizedHandlerJwt unauthorizedHandlerJwt;
+
+    @Bean
+    public UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(Arrays.asList(
+                "http://localhost:4200",
+                "https://localhost:8443",
+                "https://appWeb14.dawgis.etsii.urjc.es/"));
+        config.setAllowCredentials(true);
+        config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -107,15 +125,8 @@ public class SecurityConfig {
         // Disable CSRF protection (it is difficult to implement in REST APIs)
         http.csrf(csrf -> csrf.disable());
 
-        // Enable CORS for Angular frontend
-        http.cors(cors -> cors.configurationSource(request -> {
-            var corsConfig = new org.springframework.web.cors.CorsConfiguration();
-            corsConfig.setAllowedOrigins(List.of("http://localhost:4200")); // Angular dev server
-            corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-            corsConfig.setAllowedHeaders(List.of("*"));
-            corsConfig.setAllowCredentials(true); // Necesario si usas JWT con cookies
-            return corsConfig;
-        }));
+        // Allow CORS
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
         // Disable Basic Authentication
         http.httpBasic(httpBasic -> httpBasic.disable());
@@ -140,6 +151,8 @@ public class SecurityConfig {
                         .requestMatchers("/cart/**", "/orders/**").authenticated()
                         .requestMatchers("/user_registered/users_profile", "/editProfile").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/new").permitAll()
+                        .requestMatchers("/new/**").permitAll()
                         .anyRequest().permitAll())
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login")

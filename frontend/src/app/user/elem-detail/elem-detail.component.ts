@@ -6,7 +6,6 @@ import { SizeDTO } from '../../dtos/size.dto';
 import { ReviewService } from '../../services/review.service';
 import { UserService } from '../../services/user.service';
 
-
 @Component({
   selector: 'app-elem-detail',
   templateUrl: './elem-detail.component.html'
@@ -28,7 +27,7 @@ export class ElemDetailComponent {
   selectedSize: string = "";
 
   reviews: ReviewDTO[] = [];
-  
+
   productId!: number;
 
   banned: boolean = false;
@@ -38,7 +37,7 @@ export class ElemDetailComponent {
     reviewText: ''
   };
 
-  constructor(private router: Router, private productService: ProductService, private route: ActivatedRoute, private reviewService: ReviewService, private userService: UserService) {}
+  constructor(private router: Router, private productService: ProductService, private route: ActivatedRoute, private reviewService: ReviewService, private userService: UserService) { }
 
   ngOnInit(): void {
     this.productId = Number(this.route.snapshot.paramMap.get('id'));
@@ -57,11 +56,11 @@ export class ElemDetailComponent {
         this.imageBool = data.imageBool;
         this.sizes = data.sizes;
         this.reviews = data.reviews;
-        
+
       },
       error: (err) => {
         console.error('Error al cargar el producto:', err);
-        
+
       }
     });
   }
@@ -83,12 +82,12 @@ export class ElemDetailComponent {
           this.loadProduct();
         }
       }
-      
+
     );
   }
 
   deleteReview(reviewId: number, productId: number): void {
-    if(this.userId == null) {
+    if (this.userId == null) {
       return;
     }
     this.reviewService.deleteReview(reviewId, productId, this.userId).subscribe(
@@ -102,12 +101,12 @@ export class ElemDetailComponent {
           this.loadProduct();
         }
       }
-      
+
     );
   }
 
   submitReview() {
-    if(this.userId == null) {
+    if (this.userId == null) {
       return;
     }
     if (this.newReview.rating > 0 && this.newReview.reviewText.trim() !== '') {
@@ -116,7 +115,7 @@ export class ElemDetailComponent {
         reviewText: this.newReview.reviewText
       };
 
-        this.reviewService.addReview(body,this.userId,this.productId).subscribe({
+      this.reviewService.addReview(body, this.userId, this.productId).subscribe({
         next: () => {
           this.newReview = { rating: 0, reviewText: '' };
           this.loadProduct();
@@ -127,7 +126,7 @@ export class ElemDetailComponent {
   }
 
   submitEditReview(reviewId: number): void {
-    if(this.userId == null) {
+    if (this.userId == null) {
       return;
     }
     const review = this.reviews.find(r => r.id === reviewId);
@@ -136,7 +135,7 @@ export class ElemDetailComponent {
         rating: review.rating,
         reviewText: review.reviewText
       };
-  
+
       this.reviewService.editReview(body, this.userId, this.productId, reviewId).subscribe({
         next: () => {
           console.log('Reseña editada');
@@ -148,23 +147,22 @@ export class ElemDetailComponent {
   }
 
   addToCart(productId: number, selectedSize: String, quantity: number): void {
-    if(this.userId == null) {
+    if (this.userId == null) {
       this.router.navigate(['/login']);
       return;
     }
     this.productService.addToCart(productId, this.userId, selectedSize, quantity).subscribe(
       () => {
         console.log('Producto añadido con éxito');
-        this.router.navigate(['/cart']);      },
+        this.router.navigate(['/cart']);
+      },
       (error) => {
         console.error('Error al añadir el producto', error);
         if (error.status === 500) {
           this.loadProduct();
         }
       }
-      
+
     );
   }
-  
-
 }

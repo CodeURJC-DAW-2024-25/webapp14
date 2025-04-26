@@ -9,5 +9,4 @@ export class NoPageErrorComponent {
 
   logged: boolean = true;
   isAdmin: boolean = false;
-
 }

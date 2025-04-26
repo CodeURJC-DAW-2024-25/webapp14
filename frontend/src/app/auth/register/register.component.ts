@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { UserService } from '../../services/user.service';
 import { NewUserDTO } from '../../dtos/newUser.dto';
 
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -16,6 +17,8 @@ export class RegisterComponent {
   registerForm: FormGroup;
   submitted = false;
   errors: any = {};
+
+  loginUrl: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -31,6 +34,10 @@ export class RegisterComponent {
       confirmPassword: ['', Validators.required],
       agree: [false, Validators.requiredTrue]
     });
+  }
+
+  ngOnInit(): void {
+    this.loginUrl = `${environment.baseUrl}login`;
   }
 
   onSubmit(): void {
@@ -57,7 +64,7 @@ export class RegisterComponent {
     this.userService.registerUser(newUser).subscribe({
       next: (res) => {
         console.log('Registro exitoso:', res);
-        this.router.navigate(['/login']);
+        this.router.navigate([`${environment.baseUrl}login`]);
       },
       error: (err) => {
         this.errors = err.error || {};

@@ -11,13 +11,13 @@
       <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
         <span class="mr-2 d-none d-lg-inline text-white small">{{ admin?.name }}</span>
-        <img [src]="hasImage ? '/api/admin/profile/image' : '/assets/images/noAdminImage.png'"
-          class="img-profile rounded-circle" alt="Profile Picture" id="profileImage" width="40" height="40" />
+        <img [src]="hasImage ? '/api/admin/profile/image' : adminImageUrl" class="img-profile rounded-circle"
+          alt="Profile Picture" id="profileImage" width="40" height="40" />
       </a>
 
       <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
 
-        <a class="dropdown-item" [routerLink]="['/admin/profile']">
+        <a class="dropdown-item" [routerLink]="adminProfileUrl">
           <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
           Perfil
         </a>

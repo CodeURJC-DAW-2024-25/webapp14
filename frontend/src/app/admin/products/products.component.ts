@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { UserService } from '../../services/user.service';
 
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { environment } from '../../../environments/environment';
+
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -48,17 +51,21 @@ export class ProductsComponent implements OnInit {
   ];
 
   imageFile: File | null = null;
+  noImageUrl: SafeResourceUrl = '';
   imagePreview: string | ArrayBuffer | null = null;
   selectedImageFile: File | null = null;
   fileName: string = 'Seleccionar Archivo...';
 
 
-  constructor(private productService: ProductService, private router: Router, private userService: UserService) {}
+  constructor(private sanitizer: DomSanitizer, private productService: ProductService, private router: Router, private userService: UserService) { }
 
   ngOnInit(): void {
-    if(!this.isAdmin){
+    if (!this.isAdmin) {
       this.router.navigate(["/access-error"]);
     }
+
+    this.noImageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${environment.baseUrl}assets/images/no_image.png`);
+
     this.loadProducts();
   }
 
@@ -90,13 +97,13 @@ export class ProductsComponent implements OnInit {
         this.loading = false;
       }
     });
-  } 
+  }
 
   toggleDetails(product: ProductDTO): void {
     console.log('Open togle modal for product:', product);
   }
 
- 
+
 
   deleteProduct(productId: number): void {
     this.productService.deleteProduct(productId).subscribe(
@@ -113,18 +120,18 @@ export class ProductsComponent implements OnInit {
           this.loadProducts();
         }
       }
-      
+
     );
   }
 
   loadMoreProducts(): void {
     this.currentPage++;
     this.loading = true;
-  
+
     this.productService.getProducts(this.currentPage, this.pageSize).subscribe({
       next: (data) => {
         const newProducts = data.products.content;
-  
+
         this.products = this.products.concat(newProducts);
         this.totalPages = data.products.totalPages;
         this.loading = false;
@@ -135,7 +142,7 @@ export class ProductsComponent implements OnInit {
       }
     });
   }
-  
+
 
   editProduct(product: any): void {
     this.productService.editProduct(product).subscribe({
@@ -158,14 +165,14 @@ export class ProductsComponent implements OnInit {
       }
     });
   }
-  
-  
+
+
 
   onImageSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
       this.imageFile = file;
-  
+
       const reader = new FileReader();
       reader.onload = () => {
         this.imagePreview = reader.result;
@@ -173,7 +180,7 @@ export class ProductsComponent implements OnInit {
       reader.readAsDataURL(file);
     }
   }
-  
+
 
   createProduct(): void {
     const body = {
@@ -184,14 +191,14 @@ export class ProductsComponent implements OnInit {
       category: this.newProduct.category,
       imageBool: !!this.imageFile
     };
-  
+
     const params = {
       stock_S: this.newProduct.stock_S || 0,
       stock_M: this.newProduct.stock_M || 0,
       stock_L: this.newProduct.stock_L || 0,
       stock_XL: this.newProduct.stock_XL || 0,
     };
-  
+
     this.productService.createProduct(body, params).subscribe({
       next: (response) => {
         console.log('Producto creado correctamente', response);
@@ -215,13 +222,13 @@ export class ProductsComponent implements OnInit {
     });
   }
 
-  saveChanges(event: MouseEvent,product: ProductDTO): void {
+  saveChanges(event: MouseEvent, product: ProductDTO): void {
     event.preventDefault();
     event.stopPropagation();
-  
+
     this.editProduct(product);
   }
-  
-  
+
+
 
 }

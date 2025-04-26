@@ -1,45 +1,42 @@
 <main class="container-fluid">
-    <section style="margin-top: 8rem;">
-      <div class="px-4">
-        <button type="button" id="backButton" class="btn btn-back" (click)="goBack()">
-          ⬅ Volver
-        </button>
+  <section style="margin-top: 8rem;">
+    <div class="px-4">
+      <button type="button" id="backButton" class="btn btn-back" (click)="goBack()">
+        ⬅ Volver
+      </button>
+    </div>
+
+    <div class="container-fluid px-md-5">
+      <div>
+        <h2 class="display-5 fw-light text-uppercase text-center">{{ category }}</h2>
       </div>
-  
-      <div class="container-fluid px-md-5">
-        <div>
-          <h2 class="display-5 fw-light text-uppercase text-center">{{ category }}</h2>
-        </div>
-  
-        <div id="products" class="row gx-4">
-          <div class="col-md-6 col-lg-3 my-4" *ngFor="let product of products">
-            <div class="product-item text-center">
-              <div class="image-holder">
-                <img [src]="'https://localhost:8443/api/v1/products/' + product.id + '/image'" 
-                     alt="{{ product.name }}" 
-                     class="product-image img-fluid" 
-                     [ngClass]="{ 'out-of-stock': product.outOfStock }" />
-                <div *ngIf="product.outOfStock" class="out-of-stock-overlay">Sin Stock</div>
-              </div>
-              <div class="product-detail mt-2">
-                <h5 class="product-title">{{ product.name }}</h5>
-                <p>{{ product.price }} EUR</p>
-                <a [routerLink]="['/index/elem_detail', product.id]" class="btn btn-outline-dark">Ver detalles</a>
-              </div>
+
+      <div id="products" class="row gx-4">
+        <div class="col-md-6 col-lg-3 my-4" *ngFor="let product of products">
+          <div class="product-item text-center">
+            <div class="image-holder">
+              <img [src]="'/api/v1/products/' + product.id + '/image'" alt="{{ product.name }}"
+                class="product-image img-fluid" [ngClass]="{ 'out-of-stock': product.outOfStock }" />
+              <div *ngIf="product.outOfStock" class="out-of-stock-overlay">Sin Stock</div>
+            </div>
+            <div class="product-detail mt-2">
+              <h5 class="product-title">{{ product.name }}</h5>
+              <p>{{ product.price }} EUR</p>
+              <a [routerLink]="['/index/elem_detail', product.id]" class="btn btn-outline-dark">Ver detalles</a>
             </div>
           </div>
         </div>
-  
-        <div id="loading-spinner" *ngIf="loading" class="text-center">
-          <div class="spinner-border" role="status">
-            <span class="sr-only">Cargando...</span>
-          </div>
-        </div>
-  
-        <div *ngIf="page + 1 < totalPages" class="text-center mt-4">
-            <button class="btn btn-loadMore" (click)="loadMore()">Cargar más</button>
+      </div>
+
+      <div id="loading-spinner" *ngIf="loading" class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Cargando...</span>
         </div>
       </div>
-    </section>
-  </main>
-  
+
+      <div *ngIf="page + 1 < totalPages" class="text-center mt-4">
+        <button class="btn btn-loadMore" (click)="loadMore()">Cargar más</button>
+      </div>
+    </div>
+  </section>
+</main>

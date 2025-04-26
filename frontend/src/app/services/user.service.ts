@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { environment } from '../environment';
+import { environment } from '../../environments/environment';
 import { UserDTO } from '../dtos/user.dto';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
@@ -19,7 +19,8 @@ export class UserService {
   private isLoggedIn: boolean = false;
   private isAdmin: boolean = false;
 
-  constructor(private http: HttpClient, ) {  this.loadCurrentUser();
+  constructor(private http: HttpClient,) {
+    this.loadCurrentUser();
   }
 
   loadUserData(): Observable<any> {
@@ -63,35 +64,35 @@ export class UserService {
 
   getUsers(page: number, pageSize: number): Observable<any> {
     const url = `${environment.apiUrl}/users?page=${page}&size=${pageSize}`;
-    return this.http.get<any>(url,{
+    return this.http.get<any>(url, {
       withCredentials: true
     });
   }
 
   deleteUser(userId: number): Observable<void> {
     const url = `${environment.apiUrl}/users/${userId}`;
-    return this.http.delete<void>(url,{
+    return this.http.delete<void>(url, {
       withCredentials: true
     });
   }
 
   banUser(userId: number): Observable<void> {
     const url = `${environment.apiUrl}/users/${userId}?ban=true`;
-    return this.http.patch<void>(url, null,{
+    return this.http.patch<void>(url, null, {
       withCredentials: true
     });
   }
 
   unbanUser(userId: number): Observable<void> {
     const url = `${environment.apiUrl}/users/${userId}?ban=false`;
-    return this.http.patch<void>(url, null,{
+    return this.http.patch<void>(url, null, {
       withCredentials: true
     });
   }
 
   getUsersReported(page: number, pageSize: number): Observable<any> {
     const url = `${environment.apiUrl}/users/reports?page=${page}&size=${pageSize}`;
-    return this.http.get<any>(url,{
+    return this.http.get<any>(url, {
       withCredentials: true
     });
   }
@@ -124,7 +125,7 @@ export class UserService {
       withCredentials: true
     });
   }
-  
+
 
   updateUserImage(file: File): Observable<any> {
     const formData = new FormData();
@@ -204,7 +205,7 @@ export class UserService {
     localStorage.removeItem('isAdmin');
     localStorage.removeItem('userId');
     return this.http.post(`${environment.apiUrl}/auth/logout`, {});
-    
+
   }
 
 }
