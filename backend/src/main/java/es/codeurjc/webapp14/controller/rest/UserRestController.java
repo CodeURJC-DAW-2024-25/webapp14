@@ -161,8 +161,8 @@ public class UserRestController {
 
         User user = userService.findUserById(userId);
 
-        if (!userService.validateEditUser(editUserDTO, user, redirectAttributes)) {
-            throw new EntityNotFoundException("User not found");
+        if (userService.validateEditUser(editUserDTO, user, redirectAttributes)) {
+            throw new EntityNotFoundException("User not validated");
         }
 
         try {
@@ -170,7 +170,7 @@ public class UserRestController {
             UserDTO editUser = userService.updateUserFromDTO(user, editUserDTO, encodedPassword);
             return editUser;
         } catch (RuntimeException e) {
-            throw new EntityNotFoundException("User not found");
+            throw new EntityNotFoundException("You need the password");
         }
     }
 
