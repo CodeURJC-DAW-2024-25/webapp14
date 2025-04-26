@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { ProductDTO } from '../../dtos/product.dto';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-index',
@@ -8,12 +9,17 @@ import { ProductDTO } from '../../dtos/product.dto';
 })
 export class IndexComponent implements OnInit {
 
+  user = this.userService.getCurrentUserData();
+  userId = this.userService.getCurrentUserId();
+  logged: boolean = this.userId != null;
+  isAdmin: boolean = this.userService.getIsAdminUser();
+
   page: number = 0;
-  readonly size: number = 4;
+  readonly size: number = 2;
 
   products: ProductDTO[] = [];
   recommendedProducts: ProductDTO[] = [];
-  loggedIn: boolean = false; //hasta que sepa como se usa auth jeje
+  loggedIn: boolean = false;
   loading: boolean = false;
 
   categoryBlocks = [
@@ -46,26 +52,37 @@ export class IndexComponent implements OnInit {
     }
   ];
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService, private userService: UserService) { }
 
   ngOnInit(): void {
     this.loadProducts();
   }
 
   loadProducts(): void {
-    this.productService.getIndexProducts(0, 4).subscribe({
+    if (this.logged) {
+    this.productService.getIndexProductsLogged(0, 2).subscribe({
       next: data => {
-        this.products = data.bestSellingProducts ?? [];
+        this.products = data.recommendedProducts.content ?? [];
       },
-      error: err => console.error('Error al cargar tendencias:', err)
+      error: err => console.error('Error al cargar recomendados:', err)
     });
+    }
+    else{
+      this.productService.getIndexProducts(0, 4).subscribe({
+        next: data => {
+            this.products = data.bestSellingProducts ?? [];
+        },
+        error: err => console.error('Error al cargar tendencias:', err)
+      });
+
+    }
   }
 
   loadMoreRecommendedProducts(): void {
     this.page++;
-    this.productService.getProducts(this.page, this.size).subscribe({
+    this.productService.getIndexProductsLogged(this.page, this.size).subscribe({
       next: data => {
-        this.products.push(...data.products.content);
+        this.products.push(...data.recommendedProducts.content);
       },
       error: err => {
         console.error('Error al cargar más recomendados:', err);

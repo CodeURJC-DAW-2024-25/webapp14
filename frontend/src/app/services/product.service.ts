@@ -32,14 +32,14 @@ export class ProductService {
     });
   }
 
-  editProduct(product: any): Observable<any> {
+  editProduct(product: any, stocks: any): Observable<any> {
     const url = `${environment.apiUrl}/products/${product.id}`;
     
     const params = new HttpParams()
-      .set('stock_S', product.stock_S || 0)
-      .set('stock_M', product.stock_M || 0)
-      .set('stock_L', product.stock_L || 0)
-      .set('stock_XL', product.stock_XL || 0);
+    .set('stock_S', stocks.stock_S || 0)
+    .set('stock_M', stocks.stock_M || 0)
+    .set('stock_L', stocks.stock_L || 0)
+    .set('stock_XL', stocks.stock_XL || 0);
   
     const productDTO = {
       name: product.name,
@@ -85,6 +85,13 @@ export class ProductService {
   getIndexProducts(page: number, size: number): Observable<any> {
     const url = `${environment.apiUrl}?page=${page}&size=${size}`;
     return this.http.get<any>(url);
+  }
+
+  getIndexProductsLogged(page: number, size: number): Observable<any> {
+    const url = `${environment.apiUrl}?page=${page}&size=${size}`;
+    return this.http.get<any>(url, { 
+      withCredentials: true
+    });
   }
 
   getProduct(productId: number): Observable<any> {

@@ -138,26 +138,34 @@ export class ProductsComponent implements OnInit {
   
 
   editProduct(product: any): void {
-    this.productService.editProduct(product).subscribe({
+    const stockParams = {
+      stock_S: this.getStockBySize(product.sizes, 'S'),
+      stock_M: this.getStockBySize(product.sizes, 'M'),
+      stock_L: this.getStockBySize(product.sizes, 'L'),
+      stock_XL: this.getStockBySize(product.sizes, 'XL')
+    };
+  
+    this.productService.editProduct(product, stockParams).subscribe({
       next: response => {
         console.log("Producto editado correctamente:", response);
         if (this.imageFile && response.id) {
           const formData = new FormData();
           formData.append('imageFile', this.imageFile);
           this.productService.updateProductImage(response.id, formData).subscribe({
-            next: () => {
-              console.log('Imagen actualizada correctamente');
-            },
+            next: () => console.log('Imagen actualizada correctamente'),
             error: (err) => console.error('Error al subir la imagen:', err)
           });
-        } else {
         }
       },
-      error: err => {
-        console.error("Error al editar producto:", err);
-      }
+      error: err => console.error("Error al editar producto:", err)
     });
   }
+  
+  getStockBySize(sizes: any[], sizeName: string): number {
+    const sizeObj = sizes.find(s => s.name === sizeName);
+    return sizeObj ? sizeObj.stock : 0;
+  }
+  
   
   
 
