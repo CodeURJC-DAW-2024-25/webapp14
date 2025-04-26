@@ -24,22 +24,28 @@ export class UsersProfileComponent implements OnInit {
   constructor(private fb: FormBuilder, private userService: UserService, public router: Router) {}
 
   ngOnInit(): void {
-    if(!this.logged){
-      this.router.navigate(["/login"]);
-    }
-    this.userService.getCurrentUser().subscribe(user => {
-      this.user = user;
-      this.form = this.fb.group({
-        name: [user.name],
-        surname: [user.surname],
-        email: [user.email],
-        address: [user.address ?? ''],
-        currentPassword: [''],
-        newPassword: [''],
-        confirmPassword: ['']
-      });
+    this.form = this.fb.group({
+      name: [''],
+      surname: [''],
+      email: [''],
+      address: [''],
+      currentPassword: [''],
+      newPassword: [''],
+      confirmPassword: ['']
     });
+
+    const user = this.userService.getCurrentUserData();
+    if (user) {
+      this.user = user;
+      this.form.patchValue({
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
+        address: user.address ?? ''
+      });
+    }
   }
+  
 
   onFileChange(event: any): void {
     this.imageFile = event.target.files[0];
@@ -49,21 +55,28 @@ export class UsersProfileComponent implements OnInit {
     const dto = this.form.value;
   
     this.userService.updateUserProfile(dto).subscribe({
-      next: () => {
-        if (this.imageFile) {
-          this.userService.updateUserImage(this.imageFile).subscribe({
-            next: () => this.router.navigate(['/user/profile']),
-            error: (err) => console.error('Error subiendo imagen', err)
-          });
-        } else {
-          this.router.navigate(['/user/profile']);
-        }
+      next: (updatedUser: UserDTO) => {
+        
+        this.userService.setCurrentUser(updatedUser); 
+        this.user = updatedUser; 
+        this.form.patchValue({
+          name: updatedUser.name,
+          surname: updatedUser.surname,
+          email: updatedUser.email,
+          address: updatedUser.address ?? ''
+        });
+  
+        this.router.navigate(['/index']).then(() => {
+          window.location.reload();
+        });
       },
       error: (err) => {
         console.error('Error actualizando perfil:', err);
       }
     });
   }
+  
+  
   
 
   deleteAccount(): void {

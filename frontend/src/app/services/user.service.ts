@@ -119,11 +119,12 @@ export class UserService {
     return throwError(() => error);
   }
 
-  updateUserProfile(editUserDto: any): Observable<any> {
-    return this.http.put(`${environment.apiUrl}/users`, editUserDto, {
+  updateUserProfile(editUserDto: any): Observable<UserDTO> {
+    return this.http.put<UserDTO>(`${environment.apiUrl}/users`, editUserDto, {
       withCredentials: true
     });
   }
+  
 
   updateUserImage(file: File): Observable<any> {
     const formData = new FormData();
