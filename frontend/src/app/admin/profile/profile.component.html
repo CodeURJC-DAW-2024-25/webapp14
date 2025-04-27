@@ -7,8 +7,12 @@
 
         <!-- Image -->
         <div class="text-center">
-          <img [src]="hasImage ? 'getAdminImageUrl()' : noAdminImageUrl" class="img-profile rounded-circle mb-4"
-            alt="Profile Picture" width="200" height="200" id="profileImage" />
+          <img *ngIf="user?.imageUrl !== null; else defaultImage" [src]="user?.imageUrl"
+            class="img-profile rounded-circle mb-4" alt="Profile Picture" width="200" height="200" id="profileImage" />
+          <ng-template #defaultImage>
+            <img [src]="noAdminImageUrl" class="img-profile rounded-circle mb-4" alt="Profile Picture" width="200"
+              height="200" id="profileImage" />
+          </ng-template>
         </div>
 
         <div class="text-center" *ngIf="admin">

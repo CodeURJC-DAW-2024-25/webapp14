@@ -15,6 +15,8 @@ export class HeaderAdminComponent implements OnInit {
   adminProfileUrl: string = '';
   noAdminImageUrl: string = '';
 
+  user = this.userService.getCurrentUserData();
+
   constructor(
     private userService: UserService,
     private router: Router
