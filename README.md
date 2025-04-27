@@ -336,11 +336,11 @@ I have worked on adapting some services and repositories for the REST API and cr
 In this part of the project I have been responsible for developing the login and registration screens for users, ensuring their correct functionality. Additionally, I have implemented the order management section for the admin, as well as the functionality to edit the administrator’s profile. I have also contributed by fixing bugs to improve the overall quality of the application
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1||[Added login](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/ac80091f804aa2eb3deb066920b403705c876e37)|[login.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blame/main/frontend/src/app/auth/login/login.component.ts)|
-|2||[Added register](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/a9b797d7f494a9c12c027cbd39b2dc46f142f4f0)|[register.component.html](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/auth/register/register.component.html)|
-|3||[Added admin orders](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/9e20193693c875102a863cc19f2ff3f2ea44149c)|[orders.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/admin/orders/orders.component.ts)|
-|4||[Added admin profile edit](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/401b52ba98b54454dafa21b9797a44c9fd2b5dd4)|[user.service.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/services/user.service.ts)
-|5||[Added admin profile](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/d3ee39adfd92115e34b263e13150950b5984188a)|[profile-edit.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/admin/profile-edit/profile-edit.component.ts)|
+|1|[Added login](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/ac80091f804aa2eb3deb066920b403705c876e37)|[login.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blame/main/frontend/src/app/auth/login/login.component.ts)|
+|2|[Added register](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/a9b797d7f494a9c12c027cbd39b2dc46f142f4f0)|[register.component.html](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/auth/register/register.component.html)|
+|3|[Added admin orders](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/9e20193693c875102a863cc19f2ff3f2ea44149c)|[orders.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/admin/orders/orders.component.ts)|
+|4|[Added admin profile edit](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/401b52ba98b54454dafa21b9797a44c9fd2b5dd4)|[user.service.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/services/user.service.ts)
+|5|[Added admin profile](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/d3ee39adfd92115e34b263e13150950b5984188a)|[profile-edit.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/admin/profile-edit/profile-edit.component.ts)|
 
 ### **Jorge Ramírez Gayo**
 
