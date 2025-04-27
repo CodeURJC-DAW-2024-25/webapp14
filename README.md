@@ -310,6 +310,7 @@ I have worked on adapting some services and repositories for the REST API and cr
 
 ### 📹 VIDEO
 
+[https://www.youtube.com/watch?v=_029pgyLAbU](https://www.youtube.com/watch?v=_029pgyLAbU)
 
 ### 🤝 PARTICIPATION
 
