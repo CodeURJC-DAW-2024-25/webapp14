@@ -26,8 +26,8 @@ export class ReviewService {
     return this.http.get<any>(url);
   }
 
-  acceptReview(reviewId: number, productId: number, body: NewReviewRequestDTO): Observable<void> {
-    const url = `${environment.apiUrl}/products/${productId}/reviews/${reviewId}`;
+  acceptReview(reviewId: number, productId: number, body: NewReviewRequestDTO, userId: number): Observable<void> {
+    const url = `${environment.apiUrl}/products/${productId}/reviews/${reviewId}?userId=${userId}`;
     return this.http.put<void>(url, body, {
       withCredentials: true
     });
