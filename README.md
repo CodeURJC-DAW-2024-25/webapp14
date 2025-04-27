@@ -310,17 +310,17 @@ I have worked on adapting some services and repositories for the REST API and cr
 
 ### 📹 VIDEO
 
-### 🤝 PARTICIPATION
-
-### **Ikram El Jauhari Al Jaouhari**
+### **IKRAM EL JAUHARI AL JAOUHARI**
+During this phase of the project, I was responsible for migrating the index, category, and profile editing views to Angular components. I configured the backend to generate secure, HttpOnly cookies with SameSite=None to ensure session persistence after page reloads. I updated some Angular HTTP requests to use { withCredentials: true } so cookies are automatically sent. I also implemented the logic to update the user data in localStorage after profile edits. As a result, the application now manages secure sessions, loads dynamic user data, and maintains an updated user state across page navigations.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| | |
-|2| | |
-|3| | |
-|4| | |
-|5| | |
+|1|[Added index](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/c23e694050129e9c88d32111a746756678049d8f)|[index.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/user/index/index.component.ts)|
+|2|[Added category](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/27893e0c9ff7fd60ff7e4ef449544703ea7d5471)|[category.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/user/category/category.component.ts)|
+|3|[added edit user's profile](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/53ce2c702311a3bcd1579cbfd72c248dd442ebfd)|[users-profile.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/user-registered/users-profile/users-profile.component.ts)|
+|4|[Added security: permanent cookies for each user's session and updated peticions with credentials](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/5f7f078007aaf93e4abaa94c7356b64462886fab)|[UserLoginService.java](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/backend/src/main/java/es/codeurjc/webapp14/security/jwt/UserLoginService.java)|
+|5|[updated edit user's profile](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/1b75c33cec619f2ef18efa7cd4ccd5c6e0907a80)|[users-profile.component.html](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/user-registered/users-profile/users-profile.component.html)|
+
 
 ### **Alberto Mayoral Gómez**
 
