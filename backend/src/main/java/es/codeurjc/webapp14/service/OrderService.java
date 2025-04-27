@@ -43,7 +43,9 @@ public class OrderService {
     private final OrderMapper orderMapper;
     private final ProductService productService;
 
-    public OrderService(OrderRepository orderRepository, UserService userService, OrderProductService orderProductService, OrderMapper orderMapper, ProductService productService, SizeService sizeService) {
+    public OrderService(OrderRepository orderRepository, UserService userService,
+            OrderProductService orderProductService, OrderMapper orderMapper, ProductService productService,
+            SizeService sizeService) {
         this.orderRepository = orderRepository;
         this.userService = userService;
         this.orderProductService = orderProductService;
@@ -51,7 +53,6 @@ public class OrderService {
         this.productService = productService;
         this.sizeService = sizeService;
     }
-
 
     public void saveOrder(Order order) {
         orderRepository.save(order);
@@ -61,8 +62,6 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-
-
     public Optional<Order> getOrderByIdWeb(Long id) {
         Optional<Order> order = orderRepository.findById(id);
         return order;
@@ -70,7 +69,7 @@ public class OrderService {
 
     public OrderDTO getOrderById(Long id) {
         Order order = orderRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Order not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Order not found"));
         return toDTO(order);
     }
 
@@ -130,14 +129,15 @@ public class OrderService {
         Product product = productService.toDomain(productDTO);
 
         Order presentOrder;
-        if(!order.isPresent()){
-            presentOrder = new Order(user, State.No_pagado,false);
+        if (!order.isPresent()) {
+            presentOrder = new Order(user, State.No_pagado, false);
             saveOrder(presentOrder);
-        } else{
+        } else {
             presentOrder = order.get();
         }
 
-        Optional<OrderProduct> existingOrderProduct = orderProductService.getOrderProductByOrderAndProductAndSize(presentOrder, product, size);
+        Optional<OrderProduct> existingOrderProduct = orderProductService
+                .getOrderProductByOrderAndProductAndSize(presentOrder, product, size);
         OrderProduct orderProduct;
 
         if (existingOrderProduct.isPresent()) {
@@ -161,8 +161,8 @@ public class OrderService {
     }
 
     private OrderDTO toDTO(Order order) {
-		return orderMapper.toDTO(order);
-	}
+        return orderMapper.toDTO(order);
+    }
 
     public OrderDTO listProducts(Long userId) {
 
@@ -178,15 +178,14 @@ public class OrderService {
 
             saveOrder(order);
 
-        }
-        else{
+        } else {
             order = unpaidOrder.get();
         }
 
         return toDTO(order);
     }
 
-    public BigDecimal getSubTotal(OrderDTO order) { 
+    public BigDecimal getSubTotal(OrderDTO order) {
         return order.totalPrice();
 
     }
@@ -202,20 +201,20 @@ public class OrderService {
     }
 
     private Order toDomain(OrderDTO orderDTO) {
-		return orderMapper.toDomain(orderDTO);
-	}
+        return orderMapper.toDomain(orderDTO);
+    }
 
     public OrderDTO deleteOrderProduct(Long orderProductId, Long userId) {
         UserDTO userConsult = userService.findById(userId);
         User user = userService.toDomain(userConsult);
-
 
         Optional<Order> unpaidOrder = getUnpaidOrder(user);
 
         if (unpaidOrder.isPresent()) {
             Optional<OrderProduct> orderProductToRemove = orderProductService.getOrderProductById(orderProductId);
 
-            if (orderProductToRemove.isPresent() && !orderProductToRemove.get().getOrder().getIsPaid() && orderProductToRemove.get().getOrder().getUser().getId().equals(userId)) {
+            if (orderProductToRemove.isPresent() && !orderProductToRemove.get().getOrder().getIsPaid()
+                    && orderProductToRemove.get().getOrder().getUser().getId().equals(userId)) {
                 unpaidOrder.get().setTotalPrice(-1 * orderProductToRemove.get().getQuantity()
                         * orderProductToRemove.get().getProduct().getPrice());
                 saveOrder(unpaidOrder.get());
@@ -240,9 +239,9 @@ public class OrderService {
         return toDTOs(orders);
     }
 
-	private List<OrderDTO> toDTOs(List<Order> orders) {
-		return orderMapper.toDTOs(orders);
-	}
+    private List<OrderDTO> toDTOs(List<Order> orders) {
+        return orderMapper.toDTOs(orders);
+    }
 
     public OrderDTO getOrderProductById(Long orderId, Long userId) {
         userService.findById(userId);
@@ -258,16 +257,23 @@ public class OrderService {
         order.setIsPaid(true);
         order.setState(State.Pagado);
 
-        /*
+        BigDecimal totalPrice = order.getTotalPrice();
 
-        // For sending the email
-        try {
-            ordersController.sendOrderEmail(order.getId());
-        } catch (Exception e) {
-            System.err.println("Error enviando el correo: " + e.getMessage());
+        if (totalPrice.compareTo(BigDecimal.valueOf(100)) < 0) {
+            BigDecimal newTotal = totalPrice.add(BigDecimal.valueOf(10));
+            order.setTotalPriceWithShipping(newTotal.doubleValue());
         }
 
-        */
+        /*
+         * 
+         * // For sending the email
+         * try {
+         * ordersController.sendOrderEmail(order.getId());
+         * } catch (Exception e) {
+         * System.err.println("Error enviando el correo: " + e.getMessage());
+         * }
+         * 
+         */
 
         saveOrder(order);
 
@@ -285,7 +291,7 @@ public class OrderService {
     public Page<OrderDTO> getOrdersPaidPaginated(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return orderRepository.findPaidOrders(pageable)
-            .map(orderMapper::toDTO);
+                .map(orderMapper::toDTO);
     }
 
     public OrderDTO deleteOrder(Long id) {
@@ -301,14 +307,14 @@ public class OrderService {
         order.setUser(userService.findUserById(orderDTO.userId()));
         order.setState(newState);
         List<OrderProduct> orderProducts = orderDTO.orderProducts().stream()
-        .map(orderProductDTO -> {
-            OrderProduct orderProduct = orderProductService.toDomain(orderProductDTO);
-            orderProduct.setOrder(order);
-            return orderProduct;
-    })
-    .collect(Collectors.toList());
+                .map(orderProductDTO -> {
+                    OrderProduct orderProduct = orderProductService.toDomain(orderProductDTO);
+                    orderProduct.setOrder(order);
+                    return orderProduct;
+                })
+                .collect(Collectors.toList());
 
-    order.setOrderProducts(orderProducts);
+        order.setOrderProducts(orderProducts);
 
         saveOrder(order);
 
@@ -317,7 +323,7 @@ public class OrderService {
 
     public Boolean getCannotProcessOrder(OrderDTO order) {
         boolean cannotProcessOrder = false;
-    
+
         for (OrderProductDTO orderProduct : order.orderProducts()) {
 
             int quantity = orderProduct.quantity();
@@ -326,24 +332,22 @@ public class OrderService {
             List<SizeDTO> productSizes = product.sizes();
 
             Optional<SizeDTO> productSize = productSizes.stream()
-                .filter(s -> s.name().equals(size))
-                .findFirst();
+                    .filter(s -> s.name().equals(size))
+                    .findFirst();
 
-    
             if (productSize.isPresent()) {
                 SizeDTO sizeObj = productSize.get();
                 int availableStock = sizeObj.stock();
-    
+
                 if (quantity > availableStock) {
                     cannotProcessOrder = true;
                     break;
                 }
             }
         }
-    
+
         return cannotProcessOrder;
     }
-    
 
     public Boolean procesOrderStock(OrderDTO orderNotProcessed) {
 
@@ -386,7 +390,7 @@ public class OrderService {
     public void processOrderSizes(OrderDTO orderNotProcessed) {
 
         Order unpaidOrder = toDomain(orderNotProcessed);
-        
+
         for (OrderProduct orderProduct : unpaidOrder.getOrderProducts()) {
             Product product = orderProduct.getProduct();
             boolean allSizesOutOfStock = true;
@@ -395,19 +399,18 @@ public class OrderService {
                     size.setProduct(product);
                     sizeService.saveSize(size);
                 }
-            
+
                 if (size.getStock() > 0) {
                     allSizesOutOfStock = false;
                     break;
                 }
             }
-            
+
             if (allSizesOutOfStock) {
                 product.setOutOfStock(true);
                 productService.saveProduct(product);
             }
         }
     }
-
 
 }

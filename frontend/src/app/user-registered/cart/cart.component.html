@@ -66,10 +66,11 @@
           <div class="block-body bg-light p-4">
             <p class="text-sm">Los gastos de envío se calculan en función del valor de la compra.</p>
             <ul class="order-summary mb-0 list-unstyled">
-              <li class="order-summary-orderProduct"><span>Subtotal </span><span>{{ subtotal }} EUR</span></li>
+              <li class="order-summary-orderProduct"><span>Subtotal </span><span>{{ subtotal | number: '1.2-2' }}
+                  EUR</span></li>
               <li class="order-summary-orderProduct"><span>Envío </span><span>{{ shipping }} EUR</span></li>
               <li class="order-summary-orderProduct border-0"><span>Total </span><strong class="order-summary-total">{{
-                  total }} EUR</strong></li>
+                  total | number: '1.2-2' }} EUR</strong></li>
             </ul>
           </div>
           <div class="my-5 d-flex flex-column justify-content-between">

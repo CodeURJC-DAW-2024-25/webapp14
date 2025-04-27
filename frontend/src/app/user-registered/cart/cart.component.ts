@@ -43,9 +43,9 @@ export class CartComponent {
 
           this.orderProducts = data.orderProducts;
           this.orderProductsEmpty = this.orderProducts.length === 0;
-          this.total = data.totalPrice;
+          this.subtotal = data.totalPrice;
           this.shipping = data.totalPrice > 100 ? 0 : 10;
-          this.subtotal = this.total - this.shipping;
+          this.total = this.subtotal + this.shipping;
         },
         error: (err) => {
           console.error('Error al cargar el carrito:', err);

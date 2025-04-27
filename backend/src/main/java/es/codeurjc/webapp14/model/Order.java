@@ -109,7 +109,10 @@ public class Order {
         }
         this.totalPrice = this.totalPrice.add(BigDecimal.valueOf(totalPrice));
     }
-    
+
+    public void setTotalPriceWithShipping(Double totalPrice) {
+        this.totalPrice = BigDecimal.valueOf(totalPrice);
+    }
 
     public void calculateTotalPrice() {
         this.totalPrice = orderProducts.stream()
