@@ -304,7 +304,21 @@ I have worked on adapting some services and repositories for the REST API and cr
 
 ### 🛠️ EXECUTION INSTRUCTIONS
 
-The execution instructions remain the same as in Phase 2. However, to access the new Angular application, please use the following URLs:
+Execution instructions:
+1. Ensure that Node.js is installed
+2. Open a terminal and execute the following commands:
+   ```
+   npm install
+   ```
+   ```
+   cd frontend
+   ```
+   ```
+   ng serve --proxy-config proxy.conf.json
+   ```
+3. Set up the database (phase 1) and run the application with SpringBoot
+
+To access the new Angular application, please use the following URLs:
 
 -   **Local URL:**  
     [https://localhost:8443/new/index](https://localhost:8443/new/index)
@@ -323,7 +337,7 @@ The execution instructions remain the same as in Phase 2. However, to access the
 ### 🤝 PARTICIPATION
 
 ### **IKRAM EL JAUHARI AL JAOUHARI**
-During this phase of the project, I was responsible for migrating the index, category, and profile editing views to Angular components. I configured the backend to generate secure, HttpOnly cookies with SameSite=None to ensure session persistence after page reloads. I updated some Angular HTTP requests to use { withCredentials: true } so cookies are automatically sent. I also implemented the logic to update the user data in localStorage after profile edits. As a result, the application now manages secure sessions, loads dynamic user data, and maintains an updated user state across page navigations.
+During this phase of the project, I was responsible for migrating the index, category, and profile editing views to Angular components. I configured the backend to generate secure, HttpOnly cookies with SameSite=None to ensure session persistence after page reloads. I updated some Angular HTTP requests to use { withCredentials: true } so cookies are automatically sent. I also implemented the logic to update the user data in localStorage after profile edits. As a result, the application now manages secure sessions, loads dynamic user data, and maintains an updated user state across page navigations
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
@@ -335,7 +349,7 @@ During this phase of the project, I was responsible for migrating the index, cat
 
 
 ### **Alberto Mayoral Gómez**
-During this phase, I was responsible for developing the TypeScript and HTML components related to the admin-exclusive functionalities for managing products and users, as well as the cart and orders for registered users and the product detail page. Additionally, I collaborated on the security aspect, ensuring proper redirection to the appropriate page based on the error encountered, and handling the storage of the current user.
+During this phase, I was responsible for developing the TypeScript and HTML components related to the admin-exclusive functionalities for managing products and users, as well as the cart and orders for registered users and the product detail page. Additionally, I collaborated on the security aspect, ensuring proper redirection to the appropriate page based on the error encountered, and handling the storage of the current user
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
@@ -356,7 +370,7 @@ In this part of the project I have been responsible for developing the login and
 |5|[Added admin profile](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/d3ee39adfd92115e34b263e13150950b5984188a)|[profile-edit.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/admin/profile-edit/profile-edit.component.ts)|
 
 ### **Jorge Ramírez Gayo**
-I was responsible for implementing the views for the search functionality and the graphs displayed in the admin panel. Additionally, I handled all tasks related to the deployment of the application, including adapting routes and fixing minor bugs to ensure a smooth and functional user experience.
+I was responsible for implementing the views for the search functionality and the graphs displayed in the admin panel. Additionally, I handled all tasks related to the deployment of the application, including adapting routes and fixing minor bugs to ensure a smooth and functional user experience
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
 |1|[Angular deploy (routes and config adapted)](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/836c122d18e6bb658fc01ff4aae807c815c3a0ab)|[Dockerfile](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/836c122d18e6bb658fc01ff4aae807c815c3a0ab#diff-f34da55ca08f1a30591d8b0b3e885bcc678537b2a9a4aadea4f190806b374ddc)|
