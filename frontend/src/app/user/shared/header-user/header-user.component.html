@@ -86,7 +86,7 @@
                   <form (ngSubmit)="logout()" style="display: none;">
                     <input type="hidden" name="_csrf" [value]="csrfToken" />
                   </form>
-                  <a href="#" class="dropdown-item" (click)="logout()">Cerrar sesión</a>
+                  <a routerLink="/index" class="dropdown-item" (click)="logout()">Cerrar sesión</a>
                 </li>
               </ul>
             </li>
@@ -108,7 +108,7 @@
                   <form (ngSubmit)="logout()" style="display: none;">
                     <input type="hidden" name="_csrf" [value]="csrfToken" />
                   </form>
-                  <a href="#" class="dropdown-item" (click)="logout()">Cerrar sesión</a>
+                  <a routerLink="/index" class="dropdown-item" (click)="logout()">Cerrar sesión</a>
                 </li>
                 <li *ngIf="logged"><a [routerLink]="['/user_registered/users_profile']" class="dropdown-item">Editar
                     perfil</a></li>
@@ -122,7 +122,7 @@
               </a>
             </li>
             <li class="lh-1">
-              <a href="#" class="mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSearch"
+              <a href="" class="mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSearch"
                 aria-controls="offcanvasSearch">
                 <iconify-icon icon="tabler:search" class="fs-4 text-light"></iconify-icon>
               </a>

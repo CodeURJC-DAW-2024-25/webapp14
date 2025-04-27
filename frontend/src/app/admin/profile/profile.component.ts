@@ -28,7 +28,7 @@ export class ProfileComponent implements OnInit {
       return;
     }
     if (!this.isAdmin) {
-      this.router.navigate([`${environment.baseAssetUrl}access-error`]);
+      this.router.navigate(["/access-error"]);
     }
 
     this.noAdminImageUrl = `${environment.baseAssetUrl}assets/images/noAdminImage.png`;

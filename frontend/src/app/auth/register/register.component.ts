@@ -64,7 +64,7 @@ export class RegisterComponent {
     this.userService.registerUser(newUser).subscribe({
       next: (res) => {
         console.log('Registro exitoso:', res);
-        this.router.navigate([`${environment.baseUrl}login`]);
+        this.router.navigate(["/login"]);
       },
       error: (err) => {
         this.errors = err.error || {};

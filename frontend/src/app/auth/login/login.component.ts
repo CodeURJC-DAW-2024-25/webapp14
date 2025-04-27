@@ -55,9 +55,9 @@ export class LoginComponent implements OnInit {
             console.log("Usuario logueado:", user);
             this.userService.setCurrentUser(user);
             if (user.roles.includes('ADMIN')) {
-              this.router.navigate([`${environment.baseUrl}admin/charts`]);
+              this.router.navigate(['/admin/charts']);
             } else {
-              this.router.navigate([`${environment.baseUrl}index`]);
+              this.router.navigate(['/index']);
             }
           },
           error: (error) => {
