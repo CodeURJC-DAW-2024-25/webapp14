@@ -310,6 +310,9 @@ I have worked on adapting some services and repositories for the REST API and cr
 
 ### 📹 VIDEO
 
+
+### 🤝 PARTICIPATION
+
 ### **IKRAM EL JAUHARI AL JAOUHARI**
 During this phase of the project, I was responsible for migrating the index, category, and profile editing views to Angular components. I configured the backend to generate secure, HttpOnly cookies with SameSite=None to ensure session persistence after page reloads. I updated some Angular HTTP requests to use { withCredentials: true } so cookies are automatically sent. I also implemented the logic to update the user data in localStorage after profile edits. As a result, the application now manages secure sessions, loads dynamic user data, and maintains an updated user state across page navigations.
 
