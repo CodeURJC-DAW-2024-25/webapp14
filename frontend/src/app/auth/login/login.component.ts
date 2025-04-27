@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.registerUrl = `${environment.baseUrl}index`;
+    this.registerUrl = `${environment.baseUrl}register`;
 
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],

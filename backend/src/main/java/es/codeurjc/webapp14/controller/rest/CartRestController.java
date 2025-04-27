@@ -1,17 +1,22 @@
 package es.codeurjc.webapp14.controller.rest;
 
 import es.codeurjc.webapp14.model.User;
+import es.codeurjc.webapp14.service.EmailService;
 import es.codeurjc.webapp14.service.OrderService;
 import es.codeurjc.webapp14.service.ProductService;
 import es.codeurjc.webapp14.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
+import es.codeurjc.webapp14.model.Order;
 import es.codeurjc.webapp14.dto.OrderDTO;
 import es.codeurjc.webapp14.dto.ProductDTO;
 import es.codeurjc.webapp14.dto.UserDTO;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.net.URI;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +26,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/api/v1/cart")
 @Tag(name = "Cart", description = "Endpoints for managing the cart of a User")
 public class CartRestController {
+
     @Autowired
     private OrderService orderService;
 
@@ -35,6 +40,8 @@ public class CartRestController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private EmailService emailService;
 
     @ModelAttribute
     public void addAttributes(Model model, HttpServletRequest request) {
@@ -69,15 +76,16 @@ public class CartRestController {
 
     @Operation(summary = "Add to Cart", description = "Add a Product to the cart of the actual User")
     @PostMapping("/{id}")
-    public ResponseEntity<OrderDTO> addToCart(@ModelAttribute("userId") long userId, @PathVariable("id") Long id,  @RequestParam("size") String size,
-    @RequestParam("quantity") int quantity) {
+    public ResponseEntity<OrderDTO> addToCart(@ModelAttribute("userId") long userId, @PathVariable("id") Long id,
+            @RequestParam("size") String size,
+            @RequestParam("quantity") int quantity) {
 
         UserDTO user = userService.findById(userId);
 
         ProductDTO product = productService.getProductById(id);
 
-        OrderDTO createdOrder = orderService.addToCart(id, user,product,size,quantity);
-        
+        OrderDTO createdOrder = orderService.addToCart(id, user, product, size, quantity);
+
         URI location = URI.create("https://localhost:8443/api/v1/cart");
 
         return ResponseEntity.created(location).body(createdOrder);
@@ -88,10 +96,9 @@ public class CartRestController {
     public OrderDTO removeFromCart(@PathVariable("id") Long orderProductId, @ModelAttribute("userId") Long userId) {
 
         OrderDTO order = orderService.deleteOrderProduct(orderProductId, userId);
-        
+
         return order;
     }
-
 
     @Operation(summary = "Proccess Cart", description = "Update the cart of the actual User to the state paid")
     @PatchMapping
@@ -114,6 +121,12 @@ public class CartRestController {
         orderService.processOrderSizes(orderNotProcessed);
 
         OrderDTO order = orderService.proccesOrder(userId);
+
+        // The order is sent by email
+        Optional<Order> orderOptional = orderService.getOrderByIdWeb(order.id());
+        if (orderOptional.isPresent()) {
+            emailService.sendOrderEmail(orderOptional.get().getUser(), orderOptional.get());
+        }
 
         return order;
     }
