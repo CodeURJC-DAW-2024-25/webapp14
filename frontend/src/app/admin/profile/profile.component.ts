@@ -32,7 +32,6 @@ export class ProfileComponent implements OnInit {
     }
 
     this.noAdminImageUrl = `${environment.baseAssetUrl}assets/images/noAdminImage.png`;
-    this.editProfileUrl = `${environment.baseAssetUrl}admin/profile/edit`;
 
     this.userService.getAdminProfile().subscribe({
       next: (data) => {
@@ -48,4 +47,5 @@ export class ProfileComponent implements OnInit {
   getAdminImageUrl(): string {
     return `${environment.apiUrl}/admin/profile/image`;
   }
+
 }

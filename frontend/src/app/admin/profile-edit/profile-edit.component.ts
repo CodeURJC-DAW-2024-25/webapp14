@@ -17,7 +17,6 @@ export class ProfileEditComponent implements OnInit {
   selectedImage: any = null;
   previewImageUrl: any = null;
   noAdminImageUrl: string = '';
-  editProfileUrl: string = '';
   hasImage: boolean = false;
 
   constructor(
@@ -38,7 +37,6 @@ export class ProfileEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.noAdminImageUrl = `${environment.baseAssetUrl}assets/images/noAdminImage.png`;
-    this.editProfileUrl = `${environment.baseAssetUrl}admin/profile/edit`;
     this.loadAdminProfile();
   }
 
@@ -109,10 +107,6 @@ export class ProfileEditComponent implements OnInit {
         console.error('Error actualizando perfil:', err);
       }
     });
-  }
-
-  onCancel(): void {
-    this.router.navigate(['/admin/profile']);
   }
 
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { environment } from '../../../../environments/environment';
+
 
 @Component({
   selector: 'app-header-admin',
@@ -19,11 +19,10 @@ export class HeaderAdminComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.adminProfileUrl = `${environment.baseUrl}admin/profile`;
+
     this.noAdminImageUrl = `${environment.baseAssetUrl}assets/images/noAdminImage.png`;
 
     this.userService.getAdminProfile().subscribe({
