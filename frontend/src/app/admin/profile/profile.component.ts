@@ -23,6 +23,10 @@ export class ProfileComponent implements OnInit {
   constructor(private router: Router, private userService: UserService) { }
 
   ngOnInit(): void {
+    if (!this.userId) {
+      this.router.navigate(["/login"]);
+      return;
+    }
     if (!this.isAdmin) {
       this.router.navigate([`${environment.baseAssetUrl}access-error`]);
     }

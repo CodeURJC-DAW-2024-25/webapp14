@@ -33,6 +33,10 @@ export class ChartsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (!this.userId) {
+      this.router.navigate(["/login"]);
+      return;
+    }
     if (!this.isAdmin) {
       this.router.navigate(["/access-error"]);
     }

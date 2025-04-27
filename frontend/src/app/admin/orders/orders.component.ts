@@ -29,6 +29,10 @@ export class OrdersAdminComponent implements OnInit {
   constructor(private orderService: OrderService, private router: Router, private userService: UserService) { }
 
   ngOnInit(): void {
+    if (!this.userId) {
+      this.router.navigate(["/login"]);
+      return;
+    }
     if (!this.isAdmin) {
       this.router.navigate(["/access-error"]);
     }

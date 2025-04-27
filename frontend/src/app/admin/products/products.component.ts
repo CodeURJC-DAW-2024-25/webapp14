@@ -60,6 +60,10 @@ export class ProductsComponent implements OnInit {
   constructor(private sanitizer: DomSanitizer, private productService: ProductService, private router: Router, private userService: UserService) { }
 
   ngOnInit(): void {
+    if (!this.logged) {
+      this.router.navigate(["/login"]);
+      return;
+    }
     if (!this.isAdmin) {
       this.router.navigate(["/access-error"]);
     }

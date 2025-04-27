@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-access-error',
@@ -7,5 +8,10 @@ import { Component } from '@angular/core';
 })
 export class AccessErrorComponent {
 
-  logged: boolean = true;
+  user = this.userService.getCurrentUserData();
+  userId = this.userService.getCurrentUserId();
+  logged: boolean = this.userId != null;
+  isAdmin: boolean = this.userService.getIsAdminUser();
+
+  constructor(private userService: UserService) { }
 }

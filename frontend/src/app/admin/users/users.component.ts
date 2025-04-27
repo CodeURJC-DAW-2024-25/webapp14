@@ -47,6 +47,10 @@ export class UsersComponent {
   
 
   ngOnInit(): void {
+    if (!this.logged) {
+      this.router.navigate(["/login"]);
+      return;
+    }
     if(!this.isAdmin){
       this.router.navigate(["/access-error"]);
     }
