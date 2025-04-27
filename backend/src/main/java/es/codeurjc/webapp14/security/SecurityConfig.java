@@ -92,10 +92,10 @@ public class SecurityConfig {
 
                         // PRIVATE ENDPOINTS
 
-                        .requestMatchers(HttpMethod.POST, "/api/v1/products/{productId}/reviews").hasRole("USER")
-                        .requestMatchers(HttpMethod.PATCH, "/api/v1/products/{id}/reviews/{reviewId}").hasRole("USER")
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/products/{id}/reviews/{reviewId}").hasRole("USER")
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/products/{id}/reviews/{reviewId}").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/products/{productId}/reviews").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/products/{id}/reviews/{reviewId}").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/products/{id}/reviews/{reviewId}").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/products/{id}/reviews/{reviewId}").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/v1/products/image/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/v1/products/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/products/**").hasRole("ADMIN")
@@ -107,7 +107,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/v1/users").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/api/v1/users/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/users/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/api/v1/cart/**").hasRole("USER")
+                        .requestMatchers("/api/v1/cart/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/v1/orders/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/reviews/**").authenticated()
                         .requestMatchers("/api/v1/users/**").authenticated()
