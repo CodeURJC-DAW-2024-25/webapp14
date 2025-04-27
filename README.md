@@ -302,7 +302,15 @@ I have worked on adapting some services and repositories for the REST API and cr
 
 # PHASE 3
 
-###  🛠️ EXECUTION INSTRUCTIONS
+### 🛠️ EXECUTION INSTRUCTIONS
+
+The execution instructions remain the same as in Phase 2. However, to access the new Angular application, please use the following URLs:
+
+-   **Local URL:**  
+    [https://localhost:8443/new/index](https://localhost:8443/new/index)
+    
+-   **Deployed URL:**  
+    [http://appweb14.dawgis.etsii.urjc.es:8443/new/index](http://appweb14.dawgis.etsii.urjc.es:8443/new/index)
 
 ### 🗂️ CLASS DIAGRAM AND TEMPLATES OF THE SPA
 
@@ -348,11 +356,11 @@ In this part of the project I have been responsible for developing the login and
 |5|[Added admin profile](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/d3ee39adfd92115e34b263e13150950b5984188a)|[profile-edit.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/admin/profile-edit/profile-edit.component.ts)|
 
 ### **Jorge Ramírez Gayo**
-
+I was responsible for implementing the views for the search functionality and the graphs displayed in the admin panel. Additionally, I handled all tasks related to the deployment of the application, including adapting routes and fixing minor bugs to ensure a smooth and functional user experience.
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| | |
-|2| | |
-|3| | |
-|4| | |
-|5| | |
+|1|[Angular deploy (routes and config adapted)](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/836c122d18e6bb658fc01ff4aae807c815c3a0ab)|[Dockerfile](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/836c122d18e6bb658fc01ff4aae807c815c3a0ab#diff-f34da55ca08f1a30591d8b0b3e885bcc678537b2a9a4aadea4f190806b374ddc)|
+|2|[Implemented charts](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/0046b8f661fa9cd8e1fbc174ae23951db7105b95)|[charts.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/0046b8f661fa9cd8e1fbc174ae23951db7105b95#diff-cbb5b082df83673c39774f10c749ad78a3909903229e91f09f5063cee0db06a3)|
+|3|[Fixed dynamic routes](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/dcab8d996df0f1507500af348967949092ba020e)|[orders-detail.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/dcab8d996df0f1507500af348967949092ba020e#diff-b954cbba089d9312649a42e5517cc2417375337b7e961cfbdcfc5b585c76acb5)|
+|4|[Implemented admin and store layouts](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/de19cc8373f240f97fd63941f8896b1a36f58e37)|[app-routing.module.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/de19cc8373f240f97fd63941f8896b1a36f58e37#diff-166bf0ba59778a204139908879b1765cdefa6d588533ef7395fa41ca144aadad)|
+|5|[Implemented search](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/5206b56efea5555cdbf46f2224580e18de5db822)|[user.service.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/5206b56efea5555cdbf46f2224580e18de5db822#diff-aab3ba7d56f4d0566b796ccc7b5556dc919cc36dc2c03d0df4f7d9f03e7719f4)|
