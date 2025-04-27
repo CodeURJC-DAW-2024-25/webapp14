@@ -4,6 +4,7 @@ import { UserDTO } from '../../dtos/user.dto';
 import { UserReportedDTO } from '../../dtos/userReported.dto';
 import { ReviewService } from '../../services/review.service';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 
 
@@ -220,5 +221,9 @@ export class UsersComponent {
       
     );
   }
+
+  getUserImageUrl(userId: number): string {
+      return `${environment.apiUrl}/users/${userId}/image`;
+    }
 
 }

@@ -134,6 +134,18 @@ public class UserRestController {
                 .body(userImage);
     }
 
+    @Operation(summary = "Get User Image", description = "Return a single User Image")
+    @GetMapping("{id}/image")
+    public ResponseEntity<Object> getUserImageById(@ModelAttribute("userId") long userId, @PathVariable long id) throws SQLException, IOException {
+
+        Resource userImage = userService.getUserImage(id);
+
+        return ResponseEntity
+                .ok()
+                .header(HttpHeaders.CONTENT_TYPE, "image/jpeg")
+                .body(userImage);
+    }
+
     @Operation(summary = "Get Admin", description = "Return Admin information")
     @GetMapping("/admin")
     public ResponseEntity<UserDTO> getAdmin(@ModelAttribute("admin") boolean isAdmin) {

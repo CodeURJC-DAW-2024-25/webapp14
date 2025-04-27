@@ -24,13 +24,12 @@ export class UserService {
   }
 
   loadUserData(): Observable<any> {
-    // Comprobar si la cookie de sesión está presente
     if (this.isUserLoggedIn()) {
-      const userName = this.getUserNameFromCookie(); // Si lo deseas, puedes extraer el nombre de usuario desde la cookie
+      const userName = this.getUserNameFromCookie();
       return of({
         logged: true,
         userName,
-        csrfToken: '' // Puedes también extraer el CSRF token si está en la cookie o realizar otra lógica
+        csrfToken: ''
       });
     } else {
       return of({
@@ -42,7 +41,6 @@ export class UserService {
   }
 
   private isUserLoggedIn(): boolean {
-    // Buscar la cookie 'SESSION_ID' (reemplaza con el nombre real de tu cookie)
     const cookies = document.cookie;
     return cookies.includes('SESSION_ID');
   }
@@ -51,7 +49,7 @@ export class UserService {
     const cookies = document.cookie.split(';');
     for (const cookie of cookies) {
       const [name, value] = cookie.trim().split('=');
-      if (name === 'USER_NAME') {  // Reemplaza 'USER_NAME' con el nombre de tu cookie de nombre de usuario
+      if (name === 'USER_NAME') { 
         return value;
       }
     }

@@ -50,7 +50,7 @@
                     <div class="card card-body d-flex flex-column flex-sm-row align-items-center">
                         <div class="me-3">
                           <img *ngIf="user.imageUrl !== null; else defaultImage"
-                              [src]="user.imageUrl"
+                              [src]="getUserImageUrl(user.id!)"
                               class="img-profile rounded-circle"
                               alt="Profile Picture"
                               width="60"
