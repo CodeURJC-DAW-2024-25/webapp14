@@ -326,14 +326,15 @@ During this phase of the project, I was responsible for migrating the index, cat
 
 
 ### **Alberto Mayoral Gómez**
+During this phase, I was responsible for developing the TypeScript and HTML components related to the admin-exclusive functionalities for managing products and users, as well as the cart and orders for registered users and the product detail page. Additionally, I collaborated on the security aspect, ensuring proper redirection to the appropriate page based on the error encountered, and handling the storage of the current user.
 
 | Nº    | Commits      | Files      |
 |:------------: |:------------:| :------------:|
-|1| | |
-|2| | |
-|3| | |
-|4| | |
-|5| | |
+|1|[AdminUsers HTML(with some logic in the component) added and services and dtos updated](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/8e0933f92620c47a9e2627e36cd3d92580164b61)) |[products.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/admin/products/products.component.ts) |
+|2|[AdminProducts component logic (edit/create/delete/paginated) implemented and html adapted](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/eb2f41569e6d97dc539efb6d4ada50258cf271a9) |[users.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/admin/users/users.component.ts) |
+|3|[Cart HTML added and logic in the component (without user identificated yet)](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/d3649936c0afca762bc9977daadd709f32dbec67) |[elem-detail.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/user/elem-detail/elem-detail.component.ts) |
+|4|[Orders and Order detail html and components (logic, dto, service) added](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/352c8f320cae70b2969cd2310d1c5ebf3682bbff) |[product.service.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/services/product.service.ts) |
+|5|[No-page-error and acces-denied added and fixed some errors](https://github.com/CodeURJC-DAW-2024-25/webapp14/commit/696874242724719001384cddeb51ad827957983a) |[cart.component.ts](https://github.com/CodeURJC-DAW-2024-25/webapp14/blob/main/frontend/src/app/user-registered/cart/cart.component.ts) |
 
 ### **Icíar Moreno López**
 In this part of the project I have been responsible for developing the login and registration screens for users, ensuring their correct functionality. Additionally, I have implemented the order management section for the admin, as well as the functionality to edit the administrator’s profile. I have also contributed by fixing bugs to improve the overall quality of the application
