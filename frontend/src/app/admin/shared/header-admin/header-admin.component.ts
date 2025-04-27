@@ -15,6 +15,8 @@ export class HeaderAdminComponent implements OnInit {
   adminProfileUrl: string = '';
   noAdminImageUrl: string = '';
 
+  isDropdownVisible: boolean = false;
+
   user = this.userService.getCurrentUserData();
 
   constructor(
@@ -37,10 +39,13 @@ export class HeaderAdminComponent implements OnInit {
     });
   }
 
-  logout(): void {
+  onLogout(event: MouseEvent): void {
+    event.preventDefault();
+    this.toggleDropdown();
     this.userService.logout().subscribe({
       next: (response) => {
         console.log('Logout exitoso:', response);
+        this.router.navigate(['/index']);
       },
       error: (err) => {
         console.error('Error al hacer logout:', err);
@@ -50,5 +55,9 @@ export class HeaderAdminComponent implements OnInit {
 
   getAdminImageUrl(): string {
     return `${environment.apiUrl}/admin/profile/image`;
+  }
+
+  toggleDropdown() {
+    this.isDropdownVisible = !this.isDropdownVisible;
   }
 }
