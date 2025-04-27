@@ -42,7 +42,6 @@ public class UserService {
 
     private final UserReportedMapper userReportedMapper;
 
-
     public UserService(UserRepository userRepository, UserMapper userMapper, UserReportedMapper userReportedMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
@@ -85,7 +84,7 @@ public class UserService {
             existingAdmin.setEmail(admin.getEmail());
             existingAdmin.setEncodedPassword(admin.getEncodedPassword());
             if (admin.getProfileImage() != null && !admin.getProfileImage().equals(existingAdmin.getProfileImage())) {
-                existingAdmin.setProfileImage(admin.getProfileImage());
+                existingAdmin.setImageUrl(admin.getProfileImage().toString());
             }
             userRepository.save(existingAdmin);
         }
@@ -94,11 +93,11 @@ public class UserService {
     public void saveAdmin(User admin, MultipartFile imageFile) throws IOException {
         if (imageFile != null && !imageFile.isEmpty()) {
             admin.setProfileImage(BlobProxy.generateProxy(imageFile.getInputStream(), imageFile.getSize()));
+            admin.setImageUrl("https://localhost:8443/api/v1/users/image");
         }
         this.saveAdmin(admin);
     }
 
-    //////////////////////////////////////////
     public List<UserDTO> getAllUsers() {
         List<User> users = userRepository.findByRolesContaining("USER");
         return users.stream()
@@ -189,8 +188,8 @@ public class UserService {
         user.setSurname(newUserDTO.surname());
         user.setEmail(newUserDTO.email());
         user.setEncodedPassword(encodedPassword);
-        //user.setEncodedPassword(passwordEncoder.encode(newUserDTO.encodedPassword()));
-        //user.setEncodedPassword(newUserDTO.encodedPassword());
+        // user.setEncodedPassword(passwordEncoder.encode(newUserDTO.encodedPassword()));
+        // user.setEncodedPassword(newUserDTO.encodedPassword());
         user.setRoles(List.of("USER"));
         User newUser = userRepository.save(user);
 
@@ -206,7 +205,8 @@ public class UserService {
             if (editUserDTO.currentPassword() == null || editUserDTO.currentPassword().isEmpty()) {
                 redirectAttributes.addFlashAttribute("errorCurrentPassword", "Debe proporcionar su contraseña actual");
                 hasErrors = true;
-            //} else if (!passwordEncoder.matches(editUserDTO.currentPassword(), user.getEncodedPassword())) {
+                // } else if (!passwordEncoder.matches(editUserDTO.currentPassword(),
+                // user.getEncodedPassword())) {
             } else if (!editUserDTO.currentPassword().equals(user.getEncodedPassword())) {
                 redirectAttributes.addFlashAttribute("errorCurrentPassword", "La contraseña actual es incorrecta");
                 hasErrors = true;
@@ -246,22 +246,24 @@ public class UserService {
         }
         if (editProfileDTO.newPassword() != null && !editProfileDTO.newPassword().isEmpty()) {
             user.setEncodedPassword(encodedPassword);
-            //user.setEncodedPassword(passwordEncoder.encode(editProfileDTO.newPassword()));
-            //user.setEncodedPassword(editProfileDTO.newPassword());
+            // user.setEncodedPassword(passwordEncoder.encode(editProfileDTO.newPassword()));
+            // user.setEncodedPassword(editProfileDTO.newPassword());
 
         }
 
-
-        /*if (editProfileDTO.newImage() != null && !editProfileDTO.newImage().isEmpty()) {
-            try {
-                Blob imageBlob = BlobProxy.generateProxy(editProfileDTO.newImage().getInputStream(),
-                        editProfileDTO.newImage().getSize());
-                user.setProfileImage(imageBlob);
-            } catch (IOException e) {
-                throw new RuntimeException("Error al procesar la imagen", e);
-            }
-        }
-            */
+        /*
+         * if (editProfileDTO.newImage() != null &&
+         * !editProfileDTO.newImage().isEmpty()) {
+         * try {
+         * Blob imageBlob =
+         * BlobProxy.generateProxy(editProfileDTO.newImage().getInputStream(),
+         * editProfileDTO.newImage().getSize());
+         * user.setProfileImage(imageBlob);
+         * } catch (IOException e) {
+         * throw new RuntimeException("Error al procesar la imagen", e);
+         * }
+         * }
+         */
 
         userRepository.save(user);
 
@@ -282,7 +284,7 @@ public class UserService {
         user.setBanned(true);
         user.getReviews().clear();
         saveUser(user);
-        
+
         return toDTO(user);
     }
 
@@ -295,7 +297,7 @@ public class UserService {
         user.setProfileImage(oldUser.getProfileImage());
         user.setBanned(false);
         saveUser(user);
-        
+
         return toDTO(user);
     }
 
@@ -314,42 +316,37 @@ public class UserService {
         userRepository.save(user);
     }
 
-
     public Resource getUserImage(long id) throws SQLException {
 
-		User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-		if (user.getProfileImage() != null) {
-			return new InputStreamResource(user.getProfileImage().getBinaryStream());
-		} else {
-			throw new NoSuchElementException();
-		}
-	}
+        if (user.getProfileImage() != null) {
+            return new InputStreamResource(user.getProfileImage().getBinaryStream());
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
 
     public void replaceUserImage(long id, InputStream inputStream, long size) {
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
-        if(user.getProfileImage() == null){
+        if (user.getProfileImage() == null) {
             throw new NoSuchElementException();
         }
         user.setProfileImage(BlobProxy.generateProxy(inputStream, size));
         userRepository.save(user);
     }
 
-
     public void deleteUserImage(long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-		if (user.getImageUrl() == null) {
-			throw new NoSuchElementException();
-		}
+        if (user.getImageUrl() == null) {
+            throw new NoSuchElementException();
+        }
 
-		user.setProfileImage(null);
+        user.setProfileImage(null);
         user.setImageUrl(null);
 
-	    userRepository.save(user);
+        userRepository.save(user);
     }
-
-
-    
 
 }

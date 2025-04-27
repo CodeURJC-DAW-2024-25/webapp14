@@ -227,4 +227,45 @@ public class UserRestController {
         return ResponseEntity.ok(data);
     }
 
+    @Operation(summary = "Edit Admin Profile", description = "Edit the profile of the admin user")
+    @PostMapping("/admin/edit")
+    public ResponseEntity<UserDTO> updateAdminProfile(
+            @ModelAttribute("admin") boolean isAdmin,
+            @RequestParam("name") String name,
+            @RequestParam("surname") String surname,
+            @RequestParam("email") String email,
+            @RequestParam(value = "password", required = false) String password,
+            @RequestParam(value = "address", required = false) String address,
+            @RequestParam(value = "image", required = false) MultipartFile image) throws IOException {
+
+        if (!isAdmin) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        Optional<User> adminOptional = userService.getAdmin();
+
+        if (!adminOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        User admin = adminOptional.get();
+
+        admin.setName(name);
+        admin.setSurname(surname);
+        admin.setEmail(email);
+        if (address != null)
+            admin.setAddress(address);
+        if (password != null && !password.isEmpty()) {
+            admin.setEncodedPassword(passwordEncoder.encode(password));
+        }
+
+        if (image != null && !image.isEmpty()) {
+            userService.saveAdmin(admin, image);
+        } else {
+            userService.saveAdmin(admin);
+        }
+
+        return ResponseEntity.ok(userMapper.toDTO(admin));
+    }
+
 }

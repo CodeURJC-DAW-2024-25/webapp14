@@ -208,4 +208,10 @@ export class UserService {
 
   }
 
+  updateAdminProfile(formData: FormData): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/users/admin/edit`, formData, {
+      withCredentials: true
+    });
+  }
+
 }
