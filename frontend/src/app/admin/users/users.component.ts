@@ -149,8 +149,7 @@ export class UsersComponent {
           reviewText: data.reviewText
         };
     
-        // Ahora llamamos a acceptReview dentro del mismo bloque
-        this.reviewService.acceptReview(reviewId, productId, body).subscribe(
+        this.reviewService.acceptReview(reviewId, productId, body, 1).subscribe(
           () => {
             console.log('Review aceptada con éxito');
             this.loadData();
