@@ -3,7 +3,7 @@ import { OrderService } from '../../services/order.service';
 import { OrderDTO } from '../../dtos/order.dto';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-orders',
@@ -29,9 +29,10 @@ export class OrdersAdminComponent implements OnInit {
   constructor(private orderService: OrderService, private router: Router, private userService: UserService) { }
 
   ngOnInit(): void {
-    if(!this.isAdmin){
+    if (!this.isAdmin) {
       this.router.navigate(["/access-error"]);
     }
+
     this.loadOrders();
   }
 
@@ -86,4 +87,7 @@ export class OrdersAdminComponent implements OnInit {
     });
   }
 
+  getProductImageUrl(productId: number): string {
+    return `${environment.apiUrl}/products/${productId}/image`;
+  }
 }

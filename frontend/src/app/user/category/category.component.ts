@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductDTO } from '../../dtos/product.dto';
 import { ProductService } from '../../services/product.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-category',
@@ -12,12 +13,12 @@ export class CategoryComponent implements OnInit {
   category!: string;
   products: ProductDTO[] = [];
   loading = false;
-  totalPages: number = 1; 
+  totalPages: number = 1;
 
   page = 0;
   readonly size = 4;
 
-  constructor(private route: ActivatedRoute, private productService: ProductService) {}
+  constructor(private route: ActivatedRoute, private productService: ProductService) { }
 
   ngOnInit(): void {
     this.category = this.route.snapshot.paramMap.get('category')?.toUpperCase() ?? '';
@@ -38,7 +39,7 @@ export class CategoryComponent implements OnInit {
       }
     });
   }
-  
+
   loadMore(): void {
     this.page++;
     this.productService.getProductsByCategory(this.category, this.page).subscribe({
@@ -50,10 +51,12 @@ export class CategoryComponent implements OnInit {
       error: (err) => console.error('Error al cargar más productos:', err)
     });
   }
-  
-  
 
   goBack(): void {
     history.back();
+  }
+
+  getProductImageUrl(productId: number): string {
+    return `${environment.apiUrl}/products/${productId}/image`;
   }
 }

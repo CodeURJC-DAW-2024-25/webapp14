@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { ProductDTO } from '../../dtos/product.dto';
 import { UserService } from '../../services/user.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-index',
@@ -88,5 +89,9 @@ export class IndexComponent implements OnInit {
         console.error('Error al cargar más recomendados:', err);
       }
     });
+  }
+
+  getProductImageUrl(productId: number): string {
+    return `${environment.apiUrl}/products/${productId}/image`;
   }
 }

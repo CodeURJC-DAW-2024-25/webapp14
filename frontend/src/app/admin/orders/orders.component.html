@@ -52,7 +52,7 @@
                             <div class="d-flex flex-row overflow-auto">
                                 <div *ngFor="let product of order['orderProducts']"
                                     class="p-2 border rounded bg-white mr-2">
-                                    <img [src]="'/api/v1/products/' + product.id + '/image'" alt="Producto"
+                                    <img [src]="getProductImageUrl(product.id)" alt="Producto"
                                         class="rounded img-admin-products"
                                         style="width: 120px; display: block; margin: 0 auto;">
                                     <p><strong>Cantidad: </strong>{{ product.quantity }}</p>

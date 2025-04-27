@@ -13,7 +13,7 @@ export class HeaderAdminComponent implements OnInit {
   hasImage: boolean = false;
 
   adminProfileUrl: string = '';
-  adminImageUrl: string = '';
+  noAdminImageUrl: string = '';
 
   constructor(
     private userService: UserService,
@@ -22,7 +22,7 @@ export class HeaderAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.adminProfileUrl = `${environment.baseUrl}admin/profile`;
-    this.adminImageUrl = `${environment.baseAssetUrl}assets/images/noAdminImage.png`;
+    this.noAdminImageUrl = `${environment.baseAssetUrl}assets/images/noAdminImage.png`;
 
     this.userService.getAdminProfile().subscribe({
       next: (data) => {
@@ -46,4 +46,7 @@ export class HeaderAdminComponent implements OnInit {
     });
   }
 
+  getAdminImageUrl(): string {
+    return `${environment.apiUrl}/admin/profile/image`;
+  }
 }

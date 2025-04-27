@@ -33,9 +33,10 @@ export class ChartsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(!this.isAdmin){
+    if (!this.isAdmin) {
       this.router.navigate(["/access-error"]);
     }
+
     this.chartService.getChartsData().subscribe(data => {
       this.todaySales = data.todaySales;
       this.totalSales = data.totalSales;

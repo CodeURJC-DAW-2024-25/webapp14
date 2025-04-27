@@ -33,11 +33,10 @@
             <div class="col-5">
               <div class="d-flex align-orderProducts-center gap-2">
                 <div class="image-holder position-relative">
-                  <a [routerLink]="['/index/elem_detail', orderProduct.product.id]">
+                  <a *ngIf="orderProduct.product.id" [routerLink]="['/index/elem_detail', orderProduct.product.id]">
                     <img class="cart-orderProduct-img col-6 img-fluid"
                       [ngClass]="{'out-of-stock': orderProduct.product.outOfStock}"
-                      [src]="'/api/v1/products/' + orderProduct.product.id + '/image'"
-                      [alt]="orderProduct.product.name" />
+                      [src]="getProductImageUrl(orderProduct.product.id)" [alt]="orderProduct.product.name" />
                   </a>
                   <div *ngIf="orderProduct.product.outOfStock" class="out-of-stock-overlay-lit">Sin Stock</div>
                 </div>

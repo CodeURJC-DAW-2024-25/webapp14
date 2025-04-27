@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   hasImage: boolean = false;
 
   editProfileUrl: string = '';
+  noAdminImageUrl: string = '';
 
   constructor(private router: Router, private userService: UserService) { }
 
@@ -26,6 +27,7 @@ export class ProfileComponent implements OnInit {
       this.router.navigate([`${environment.baseAssetUrl}access-error`]);
     }
 
+    this.noAdminImageUrl = `${environment.baseAssetUrl}assets/images/noAdminImage.png`;
     this.editProfileUrl = `${environment.baseAssetUrl}admin/profile/edit`;
 
     this.userService.getAdminProfile().subscribe({
@@ -39,4 +41,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  getAdminImageUrl(): string {
+    return `${environment.apiUrl}/admin/profile/image`;
+  }
 }

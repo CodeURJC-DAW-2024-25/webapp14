@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SizeDTO } from '../../dtos/size.dto';
 import { ReviewService } from '../../services/review.service';
 import { UserService } from '../../services/user.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-elem-detail',
@@ -23,7 +24,7 @@ export class ElemDetailComponent {
   outOfStock: boolean = false;
   imageBool: boolean = false;
   sizes: SizeDTO[] = [];
-  quantity: number = 0;
+  quantity: number = 1;
   selectedSize: string = "";
 
   reviews: ReviewDTO[] = [];
@@ -151,18 +152,26 @@ export class ElemDetailComponent {
       this.router.navigate(['/login']);
       return;
     }
-    this.productService.addToCart(productId, this.userId, selectedSize, quantity).subscribe(
-      () => {
-        console.log('Producto añadido con éxito');
-        this.router.navigate(['/cart']);
-      },
-      (error) => {
-        console.error('Error al añadir el producto', error);
-        if (error.status === 500) {
-          this.loadProduct();
+    if (quantity > 0) {
+      this.productService.addToCart(productId, this.userId, selectedSize, quantity).subscribe(
+        () => {
+          console.log('Producto añadido con éxito');
+          this.router.navigate(['/cart']);
+        },
+        (error) => {
+          console.error('Error al añadir el producto', error);
+          if (error.status === 500) {
+            this.loadProduct();
+          }
         }
-      }
 
-    );
+      );
+    } else {
+      alert("La cantidad debe ser mayor a 0.")
+    }
+  }
+
+  getProductImageUrl(productId: number): string {
+    return `${environment.apiUrl}/products/${productId}/image`;
   }
 }

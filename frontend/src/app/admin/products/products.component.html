@@ -173,7 +173,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="image-wrapper position-relative">
                                     <ng-container *ngIf="product.imageBool; else noImage">
-                                        <img [src]="'/api/v1/products/' + product.id + '/image'" alt="Producto"
+                                        <img [src]="getProductImageUrl(product.id)" alt="Producto"
                                             class="rounded img-admin-products"
                                             [ngClass]="{'out-of-stock': product.outOfStock}">
 

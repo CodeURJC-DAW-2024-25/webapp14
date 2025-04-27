@@ -235,6 +235,7 @@ export class ProductsComponent implements OnInit {
     this.editProduct(product);
   }
 
-
-
+  getProductImageUrl(productId: number): string {
+    return `${environment.apiUrl}/products/${productId}/image`;
+  }
 }

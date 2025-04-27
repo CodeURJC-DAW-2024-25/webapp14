@@ -15,8 +15,8 @@
         <div class="col-md-6 col-lg-3 my-4" *ngFor="let product of products">
           <div class="product-item text-center">
             <div class="image-holder">
-              <img [src]="'/api/v1/products/' + product.id + '/image'" alt="{{ product.name }}"
-                class="product-image img-fluid" [ngClass]="{ 'out-of-stock': product.outOfStock }" />
+              <img [src]="getProductImageUrl(product.id)" alt="{{ product.name }}" class="product-image img-fluid"
+                [ngClass]="{ 'out-of-stock': product.outOfStock }" />
               <div *ngIf="product.outOfStock" class="out-of-stock-overlay">Sin Stock</div>
             </div>
             <div class="product-detail mt-2">

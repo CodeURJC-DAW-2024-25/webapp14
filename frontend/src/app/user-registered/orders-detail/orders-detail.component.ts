@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { OrderService } from '../../services/order.service';
 import { OrderProductDTO } from '../../dtos/orderProduct.dto';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from '../../services/user.service';  
-
-
+import { UserService } from '../../services/user.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-orders-detail',
@@ -26,10 +25,10 @@ export class OrdersDetailComponent {
 
   private orderId!: number;
 
-  constructor(private router: Router, private orderService: OrderService, private route: ActivatedRoute, private userService: UserService) {}
+  constructor(private router: Router, private orderService: OrderService, private route: ActivatedRoute, private userService: UserService) { }
 
   ngOnInit(): void {
-    if(!this.logged){
+    if (!this.logged) {
       this.router.navigate(["/access-error"]);
     }
     this.orderId = Number(this.route.snapshot.paramMap.get('orderId'));
@@ -37,17 +36,17 @@ export class OrdersDetailComponent {
   }
 
   loadOrder(): void {
-    if(this.userId == null){
-      
+    if (this.userId == null) {
+
     }
-    else{
+    else {
       this.orderService.getOrder(this.userId, this.orderId).subscribe({
         next: (data) => {
           console.log(data);
-          this.orderProducts = data.orderProducts;  
+          this.orderProducts = data.orderProducts;
           this.orderProductsEmpty = this.orderProducts.length === 0;
-          this.total= data.totalPrice;    
-          this.shipping = data.totalPrice > 100 ? 0 : 10;    
+          this.total = data.totalPrice;
+          this.shipping = data.totalPrice > 100 ? 0 : 10;
           this.subtotal = this.total - this.shipping;
         },
         error: (err) => {
@@ -61,4 +60,7 @@ export class OrdersDetailComponent {
     this.router.navigate(['/orders']);
   }
 
+  getProductImageUrl(productId: number): string {
+    return `${environment.apiUrl}/products/${productId}/image`;
+  }
 }

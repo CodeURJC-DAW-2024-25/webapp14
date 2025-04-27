@@ -51,7 +51,7 @@
       <div *ngFor="let product of products" class="col-md-6 mb-4">
         <div class="row align-items-center">
           <div class="col-md-6 text-center">
-            <img [src]="'/api/v1/products/' + product.id + '/image'" [alt]="product.name" class="img-fluid w-75">
+            <img [src]="getProductImageUrl(product.id)" [alt]="product.name" class="img-fluid w-75">
           </div>
           <div class="col-md-4 text-md-start text-center mt-3 mt-md-0">
             <h2 class="fw-bold">{{ product.name }}</h2>
