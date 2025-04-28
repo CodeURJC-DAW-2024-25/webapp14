@@ -324,7 +324,7 @@ To access the new Angular application, please use the following URLs:
     [https://localhost:8443/new/index](https://localhost:8443/new/index)
     
 -   **Deployed URL:**  
-    [http://appweb14.dawgis.etsii.urjc.es:8443/new/index](http://appweb14.dawgis.etsii.urjc.es:8443/new/index)
+    [https://appweb14.dawgis.etsii.urjc.es:8443/new/index](https://appweb14.dawgis.etsii.urjc.es:8443/new/index)
 
 ### 🗂️ CLASS DIAGRAM AND TEMPLATES OF THE SPA
 
